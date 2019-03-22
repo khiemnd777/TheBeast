@@ -70,6 +70,7 @@ public class ImpactedWave : MonoBehaviour
 			}
 			++inx;
 			++inx1;
+			yield return null;
 		}
 		Destroy (gameObject);
 	}

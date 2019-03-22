@@ -92,9 +92,11 @@ public class PlayerMovement : MonoBehaviour
 			if (_timeFootOnGround >= 1)
 			{
 				// consume the stamina
-				_stamina.Consume (_staminaConsume);
-				// generate the echo
-				InstantiateEcho ();
+				_stamina.Consume (_staminaConsume, () =>
+				{
+					// generate the echo
+					InstantiateEcho ();
+				});
 				_isLeftFoot = !_isLeftFoot;
 				_timeFootOnGround = 0f;
 			}
@@ -104,9 +106,11 @@ public class PlayerMovement : MonoBehaviour
 			if (_timeFootOnGround < 1f)
 			{
 				// consume the stamina
-				_stamina.Consume (_staminaConsume);
-				// generate the echo
-				InstantiateEcho ();
+				_stamina.Consume (_staminaConsume, () =>
+				{
+					// generate the echo
+					InstantiateEcho ();
+				});
 			}
 			_isLeftFoot = !_isLeftFoot;
 			_timeFootOnGround = 0f;

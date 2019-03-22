@@ -57,6 +57,8 @@ MonoBehaviour:
   free: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1792
   _impactEchoBeamPrefab: {fileID: 114963983595865926, guid: 865ef6ca477584dc79495db95487e110,
+    type: 2}
+  _impactedWave: {fileID: 114264278687947878, guid: bf2fab7267ab2473e83332f0f3a66e64,
     type: 2}

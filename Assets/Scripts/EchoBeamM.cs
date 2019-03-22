@@ -7,6 +7,8 @@ public class EchoBeamM : Beam
 	public LayerMask layerMask;
 	[SerializeField]
 	ImpactEchoBeam _impactEchoBeamPrefab;
+	[SerializeField]
+	ImpactedWave _impactedWave;
 	CachedImpactEchoBeam _cachedImpactEchoBeam;
 	Vector3 _lastPosition;
 	float _time;
@@ -58,12 +60,16 @@ public class EchoBeamM : Beam
 		transform.Translate (Vector2.right * Time.deltaTime * speed);
 		var dir = transform.position - _lastPosition;
 		var hit = Physics2D.Raycast (transform.position, dir.normalized, distance, layerMask);
-		if (hit.collider != null && hit.distance > 0)
+		if (hit && hit.distance > 0)
 		{
 			var reflDir = Vector2.Reflect (dir.normalized, hit.normal);
 			var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
 			transform.eulerAngles = new Vector3 (0, 0, rot);
 			InstantiateImpactEcho (dir.normalized, hit.normal, hit.point);
+			if (LayerMask.LayerToName (hit.transform.gameObject.layer) == "Enemy" || LayerMask.LayerToName (hit.transform.gameObject.layer) == "Player")
+			{
+				InstantiateImpactedWave (hit);
+			}
 		}
 		_lastPosition = transform.position;
 	}
@@ -71,5 +77,16 @@ public class EchoBeamM : Beam
 	void InstantiateImpactEcho (Vector3 direction, Vector2 normal, Vector2 hitPoint)
 	{
 		_cachedImpactEchoBeam.Use (hitPoint, direction, normal);
+	}
+
+	void InstantiateImpactedWave (RaycastHit2D hit)
+	{
+		var targetNormal = hit.normal;
+		var impactedWaveAngle = 180f + Mathf.Atan2 (targetNormal.y, targetNormal.x) * Mathf.Rad2Deg;
+		var impactedWaveRot = Quaternion.Euler (0, 0, impactedWaveAngle);
+		var impactedWave = Instantiate<ImpactedWave> (_impactedWave, hit.point, impactedWaveRot);
+		impactedWave.layerMask = layerMask;
+		impactedWave.impactedObject = hit.transform;
+		impactedWave.impactedPoint = hit.point;
 	}
 }

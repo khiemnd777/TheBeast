@@ -18,12 +18,12 @@ public class Stamina : MonoBehaviour
 
 	void Update ()
 	{
-		CheckConsuming();
+		CheckConsuming ();
 		Restore ();
 		CheckConsumingAgain ();
 	}
 
-	public void Consume (float value)
+	public void Consume (float value, System.Action then)
 	{
 		if (_isExceeded) return;
 		if (value > this.value)
@@ -32,6 +32,13 @@ public class Stamina : MonoBehaviour
 			return;
 		}
 		this.value = this.value <= 0 ? 0 : this.value - value;
+		if (this.value > 0)
+		{
+			if (then != null)
+			{
+				then ();
+			}
+		}
 		_isExceeded = this.value <= 0;
 		_isConsuming = true;
 		_consumingTime = 0;
