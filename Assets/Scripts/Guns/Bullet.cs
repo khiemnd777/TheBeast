@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
 	public LayerMask layerMask;
 	[SerializeField]
 	ImpactedWave _impactedWave;
+	CachedImpactedWave _cachedImpactedWave;
 	float _targetDistance;
 	BulletImpactEffect _bulletImpactFx;
 	RaycastHit2D _raycastTarget;
@@ -20,6 +21,7 @@ public class Bullet : MonoBehaviour
 	{
 		_cachedEchoBeam = FindObjectOfType<CachedEchoBeam> ();
 		_bulletImpactFx = GetComponent<BulletImpactEffect> ();
+		_cachedImpactedWave = FindObjectOfType<CachedImpactedWave> ();
 	}
 
 	void Start ()
@@ -65,12 +67,13 @@ public class Bullet : MonoBehaviour
 
 	void InstantiateImpactedWave (Vector3 impactPoint)
 	{
-		var targetNormal = _raycastTarget.normal;
-		var impactedWaveAngle = 180f + Mathf.Atan2 (targetNormal.y, targetNormal.x) * Mathf.Rad2Deg;
-		var impactedWaveRot = Quaternion.Euler (0, 0, impactedWaveAngle);
-		var impactedWave = Instantiate<ImpactedWave> (_impactedWave, impactPoint, impactedWaveRot);
-		impactedWave.layerMask = layerMask;
-		impactedWave.impactedObject = _raycastTarget.transform;
-		impactedWave.impactedPoint = impactPoint;
+		// var targetNormal = _raycastTarget.normal;
+		// var impactedWaveAngle = 180f + Mathf.Atan2 (targetNormal.y, targetNormal.x) * Mathf.Rad2Deg;
+		// var impactedWaveRot = Quaternion.Euler (0, 0, impactedWaveAngle);
+		// var impactedWave = Instantiate<ImpactedWave> (_impactedWave, impactPoint, impactedWaveRot);
+		// impactedWave.layerMask = layerMask;
+		// impactedWave.impactedObject = _raycastTarget.transform;
+		// impactedWave.impactedPoint = impactPoint;
+		_cachedImpactedWave.Use (_raycastTarget, layerMask);
 	}
 }

@@ -26,15 +26,18 @@ public class ImpactEchoBeam : MonoBehaviour
 	void Awake ()
 	{
 		_settings = FindObjectOfType<Settings> ();
-		_trailRenderer = GetComponentInChildren<TrailRenderer> ();
 		speed = _settings.impactEchoBeamSpeed;
 		lifetime = _settings.impactEchoBeamLifeTime;
 		free = true;
 		gameObject.SetActive (false);
-		_color = _trailRenderer.materials[0].color;
-		_trailWidth = _trailRenderer.widthMultiplier;
-		_trailRenderer.time = lifetime;
-		_trailTime = _trailRenderer.time;
+		_trailRenderer = GetComponentInChildren<TrailRenderer> ();
+		if (_trailRenderer != null)
+		{
+			_color = _trailRenderer.materials[0].color;
+			_trailWidth = _trailRenderer.widthMultiplier;
+			_trailRenderer.time = lifetime;
+			_trailTime = _trailRenderer.time;
+		}
 	}
 
 	void Update ()
@@ -42,7 +45,10 @@ public class ImpactEchoBeam : MonoBehaviour
 		if (free) return;
 		if (_firstTime == 0)
 		{
-			_trailRenderer.time = _trailTime;
+			if (_trailRenderer != null)
+			{
+				_trailRenderer.time = _trailTime;
+			}
 			++_firstTime;
 		}
 		Move ();
@@ -60,39 +66,47 @@ public class ImpactEchoBeam : MonoBehaviour
 
 	void Lifetime ()
 	{
-		_time += Time.deltaTime / (lifetime * .5f);
-		if (_time <= 1f) { }
-		else
+		// _time += Time.deltaTime / (lifetime * .5f);
+		// if (_time <= 1f) { }
+		// else
+		// {
+		// 	_time2 += Time.deltaTime / (lifetime * .3f);
+		// 	if (_time2 <= 1f)
+		// 	{
+		// 		var currentTrailWidth = Mathf.Lerp (_trailWidth, 0, _time2);
+		// 		_trailRenderer.widthMultiplier = currentTrailWidth;
+		// 	}
+		// 	else
+		// 	{
+		// 		Destroy (gameObject);
+		// 		_time3 += Time.deltaTime / (lifetime * .2f);
+		// 		if (_time3 <= 1f)
+		// 		{
+		// 			_trailRenderer.materials[0].color = new Color (_color.r, _color.g, _color.b, Mathf.Lerp (1, 0, _time3));
+		// 		}
+		// 		else
+		// 		{
+		// 			lastPhase = true;
+		// 		}
+		// 	}
+		// }
+		_time += Time.deltaTime / (lifetime);
+		if (_time >= 1f)
 		{
-			_time2 += Time.deltaTime / (lifetime * .3f);
-			if (_time2 <= 1f)
-			{
-				var currentTrailWidth = Mathf.Lerp (_trailWidth, 0, _time2);
-				_trailRenderer.widthMultiplier = currentTrailWidth;
-			}
-			else
-			{
-				// Destroy (gameObject);
-				_time3 += Time.deltaTime / (lifetime * .2f);
-				if (_time3 <= 1f)
-				{
-					_trailRenderer.materials[0].color = new Color (_color.r, _color.g, _color.b, Mathf.Lerp (1, 0, _time3));
-				}
-				else
-				{
-					lastPhase = true;
-				}
-			}
+			lastPhase = true;
 		}
 	}
 
 	public void Use (Vector2 pos)
 	{
 		if (!free) return;
-		_trailRenderer.time = 0;
 		transform.position = pos;
-		_trailRenderer.widthMultiplier = _trailWidth;
-		_trailRenderer.materials[0].color = _color;
+		if (_trailRenderer != null)
+		{
+			_trailRenderer.time = 0;
+			_trailRenderer.widthMultiplier = _trailWidth;
+			_trailRenderer.materials[0].color = _color;
+		}
 		_time = 0f;
 		_time3 = 0f;
 		_time2 = 0f;

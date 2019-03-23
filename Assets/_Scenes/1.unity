@@ -955,6 +955,7 @@ Transform:
   - {fileID: 2135307475}
   - {fileID: 1594194660}
   - {fileID: 1401163849}
+  - {fileID: 948563638}
   - {fileID: 1484893018}
   - {fileID: 1493196562}
   m_Father: {fileID: 0}
@@ -1004,6 +1005,48 @@ Transform:
   m_Father: {fileID: 997259444}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &948563637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 948563638}
+  - component: {fileID: 948563639}
+  m_Layer: 0
+  m_Name: Cached Impacted Wave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &948563638
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 948563637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 801760745}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &948563639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 948563637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a49a558eb3641cdac48e389c39430f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 30
+  _prefab: {fileID: 114264278687947878, guid: bf2fab7267ab2473e83332f0f3a66e64, type: 2}
 --- !u!1 &951404748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capacity: 1440
-  _impactEchoBeamPrefab: {fileID: 114963983595865926, guid: 865ef6ca477584dc79495db95487e110,
+  _impactEchoBeamPrefab: {fileID: 114319230035634924, guid: 6e21f1bcb368a4de0a53cdf72a8294e8,
     type: 2}
 --- !u!4 &1401163849
 Transform:
@@ -1809,7 +1852,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 801760745}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1484893019
 MonoBehaviour:
@@ -1850,7 +1893,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 801760745}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1493196563
 MonoBehaviour:
@@ -2320,7 +2363,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1755079338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -345, y: 191.6, z: 0}
+  m_LocalPosition: {x: -588, y: 328.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1841366645}
@@ -2543,7 +2586,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1841366641}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 429, y: 241.5, z: 0}
+  m_LocalPosition: {x: 672, y: 378, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1805549201}
@@ -2825,6 +2868,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0449905701b8d4af3bf21603c58b9608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactEchoBeamLifeTime: 0.35
+  impactEchoBeamLifeTime: 0.125
   impactEchoBeamSpeed: 1
   playerFootOnGroundDelta: 0.5

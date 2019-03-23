@@ -10,6 +10,7 @@ public class EchoBeamM : Beam
 	[SerializeField]
 	ImpactedWave _impactedWave;
 	CachedImpactEchoBeam _cachedImpactEchoBeam;
+	CachedImpactedWave _cachedImpactedWave;
 	Vector3 _lastPosition;
 	float _time;
 	float _trailWidth;
@@ -19,6 +20,7 @@ public class EchoBeamM : Beam
 	void Awake ()
 	{
 		_cachedImpactEchoBeam = FindObjectOfType<CachedImpactEchoBeam> ();
+		_cachedImpactedWave = FindObjectOfType<CachedImpactedWave> ();
 		gameObject.SetActive (false);
 		free = true;
 	}
@@ -81,12 +83,13 @@ public class EchoBeamM : Beam
 
 	void InstantiateImpactedWave (RaycastHit2D hit)
 	{
-		var targetNormal = hit.normal;
-		var impactedWaveAngle = 180f + Mathf.Atan2 (targetNormal.y, targetNormal.x) * Mathf.Rad2Deg;
-		var impactedWaveRot = Quaternion.Euler (0, 0, impactedWaveAngle);
-		var impactedWave = Instantiate<ImpactedWave> (_impactedWave, hit.point, impactedWaveRot);
-		impactedWave.layerMask = layerMask;
-		impactedWave.impactedObject = hit.transform;
-		impactedWave.impactedPoint = hit.point;
+		// var targetNormal = hit.normal;
+		// var impactedWaveAngle = 180f + Mathf.Atan2 (targetNormal.y, targetNormal.x) * Mathf.Rad2Deg;
+		// var impactedWaveRot = Quaternion.Euler (0, 0, impactedWaveAngle);
+		// var impactedWave = Instantiate<ImpactedWave> (_impactedWave, hit.point, impactedWaveRot);
+		// impactedWave.layerMask = layerMask;
+		// impactedWave.impactedObject = hit.transform;
+		// impactedWave.impactedPoint = hit.point;
+		_cachedImpactedWave.Use(hit, layerMask);
 	}
 }
