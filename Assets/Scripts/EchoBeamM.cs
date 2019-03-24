@@ -9,8 +9,9 @@ public class EchoBeamM : Beam
 	ImpactEchoBeam _impactEchoBeamPrefab;
 	[SerializeField]
 	ImpactedWave _impactedWave;
-	CachedImpactEchoBeam _cachedImpactEchoBeam;
-	CachedImpactedWave _cachedImpactedWave;
+	// CachedImpactEchoBeam _cachedImpactEchoBeam;
+	// CachedImpactedWave _cachedImpactedWave;
+	CachedImpactedEcho _cachedImpactedEcho;
 	Vector3 _lastPosition;
 	float _time;
 	float _trailWidth;
@@ -19,8 +20,9 @@ public class EchoBeamM : Beam
 
 	void Awake ()
 	{
-		_cachedImpactEchoBeam = FindObjectOfType<CachedImpactEchoBeam> ();
-		_cachedImpactedWave = FindObjectOfType<CachedImpactedWave> ();
+		// _cachedImpactEchoBeam = FindObjectOfType<CachedImpactEchoBeam> ();
+		// _cachedImpactedWave = FindObjectOfType<CachedImpactedWave> ();
+		_cachedImpactedEcho = FindObjectOfType<CachedImpactedEcho> ();
 		gameObject.SetActive (false);
 		free = true;
 	}
@@ -67,21 +69,27 @@ public class EchoBeamM : Beam
 			var reflDir = Vector2.Reflect (dir.normalized, hit.normal);
 			var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
 			transform.eulerAngles = new Vector3 (0, 0, rot);
-			InstantiateImpactEcho (dir.normalized, hit.normal, hit.point);
-			if (LayerMask.LayerToName (hit.transform.gameObject.layer) == "Enemy" || LayerMask.LayerToName (hit.transform.gameObject.layer) == "Player")
-			{
-				InstantiateImpactedWave (hit);
-			}
+			// InstantiateImpactEcho (dir.normalized, hit.normal, hit.point);
+			InstantiateImpactEcho2 (hit, layerMask);
+			// if (LayerMask.LayerToName (hit.transform.gameObject.layer) == "Enemy" || LayerMask.LayerToName (hit.transform.gameObject.layer) == "Player")
+			// {
+			// 	InstantiateImpactedWave (hit, layerMask);
+			// }
 		}
 		_lastPosition = transform.position;
 	}
 
 	void InstantiateImpactEcho (Vector3 direction, Vector2 normal, Vector2 hitPoint)
 	{
-		_cachedImpactEchoBeam.Use (hitPoint, direction, normal);
+		// _cachedImpactEchoBeam.Use (hitPoint, direction, normal);
 	}
 
-	void InstantiateImpactedWave (RaycastHit2D hit)
+	void InstantiateImpactEcho2 (RaycastHit2D hit, LayerMask layerMask)
+	{
+		_cachedImpactedEcho.Use (hit, layerMask);
+	}
+
+	void InstantiateImpactedWave (RaycastHit2D hit, LayerMask layerMask)
 	{
 		// var targetNormal = hit.normal;
 		// var impactedWaveAngle = 180f + Mathf.Atan2 (targetNormal.y, targetNormal.x) * Mathf.Rad2Deg;
@@ -90,6 +98,6 @@ public class EchoBeamM : Beam
 		// impactedWave.layerMask = layerMask;
 		// impactedWave.impactedObject = hit.transform;
 		// impactedWave.impactedPoint = hit.point;
-		_cachedImpactedWave.Use(hit, layerMask);
+		// _cachedImpactedWave.Use (hit, layerMask);
 	}
 }
