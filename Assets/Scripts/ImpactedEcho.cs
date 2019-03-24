@@ -32,12 +32,14 @@ public class ImpactedEcho : MonoBehaviour
 	TrailRenderer _trail2;
 	float _trailTime;
 	float _deltaDistance;
+	PlayerMovement _player;
 
 	void Awake ()
 	{
 		free = true;
 		gameObject.SetActive (false);
 		_trailTime = _trail.time;
+		_player = FindObjectOfType<PlayerMovement> ();
 	}
 
 	void Update ()
@@ -53,8 +55,8 @@ public class ImpactedEcho : MonoBehaviour
 	public void Use ()
 	{
 		if (!free) return;
-		_trail.time = 0f;
-		_trail2.time = 0f;
+		// _trail.time = 0f;
+		// _trail2.time = 0f;
 		_firstTime = true;
 		_generatedPoint.localPosition = Vector3.right * -detectedDistance;
 		transform.SetParent (impactedObject);
@@ -88,15 +90,13 @@ public class ImpactedEcho : MonoBehaviour
 		}
 	}
 
-	int doneFlag;
-
 	IEnumerator SlideBeam ()
 	{
 		var orginalPos = _generatedPoint.localPosition;
 		StartCoroutine (SlideBeamSide (1, orginalPos, _beamPoint));
 		yield return StartCoroutine (SlideBeamSide (-1, orginalPos, _beamPoint2));
 		free = true;
-		transform.SetParent (null);
+		transform.SetParent (_player.transform);
 		gameObject.SetActive (false);
 	}
 }
