@@ -95,33 +95,6 @@ public class ImpactedEcho : MonoBehaviour
 		var orginalPos = _generatedPoint.localPosition;
 		StartCoroutine (SlideBeamSide (1, orginalPos, _beamPoint));
 		yield return StartCoroutine (SlideBeamSide (-1, orginalPos, _beamPoint2));
-		// var inx = 0;
-		// var inx1 = 0;
-		// var switchDir = false;
-		// while (inx < capacity * 2)
-		// {
-		// 	if (inx >= capacity && !switchDir)
-		// 	{
-		// 		_generatedPoint.localPosition = Vector3.right * -detectedDistance;
-		// 		inx1 = 0;
-		// 		switchDir = true;
-		// 	}
-		// 	var sign = inx >= capacity ? 1 : -1;
-		// 	var p1 = _generatedPoint.localPosition;
-		// 	p1.y = _deltaDistance * sign * inx1;
-		// 	_generatedPoint.localPosition = p1;
-		// 	var pos = _generatedPoint.position;
-		// 	var hit = Physics2D.Raycast (pos, _direction, detectedDistance + .5f, layerMask);
-		// 	if (hit && hit.distance > 0)
-		// 	{
-		// 		_cachedImpactEchoBeam.Use (hit.point, _direction, hit.normal);
-		// 	}
-		// 	// _cachedImpactEchoBeam.Use (transform.position, _direction, transform.position.normalized);
-		// 	++inx;
-		// 	++inx1;
-		// 	yield return new WaitForSeconds(.09f);
-		// }
-		// Destroy (gameObject);
 		free = true;
 		transform.SetParent (null);
 		gameObject.SetActive (false);
