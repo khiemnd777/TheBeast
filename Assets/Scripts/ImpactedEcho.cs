@@ -55,8 +55,8 @@ public class ImpactedEcho : MonoBehaviour
 	public void Use ()
 	{
 		if (!free) return;
-		// _trail.time = 0f;
-		// _trail2.time = 0f;
+		_trail.time = 0f;
+		_trail2.time = 0f;
 		_firstTime = true;
 		_generatedPoint.localPosition = Vector3.right * -detectedDistance;
 		transform.SetParent (impactedObject);
