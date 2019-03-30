@@ -17,7 +17,7 @@ public class GroundedFoot : MonoBehaviour
 		for (var i = 0; i < capacity; i++)
 		{
 			var angle = i * deltaAngle;
-			var euler = Quaternion.Euler (0f, 0f, angle);
+			var euler = Quaternion.Euler (0f, angle, 0f);
 			var beam = Instantiate<EchoEffect> (_prefab, position, euler);
 			beam.speed = speed;
 			beam.lifetime = lifetime;		

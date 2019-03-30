@@ -23,15 +23,13 @@ public class PlayerMovement : MonoBehaviour
 	[SerializeField]
 	Echo _echoPrefab;
 	[SerializeField]
-	Camera _theCamera;
-	[SerializeField]
 	AudioSource _footstepSoundFx;
 	GroundedFoot _groundedFoot;
 	DotSight _dotSight;
 	Stamina _stamina;
 
-	Vector2 _direction;
-	Rigidbody2D _rigidbody;
+	Vector3 _direction;
+	Rigidbody _rigidbody;
 	bool _isLeftFoot;
 	bool _isMoving;
 	bool _isStopping = true;
@@ -43,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
 	void Awake ()
 	{
-		_rigidbody = GetComponent<Rigidbody2D> ();
+		_rigidbody = GetComponent<Rigidbody> ();
 		_groundedFoot = GetComponent<GroundedFoot> ();
 		_settings = FindObjectOfType<Settings> ();
 		_dotSight = FindObjectOfType<DotSight> ();
@@ -63,13 +61,13 @@ public class PlayerMovement : MonoBehaviour
 		// If the stamina was exceeded, the player then be stopped for restoring.
 		if (_stamina.isExceeded)
 		{
-			_direction = Vector2.zero;
+			_direction = Vector3.zero;
 			return;
 		}
 		var x = Input.GetAxisRaw ("Horizontal");
 		var y = Input.GetAxisRaw ("Vertical");
 		_isMoving = x != 0 || y != 0;
-		_direction = new Vector2 (x, y);
+		_direction = Utilities.AlterVector3(_direction, x, y);
 		// Sprint by default
 		_speed = sprintSpeed;
 		_footstepSoundFx.volume = sprintVolume;
@@ -86,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
 		if (_isMoving)
 		{
 			// foot rotation
-			_foots.rotation = Quaternion.LookRotation (Vector3.forward, _direction);
+			_foots.rotation = Quaternion.LookRotation (Vector3.up, _direction);
 			_isStopping = false;
 			_timeFootOnGround += Time.deltaTime / (_settings.playerFootOnGroundDelta / _speed);
 			if (_timeFootOnGround >= 1)
@@ -137,11 +135,9 @@ public class PlayerMovement : MonoBehaviour
 
 	void Rotate2 ()
 	{
-		var dotSightPos = _dotSight.GetPosition ();
-		var dir = dotSightPos - transform.position;
-		dir.Normalize ();
-		var rotZ = Mathf.Atan2 (dir.y, dir.x) * Mathf.Rad2Deg;
-		var rot = Quaternion.Euler (0f, 0f, rotZ);
-		_body.rotation = rot;
+		var normal = _dotSight.NormalizeFromPoint(transform.position);
+		var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
+		var rotation = Quaternion.Euler (0f, rot, 0f);
+		_body.rotation = rotation;
 	}
 }

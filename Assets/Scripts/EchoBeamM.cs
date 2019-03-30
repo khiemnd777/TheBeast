@@ -65,13 +65,13 @@ public class EchoBeamM : Beam
 			var reflDir = Vector2.Reflect (dir.normalized, hit.normal);
 			var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
 			transform.eulerAngles = new Vector3 (0, 0, rot);
-			InstantiateImpactEcho (hit, layerMask);
+			// InstantiateImpactEcho (hit, layerMask);
 		}
 		_lastPosition = transform.position;
 	}
 
-	void InstantiateImpactEcho (RaycastHit2D hit, LayerMask layerMask)
+	void InstantiateImpactEcho (RaycastHit hit, LayerMask layerMask)
 	{
-		_cachedImpactedEcho.Use (hit, layerMask);
+		// _cachedImpactedEcho.Use (hit, layerMask);
 	}
 }

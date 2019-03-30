@@ -36,8 +36,8 @@ public class GunHolderController : MonoBehaviour
 	{
 		if (gunHolder == null || gunHolder is Object && gunHolder.Equals (null)) return;
 		var normal = _dotSight.NormalizeFromPoint (gunHolder.transform.position);
-		var angle = Mathf.Atan2 (normal.y, normal.x) * Mathf.Rad2Deg;
-		gunHolder.transform.eulerAngles = new Vector3 (0, 0, angle);
+		var angle = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
+		gunHolder.transform.eulerAngles = new Vector3 (0, angle, 0);
 	}
 
 	void HoldTrigger (GunHolder gunHolder)

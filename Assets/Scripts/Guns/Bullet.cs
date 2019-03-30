@@ -13,10 +13,11 @@ public class Bullet : MonoBehaviour
 	CachedImpactedEcho _cachedImpactedEcho;
 	float _targetDistance;
 	BulletImpactEffect _bulletImpactFx;
-	RaycastHit2D _raycastTarget;
+	RaycastHit _raycastHit;
 	CachedEchoBeam _cachedEchoBeam;
 	Vector3 _direction;
 	float _t;
+	bool _isHitOnTarget;
 
 	void Awake ()
 	{
@@ -28,23 +29,22 @@ public class Bullet : MonoBehaviour
 
 	void Start ()
 	{
-		_direction = transform.rotation * Vector2.right;
-		// 
-		var castHit = Physics2D.Raycast (transform.position, _direction, maxDistance, layerMask);
-		if (castHit.collider != null && castHit.distance > 0)
-		{
-			_targetDistance = castHit.distance;
-			_raycastTarget = castHit;
-		}
-		else
-		{
-			_targetDistance = maxDistance;
-			_raycastTarget = castHit;
-		}
+		_direction = transform.rotation * Vector3.right;
+		Debug.DrawRay (transform.position, transform.TransformDirection (Vector3.right) * maxDistance, Color.yellow);
 	}
 
 	void Update ()
 	{
+		if (Physics.Raycast (transform.position, _direction, out _raycastHit, maxDistance, layerMask))
+		{
+			_targetDistance = _raycastHit.distance;
+			_isHitOnTarget = true;
+		}
+		else
+		{
+			_targetDistance = maxDistance;
+			_isHitOnTarget = false;
+		}
 		//
 		if (_t <= 1f)
 		{
@@ -52,18 +52,13 @@ public class Bullet : MonoBehaviour
 			_t += Time.deltaTime / timeToImpact;
 			return;
 		}
-		if (_raycastTarget)
+		if (_isHitOnTarget)
 		{
-			var impactPoint = _raycastTarget.point;
-			// Bullet impact fx
-			_bulletImpactFx.maxSpeed = 4.5f;
-			_bulletImpactFx.lifetime = .125f;
-			_bulletImpactFx.Use (impactPoint, _raycastTarget.normal);
-			// Impacted wave
-			// InstantiateImpactedWave (impactPoint, layerMask);
+			var impactPoint = _raycastHit.point;
+			ActivateBulleImpactedFx(impactPoint, _raycastHit.normal);
 			InstantiateImpactedEcho (impactPoint, layerMask);
 			// Echo beams
-			_cachedEchoBeam.Use (36, impactPoint, 6, .175f, .75f);
+			// _cachedEchoBeam.Use (36, impactPoint, 6, .175f, .75f);
 		}
 		Destroy (gameObject);
 	}
@@ -80,6 +75,13 @@ public class Bullet : MonoBehaviour
 		// _cachedImpactedWave.Use (_raycastTarget, layerMask);
 	}
 
+	void ActivateBulleImpactedFx (Vector3 impactPoint, Vector3 normal)
+	{
+		_bulletImpactFx.maxSpeed = 4.5f;
+		_bulletImpactFx.lifetime = .125f;
+		_bulletImpactFx.Use (impactPoint, normal);
+	}
+
 	void InstantiateImpactedEcho (Vector3 impactPoint, LayerMask layerMask)
 	{
 		// var targetNormal = _raycastTarget.normal;
@@ -89,6 +91,6 @@ public class Bullet : MonoBehaviour
 		// impactedWave.layerMask = layerMask;
 		// impactedWave.impactedObject = _raycastTarget.transform;
 		// impactedWave.impactedPoint = impactPoint;
-		_cachedImpactedEcho.Use (_raycastTarget, layerMask);
+		_cachedImpactedEcho.Use (_raycastHit, layerMask);
 	}
 }

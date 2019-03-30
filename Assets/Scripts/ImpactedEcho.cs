@@ -33,6 +33,7 @@ public class ImpactedEcho : MonoBehaviour
 	float _trailTime;
 	float _deltaDistance;
 	PlayerMovement _player;
+	bool _firstTime;
 
 	void Awake ()
 	{
@@ -70,13 +71,15 @@ public class ImpactedEcho : MonoBehaviour
 
 	void SlideBeamPoint (Vector3 pos, Transform beamPoint)
 	{
-		var hit = Physics2D.Raycast (pos, _direction, detectedDistance + .5f, layerMask);
-		if (!hit || hit.distance <= 0) return;
-		if (hit.transform.gameObject.GetInstanceID () != impactedObject.gameObject.GetInstanceID ()) return;
-		beamPoint.transform.position = hit.point;
+		Debug.DrawRay (pos, _direction * (detectedDistance + .5f), Color.yellow);
+		RaycastHit hit;
+		if (Physics.Raycast (pos, _direction, out hit, detectedDistance + .5f, layerMask))
+		{
+			if (hit.distance <= 0) return;
+			if (hit.transform.gameObject.GetInstanceID () != impactedObject.gameObject.GetInstanceID ()) return;
+			beamPoint.transform.position = hit.point;
+		}
 	}
-
-	bool _firstTime;
 
 	IEnumerator SlideBeamSide (int side, Vector3 orginalPos, Transform beamPoint)
 	{
@@ -84,7 +87,7 @@ public class ImpactedEcho : MonoBehaviour
 		while (pc <= 1f)
 		{
 			pc += Time.deltaTime * speed;
-			_generatedPoint.localPosition = Vector3.Lerp (orginalPos, new Vector3 (orginalPos.x, orginalPos.y + size * side, orginalPos.z), pc);
+			_generatedPoint.localPosition = Vector3.Lerp (orginalPos, new Vector3 (orginalPos.x, orginalPos.y, orginalPos.z + size * side), pc);
 			SlideBeamPoint (_generatedPoint.position, beamPoint);
 			yield return null;
 		}

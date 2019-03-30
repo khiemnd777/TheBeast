@@ -10,19 +10,19 @@ public class BulletImpactEffect : MonoBehaviour
 	public float maxSpeed;
 	public float minSpeed = 2;
 
-	public void Use (Vector2 impactPoint, Vector3 normal)
+	public void Use (Vector3 impactPoint, Vector3 normal)
 	{
 		var capacity = 9;
 		var deltaAngle = 180f / capacity;
-		var perpendicular = new Vector2 (normal.y, -normal.x);
-		var fromAngle = Mathf.Atan2 (perpendicular.y, perpendicular.x) * Mathf.Rad2Deg;
+		var perpendicular = new Vector3 (normal.z, 0f, -normal.x);
+		var fromAngle = 180f - Mathf.Atan2 (perpendicular.z, perpendicular.x) * Mathf.Rad2Deg;
 		for (var i = 0; i <= capacity; i++)
 		{
 			var angle = fromAngle + i * deltaAngle;
-			var euler = Quaternion.Euler (0f, 0f, angle);
+			var euler = Quaternion.Euler (0f, angle, 0f);
 			var beam = Instantiate<ImpactEffect> (_impactEffectPrefab, impactPoint, euler);
-			beam.speed = Random.Range (minSpeed, maxSpeed); // i == 0 || i == capacity ? 4 : 3;
-			beam.lifetime = lifetime; //.125f;
+			beam.speed = Random.Range (minSpeed, maxSpeed);
+			beam.lifetime = lifetime;
 		}
 	}
 }

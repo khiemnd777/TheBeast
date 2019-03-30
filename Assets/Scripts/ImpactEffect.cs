@@ -32,7 +32,7 @@ public class ImpactEffect : MonoBehaviour
 		_time1 += Time.deltaTime / lifetime;
 		if (_time1 <= 1f)
 		{
-			transform.Translate (Vector2.right * Time.deltaTime * speed);
+			transform.Translate (Vector3.right * Time.deltaTime * speed);
 		}
 		else
 		{

@@ -36,15 +36,15 @@ void Move ()
 	_time1 += Time.deltaTime / lifetime;
 	if (_time1 <= 1f)
 	{
-		transform.Translate (Vector2.right * Time.deltaTime * speed);
-		var dir = transform.position - _lastPosition;
-		var hit = Physics2D.Raycast (transform.position, dir.normalized, .175f, layerMask);
-		if (hit.collider != null && hit.distance > 0)
-		{
-			var reflDir = Vector2.Reflect (dir.normalized, hit.normal);
-			var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
-			transform.eulerAngles = new Vector3 (0, 0, rot);
-		}
+		transform.Translate (Vector3.right * Time.deltaTime * speed);
+		// var dir = transform.position - _lastPosition;
+		// var hit = Physics2D.Raycast (transform.position, dir.normalized, .175f, layerMask);
+		// if (hit.collider != null && hit.distance > 0)
+		// {
+		// 	var reflDir = Vector2.Reflect (dir.normalized, hit.normal);
+		// 	var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
+		// 	transform.eulerAngles = new Vector3 (0, 0, rot);
+		// }
 		_lastPosition = transform.position;
 	}
 	else
