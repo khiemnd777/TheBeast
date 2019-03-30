@@ -78,7 +78,7 @@ public class EchoBeam : Beam
 		}
 	}
 
-	public override void Use (Vector2 pos)
+	public override void Use (Vector3 pos)
 	{
 		if (!free) return;
 		transform.position = pos;

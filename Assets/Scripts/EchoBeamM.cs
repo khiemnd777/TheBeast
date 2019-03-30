@@ -45,7 +45,7 @@ public class EchoBeamM : Beam
 		}
 	}
 
-	public override void Use (Vector2 pos)
+	public override void Use (Vector3 pos)
 	{
 		if (!free) return;
 		transform.position = pos;
@@ -57,21 +57,25 @@ public class EchoBeamM : Beam
 
 	void MoveAndReflect ()
 	{
-		transform.Translate (Vector2.right * Time.deltaTime * speed);
+		transform.Translate (Vector3.right * Time.deltaTime * speed);
 		var dir = transform.position - _lastPosition;
-		var hit = Physics2D.Raycast (transform.position, dir.normalized, distance, layerMask);
-		if (hit && hit.distance > 0)
+		Debug.DrawRay (transform.position, dir.normalized * distance, Color.yellow);
+		RaycastHit hit;
+		if (Physics.Raycast (transform.position, dir.normalized, out hit, distance, layerMask))
 		{
-			var reflDir = Vector2.Reflect (dir.normalized, hit.normal);
-			var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
-			transform.eulerAngles = new Vector3 (0, 0, rot);
-			// InstantiateImpactEcho (hit, layerMask);
+			if (hit.distance > 0)
+			{
+				var reflDir = Vector3.Reflect (dir.normalized, hit.normal);
+				var rot = 360f - Mathf.Atan2 (reflDir.z, reflDir.x) * Mathf.Rad2Deg;
+				transform.eulerAngles = new Vector3 (0f, rot, 0f);
+				InstantiateImpactEcho (hit, layerMask);
+			}
 		}
 		_lastPosition = transform.position;
 	}
 
 	void InstantiateImpactEcho (RaycastHit hit, LayerMask layerMask)
 	{
-		// _cachedImpactedEcho.Use (hit, layerMask);
+		_cachedImpactedEcho.Use (hit, layerMask);
 	}
 }

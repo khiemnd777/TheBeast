@@ -56,8 +56,8 @@ public class ImpactedEcho : MonoBehaviour
 	public void Use ()
 	{
 		if (!free) return;
-		_trail.time = 0f;
-		_trail2.time = 0f;
+		// _trail.time = 0f;
+		// _trail2.time = 0f;
 		_firstTime = true;
 		_generatedPoint.localPosition = Vector3.right * -detectedDistance;
 		transform.SetParent (impactedObject);
@@ -75,7 +75,6 @@ public class ImpactedEcho : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast (pos, _direction, out hit, detectedDistance + .5f, layerMask))
 		{
-			if (hit.distance <= 0) return;
 			if (hit.transform.gameObject.GetInstanceID () != impactedObject.gameObject.GetInstanceID ()) return;
 			beamPoint.transform.position = hit.point;
 		}

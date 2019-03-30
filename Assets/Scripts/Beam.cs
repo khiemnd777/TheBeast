@@ -7,7 +7,7 @@ public class Beam : MonoBehaviour
     public float lifetime;
     public bool free;
 
-    public virtual void Use (Vector2 pos)
+    public virtual void Use (Vector3 pos)
     {
 
     }
