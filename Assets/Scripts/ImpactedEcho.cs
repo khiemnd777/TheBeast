@@ -63,7 +63,6 @@ public class ImpactedEcho : MonoBehaviour
 		_firstTime = true;
 		// _generatedPoint.localPosition = Vector3.right * -detectedDistance;
 		// _generatedPoint.position = _player.transform.position;
-		// transform.SetParent (impactedObject);
 		// transform.SetParent (_player.transform);
 		transform.position = hit.point;
 		var dir = hit.normal;
@@ -75,6 +74,7 @@ public class ImpactedEcho : MonoBehaviour
 		// detectedDistance = (impactedPoint - _player.transform.position).magnitude;
 		free = false;
 		// Generation
+		transform.SetParent (impactedObject);
 		gameObject.SetActive (true);
 		StartCoroutine (SlideBeam ());
 	}
@@ -102,7 +102,7 @@ public class ImpactedEcho : MonoBehaviour
 		// if (Physics.Raycast (pos, _direction, out hit, detectedDistance + .5f, layerMask))
 		if (Physics.Raycast (pos, dir, out hit, detectedDistance + .5f, layerMask))
 		{
-			// if (hit.transform.gameObject.GetInstanceID () != impactedObject.gameObject.GetInstanceID ()) return;
+			if (hit.transform.gameObject.GetInstanceID () != impactedObject.gameObject.GetInstanceID ()) return;
 			beamPoint.transform.position = hit.point;
 		}
 	}
@@ -127,7 +127,7 @@ public class ImpactedEcho : MonoBehaviour
 		StartCoroutine (SlideBeamSide (1, orginalPos, _beamPoint));
 		yield return StartCoroutine (SlideBeamSide (-1, orginalPos, _beamPoint2));
 		free = true;
-		// transform.SetParent (_player.transform);
+		transform.SetParent (_player.transform);
 		gameObject.SetActive (false);
 	}
 }
