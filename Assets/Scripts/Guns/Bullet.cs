@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviour
 			ActivateBulleImpactedFx(impactPoint, _raycastHit.normal);
 			InstantiateImpactedEcho (impactPoint, layerMask);
 			// Echo beams
-			_cachedEchoBeam.Use (36, impactPoint, 6, .175f, .75f);
+			// _cachedEchoBeam.Use (36, impactPoint, 6, .175f, .75f);
 		}
 		Destroy (gameObject);
 	}

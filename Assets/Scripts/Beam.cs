@@ -9,6 +9,6 @@ public class Beam : MonoBehaviour
 
     public virtual void Use (Vector3 pos)
     {
-
+           
     }
 }
