@@ -97,10 +97,10 @@ public class ImpactedEcho : MonoBehaviour
 		// Debug.DrawRay (pos, _direction * (detectedDistance + .5f), Color.yellow);
 		var pos = origin.position;
 		var dir = origin.rotation * Vector3.right;
-		Debug.DrawRay (pos, dir * (detectedDistance), Color.yellow);
+		Debug.DrawRay (pos, dir * (detectedDistance + .5f), Color.yellow);
 		RaycastHit hit;
 		// if (Physics.Raycast (pos, _direction, out hit, detectedDistance + .5f, layerMask))
-		if (Physics.Raycast (pos, dir, out hit, detectedDistance, layerMask))
+		if (Physics.Raycast (pos, dir, out hit, detectedDistance + .5f, layerMask))
 		{
 			// if (hit.transform.gameObject.GetInstanceID () != impactedObject.gameObject.GetInstanceID ()) return;
 			beamPoint.transform.position = hit.point;
@@ -114,7 +114,7 @@ public class ImpactedEcho : MonoBehaviour
 		{
 			pc += Time.deltaTime * speed;
 			// _generatedPoint.localPosition = Vector3.Lerp (orginalPos, new Vector3 (orginalPos.x, orginalPos.y, orginalPos.z + size * side), pc);
-			var angle = Vector3.Lerp (Vector3.zero, Vector3.up * 20f * side, pc);
+			var angle = Vector3.Lerp (Vector3.zero, Vector3.up * 30f * side, pc);
 			_generatedPoint.localRotation = Quaternion.Euler (angle);
 			SlideBeamPoint (_generatedPoint, beamPoint);
 			yield return null;

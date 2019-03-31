@@ -321,7 +321,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  detectedDistance: 0.2
+  detectedDistance: 1
   impactedObject: {fileID: 0}
   _generatedPoint: {fileID: 4199101596153632}
   _beamPoint: {fileID: 4263410247499916}
