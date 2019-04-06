@@ -14,12 +14,13 @@ public class DotSight : MonoBehaviour
 
 	void Update ()
 	{
-		transform.position = Input.mousePosition;
+		var mp = _theCamera.ScreenToWorldPoint (Input.mousePosition);
+		transform.position = new Vector3 (mp.x, 0f, mp.z);
 	}
 
 	public Vector3 GetPosition ()
 	{
-		return _theCamera.ScreenToWorldPoint (transform.position);
+		return transform.position;
 	}
 
 	public Vector3 NormalizeFromPoint (Vector3 point)
