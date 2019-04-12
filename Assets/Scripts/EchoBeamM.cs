@@ -65,10 +65,29 @@ public class EchoBeamM : Beam
 		{
 			if (hit.distance > 0)
 			{
-				var reflDir = Vector3.Reflect (dir.normalized, hit.normal);
-				var rot = 360f - Mathf.Atan2 (reflDir.z, reflDir.x) * Mathf.Rad2Deg;
-				transform.eulerAngles = new Vector3 (0f, rot, 0f);
-				InstantiateImpactEcho (hit, layerMask);
+				if (hit.transform.gameObject.layer == LayerMask.NameToLayer ("Enemy"))
+				{
+					var detectedArea = hit.transform.Find ("Detected Area");
+					if (detectedArea != null && detectedArea.gameObject.layer == LayerMask.NameToLayer ("Detected Area"))
+					{
+						var detectedEnemy = hit.transform.gameObject.GetComponent<Enemy> ();
+						if (detectedEnemy != null && detectedEnemy is Object && !detectedEnemy.Equals (null))
+						{
+							detectedEnemy.target = owner;
+						}
+					}
+					var reflDir = Vector3.Reflect (dir.normalized, hit.normal);
+					var rot = 360f - Mathf.Atan2 (reflDir.z, reflDir.x) * Mathf.Rad2Deg;
+					transform.eulerAngles = new Vector3 (0f, rot, 0f);
+					InstantiateImpactEcho (hit, layerMask);
+				}
+				else
+				{
+					var reflDir = Vector3.Reflect (dir.normalized, hit.normal);
+					var rot = 360f - Mathf.Atan2 (reflDir.z, reflDir.x) * Mathf.Rad2Deg;
+					transform.eulerAngles = new Vector3 (0f, rot, 0f);
+					InstantiateImpactEcho (hit, layerMask);
+				}
 			}
 		}
 		_lastPosition = transform.position;

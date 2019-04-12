@@ -51,7 +51,7 @@ public class CachedEchoBeam : MonoBehaviour
 		return result;
 	}
 
-	public void Use (int amount, Vector3 pos, float speed, float raycastDistance, float lifetime)
+	public void Use (int amount, Vector3 pos, float speed, float raycastDistance, float lifetime, Transform owner)
 	{
 		var deltaAngle = 360f / amount;
 		var amountCount = amount;
@@ -63,6 +63,7 @@ public class CachedEchoBeam : MonoBehaviour
 			if (!echoBeam.free) continue;
 			var angle = startAngle + i * deltaAngle;
 			var euler = Quaternion.Euler (0f, angle, 0f);
+			echoBeam.owner = owner;
 			echoBeam.transform.rotation = euler;
 			echoBeam.speed = speed;
 			echoBeam.distance = raycastDistance;
@@ -77,6 +78,7 @@ public class CachedEchoBeam : MonoBehaviour
 				var angle = startAngle + (amountCount + i) * deltaAngle;
 				var euler = Quaternion.Euler (0f, angle, 0f);
 				var echoBeam = Instantiate<Beam> (_echoBeamPrefab, pos, euler);
+				echoBeam.owner = owner;
 				echoBeam.speed = speed;
 				echoBeam.distance = raycastDistance;
 				echoBeam.lifetime = lifetime;

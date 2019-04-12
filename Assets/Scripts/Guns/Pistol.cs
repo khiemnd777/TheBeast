@@ -40,7 +40,7 @@ public class Pistol : Gun
 	{
 		if (!_availableHoldTrigger) yield break;
 		// sound of being at launching bullet
-		_cachedEchoBeam.Use (18, transform.position, 8, .175f, .35f);
+		_cachedEchoBeam.Use (18, transform.position, 8, .175f, .35f, transform);
 		_timeAvailableHoleTrigger = 0f;
 		_availableHoldTrigger = false;
 		var bulletIns = Instantiate<Bullet> (bulletPrefab, transform.position, transform.rotation);

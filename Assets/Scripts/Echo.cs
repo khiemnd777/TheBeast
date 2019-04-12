@@ -10,6 +10,7 @@ public class Echo : MonoBehaviour
 	public float speed;
 	public float raycastDistance;
 	public float lifetime;
+	public Transform owner;
 
 	void Awake ()
 	{
@@ -23,6 +24,6 @@ public class Echo : MonoBehaviour
 	
 	public void Launch ()
 	{
-		_cachedEchoBeam.Use (amount, transform.position, speed, raycastDistance, lifetime);
+		_cachedEchoBeam.Use (amount, transform.position, speed, raycastDistance, lifetime, owner);
 	}
 }

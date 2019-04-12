@@ -124,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
 		var footPosition = _isLeftFoot ? _leftFoot : _rightFoot;
 		_groundedFoot.Launch (footPosition.position);
 		var echo = Instantiate<Echo> (_echoPrefab, footPosition.position, Quaternion.identity);
+		echo.owner = transform;
 		echo.lifetime = _echoLifetime;
 		Destroy (echo.gameObject, echo.lifetime + .1f);
 	}

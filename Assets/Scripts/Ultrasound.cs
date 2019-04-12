@@ -24,7 +24,7 @@ public class Ultrasound : MonoBehaviour
 
 	void Start ()
 	{
-		_cachedEchoBeam.Use (36, _echoBeamProjectile.position, 4, .175f, 1);
+		_cachedEchoBeam.Use (36, _echoBeamProjectile.position, 4, .175f, 1, transform);
 	}
 
 	void Update ()
@@ -55,11 +55,10 @@ public class Ultrasound : MonoBehaviour
 
 	void InstaintiateEchoBeam (int amount, float speed, float lifetime)
 	{
-		//
 		_t += Time.deltaTime / .35f;
 		if (_t >= 1)
 		{
-			_cachedEchoBeam.Use (amount, _echoBeamProjectile.position, speed, .175f, lifetime);
+			_cachedEchoBeam.Use (amount, _echoBeamProjectile.position, speed, .175f, lifetime, transform);
 			_t = 0f;
 		}
 	}

@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class Zombie : Enemy
 {
-	void DetectOpponent ()
+	public override void DetectTarget ()
 	{
-
+		base.DetectTarget ();
 	}
 }
