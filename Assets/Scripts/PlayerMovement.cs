@@ -20,6 +20,16 @@ public class PlayerMovement : MonoBehaviour
 	Transform _leftFoot;
 	[SerializeField]
 	Transform _rightFoot;
+	[Header("Listened sound at foot")]
+	[SerializeField]
+	ListenedSound _leftListenedSoundFoot;
+	[SerializeField]
+	ListenedSound _rightListenedSoundFoot;
+	[SerializeField]
+	float _leftListenedSoundRadius;
+	[SerializeField]
+	float _rightListenedSoundRadius;
+	[Space]
 	[SerializeField]
 	Echo _echoPrefab;
 	[SerializeField]
@@ -67,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
 		var x = Input.GetAxisRaw ("Horizontal");
 		var y = Input.GetAxisRaw ("Vertical");
 		_isMoving = x != 0 || y != 0;
-		_direction = Utilities.AlterVector3(_direction, x, y);
+		_direction = Utilities.AlterVector3 (_direction, x, y);
 		// Sprint by default
 		_speed = sprintSpeed;
 		_footstepSoundFx.volume = sprintVolume;
@@ -94,6 +104,8 @@ public class PlayerMovement : MonoBehaviour
 				{
 					// generate the echo
 					InstantiateEcho ();
+					// instantiate listened sound at foot
+					InstantiateListenedSoundFoot();
 				});
 				_isLeftFoot = !_isLeftFoot;
 				_timeFootOnGround = 0f;
@@ -108,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
 				{
 					// generate the echo
 					InstantiateEcho ();
+					// instantiate listened sound at foot
+					InstantiateListenedSoundFoot();
 				});
 			}
 			_isLeftFoot = !_isLeftFoot;
@@ -121,12 +135,20 @@ public class PlayerMovement : MonoBehaviour
 		// Footsteps fx
 		_footstepSoundFx.Play ();
 		//
-		var footPosition = _isLeftFoot ? _leftFoot : _rightFoot;
-		_groundedFoot.Launch (footPosition.position);
-		var echo = Instantiate<Echo> (_echoPrefab, footPosition.position, Quaternion.identity);
+		var whichFoot = _isLeftFoot ? _leftFoot : _rightFoot;
+		_groundedFoot.Launch (whichFoot.position);
+		var echo = Instantiate<Echo> (_echoPrefab, whichFoot.position, Quaternion.identity);
 		echo.owner = transform;
 		echo.lifetime = _echoLifetime;
 		Destroy (echo.gameObject, echo.lifetime + .1f);
+	}
+
+	void InstantiateListenedSoundFoot ()
+	{
+		var whichFoot = _isLeftFoot ? _leftListenedSoundFoot : _rightListenedSoundFoot;
+		var whichRadius = _isLeftFoot ? _leftListenedSoundRadius : _rightListenedSoundRadius;
+		whichFoot.radius = whichRadius;
+		whichFoot.Launch();
 	}
 
 	void FixedUpdate ()
@@ -136,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
 
 	void Rotate2 ()
 	{
-		var normal = _dotSight.NormalizeFromPoint(transform.position);
+		var normal = _dotSight.NormalizeFromPoint (transform.position);
 		var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
 		var rotation = Quaternion.Euler (0f, rot, 0f);
 		_body.rotation = rotation;

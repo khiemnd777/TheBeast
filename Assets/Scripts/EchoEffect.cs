@@ -12,7 +12,6 @@ TrailRenderer _trail;
 float _time1;
 float _time2;
 Color _color;
-Vector3 _lastPosition;
 
 void Awake ()
 {
@@ -45,7 +44,7 @@ void Move ()
 		// 	var rot = Mathf.Atan2 (reflDir.y, reflDir.x) * Mathf.Rad2Deg;
 		// 	transform.eulerAngles = new Vector3 (0, 0, rot);
 		// }
-		_lastPosition = transform.position;
+		// _lastPosition = transform.position;
 	}
 	else
 	{

@@ -11,8 +11,6 @@ public class SilentPistol : Gun
 
 	public LayerMask layerMask;
 	[SerializeField]
-	DotSight _dotSight;
-	[SerializeField]
 	AudioSource _audioSource;
 	CachedEchoBeam _cachedEchoBeam;
 	bool _availableHoldTrigger;
@@ -20,7 +18,7 @@ public class SilentPistol : Gun
 
 	public override void Awake ()
 	{
-		_dotSight = FindObjectOfType<DotSight> ();
+		// _dotSight = FindObjectOfType<DotSight> ();
 		_cachedEchoBeam = FindObjectOfType<CachedEchoBeam> ();
 	}
 

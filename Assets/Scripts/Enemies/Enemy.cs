@@ -14,14 +14,14 @@ public class Enemy : MonoBehaviour
 	[System.NonSerialized]
 	public Transform target;
 	protected NavMeshAgent agent;
-	protected SphereCollider detectedArea;
+	protected DetectedListenedSoundArea detectedArea;
 	float _tdt;
 	Vector3 _lastTargetPos;
 
 	public virtual void Awake ()
 	{
 		agent = GetComponent<NavMeshAgent> ();
-		detectedArea = GetComponentInChildren<SphereCollider> ();
+		detectedArea = GetComponentInChildren<DetectedListenedSoundArea> ();
 	}
 
 	public virtual void Start ()
@@ -56,11 +56,9 @@ public class Enemy : MonoBehaviour
 	{
 		while (true)
 		{
-			if (target != null && target is Object && !target.Equals (null))
+			if (detectedArea.detectedPosition != Vector3.zero)
 			{
-				var targetPos = new Vector3 (target.position.x, 0f, target.position.z);
-				agent.SetDestination (targetPos);
-				_lastTargetPos = targetPos;
+				agent.SetDestination (detectedArea.detectedPosition);
 				yield return new WaitForSeconds (refreshRate);
 			}
 			yield return null;
