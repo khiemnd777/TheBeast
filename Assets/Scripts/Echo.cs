@@ -10,6 +10,7 @@ public class Echo : MonoBehaviour
 	public float speed;
 	public float raycastDistance;
 	public float lifetime;
+	public Vector3 position;
 	public Transform owner;
 
 	void Awake ()
@@ -17,13 +18,18 @@ public class Echo : MonoBehaviour
 		_cachedEchoBeam = FindObjectOfType<CachedEchoBeam> ();
 	}
 
-	void Start ()
-	{
-		Launch ();
-	}
+	// void Start ()
+	// {
+	// 	Launch ();
+	// }
 	
+	// public void Launch ()
+	// {
+	// 	_cachedEchoBeam.Use (amount, transform.position, speed, raycastDistance, lifetime, owner);
+	// }
+
 	public void Launch ()
 	{
-		_cachedEchoBeam.Use (amount, transform.position, speed, raycastDistance, lifetime, owner);
+		_cachedEchoBeam.Use (amount, position, speed, raycastDistance, lifetime, owner);
 	}
 }

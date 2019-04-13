@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 	Transform _leftFoot;
 	[SerializeField]
 	Transform _rightFoot;
-	[Header("Listened sound at foot")]
+	[Header ("Listened sound at foot")]
 	[SerializeField]
 	ListenedSound _leftListenedSoundFoot;
 	[SerializeField]
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 	GroundedFoot _groundedFoot;
 	DotSight _dotSight;
 	Stamina _stamina;
-
+	Echo _echo;
 	Vector3 _direction;
 	Rigidbody _rigidbody;
 	bool _isLeftFoot;
@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 					// generate the echo
 					InstantiateEcho ();
 					// instantiate listened sound at foot
-					InstantiateListenedSoundFoot();
+					InstantiateListenedSoundFoot ();
 				});
 				_isLeftFoot = !_isLeftFoot;
 				_timeFootOnGround = 0f;
@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
 					// generate the echo
 					InstantiateEcho ();
 					// instantiate listened sound at foot
-					InstantiateListenedSoundFoot();
+					InstantiateListenedSoundFoot ();
 				});
 			}
 			_isLeftFoot = !_isLeftFoot;
@@ -137,10 +137,16 @@ public class PlayerMovement : MonoBehaviour
 		//
 		var whichFoot = _isLeftFoot ? _leftFoot : _rightFoot;
 		_groundedFoot.Launch (whichFoot.position);
-		var echo = Instantiate<Echo> (_echoPrefab, whichFoot.position, Quaternion.identity);
-		echo.owner = transform;
-		echo.lifetime = _echoLifetime;
-		Destroy (echo.gameObject, echo.lifetime + .1f);
+		if (_echo == null || _echo is Object && !_echo.Equals (null))
+		{
+			_echo = Instantiate<Echo> (_echoPrefab, Vector3.zero, Quaternion.identity);
+		}
+		// Debug.Log(1);
+		_echo.position = whichFoot.position;
+		_echo.owner = transform;
+		_echo.lifetime = _echoLifetime;
+		_echo.Launch();
+		// Destroy (echo.gameObject, echo.lifetime + .1f);
 	}
 
 	void InstantiateListenedSoundFoot ()
@@ -148,7 +154,7 @@ public class PlayerMovement : MonoBehaviour
 		var whichFoot = _isLeftFoot ? _leftListenedSoundFoot : _rightListenedSoundFoot;
 		var whichRadius = _isLeftFoot ? _leftListenedSoundRadius : _rightListenedSoundRadius;
 		whichFoot.radius = whichRadius;
-		whichFoot.Launch();
+		whichFoot.Launch ();
 	}
 
 	void FixedUpdate ()
