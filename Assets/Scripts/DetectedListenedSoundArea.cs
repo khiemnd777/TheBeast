@@ -8,6 +8,8 @@ public class DetectedListenedSoundArea : MonoBehaviour
 	// public float timeTakenTargetAway = 
 	[System.NonSerialized]
 	public Vector3 detectedPosition;
+	[System.NonSerialized]
+	public bool hasDetected;
 	SphereCollider _sCollider;
 
 	void Awake ()

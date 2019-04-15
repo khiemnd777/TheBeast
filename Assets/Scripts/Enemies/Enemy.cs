@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 	public float maxHp;
 	public float detectedRadius;
 	public float refreshRate = 1f;
-	public float speed;
+	public float initSpeed;
 	public float timeDetectTarget = 1f;
 	[System.NonSerialized]
 	public Transform target;
@@ -27,39 +27,27 @@ public class Enemy : MonoBehaviour
 	public virtual void Start ()
 	{
 		detectedArea.radius = detectedRadius;
-		agent.speed = speed;
-		StartCoroutine (GotoTarget ());
+		agent.speed = initSpeed;
+		StartCoroutine (LeadtoTarget ());
 	}
 
 	public virtual void Update ()
 	{
-		DetectTarget ();
+		
 	}
 
-	public virtual void DetectTarget ()
-	{
-		// if (target == null || target is Object && !target.Equals (null))
-		// {
-		// 	_tdt += Time.deltaTime / timeDetectTarget;
-		// 	while (_tdt >= 1f)
-		// 	{
-		// 		target = null;
-		// 	}
-		// }
-		// else
-		// {
-		// 	_tdt = 0f;
-		// }
-	}
-
-	protected IEnumerator GotoTarget ()
+	protected IEnumerator LeadtoTarget ()
 	{
 		while (true)
 		{
 			if (detectedArea.detectedPosition != Vector3.zero)
 			{
-				agent.SetDestination (detectedArea.detectedPosition);
-				yield return new WaitForSeconds (refreshRate);
+				_tdt += Time.deltaTime / refreshRate;
+				if (_tdt >= 1f)
+				{
+					agent.SetDestination (detectedArea.detectedPosition);
+					_tdt = 0f;
+				}
 			}
 			yield return null;
 		}
