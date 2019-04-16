@@ -15,6 +15,11 @@ public class Zombie : Enemy
 	Echo _insEcho;
 	float _timeFootOnGround;
 
+	public override void Awake ()
+	{
+		base.Awake ();
+	}
+
 	public override void Update ()
 	{
 		// These code below should be considered later on.
@@ -23,7 +28,7 @@ public class Zombie : Enemy
 		// 	&& agent.remainingDistance <= agent.stoppingDistance 
 		// 		&& (!agent.hasPath || agent.velocity.sqrMagnitude == 0)))
 		// if(!(agent.remainingDistance != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == .5f))
-		if(agent.velocity.sqrMagnitude >= .5f)
+		if (agent.velocity.sqrMagnitude >= .5f)
 		{
 			_timeFootOnGround += Time.deltaTime / (0.5f / initSpeed);
 			if (_timeFootOnGround >= 1f)
@@ -39,7 +44,6 @@ public class Zombie : Enemy
 	{
 		// Footsteps fx
 		_footstepSoundFx.Play ();
-		//
 		if (_insEcho == null || _insEcho is Object && !_insEcho.Equals (null))
 		{
 			_insEcho = Instantiate<Echo> (_echoPrefab, Vector3.zero, Quaternion.identity);

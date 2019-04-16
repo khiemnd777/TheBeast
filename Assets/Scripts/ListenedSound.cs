@@ -38,4 +38,9 @@ public class ListenedSound : MonoBehaviour
 		}
 		_sCollider.radius = initRadius;
 	}
+
+	void OnDrawGizmos()
+	{
+		Gizmos.DrawWireSphere(transform.position, radius);
+	}
 }

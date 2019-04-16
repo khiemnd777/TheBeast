@@ -22,12 +22,12 @@ public class Enemy : MonoBehaviour
 	{
 		agent = GetComponent<NavMeshAgent> ();
 		detectedArea = GetComponentInChildren<DetectedListenedSoundArea> ();
+		detectedArea.radius = detectedRadius;
+		agent.speed = initSpeed;
 	}
 
 	public virtual void Start ()
 	{
-		detectedArea.radius = detectedRadius;
-		agent.speed = initSpeed;
 		StartCoroutine (LeadtoTarget ());
 	}
 
@@ -51,5 +51,10 @@ public class Enemy : MonoBehaviour
 			}
 			yield return null;
 		}
+	}
+
+	void OnDrawGizmos()
+	{
+		Gizmos.DrawWireSphere(transform.position, detectedRadius);
 	}
 }

@@ -155,6 +155,16 @@ Prefab:
       propertyPath: m_Name
       value: Zombie (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: initSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: detectedRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 771f1ec532d954fa4b5b28ab91504865, type: 2}
   m_IsPrefabParent: 0
@@ -2059,6 +2069,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: initSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: detectedRadius
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 771f1ec532d954fa4b5b28ab91504865, type: 2}
   m_IsPrefabParent: 0
@@ -2280,7 +2300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initRadius: 0
-  radius: 3
+  radius: 5
   timeBlowUp: 0.25
   target: {fileID: 351971800}
 --- !u!135 &1397593539
@@ -2757,6 +2777,21 @@ Prefab:
         type: 2}
       propertyPath: m_Constraints
       value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: initSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: refreshRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114970321677398362, guid: 771f1ec532d954fa4b5b28ab91504865,
+        type: 2}
+      propertyPath: detectedRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 771f1ec532d954fa4b5b28ab91504865, type: 2}
@@ -3438,7 +3473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initRadius: 0
-  radius: 3
+  radius: 5
   timeBlowUp: 0.25
   target: {fileID: 1109102579}
 --- !u!135 &2004548377
@@ -3758,3 +3793,6 @@ MonoBehaviour:
   impactEchoBeamLifeTime: 0.125
   impactEchoBeamSpeed: 1
   playerFootOnGroundDelta: 0.5
+  playerEchoBeamAmount: 72
+  playerEchoBeamSpeed: 4
+  playerEchoBeamLifetime: 1

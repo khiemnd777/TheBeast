@@ -22,7 +22,7 @@ public class Echo : MonoBehaviour
 	// {
 	// 	Launch ();
 	// }
-	
+
 	// public void Launch ()
 	// {
 	// 	_cachedEchoBeam.Use (amount, transform.position, speed, raycastDistance, lifetime, owner);
