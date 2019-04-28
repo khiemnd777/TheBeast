@@ -592,9 +592,12 @@ MonoBehaviour:
   _foots: {fileID: 4920601870792432}
   _leftFoot: {fileID: 4568847482821162}
   _rightFoot: {fileID: 4300715290258162}
+  _leftListenedSoundFoot: {fileID: 0}
+  _rightListenedSoundFoot: {fileID: 0}
+  _leftListenedSoundRadius: 0
+  _rightListenedSoundRadius: 0
   _echoPrefab: {fileID: 114326947226708510, guid: 7507c6bbc33214fc1bd10c60e39ae75c,
     type: 2}
-  _theCamera: {fileID: 0}
   _footstepSoundFx: {fileID: 82049890166464758}
 --- !u!114 &114782395559810250
 MonoBehaviour:

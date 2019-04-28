@@ -4,7 +4,9 @@ using UnityEngine;
 
 public abstract class Gun : MonoBehaviour
 {
+	public float knockbackIndex;
 	public abstract IEnumerator HoldTrigger ();
+	public System.Action OnProjectileLaunched;
 
 	public virtual void Awake ()
 	{

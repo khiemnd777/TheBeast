@@ -44,6 +44,7 @@ public class GunHolderController : MonoBehaviour
 	{
 		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))
 		{
+			gunHolder.BeforeHoldTrigger ();
 			gunHolder.HoldTrigger ();
 		}
 	}
