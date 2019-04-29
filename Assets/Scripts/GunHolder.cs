@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GunHolder : MonoBehaviour
 {
+
 	public Gun gun;
 	Gun _heldGun;
-
 	Vector3 _beginPosition;
 
 	void Start ()
