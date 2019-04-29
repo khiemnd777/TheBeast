@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6aef3c2918543618e9c826ee2815b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackIndex: 0
   maxDistance: 10
   timeImpactAtMaxDistance: 0.35
   timeBetweenShoot: 0.175
@@ -175,5 +176,4 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1280
-  _dotSight: {fileID: 0}
   _audioSource: {fileID: 82013325868478746}

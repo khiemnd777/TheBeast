@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Gun : MonoBehaviour
 {
+	public GunHandType gunHandType;
 	public float knockbackIndex;
 	public abstract IEnumerator HoldTrigger ();
 	public System.Action OnProjectileLaunched;

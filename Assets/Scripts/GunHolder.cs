@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class GunHolder : MonoBehaviour
 {
-
 	public Gun gun;
+	[SerializeField]
+	Hand _hand;
 	Gun _heldGun;
 	Vector3 _beginPosition;
 
@@ -16,6 +17,7 @@ public class GunHolder : MonoBehaviour
 		{
 			_heldGun = Instantiate<Gun> (gun, transform.position, transform.rotation, transform);
 			_heldGun.OnProjectileLaunched += OnProjectileLaunched;
+			_hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1 : .8f;
 		}
 	}
 

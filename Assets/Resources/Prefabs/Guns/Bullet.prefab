@@ -151,8 +151,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  _impactedWave: {fileID: 114264278687947878, guid: bf2fab7267ab2473e83332f0f3a66e64,
-    type: 2}
 --- !u!114 &114326670957375806
 MonoBehaviour:
   m_ObjectHideFlags: 1
