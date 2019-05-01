@@ -6,10 +6,12 @@ public class GunHolderController : MonoBehaviour
 {
 	public GunHolder leftGunHolder;
 	public GunHolder rightGunHolder;
+	public float timeHoleLeftGunTrigger;
 
 	DotSight _dotSight;
 	bool _isLeft;
 	bool _isMouseHoldingDown;
+	float _timeForHoldLeftGunTrigger;
 
 	void Awake ()
 	{
@@ -23,24 +25,38 @@ public class GunHolderController : MonoBehaviour
 		if (Input.GetMouseButtonDown (0))
 		{
 			_isMouseHoldingDown = true;
-			StartCoroutine (HoldTriggers ());
+			// StartCoroutine (HoldTriggers ());
+			// HoldTriggers ();
 		}
 		if (Input.GetMouseButtonUp (0))
 		{
 			_isMouseHoldingDown = false;
+			_timeForHoldLeftGunTrigger = 0f;
 			ReleaseTriggers ();
 		}
+		HoldTriggers ();
 	}
 
-	IEnumerator HoldTriggers ()
+	// IEnumerator HoldTriggers ()
+	// {
+	// 	while (_isMouseHoldingDown)
+	// 	{
+	// 		HoldTrigger (rightGunHolder);
+	// 		yield return new WaitForSeconds (.125f);
+	// 		if (!_isMouseHoldingDown) yield break;
+	// 		HoldTrigger (leftGunHolder);
+	// 	}
+	// }
+
+	void HoldTriggers ()
 	{
-		while (_isMouseHoldingDown)
+		if (!_isMouseHoldingDown) return;
+		HoldTrigger (rightGunHolder);
+		_timeForHoldLeftGunTrigger += Time.deltaTime / timeHoleLeftGunTrigger;
+		if (_timeForHoldLeftGunTrigger >= 1f)
 		{
-			HoldTrigger (rightGunHolder);
-			yield return new WaitForSeconds (.125f);
-			if (!_isMouseHoldingDown) yield break;
+			_timeForHoldLeftGunTrigger = 0f;
 			HoldTrigger (leftGunHolder);
-			yield return null;
 		}
 	}
 

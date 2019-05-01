@@ -31,7 +31,7 @@ public class GunHolder : MonoBehaviour
 	{
 		if (_heldGun != null && _heldGun is Object && !_heldGun.Equals (null))
 		{
-			StartCoroutine (_heldGun.HoldTrigger ());
+			_heldGun.HoldTrigger ();
 		}
 	}
 

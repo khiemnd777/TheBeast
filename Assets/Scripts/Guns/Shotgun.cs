@@ -34,10 +34,10 @@ public class Shotgun : Gun
 		}
 	}
 
-	public override IEnumerator HoldTrigger ()
+	public override void HoldTrigger ()
 	{
-		if(_isHoldTrigger) yield break;
-		if (!_availableHoldTrigger) yield break;
+		if(_isHoldTrigger) return;
+		if (!_availableHoldTrigger) return;
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
 		_availableHoldTrigger = false;
@@ -51,7 +51,7 @@ public class Shotgun : Gun
 		}
 		_flashAnim.Play ("Gun Flash", 0, 0);
 		_shotgunFireAnim.Play("Shotgun Fire", 0, 0);
-		yield return new WaitForSeconds (.02f);
+		// yield return new WaitForSeconds (.02f);
 		_audioSource.Play ();
 		_isHoldTrigger = true;
 	}

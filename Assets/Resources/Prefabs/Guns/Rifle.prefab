@@ -156,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1518278493915298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0251, y: 0.132, z: 0}
+  m_LocalPosition: {x: -0.0198, y: 0.132, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4288862891717988}
@@ -323,11 +323,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunHandType: 1
-  knockbackIndex: 0.25
+  knockbackIndex: 0.13
   maxDistance: 10
   timeImpactAtMaxDistance: 0.125
-  timeBetweenShoot: 0.075
-  bulletPrefab: {fileID: 0}
+  timeBetweenShoot: 0.13
+  bulletPrefab: {fileID: 114516042220789914, guid: b73721e1bd7a942bfb7ab0b64e8b8e52,
+    type: 2}
   layerMask:
     serializedVersion: 2
     m_Bits: 1280
@@ -368,7 +369,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_Sprite: {fileID: 21300002, guid: 85140300d549041ee8ee4dc390df217c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

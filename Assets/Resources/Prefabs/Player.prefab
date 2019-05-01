@@ -613,6 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftGunHolder: {fileID: 114272390559594730}
   rightGunHolder: {fileID: 114782395559810250}
+  timeHoleLeftGunTrigger: 0.1
 --- !u!114 &114926467534503532
 MonoBehaviour:
   m_ObjectHideFlags: 1

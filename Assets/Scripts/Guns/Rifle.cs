@@ -7,7 +7,7 @@ public class Rifle : Gun
 	public float maxDistance;
 	public float timeImpactAtMaxDistance;
 	public float timeBetweenShoot;
-	public Bullet bulletPrefab;
+	public RifleBullet bulletPrefab;
 	public LayerMask layerMask;
 	[SerializeField]
 	Transform _projectile;
@@ -18,34 +18,48 @@ public class Rifle : Gun
 	[SerializeField]
 	AudioSource _audioSource;
 
-    bool _isHoldTrigger;
+	bool _isHoldTrigger;
 	bool _availableHoldTrigger;
-	float _timeAvailableHoleTrigger = 1f;
+	float _thetaProjectileAngle = 3f;
+	float _timeAvailableHoldTrigger = 1f;
+	float _timeBetweenHoldTrigger;
+	float _t;
 
-    public override void Awake ()
+	public override void Awake ()
 	{
 		// _dotSight = FindObjectOfType<DotSight> ();
 	}
 
 	public override void Update ()
 	{
-		if (_timeAvailableHoleTrigger < 1f)
+		if (_timeAvailableHoldTrigger < 1f)
 		{
-			_timeAvailableHoleTrigger += Time.deltaTime / timeBetweenShoot;
+			_timeAvailableHoldTrigger += Time.deltaTime / timeBetweenShoot;
 		}
-		if (_timeAvailableHoleTrigger >= 1f)
+		if (_timeAvailableHoldTrigger >= 1f)
 		{
 			_availableHoldTrigger = true;
 		}
 	}
 
-	public override IEnumerator HoldTrigger ()
+	Quaternion CalculateBulletQuaternion ()
 	{
-		if (!_availableHoldTrigger) yield break;
-		// sound of being at launching bullet
-		_timeAvailableHoleTrigger = 0f;
+		// it's late +.1s?
+		var angleRandom = Time.time - _timeBetweenHoldTrigger > timeBetweenShoot + Time.deltaTime ? 0 : _thetaProjectileAngle;
+		var rot = _projectile.rotation;
+		var rotAngle = rot.eulerAngles;
+		var subRot = Quaternion.Euler (rotAngle.x, rotAngle.y + Random.Range (-angleRandom, angleRandom), rotAngle.z);
+		_timeBetweenHoldTrigger = Time.time;
+		return subRot;
+	}
+
+	public override void HoldTrigger ()
+	{
+		if (!_availableHoldTrigger) return;
+		_timeAvailableHoldTrigger = 0f;
 		_availableHoldTrigger = false;
-		var bulletIns = Instantiate<Bullet> (bulletPrefab, _projectile.position, _projectile.rotation);
+		var bulletRot = CalculateBulletQuaternion ();
+		var bulletIns = Instantiate<RifleBullet> (bulletPrefab, _projectile.position, bulletRot);
 		bulletIns.maxDistance = maxDistance;
 		bulletIns.timeImpactAtMaxDistance = timeImpactAtMaxDistance;
 		bulletIns.layerMask = layerMask;
@@ -55,7 +69,8 @@ public class Rifle : Gun
 		}
 		_flashAnim.Play ("Gun Flash", 0, 0);
 		_fireAnim.Play ("Rifle Fire", 0, 0);
-		yield return new WaitForSeconds (.02f);
+		// yield return new WaitForSeconds (.02f);
+		// sound of being at launching bullet
 		_audioSource.Play ();
 		_isHoldTrigger = true;
 	}
