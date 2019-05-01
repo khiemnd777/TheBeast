@@ -8,10 +8,6 @@ public class Shotgun : Gun
 	public float timeImpactAtMaxDistance;
 	public float timeBetweenShoot;
 	public ShotgunBullet bulletPrefab;
-	[Header("Shells")]
-	public Shell shellPrefab;
-	public Transform shellEjection;
-	[Space]
 	public LayerMask layerMask;
 	[SerializeField]
 	Transform _projectile;
@@ -22,11 +18,11 @@ public class Shotgun : Gun
 	[SerializeField]
 	AudioSource _audioSource;
 
-    bool _isHoldTrigger;
+	bool _isHoldTrigger;
 	bool _availableHoldTrigger;
 	float _timeAvailableHoleTrigger = 1f;
 
-    public override void Update ()
+	public override void Update ()
 	{
 		if (_timeAvailableHoleTrigger < 1f)
 		{
@@ -40,7 +36,7 @@ public class Shotgun : Gun
 
 	public override void HoldTrigger ()
 	{
-		if(_isHoldTrigger) return;
+		if (_isHoldTrigger) return;
 		if (!_availableHoldTrigger) return;
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
@@ -54,9 +50,8 @@ public class Shotgun : Gun
 			OnProjectileLaunched ();
 		}
 		_flashAnim.Play ("Gun Flash", 0, 0);
-		_shotgunFireAnim.Play("Shotgun Fire", 0, 0);
-		// eject shells.
-		Instantiate (shellPrefab, shellEjection.position, shellEjection.rotation);
+		_shotgunFireAnim.Play ("Shotgun Fire", 0, 0);
+		EjectShell ();
 		// yield return new WaitForSeconds (.02f);
 		_audioSource.Play ();
 		_isHoldTrigger = true;

@@ -8,10 +8,6 @@ public class Pistol : Gun
 	public float timeImpactAtMaxDistance;
 	public float timeBetweenShoot;
 	public Bullet bulletPrefab;
-	[Header("Shells")]
-	public Shell shellPrefab;
-	public Transform shellEjection;
-	[Space]
 	public LayerMask layerMask;
 	[SerializeField]
 	Transform _projectile;
@@ -42,7 +38,7 @@ public class Pistol : Gun
 
 	public override void HoldTrigger ()
 	{
-		if(_isHoldTrigger) return;
+		if (_isHoldTrigger) return;
 		if (!_availableHoldTrigger) return;
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
@@ -56,8 +52,7 @@ public class Pistol : Gun
 			OnProjectileLaunched ();
 		}
 		_flashAnim.Play ("Gun Flash", 0, 0);
-		// eject shells.
-		Instantiate (shellPrefab, shellEjection.position, shellEjection.rotation);
+		EjectShell ();
 		// yield return new WaitForSeconds (.02f);
 		_audioSource.Play ();
 		_isHoldTrigger = true;
