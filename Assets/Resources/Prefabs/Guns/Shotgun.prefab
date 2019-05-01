@@ -59,6 +59,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1694335104337296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4441122866184424}
+  m_Layer: 0
+  m_Name: Shell Ejection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1830607761288962
 GameObject:
   m_ObjectHideFlags: 1
@@ -148,6 +163,19 @@ Transform:
   m_Father: {fileID: 4920300112691644}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4441122866184424
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1694335104337296}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.325, y: 0, z: -0.071}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4920300112691644}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4845947295604698
 Transform:
   m_ObjectHideFlags: 1
@@ -188,6 +216,7 @@ Transform:
   - {fileID: 4894626401294112}
   - {fileID: 4192374293425770}
   - {fileID: 4052666948193632}
+  - {fileID: 4441122866184424}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -329,6 +358,9 @@ MonoBehaviour:
   timeBetweenShoot: 0.65
   bulletPrefab: {fileID: 114405458095781976, guid: 22ea89511ef774823b2c780615ce2d83,
     type: 2}
+  shellPrefab: {fileID: 114752260644738360, guid: 89cbc47f934e8409ca8ee518b63dec70,
+    type: 2}
+  shellEjection: {fileID: 4441122866184424}
   layerMask:
     serializedVersion: 2
     m_Bits: 1280

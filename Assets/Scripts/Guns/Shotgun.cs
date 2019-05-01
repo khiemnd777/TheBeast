@@ -8,6 +8,10 @@ public class Shotgun : Gun
 	public float timeImpactAtMaxDistance;
 	public float timeBetweenShoot;
 	public ShotgunBullet bulletPrefab;
+	[Header("Shells")]
+	public Shell shellPrefab;
+	public Transform shellEjection;
+	[Space]
 	public LayerMask layerMask;
 	[SerializeField]
 	Transform _projectile;
@@ -51,6 +55,8 @@ public class Shotgun : Gun
 		}
 		_flashAnim.Play ("Gun Flash", 0, 0);
 		_shotgunFireAnim.Play("Shotgun Fire", 0, 0);
+		// eject shells.
+		Instantiate (shellPrefab, shellEjection.position, shellEjection.rotation);
 		// yield return new WaitForSeconds (.02f);
 		_audioSource.Play ();
 		_isHoldTrigger = true;

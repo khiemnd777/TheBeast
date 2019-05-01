@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77655b2a0a614389a29b72cd9d19cac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprintSpeed: 2.25
+  sprintSpeed: 2.85
   walkSpeed: 0.5
   sprintVolume: 0.09
   walkVolume: 0.01
