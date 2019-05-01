@@ -9,6 +9,11 @@ public abstract class Gun : MonoBehaviour
 	[Header ("Shells")]
 	public Shell shellPrefab;
 	public Transform shellEjection;
+	[Header ("Heat system")]
+	public float heatMax;
+	public float heatUpStep;
+	public float coolDownStep;
+	public float heat;
 	public abstract void HoldTrigger ();
 	public abstract void ReleaseTrigger ();
 	public System.Action OnProjectileLaunched;
@@ -17,6 +22,11 @@ public abstract class Gun : MonoBehaviour
 	{
 		// eject shells.
 		Instantiate (shellPrefab, shellEjection.position, shellEjection.rotation);
+	}
+
+	public void HeatUp ()
+	{
+		heat += heatUpStep;
 	}
 
 	public virtual void Awake ()
