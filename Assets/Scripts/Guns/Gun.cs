@@ -7,6 +7,7 @@ public abstract class Gun : MonoBehaviour
 	public GunHandType gunHandType;
 	public float knockbackIndex;
 	public abstract IEnumerator HoldTrigger ();
+	public abstract void ReleaseTrigger ();
 	public System.Action OnProjectileLaunched;
 
 	public virtual void Awake ()

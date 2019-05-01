@@ -35,6 +35,14 @@ public class GunHolder : MonoBehaviour
 		}
 	}
 
+	public void ReleaseTrigger ()
+	{
+		if (_heldGun != null && _heldGun is Object && !_heldGun.Equals (null))
+		{
+			_heldGun.ReleaseTrigger ();
+		}
+	}
+
 	void OnProjectileLaunched ()
 	{
 		// knock arm back

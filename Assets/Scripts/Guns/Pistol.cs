@@ -15,7 +15,7 @@ public class Pistol : Gun
 	Animator _flashAnim;
 	[SerializeField]
 	AudioSource _audioSource;
-
+	bool _isHoldTrigger;
 	bool _availableHoldTrigger;
 	float _timeAvailableHoleTrigger = 1f;
 
@@ -38,6 +38,7 @@ public class Pistol : Gun
 
 	public override IEnumerator HoldTrigger ()
 	{
+		if(_isHoldTrigger) yield break;
 		if (!_availableHoldTrigger) yield break;
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
@@ -53,5 +54,11 @@ public class Pistol : Gun
 		_flashAnim.Play ("Gun Flash", 0, 0);
 		yield return new WaitForSeconds (.02f);
 		_audioSource.Play ();
+		_isHoldTrigger = true;
+	}
+
+	public override void ReleaseTrigger ()
+	{
+		_isHoldTrigger = false;
 	}
 }

@@ -9,6 +9,7 @@ public class GunHolderController : MonoBehaviour
 
 	DotSight _dotSight;
 	bool _isLeft;
+	bool _isMouseHoldingDown;
 
 	void Awake ()
 	{
@@ -21,15 +22,32 @@ public class GunHolderController : MonoBehaviour
 		RotateGunHolder (rightGunHolder);
 		if (Input.GetMouseButtonDown (0))
 		{
-			StartCoroutine (HoldTrigger ());
+			_isMouseHoldingDown = true;
+			StartCoroutine (HoldTriggers ());
+		}
+		if (Input.GetMouseButtonUp (0))
+		{
+			_isMouseHoldingDown = false;
+			ReleaseTriggers ();
 		}
 	}
 
-	IEnumerator HoldTrigger ()
+	IEnumerator HoldTriggers ()
 	{
-		HoldTrigger (leftGunHolder);
-		yield return new WaitForSeconds (.125f);
-		HoldTrigger (rightGunHolder);
+		while (_isMouseHoldingDown)
+		{
+			HoldTrigger (rightGunHolder);
+			yield return new WaitForSeconds (.125f);
+			if (!_isMouseHoldingDown) yield break;
+			HoldTrigger (leftGunHolder);
+			yield return null;
+		}
+	}
+
+	void ReleaseTriggers ()
+	{
+		ReleaseTrigger (rightGunHolder);
+		ReleaseTrigger (leftGunHolder);
 	}
 
 	void RotateGunHolder (GunHolder gunHolder)
@@ -46,6 +64,14 @@ public class GunHolderController : MonoBehaviour
 		{
 			gunHolder.BeforeHoldTrigger ();
 			gunHolder.HoldTrigger ();
+		}
+	}
+
+	void ReleaseTrigger (GunHolder gunHolder)
+	{
+		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))
+		{
+			gunHolder.ReleaseTrigger ();
 		}
 	}
 }

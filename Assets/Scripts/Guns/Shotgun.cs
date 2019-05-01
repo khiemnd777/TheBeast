@@ -18,10 +18,11 @@ public class Shotgun : Gun
 	[SerializeField]
 	AudioSource _audioSource;
 
+    bool _isHoldTrigger;
 	bool _availableHoldTrigger;
 	float _timeAvailableHoleTrigger = 1f;
 
-	public override void Update ()
+    public override void Update ()
 	{
 		if (_timeAvailableHoleTrigger < 1f)
 		{
@@ -35,6 +36,7 @@ public class Shotgun : Gun
 
 	public override IEnumerator HoldTrigger ()
 	{
+		if(_isHoldTrigger) yield break;
 		if (!_availableHoldTrigger) yield break;
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
@@ -51,5 +53,11 @@ public class Shotgun : Gun
 		_shotgunFireAnim.Play("Shotgun Fire", 0, 0);
 		yield return new WaitForSeconds (.02f);
 		_audioSource.Play ();
+		_isHoldTrigger = true;
+	}
+
+	public override void ReleaseTrigger ()
+	{
+		_isHoldTrigger = false;
 	}
 }
