@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Gun : MonoBehaviour
@@ -9,11 +10,9 @@ public abstract class Gun : MonoBehaviour
 	[Header ("Shells")]
 	public Shell shellPrefab;
 	public Transform shellEjection;
-	[Header ("Heat system")]
-	public float heatMax;
-	public float heatUpStep;
-	public float coolDownStep;
-	public float heat;
+
+	IDictionary<string, bool> _lockControlList = new Dictionary<string, bool> ();
+
 	public abstract void HoldTrigger ();
 	public abstract void ReleaseTrigger ();
 	public System.Action OnProjectileLaunched;
@@ -24,9 +23,26 @@ public abstract class Gun : MonoBehaviour
 		Instantiate (shellPrefab, shellEjection.position, shellEjection.rotation);
 	}
 
-	public void HeatUp ()
+	public void RegisterLock (string name)
 	{
-		heat += heatUpStep;
+		_lockControlList.Add (name, false);
+	}
+
+	public void Lock (string name)
+	{
+		if (!_lockControlList.ContainsKey (name)) return;
+		_lockControlList[name] = true;
+	}
+
+	public void Unlock (string name)
+	{
+		if (!_lockControlList.ContainsKey (name)) return;
+		_lockControlList[name] = false;
+	}
+
+	public bool IsLocked ()
+	{
+		return _lockControlList.Values.Any (locked => locked);
 	}
 
 	public virtual void Awake ()

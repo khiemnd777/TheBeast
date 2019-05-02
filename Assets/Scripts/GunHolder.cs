@@ -31,6 +31,7 @@ public class GunHolder : MonoBehaviour
 	{
 		if (_heldGun != null && _heldGun is Object && !_heldGun.Equals (null))
 		{
+			if (_heldGun.IsLocked ()) return;
 			_heldGun.HoldTrigger ();
 		}
 	}

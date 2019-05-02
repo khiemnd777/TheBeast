@@ -116,6 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4965310995081194}
   - component: {fileID: 114057014363105432}
+  - component: {fileID: 114647920142168868}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Untagged
@@ -353,14 +354,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunHandType: 1
   knockbackIndex: 0.13
+  shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
+    type: 2}
+  shellEjection: {fileID: 4612631049273138}
   maxDistance: 10
   timeImpactAtMaxDistance: 0.125
   timeBetweenShoot: 0.13
   bulletPrefab: {fileID: 114516042220789914, guid: b73721e1bd7a942bfb7ab0b64e8b8e52,
     type: 2}
-  shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
-    type: 2}
-  shellEjection: {fileID: 4612631049273138}
   layerMask:
     serializedVersion: 2
     m_Bits: 1280
@@ -368,6 +369,22 @@ MonoBehaviour:
   _fireAnim: {fileID: 95378950946539744}
   _flashAnim: {fileID: 95300406916378196}
   _audioSource: {fileID: 82327518063714560}
+--- !u!114 &114647920142168868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850061464622270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6879a81a8eb4b22ac54dc0cb583d13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heatMax: 70
+  heatStepUp: 5
+  heatStepDown: 1
+  timeHeatDown: 0.04
+  heat: 0
 --- !u!212 &212479227942226352
 SpriteRenderer:
   m_ObjectHideFlags: 1
