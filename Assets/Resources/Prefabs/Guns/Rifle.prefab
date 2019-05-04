@@ -380,8 +380,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6879a81a8eb4b22ac54dc0cb583d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatMax: 70
-  heatStepUp: 5
+  heatMax: 80
+  heatMin: 20
+  heatStepUp: 3.5
   heatStepDown: 1
   timeHeatDown: 0.04
   heat: 0

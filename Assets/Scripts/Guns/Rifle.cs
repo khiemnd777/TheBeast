@@ -20,7 +20,7 @@ public class Rifle : Gun
 
 	bool _isHoldTrigger;
 	bool _availableHoldTrigger;
-	float _thetaProjectileAngle = 3f;
+	float _thetaProjectileAngle = 6f;
 	float _timeAvailableHoldTrigger = 1f;
 	float _timeBetweenHoldTrigger;
 	float _t;
