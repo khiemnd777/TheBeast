@@ -18,23 +18,34 @@ public class MeleeHolderController : MonoBehaviour
 		_dotSight = FindObjectOfType<DotSight> ();
 	}
 
-	void Update ()
+	public void DoUpdating ()
 	{
 		RotateMeleeHolder (leftMeleeHolder);
 		RotateMeleeHolder (rightMeleeHolder);
-		if (Input.GetMouseButtonDown (0))
+		if (Input.GetMouseButtonDown (1))
 		{
 			_isMouseHoldingDown = true;
 			// StartCoroutine (HoldTriggers ());
 			HoldTriggers ();
 		}
-		if (Input.GetMouseButtonUp (0))
+		if (Input.GetMouseButtonUp (1))
 		{
 			_isMouseHoldingDown = false;
 			_timeForHoldLeftGunTrigger = 0f;
 			ReleaseTriggers ();
 		}
-		// HoldTriggers ();
+	}
+
+	public void KeepMeleeInCover ()
+	{
+		KeepInCover (rightMeleeHolder);
+		KeepInCover (leftMeleeHolder);
+	}
+
+	public void TakeMeleeUpArm ()
+	{
+		TakeUpArm (rightMeleeHolder);
+		TakeUpArm (leftMeleeHolder);
 	}
 
 	// IEnumerator HoldTriggers ()
@@ -74,11 +85,26 @@ public class MeleeHolderController : MonoBehaviour
 		gunHolder.transform.eulerAngles = new Vector3 (0, angle, 0);
 	}
 
+	void KeepInCover (MeleeHolder meleeHolder)
+	{
+		if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals (null))
+		{
+			meleeHolder.KeepInCover ();
+		}
+	}
+
+	void TakeUpArm (MeleeHolder meleeHolder)
+	{
+		if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals (null))
+		{
+			meleeHolder.TakeUpArm ();
+		}
+	}
+
 	void HoldTrigger (MeleeHolder meleeHolder)
 	{
 		if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals (null))
 		{
-			meleeHolder.BeforeHoldTrigger ();
 			meleeHolder.HoldTrigger ();
 		}
 	}

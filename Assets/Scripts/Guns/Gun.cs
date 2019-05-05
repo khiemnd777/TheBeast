@@ -25,6 +25,7 @@ public abstract class Gun : MonoBehaviour
 
 	public void RegisterLock (string name)
 	{
+		if (_lockControlList.ContainsKey (name)) return;
 		_lockControlList.Add (name, false);
 	}
 

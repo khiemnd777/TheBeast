@@ -10,14 +10,22 @@ public class GunHolder : MonoBehaviour
 	Gun _heldGun;
 	Vector3 _beginPosition;
 
-	void Start ()
+	public void KeepInCover ()
+	{
+		if (_heldGun != null && _heldGun is Object && !_heldGun.Equals (null))
+		{
+			Destroy (_heldGun.gameObject);
+		}
+	}
+
+	public void TakeUpArm ()
 	{
 		_beginPosition = transform.localPosition;
 		if (gun != null && gun is Object && !gun.Equals (null))
 		{
 			_heldGun = Instantiate<Gun> (gun, transform.position, transform.rotation, transform);
 			_heldGun.OnProjectileLaunched += OnProjectileLaunched;
-			_hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1 : .8f;
+			_hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
 		}
 	}
 

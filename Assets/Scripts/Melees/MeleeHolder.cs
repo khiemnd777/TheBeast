@@ -18,25 +18,27 @@ public class MeleeHolder : MonoBehaviour
 		_handAnimator = _hand.GetComponent<Animator> ();
 	}
 
-	void Start ()
+	public void KeepInCover ()
 	{
-		_beginPosition = transform.localPosition;
+		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
+		{
+			Destroy (_heldMelee.gameObject);
+		}
+	}
+
+	public void TakeUpArm ()
+	{
 		if (melee != null && melee is Object && !melee.Equals (null))
 		{
 			_heldMelee = Instantiate<Melee> (melee, transform.position, transform.rotation, transform);
 			_heldMelee.player = _player;
+			_hand.maximumRange = 1.4f;
 			if (_handAnimator != null && _handAnimator is Object && !_handAnimator.Equals (null))
 			{
 				_handAnimator.runtimeAnimatorController = _heldMelee.meleeAnimatorController;
-			}
-			// _hand.maximumRange = _heldMelee.meleeHandType == MeleeHandType.OneHand ? 1 : .8f;
-		}
-	}
 
-	public void BeforeHoldTrigger ()
-	{
-		StopCoroutine (TakeArmBackToBeginPosition ());
-		transform.localPosition = _beginPosition;
+			}
+		}
 	}
 
 	public void HoldTrigger ()
@@ -44,18 +46,6 @@ public class MeleeHolder : MonoBehaviour
 		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
 		{
 			_heldMelee.HoldTrigger (_hand, _handAnimator);
-		}
-	}
-
-	IEnumerator TakeArmBackToBeginPosition ()
-	{
-		var currentPosition = transform.localPosition;
-		var t = 0f;
-		while (t <= 1f)
-		{
-			t += Time.deltaTime / .08f;
-			transform.localPosition = Vector3.Lerp (currentPosition, _beginPosition, t);
-			yield return null;
 		}
 	}
 }

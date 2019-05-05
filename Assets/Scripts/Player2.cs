@@ -100,6 +100,7 @@ public class Player2 : MonoBehaviour
 
 	public void RegisterLock (string name)
 	{
+		if (_lockControlList.ContainsKey (name)) return;
 		_lockControlList.Add (name, false);
 	}
 

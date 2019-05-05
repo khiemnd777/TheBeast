@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Melee : MonoBehaviour
 {
-	public float speed;
 	public RuntimeAnimatorController meleeAnimatorController;
 	[System.NonSerialized]
 	public Player2 player;
 
 	public virtual void HoldTrigger (Hand hand, Animator handAnimator)
 	{
-
+		
 	}
 
 	public virtual void Awake ()

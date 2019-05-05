@@ -18,7 +18,7 @@ public class GunHolderController : MonoBehaviour
 		_dotSight = FindObjectOfType<DotSight> ();
 	}
 
-	void Update ()
+	public void DoUpdating ()
 	{
 		RotateGunHolder (leftGunHolder);
 		RotateGunHolder (rightGunHolder);
@@ -48,6 +48,18 @@ public class GunHolderController : MonoBehaviour
 	// 	}
 	// }
 
+	public void KeepGunInCover ()
+	{
+		KeepInCover (rightGunHolder);
+		KeepInCover (leftGunHolder);
+	}
+
+	public void TakeGunUpArm ()
+	{
+		TakeUpArm (rightGunHolder);
+		TakeUpArm (leftGunHolder);
+	}
+
 	void HoldTriggers ()
 	{
 		if (!_isMouseHoldingDown) return;
@@ -72,6 +84,22 @@ public class GunHolderController : MonoBehaviour
 		var normal = _dotSight.NormalizeFromPoint (gunHolder.transform.position);
 		var angle = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
 		gunHolder.transform.eulerAngles = new Vector3 (0, angle, 0);
+	}
+
+	void KeepInCover (GunHolder gunHolder)
+	{
+		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))
+		{
+			gunHolder.KeepInCover ();
+		}
+	}
+
+	void TakeUpArm (GunHolder gunHolder)
+	{
+		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))		
+		{
+			gunHolder.TakeUpArm ();
+		}
 	}
 
 	void HoldTrigger (GunHolder gunHolder)

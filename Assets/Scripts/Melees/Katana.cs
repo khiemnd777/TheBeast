@@ -6,10 +6,19 @@ public class Katana : Melee
 {
 	bool _inAnAction;
 	int _slashCount;
+	BoxCollider _collider;
+	[SerializeField]
+	TrailRenderer _trail;
+
+	public override void Awake ()
+	{
+		base.Awake ();
+		_collider = GetComponent<BoxCollider> ();
+	}
 
 	public override void Start ()
 	{
-		name = "Katana";
+		base.Start ();
 		player.RegisterLock ("Katana");
 	}
 
@@ -27,11 +36,12 @@ public class Katana : Melee
 
 	IEnumerator EndOfAnimation (Hand hand, Animator handAnimator)
 	{
+		_trail.enabled = true;
 		var currentAnimatorStateInfo = handAnimator.GetCurrentAnimatorStateInfo (0);
 		// var t = 0f;
 		// while (t <= 1f)
 		// {
-		// 	t += Time.deltaTime / currentAnimatorClip.Length;
+		// 	t += Time.deltaTime / currentAnimatorStateInfo.length;
 		// 	yield return null;
 		// }
 		yield return new WaitForSeconds (currentAnimatorStateInfo.length);
@@ -39,5 +49,15 @@ public class Katana : Melee
 		hand.enabled = true;
 		player.Unlock ("Katana");
 		_inAnAction = false;
+		_trail.enabled = false;
+	}
+
+	void OnTriggerEnter (Collider other)
+	{
+		if (!_inAnAction) return;
+		if (other)
+		{
+			Debug.Log (other.name);
+		}
 	}
 }
