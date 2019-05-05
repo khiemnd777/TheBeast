@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: eb338dbd65200469abebacea746d45b4
-timeCreated: 1556979193
+timeCreated: 1557043417
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: katana_0
+    21300002: katana_1
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -115,6 +116,20 @@ TextureImporter:
         height: 58
       alignment: 9
       pivot: {x: 0.5, y: 0.18920402}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: katana_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 3
+        width: 19
+        height: 58
+      alignment: 9
+      pivot: {x: 0.9193021, y: 0.19027191}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

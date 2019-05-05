@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player2 : MonoBehaviour
@@ -19,6 +20,7 @@ public class Player2 : MonoBehaviour
 	[Space]
 	[SerializeField]
 	AudioSource _footstepSoundFx;
+	IDictionary<string, bool> _lockControlList = new Dictionary<string, bool> ();
 	DotSight _dotSight;
 	Echo _echo;
 	Vector3 _direction;
@@ -44,6 +46,11 @@ public class Player2 : MonoBehaviour
 
 	void Update ()
 	{
+		if (IsLocked ())
+		{
+			_speed = 0;
+			return;
+		}
 		Rotate2 ();
 		var x = Input.GetAxisRaw ("Horizontal");
 		var y = Input.GetAxisRaw ("Vertical");
@@ -89,5 +96,27 @@ public class Player2 : MonoBehaviour
 		var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
 		var rotation = Quaternion.Euler (0f, rot, 0f);
 		_body.rotation = rotation;
+	}
+
+	public void RegisterLock (string name)
+	{
+		_lockControlList.Add (name, false);
+	}
+
+	public void Lock (string name)
+	{
+		if (!_lockControlList.ContainsKey (name)) return;
+		_lockControlList[name] = true;
+	}
+
+	public void Unlock (string name)
+	{
+		if (!_lockControlList.ContainsKey (name)) return;
+		_lockControlList[name] = false;
+	}
+
+	public bool IsLocked ()
+	{
+		return _lockControlList.Values.Any (locked => locked);
 	}
 }

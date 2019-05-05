@@ -32,6 +32,7 @@ public class Hand : MonoBehaviour
 		var rangeForMoving = distance / _maximumDistance;
 		var pos = transform.localPosition;
 		pos.x = Mathf.Clamp (rangeForMoving, 0, maximumRange);
+		pos.z = 0;
 		transform.localPosition = pos;
 	}
 }

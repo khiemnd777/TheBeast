@@ -735,8 +735,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6860c11b0d7844048bb4101944370e2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  melee: {fileID: 114474697201471882, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 2}
+  melee: {fileID: 114033769023172182, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 2}
   _hand: {fileID: 114646073436216314}
+  _player: {fileID: 114926467534503532}
 --- !u!114 &114926467534503532
 MonoBehaviour:
   m_ObjectHideFlags: 1

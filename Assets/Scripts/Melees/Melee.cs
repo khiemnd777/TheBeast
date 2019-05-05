@@ -2,18 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Melee : MonoBehaviour {
-
+public class Melee : MonoBehaviour
+{
 	public float speed;
 	public RuntimeAnimatorController meleeAnimatorController;
+	[System.NonSerialized]
+	public Player2 player;
 
-	// Use this for initialization
-	void Start () {
-		
+	public virtual void HoldTrigger (Hand hand, Animator handAnimator)
+	{
+
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		// transform.Rotate(Vector3.up, Time.fixedDeltaTime * speed);
+
+	public virtual void Awake ()
+	{
+
+	}
+
+	public virtual void Start ()
+	{
+
+	}
+
+	public virtual void Update ()
+	{
+
+	}
+
+	public virtual void FixedUpdate ()
+	{
+
 	}
 }

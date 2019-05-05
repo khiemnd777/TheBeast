@@ -26,7 +26,7 @@ public class MeleeHolderController : MonoBehaviour
 		{
 			_isMouseHoldingDown = true;
 			// StartCoroutine (HoldTriggers ());
-			// HoldTriggers ();
+			HoldTriggers ();
 		}
 		if (Input.GetMouseButtonUp (0))
 		{
@@ -34,7 +34,7 @@ public class MeleeHolderController : MonoBehaviour
 			_timeForHoldLeftGunTrigger = 0f;
 			ReleaseTriggers ();
 		}
-		HoldTriggers ();
+		// HoldTriggers ();
 	}
 
 	// IEnumerator HoldTriggers ()
@@ -74,12 +74,12 @@ public class MeleeHolderController : MonoBehaviour
 		gunHolder.transform.eulerAngles = new Vector3 (0, angle, 0);
 	}
 
-	void HoldTrigger (MeleeHolder gunHolder)
+	void HoldTrigger (MeleeHolder meleeHolder)
 	{
-		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))
+		if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals (null))
 		{
-			gunHolder.BeforeHoldTrigger ();
-			gunHolder.HoldTrigger ();
+			meleeHolder.BeforeHoldTrigger ();
+			meleeHolder.HoldTrigger ();
 		}
 	}
 
