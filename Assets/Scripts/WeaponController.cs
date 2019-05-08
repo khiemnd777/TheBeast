@@ -19,6 +19,7 @@ public class WeaponController : MonoBehaviour
 				typeOfWeapon = "gun";
 				_meleeHolderController.KeepMeleeInCover ();
 				_gunHolderController.TakeGunUpArm ();
+				_gunHolderController.DoUpdating ();
 				return;
 			}
 		}
@@ -29,6 +30,7 @@ public class WeaponController : MonoBehaviour
 				typeOfWeapon = "melee";
 				_gunHolderController.KeepGunInCover ();
 				_meleeHolderController.TakeMeleeUpArm ();
+				_meleeHolderController.DoUpdating ();
 				return;
 			}
 		}
