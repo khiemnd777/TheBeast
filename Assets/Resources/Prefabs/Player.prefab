@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a873c59f0e4704685a66cd63ca837a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 114818816484530026, guid: b24379d15b9354225a915034d00ff3ce, type: 2}
+  gun: {fileID: 0}
   _hand: {fileID: 114559316574283722}
 --- !u!114 &114402308416715554
 MonoBehaviour:
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a873c59f0e4704685a66cd63ca837a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 114818816484530026, guid: b24379d15b9354225a915034d00ff3ce, type: 2}
+  gun: {fileID: 114416207922313252, guid: b6f078f02c1184f3da0d77cc53b39c90, type: 2}
   _hand: {fileID: 114646073436216314}
 --- !u!114 &114471443334418938
 MonoBehaviour:
@@ -810,10 +810,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.69457835
+  m_Height: 0
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.044902623, y: 0.22, z: 0}
 --- !u!212 &212059041020179616
 SpriteRenderer:
   m_ObjectHideFlags: 1

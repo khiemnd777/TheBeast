@@ -12,8 +12,8 @@ public class BulletImpactEffect : MonoBehaviour
 
 	public void Use (Vector3 impactPoint, Vector3 normal)
 	{
-		var capacity = 9;
-		var deltaAngle = 180f / capacity;
+		var capacity = 18;
+		var deltaAngle = 360f / capacity;
 		var perpendicular = new Vector3 (normal.z, 0f, -normal.x);
 		var fromAngle = 180f - Mathf.Atan2 (perpendicular.z, perpendicular.x) * Mathf.Rad2Deg;
 		for (var i = 0; i <= capacity; i++)
