@@ -47,15 +47,15 @@ public class Bullet : MonoBehaviour
 		if (_isHitOnTarget)
 		{
 			var impactPoint = _raycastHit.point;
-			ActivateBulleImpactedFx(impactPoint, _raycastHit.normal);
+			ActivateBulleImpactedFx(_raycastHit);
 		}
 		Destroy (gameObject);
 	}
 
-	void ActivateBulleImpactedFx (Vector3 impactPoint, Vector3 normal)
+	void ActivateBulleImpactedFx (RaycastHit hit)
 	{
 		_bulletImpactFx.maxSpeed = 4.5f;
 		_bulletImpactFx.lifetime = .125f;
-		_bulletImpactFx.Use (impactPoint, normal);
+		_bulletImpactFx.Use (hit.point, hit.normal);
 	}
 }

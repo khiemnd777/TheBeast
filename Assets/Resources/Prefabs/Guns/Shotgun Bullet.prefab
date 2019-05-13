@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initBallNumber: 5
+  hitback: 1.5
   timeImpactAtMaxDistance: 0
   maxDistance: 0
   layerMask:

@@ -36,7 +36,7 @@ public class ImpactEffect : MonoBehaviour
 		}
 		else
 		{
-			_time2 += Time.deltaTime / .25f;
+			_time2 += Time.deltaTime / .1f;
 			if (_time2 <= 1f)
 			{
 				_trail.materials[0].color = new Color (_color.r, _color.g, _color.b, Mathf.Lerp (1, 0, _time2));

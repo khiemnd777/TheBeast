@@ -38,7 +38,6 @@ public class Shotgun : Gun
 	{
 		if (_isHoldTrigger) return;
 		if (!_availableHoldTrigger) return;
-		Debug.Log(1);
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
 		_availableHoldTrigger = false;

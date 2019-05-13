@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ShotgunBullet : MonoBehaviour
 {
 	public float initBallNumber = 5;
+	public float hitback = 1f;
 	public float timeImpactAtMaxDistance;
 	public float maxDistance;
 	public LayerMask layerMask;
@@ -85,7 +87,19 @@ public class ShotgunBullet : MonoBehaviour
 			{
 				var raycastHit = _raycastHits[i];
 				var impactPoint = raycastHit.point;
-				ActivateBulleImpactedFx (impactPoint, raycastHit.normal);
+				var hitTransform = raycastHit.transform;
+				var agent = hitTransform.GetComponent<NavMeshAgent> ();
+				if (agent)
+				{
+					var hitNormal = raycastHit.normal;
+					agent.velocity = -hitNormal * hitback * _isHitOnTargets.Count (x => x);
+				}
+				var shakeObject = hitTransform.GetComponentInChildren<ObjectShake> ();
+				if (shakeObject)
+				{
+					shakeObject.Shake ();
+				}
+				ActivateBulleImpactedFx (raycastHit);
 			}
 		}
 		if (_ts.All (x => x >= 1f))
@@ -94,10 +108,23 @@ public class ShotgunBullet : MonoBehaviour
 		}
 	}
 
-	void ActivateBulleImpactedFx (Vector3 impactPoint, Vector3 normal)
+	IEnumerator Hitback (Transform hitTransform, Vector3 hitNormal, float hitback)
+	{
+		var t = 0f;
+		var targetPos = hitTransform.position;
+		var hitPos = targetPos - hitNormal * hitback;
+		while (t <= 1f)
+		{
+			t += Time.deltaTime * 2f;
+			hitTransform.position = Vector3.Lerp (targetPos, hitPos, t);
+			yield return null;
+		}
+	}
+
+	void ActivateBulleImpactedFx (RaycastHit hit)
 	{
 		_bulletImpactFx.maxSpeed = 4.5f;
 		_bulletImpactFx.lifetime = .125f;
-		_bulletImpactFx.Use (impactPoint, normal);
+		_bulletImpactFx.Use (hit.point, hit.normal);
 	}
 }
