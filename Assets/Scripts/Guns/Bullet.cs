@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Bullet : MonoBehaviour
 {
 	public float timeImpactAtMaxDistance;
+    public float hitback;
 	public float maxDistance;
 	public LayerMask layerMask;
 	float _targetDistance;
@@ -14,7 +16,7 @@ public class Bullet : MonoBehaviour
 	float _t;
 	bool _isHitOnTarget;
 
-	void Awake ()
+    void Awake ()
 	{
 		_bulletImpactFx = GetComponent<BulletImpactEffect> ();
 	}
@@ -47,6 +49,18 @@ public class Bullet : MonoBehaviour
 		if (_isHitOnTarget)
 		{
 			var impactPoint = _raycastHit.point;
+			var hitTransform = _raycastHit.transform;
+			var agent = hitTransform.GetComponent<NavMeshAgent> ();
+			if (agent)
+			{
+				var hitNormal = _raycastHit.normal;
+				agent.velocity = -hitNormal * hitback;
+			}
+			var shakeObject = hitTransform.GetComponentInChildren<ObjectShake> ();
+			if (shakeObject)
+			{
+				shakeObject.Shake ();
+			}
 			ActivateBulleImpactedFx(_raycastHit);
 		}
 		Destroy (gameObject);

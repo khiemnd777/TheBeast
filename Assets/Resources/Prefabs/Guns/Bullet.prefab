@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeImpactAtMaxDistance: 0
+  hitback: 0.25
   maxDistance: 0
   layerMask:
     serializedVersion: 2
