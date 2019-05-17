@@ -6,9 +6,11 @@ using UnityEngine.AI;
 public class Bullet : MonoBehaviour
 {
 	public float timeImpactAtMaxDistance;
-    public float hitback;
+	public float hitback;
 	public float maxDistance;
 	public LayerMask layerMask;
+	[SerializeField]
+	TrailRenderer _trail;
 	float _targetDistance;
 	BulletImpactEffect _bulletImpactFx;
 	RaycastHit _raycastHit;
@@ -16,7 +18,7 @@ public class Bullet : MonoBehaviour
 	float _t;
 	bool _isHitOnTarget;
 
-    void Awake ()
+	void Awake ()
 	{
 		_bulletImpactFx = GetComponent<BulletImpactEffect> ();
 	}
@@ -44,6 +46,8 @@ public class Bullet : MonoBehaviour
 		{
 			var timeToImpact = timeImpactAtMaxDistance * _targetDistance / maxDistance;
 			_t += Time.deltaTime / timeToImpact;
+			// Trail goes straight along direction
+			_trail.transform.localPosition = Vector3.Lerp (Vector3.zero, Vector3.right * _targetDistance, _t);
 			return;
 		}
 		if (_isHitOnTarget)
@@ -53,15 +57,14 @@ public class Bullet : MonoBehaviour
 			var agent = hitTransform.GetComponent<NavMeshAgent> ();
 			if (agent)
 			{
-				var hitNormal = _raycastHit.normal;
-				agent.velocity = -hitNormal * hitback;
+				agent.velocity = Utilities.HitbackVelocity(agent.velocity, _raycastHit.normal, hitback);
 			}
 			var shakeObject = hitTransform.GetComponentInChildren<ObjectShake> ();
 			if (shakeObject)
 			{
 				shakeObject.Shake ();
 			}
-			ActivateBulleImpactedFx(_raycastHit);
+			ActivateBulleImpactedFx (_raycastHit);
 		}
 		Destroy (gameObject);
 	}

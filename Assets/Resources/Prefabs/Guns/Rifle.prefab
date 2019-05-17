@@ -357,8 +357,8 @@ MonoBehaviour:
   shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
     type: 2}
   shellEjection: {fileID: 4612631049273138}
-  maxDistance: 10
-  timeImpactAtMaxDistance: 0.125
+  maxDistance: 18
+  timeImpactAtMaxDistance: 0.3
   timeBetweenShoot: 0.13
   bulletPrefab: {fileID: 114516042220789914, guid: b73721e1bd7a942bfb7ab0b64e8b8e52,
     type: 2}

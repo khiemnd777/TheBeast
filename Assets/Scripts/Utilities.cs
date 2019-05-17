@@ -28,4 +28,14 @@ public class Utilities
     {
         return new Vector3 (x, owner.y, y);
     }
+
+    public static Vector3 HitbackVelocity (Vector3 velocity, Vector3 hitbackNormal, float hitback)
+    {
+        var velLength = velocity.sqrMagnitude;
+        var hitVel = hitbackNormal * hitback;
+        var hitVelLength = hitVel.sqrMagnitude;
+        var agentVel = velocity - hitVel;
+        var returnedVel = velLength >= hitVelLength ? agentVel : -hitVel;
+        return returnedVel;
+    }
 }

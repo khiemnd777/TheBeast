@@ -91,8 +91,7 @@ public class ShotgunBullet : MonoBehaviour
 				var agent = hitTransform.GetComponent<NavMeshAgent> ();
 				if (agent)
 				{
-					var hitNormal = raycastHit.normal;
-					agent.velocity = -hitNormal * hitback * _isHitOnTargets.Count (x => x);
+					agent.velocity = Utilities.HitbackVelocity (agent.velocity, raycastHit.normal, hitback);
 				}
 				var shakeObject = hitTransform.GetComponentInChildren<ObjectShake> ();
 				if (shakeObject)
