@@ -55,14 +55,10 @@ public class Bullet : MonoBehaviour
 			var impactPoint = _raycastHit.point;
 			var hitTransform = _raycastHit.transform;
 			var agent = hitTransform.GetComponent<NavMeshAgent> ();
-			if (agent)
+			var hitMonster = hitTransform.GetComponent<Monster> ();
+			if (hitMonster)
 			{
-				agent.velocity = Utilities.HitbackVelocity(agent.velocity, _raycastHit.normal, hitback);
-			}
-			var shakeObject = hitTransform.GetComponentInChildren<ObjectShake> ();
-			if (shakeObject)
-			{
-				shakeObject.Shake ();
+				hitMonster.OnHit (transform, hitback, _raycastHit);
 			}
 			ActivateBulleImpactedFx (_raycastHit);
 		}

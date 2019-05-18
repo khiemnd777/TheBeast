@@ -848,6 +848,8 @@ MonoBehaviour:
   speed: 3
   head: {fileID: 4953169090498370}
   rotationSpeedOfHead: 10
+  _bloodPrefab: {fileID: 114367984338432462, guid: f09361b30ff114fe58c3746ea6c2f6f3,
+    type: 2}
 --- !u!136 &136233239294256874
 CapsuleCollider:
   m_ObjectHideFlags: 1

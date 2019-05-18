@@ -305,14 +305,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunHandType: 0
   knockbackIndex: 0.15
+  shellPrefab: {fileID: 114309261342482958, guid: a3a343a25d4ef470b9d491f73a2ce306,
+    type: 2}
+  shellEjection: {fileID: 4647786063581042}
   maxDistance: 10
   timeImpactAtMaxDistance: 0.35
   timeBetweenShoot: 0.225
   bulletPrefab: {fileID: 114261257215822610, guid: b4aedaa5fd0b64848b7c3a03d464af3d,
     type: 2}
-  shellPrefab: {fileID: 114309261342482958, guid: a3a343a25d4ef470b9d491f73a2ce306,
-    type: 2}
-  shellEjection: {fileID: 4647786063581042}
   layerMask:
     serializedVersion: 2
     m_Bits: 1280

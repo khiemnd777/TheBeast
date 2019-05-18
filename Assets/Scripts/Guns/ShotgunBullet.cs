@@ -86,17 +86,11 @@ public class ShotgunBullet : MonoBehaviour
 			if (isHitOnTarget)
 			{
 				var raycastHit = _raycastHits[i];
-				var impactPoint = raycastHit.point;
 				var hitTransform = raycastHit.transform;
-				var agent = hitTransform.GetComponent<NavMeshAgent> ();
-				if (agent)
+				var hitMonster = hitTransform.GetComponent<Monster> ();
+				if (hitMonster)
 				{
-					agent.velocity = Utilities.HitbackVelocity (agent.velocity, raycastHit.normal, hitback);
-				}
-				var shakeObject = hitTransform.GetComponentInChildren<ObjectShake> ();
-				if (shakeObject)
-				{
-					shakeObject.Shake ();
+					hitMonster.OnHit (transform, hitback, raycastHit);
 				}
 				ActivateBulleImpactedFx (raycastHit);
 			}
@@ -104,19 +98,6 @@ public class ShotgunBullet : MonoBehaviour
 		if (_ts.All (x => x >= 1f))
 		{
 			Destroy (gameObject);
-		}
-	}
-
-	IEnumerator Hitback (Transform hitTransform, Vector3 hitNormal, float hitback)
-	{
-		var t = 0f;
-		var targetPos = hitTransform.position;
-		var hitPos = targetPos - hitNormal * hitback;
-		while (t <= 1f)
-		{
-			t += Time.deltaTime * 2f;
-			hitTransform.position = Vector3.Lerp (targetPos, hitPos, t);
-			yield return null;
 		}
 	}
 
