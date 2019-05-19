@@ -10,7 +10,7 @@ public class Player2 : MonoBehaviour
 	public float sprintVolume = .09f;
 	public float walkVolume = .01f;
 	[SerializeField]
-	Transform _body;
+	public Transform body;
 	[SerializeField]
 	Transform _foots;
 	[SerializeField]
@@ -93,9 +93,7 @@ public class Player2 : MonoBehaviour
 	void Rotate2 ()
 	{
 		var normal = _dotSight.NormalizeFromPoint (transform.position);
-		var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
-		var rotation = Quaternion.Euler (0f, rot, 0f);
-		_body.rotation = rotation;
+		body.rotation = Utilities.RotateByNormal (normal, Vector3.up);
 	}
 
 	public void RegisterLock (string name)

@@ -11,6 +11,8 @@ public class MonsterZero : Monster
 	public float rotationSpeedOfHead = 10f;
 	[SerializeField]
 	Blood _bloodPrefab;
+	[SerializeField]
+	Blood _wideBloodPrefab;
 	NavMeshAgent _agent;
 	ObjectShake _objectShake;
 	Player2 _player;
@@ -34,6 +36,27 @@ public class MonsterZero : Monster
 		var rot = 360f - Mathf.Atan2 (bloodNor.z, bloodNor.x) * Mathf.Rad2Deg;
 		var bloodIns = Instantiate<Blood> (_bloodPrefab, raycastHit.point, Quaternion.Euler (0f, rot, 0f));
 		Destroy (bloodIns.gameObject, bloodIns.particleSystem.main.startLifetimeMultiplier);
+	}
+
+	public override void OnHit (Transform hitBy, float hitback, Vector3 impactedNormal, Vector3 impactedPoint)
+	{
+		if (_agent)
+		{
+			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, impactedNormal, hitback);
+		}
+		if (_objectShake)
+		{
+			_objectShake.Shake ();
+		}
+		// bleed out
+		if (_bloodPrefab)
+		{
+			var headRot = head.rotation;
+			var headEuler = headRot.eulerAngles;
+			var bloodInsRot = Quaternion.Euler (headEuler.x, headEuler.y + 90f, headEuler.z);
+			var bloodIns = Instantiate<Blood> (_wideBloodPrefab, impactedPoint, bloodInsRot);
+			Destroy (bloodIns.gameObject, bloodIns.particleSystem.main.startLifetimeMultiplier);
+		}
 	}
 
 	void Awake ()

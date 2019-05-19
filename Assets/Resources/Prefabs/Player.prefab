@@ -712,7 +712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a873c59f0e4704685a66cd63ca837a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 0}
+  gun: {fileID: 114057014363105432, guid: 4549977c05e5f43ccbfc321a8b5faf90, type: 2}
   _hand: {fileID: 114559316574283722}
 --- !u!114 &114402308416715554
 MonoBehaviour:
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a873c59f0e4704685a66cd63ca837a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 114416207922313252, guid: b6f078f02c1184f3da0d77cc53b39c90, type: 2}
+  gun: {fileID: 114057014363105432, guid: 4549977c05e5f43ccbfc321a8b5faf90, type: 2}
   _hand: {fileID: 114646073436216314}
 --- !u!114 &114471443334418938
 MonoBehaviour:
@@ -796,7 +796,7 @@ MonoBehaviour:
   walkSpeed: 0.5
   sprintVolume: 0.09
   walkVolume: 0.01
-  _body: {fileID: 4638004554132482}
+  body: {fileID: 4638004554132482}
   _foots: {fileID: 4920601870792432}
   _leftFoot: {fileID: 4568847482821162}
   _rightFoot: {fileID: 4300715290258162}

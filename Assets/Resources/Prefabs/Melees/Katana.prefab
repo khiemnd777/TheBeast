@@ -231,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
+  hitback: 4
   _trail: {fileID: 96034581088180826}
 --- !u!212 &212483336292558344
 SpriteRenderer:

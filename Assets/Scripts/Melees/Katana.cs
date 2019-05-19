@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Katana : Melee
 {
+	public float hitback;
 	bool _inAnAction;
 	int _slashCount;
 	BoxCollider _collider;
@@ -57,7 +58,14 @@ public class Katana : Melee
 		if (!_inAnAction) return;
 		if (other)
 		{
-			Debug.Log (other.name);
+			var hitMonster = other.GetComponent<Monster> ();
+			if (hitMonster)
+			{
+				var contactPoint = other.ClosestPointOnBounds (transform.position);
+				var dir = contactPoint - player.transform.position;
+				dir.Normalize();
+				hitMonster.OnHit (transform, hitback, -dir, contactPoint);
+			}
 		}
 	}
 }

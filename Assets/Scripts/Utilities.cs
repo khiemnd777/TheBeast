@@ -38,4 +38,12 @@ public class Utilities
         var returnedVel = velLength >= hitVelLength ? agentVel : -hitVel;
         return returnedVel;
     }
+
+    public static Quaternion RotateByNormal (Vector3 normal, Vector3 axis)
+    {
+        var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
+        var vectRot = axis * rot;
+        var qtrn = Quaternion.Euler (vectRot);
+        return qtrn;
+    }
 }
