@@ -845,7 +845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refreshRate: 1
-  speed: 3
+  speed: 0
   head: {fileID: 4953169090498370}
   rotationSpeedOfHead: 10
   _bloodPrefab: {fileID: 114367984338432462, guid: f09361b30ff114fe58c3746ea6c2f6f3,
@@ -859,7 +859,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1166415487383410}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.8301946
   m_Height: 1
