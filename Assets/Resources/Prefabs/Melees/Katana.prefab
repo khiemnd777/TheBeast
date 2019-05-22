@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4203013172167490}
   - component: {fileID: 96034581088180826}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4246506713105576}
   - component: {fileID: 212483336292558344}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4152232847446728}
   - component: {fileID: 114033769023172182}
   - component: {fileID: 65343621949363830}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Katana
   m_TagString: Untagged
   m_Icon: {fileID: 0}

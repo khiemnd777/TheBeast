@@ -63,8 +63,15 @@ public class Katana : Melee
 			{
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
 				var dir = contactPoint - player.transform.position;
-				dir.Normalize();
+				dir.Normalize ();
 				hitMonster.OnHit (transform, hitback, -dir, contactPoint);
+				return;
+			}
+			var reversedDamage = other.GetComponent<ReversedDamage> ();
+			if (reversedDamage)
+			{
+				reversedDamage.reversed = true;
+				reversedDamage.speed *= 1.25f;
 			}
 		}
 	}

@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4754230715057850}
   - component: {fileID: 114831213536505700}
   - component: {fileID: 65214647333726334}
+  - component: {fileID: 114206726627290980}
   m_Layer: 0
   m_Name: Monster Zero Bomb
   m_TagString: Untagged
@@ -83,6 +84,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8487553, y: 0.8487553, z: 0.8487553}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114206726627290980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909024704263108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7546f799411ca4414bae81281a1f5cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reversed: 0
+  speed: 0
 --- !u!114 &114831213536505700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,17 +108,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621de645ad19c48e0b036144f2437b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  launched: 0
   fangBomb: {fileID: 212844875167550282}
-  minBombSize: 0.6
-  maxBombSize: 1
-  bombSpeed: 10
-  bombDestroyTime: 3
+  minBombSize: 0.1
+  maxBombSize: 0.75
+  bombFullSize: 1
+  bombSpeed: 20
+  bombDestroyTime: 10
   projectile: {fileID: 0}
   smoothSpeed: 0.09
   bubblePrefab: {fileID: 4509998852994968, guid: 0d1e4568cdf7f48f8a3c85bacbed77bb,
     type: 2}
   bubbleSpeed: 3.5
-  loadingBubbleTime: 4
+  bubbleMaxDistance: 1.5
+  loadingBubbleTime: 2
   creatingBubbleTime: 0.3
   minBubbleSize: 0.175
   maxBubbleSize: 0.365
