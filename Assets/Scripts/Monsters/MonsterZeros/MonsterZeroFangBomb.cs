@@ -23,9 +23,16 @@ public class MonsterZeroFangBomb : MonsterSkill
 	ReversedDamage _reversedDamage;
 	float _tBecomeFull;
 	float _tDestroy;
+	float _bombSize;
 	Vector3 _directedMoving;
 	bool _firstFrameOfMoving = true;
-	float _bombSize;
+	bool _launched;
+	List<Transform> _bubbles = new List<Transform> ();
+
+	public void Launch ()
+	{
+		_launched = true;
+	}
 
 	void Awake ()
 	{
@@ -56,40 +63,38 @@ public class MonsterZeroFangBomb : MonsterSkill
 		var r = Random.Range (_bombSize - .15f, _bombSize + .15f);
 		fangBomb.transform.localScale = Vector3.one * r;
 		_tBecomeFull += Time.deltaTime / loadingBubbleTime;
-		if (_tBecomeFull <= 1f)
+		if (!_launched)
 		{
 			var smoothedPos = Vector3.Lerp (transform.position, projectile.position, smoothSpeed);
 			transform.position = smoothedPos;
+			return;
 		}
-		else
+		if (_tBecomeFull <= 1f) return;
+		_tDestroy += Time.deltaTime / bombDestroyTime;
+		if (_tDestroy <= 1f)
 		{
-			launched = true;
-			_tDestroy += Time.deltaTime / bombDestroyTime;
-			if (_tDestroy <= 1f)
+			if (_firstFrameOfMoving)
 			{
-				if (_firstFrameOfMoving)
-				{
-					_directedMoving = projectile.rotation * Vector3.down;
-					_firstFrameOfMoving = false;
-				}
-				if (!_reversedDamage.reversed)
-				{
-					transform.Translate (_directedMoving * Time.deltaTime * bombSpeed);
-				}
-				else
-				{
-					transform.Translate (-_directedMoving * Time.deltaTime * _reversedDamage.speed);
-				}
-				_tDestroy += Time.deltaTime / bombDestroyTime;
-				if (_tDestroy >= 1f)
-				{
-
-				}
+				_directedMoving = projectile.rotation * Vector3.down;
+				_firstFrameOfMoving = false;
+			}
+			if (!_reversedDamage.reversed)
+			{
+				transform.Translate (_directedMoving * Time.deltaTime * bombSpeed);
 			}
 			else
 			{
-				Destroy (gameObject);
+				transform.Translate (-_directedMoving * Time.deltaTime * _reversedDamage.speed);
 			}
+			_tDestroy += Time.deltaTime / bombDestroyTime;
+			if (_tDestroy >= 1f)
+			{
+
+			}
+		}
+		else
+		{
+			Destroy (gameObject);
 		}
 	}
 
@@ -106,12 +111,13 @@ public class MonsterZeroFangBomb : MonsterSkill
 			}
 			else
 			{
-				var bubblePos = Random.insideUnitSphere * bubbleMaxDistance + projectile.position;
-				var bubbleDir = bubblePos - projectile.position;
+				var bubblePos = Random.insideUnitSphere * bubbleMaxDistance + transform.position;
+				var bubbleDir = bubblePos - transform.position;
 				bubbleDir.Normalize ();
 				var bubbleRot = Utilities.RotateByNormal (bubbleDir, Vector3.up);
 				var bubbleIns = Instantiate<Transform> (bubblePrefab, bubblePos, bubbleRot);
 				bubbleIns.localScale = Vector3.one * Random.Range (minBubbleSize, maxBubbleSize);
+				_bubbles.Add (bubbleIns);
 				StartCoroutine (BubbleMoving (bubbleIns));
 			}
 			yield return null;
@@ -125,7 +131,7 @@ public class MonsterZeroFangBomb : MonsterSkill
 		while (t <= 1f)
 		{
 			t += Time.deltaTime * bubbleSpeed;
-			bubble.position = Vector3.Lerp (startPos, projectile.position, t);
+			bubble.position = Vector3.Lerp (startPos, transform.position, t);
 			yield return null;
 		}
 		Destroy (bubble.gameObject);
@@ -135,13 +141,23 @@ public class MonsterZeroFangBomb : MonsterSkill
 	{
 		if (_reversedDamage.reversed && other.gameObject.layer == LayerMask.NameToLayer ("Enemy"))
 		{
-			Destroy (gameObject);
+			DestroyAll ();
 			return;
 		}
 		if (other.gameObject.layer != LayerMask.NameToLayer ("Enemy") &&
 			other.gameObject.layer != LayerMask.NameToLayer ("Reversed Damage"))
 		{
-			Destroy (gameObject);
+			DestroyAll ();
 		}
+	}
+
+	void DestroyAll ()
+	{
+		foreach (var bubble in _bubbles)
+		{
+			if (!bubble) continue;
+			Destroy (bubble.gameObject);
+		}
+		Destroy (gameObject);
 	}
 }

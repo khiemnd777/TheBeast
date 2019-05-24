@@ -9,6 +9,7 @@ public class MonsterZero : Monster
 	public float speed = 3;
 	public Transform head;
 	public float rotationSpeedOfHead = 10f;
+	public Animator animator;
 	[SerializeField]
 	Blood _bloodPrefab;
 	[SerializeField]
@@ -18,6 +19,24 @@ public class MonsterZero : Monster
 	Player2 _player;
 	Transform _playerTransform;
 	float _tdt;
+	float _storedSpeed;
+	bool _isStopMoving;
+
+	public void StopMoving ()
+	{
+		if (!_isStopMoving)
+		{
+			_storedSpeed = speed;
+		}
+		speed = 0;
+		_isStopMoving = true;
+	}
+
+	public void KeepMoving ()
+	{
+		speed = _storedSpeed;
+		_isStopMoving = false;
+	}
 
 	public override void OnHit (Transform hitBy, float hitback, RaycastHit raycastHit)
 	{
@@ -69,6 +88,7 @@ public class MonsterZero : Monster
 
 	void Start ()
 	{
+		_storedSpeed = speed;
 		StartCoroutine (LeadtoTarget ());
 	}
 

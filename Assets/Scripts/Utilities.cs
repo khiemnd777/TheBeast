@@ -46,4 +46,9 @@ public class Utilities
         var qtrn = Quaternion.Euler (vectRot);
         return qtrn;
     }
+
+    public static float DistanceFromTarget (Vector3 targetPosition, Vector3 position)
+	{
+		return (targetPosition - position).magnitude;
+	}
 }

@@ -83,6 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4674501294138524}
   - component: {fileID: 114871801090716154}
+  - component: {fileID: 114630222002567922}
   - component: {fileID: 195326783675807078}
   - component: {fileID: 54483157903208152}
   - component: {fileID: 136233239294256874}
@@ -152,22 +153,6 @@ GameObject:
   - component: {fileID: 96222694635955964}
   m_Layer: 10
   m_Name: Trail
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1635772306360896
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4404796131315154}
-  - component: {fileID: 114227625880784642}
-  m_Layer: 10
-  m_Name: Skills
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,19 +289,6 @@ Transform:
   m_Father: {fileID: 4953169090498370}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4404796131315154
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1635772306360896}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4674501294138524}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4455310881892050
 Transform:
   m_ObjectHideFlags: 1
@@ -363,11 +335,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1166415487383410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.06, y: 0, z: -3.33}
+  m_LocalPosition: {x: -6.35, y: 0, z: -0.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4227656255171496}
-  - {fileID: 4404796131315154}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -879,23 +850,6 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &114227625880784642
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1635772306360896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fc092fa9e557410b8d1b948ccdd8dcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  host: {fileID: 114871801090716154}
-  fangBombPrefab: {fileID: 114831213536505700, guid: da4f323998d8b4310b55608ce8f8e8cd,
-    type: 2}
-  projectileBomb: {fileID: 4610267461162750}
-  beInASkill: 0
-  timeBetweenAct: 0.5
 --- !u!114 &114494067771056274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -909,6 +863,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.1
   magnitude: 0.1
+--- !u!114 &114630222002567922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1166415487383410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc092fa9e557410b8d1b948ccdd8dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  host: {fileID: 114871801090716154}
+  defaultAnim: {fileID: 7400000, guid: 43c3f98f869e94d6ab187753ae525355, type: 2}
+  fangBombPrefab: {fileID: 114831213536505700, guid: da4f323998d8b4310b55608ce8f8e8cd,
+    type: 2}
+  projectileBomb: {fileID: 4610267461162750}
+  fangBombAnim: {fileID: 7400000, guid: 92a6f044c32664b4689132bda98c8e6a, type: 2}
+  timeFangBombLaunching: 2
+  timeBetweenLaunchFangBomb: 0.5
+  maxDistanceExecuteFangBomb: 11
+  biteAnim: {fileID: 7400000, guid: 8dd1964e08d5b4999afc49c89a08e5b0, type: 2}
+  timeBetweenBites: 0.25
+  maxDistanceExecuteBite: 2.5
+  distanceBite: 2.5
 --- !u!114 &114871801090716154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -921,9 +899,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refreshRate: 1
-  speed: 0
+  speed: 3
   head: {fileID: 4953169090498370}
   rotationSpeedOfHead: 10
+  animator: {fileID: 95736949692788128}
   _bloodPrefab: {fileID: 114367984338432462, guid: f09361b30ff114fe58c3746ea6c2f6f3,
     type: 2}
   _wideBloodPrefab: {fileID: 114319558123064554, guid: df3886872a35e4eef8292ba638629b49,
