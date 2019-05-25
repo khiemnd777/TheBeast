@@ -85,8 +85,8 @@ GameObject:
   - component: {fileID: 114871801090716154}
   - component: {fileID: 114630222002567922}
   - component: {fileID: 195326783675807078}
-  - component: {fileID: 54483157903208152}
   - component: {fileID: 136233239294256874}
+  - component: {fileID: 54527067971454830}
   m_Layer: 10
   m_Name: Monster Zero
   m_TagString: Untagged
@@ -191,6 +191,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1868693823169318
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4413719586763008}
+  m_Layer: 10
+  m_Name: Head Rotation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1921912733114866
 GameObject:
   m_ObjectHideFlags: 1
@@ -214,7 +229,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209372735038510}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.099, z: 0}
+  m_LocalPosition: {x: 0, y: -0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4916286545125662}
@@ -258,7 +273,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4953169090498370}
+  - {fileID: 4413719586763008}
   m_Father: {fileID: 4674501294138524}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -289,6 +304,20 @@ Transform:
   m_Father: {fileID: 4953169090498370}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4413719586763008
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1868693823169318}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4953169090498370}
+  m_Father: {fileID: 4227656255171496}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!4 &4455310881892050
 Transform:
   m_ObjectHideFlags: 1
@@ -309,7 +338,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1921912733114866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.099, z: -0}
+  m_LocalPosition: {x: -0, y: -0.19, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4381993193260838}
@@ -362,7 +391,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1176136407366090}
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4.7, z: 4}
   m_Children:
@@ -371,10 +400,10 @@ Transform:
   - {fileID: 4381993193260838}
   - {fileID: 4916286545125662}
   - {fileID: 4610267461162750}
-  m_Father: {fileID: 4227656255171496}
+  m_Father: {fileID: 4413719586763008}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
---- !u!54 &54483157903208152
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54527067971454830
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -384,10 +413,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &65326465483829764
 BoxCollider:
@@ -678,7 +707,7 @@ TrailRenderer:
   m_Time: 0.65
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.5
+    widthMultiplier: 0.75
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -783,7 +812,7 @@ TrailRenderer:
   m_Time: 0.65
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.5
+    widthMultiplier: 0.75
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -882,10 +911,11 @@ MonoBehaviour:
   fangBombAnim: {fileID: 7400000, guid: 92a6f044c32664b4689132bda98c8e6a, type: 2}
   timeFangBombLaunching: 2
   timeBetweenLaunchFangBomb: 0.5
+  minDistanceExecuteFangBomb: 7.9
   maxDistanceExecuteFangBomb: 11
   biteAnim: {fileID: 7400000, guid: 8dd1964e08d5b4999afc49c89a08e5b0, type: 2}
   timeBetweenBites: 0.25
-  maxDistanceExecuteBite: 2.5
+  maxDistanceExecuteBite: 3.5
   distanceBite: 2.5
 --- !u!114 &114871801090716154
 MonoBehaviour:
@@ -900,7 +930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refreshRate: 1
   speed: 3
-  head: {fileID: 4953169090498370}
+  head: {fileID: 4413719586763008}
   rotationSpeedOfHead: 10
   animator: {fileID: 95736949692788128}
   _bloodPrefab: {fileID: 114367984338432462, guid: f09361b30ff114fe58c3746ea6c2f6f3,
