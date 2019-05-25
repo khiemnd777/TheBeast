@@ -19,6 +19,7 @@ public class MonsterZeroFangBomb : MonsterSkill
 	public float creatingBubbleTime;
 	public float minBubbleSize;
 	public float maxBubbleSize;
+	public BlownBang blownBangPrefab;
 
 	ReversedDamage _reversedDamage;
 	float _tBecomeFull;
@@ -94,6 +95,7 @@ public class MonsterZeroFangBomb : MonsterSkill
 		}
 		else
 		{
+			BlowBang ();
 			Destroy (gameObject);
 		}
 	}
@@ -141,12 +143,14 @@ public class MonsterZeroFangBomb : MonsterSkill
 	{
 		if (_reversedDamage.reversed && other.gameObject.layer == LayerMask.NameToLayer ("Enemy"))
 		{
+			BlowBang ();
 			DestroyAll ();
 			return;
 		}
 		if (other.gameObject.layer != LayerMask.NameToLayer ("Enemy") &&
 			other.gameObject.layer != LayerMask.NameToLayer ("Reversed Damage"))
 		{
+			BlowBang ();
 			DestroyAll ();
 		}
 	}
@@ -159,5 +163,10 @@ public class MonsterZeroFangBomb : MonsterSkill
 			Destroy (bubble.gameObject);
 		}
 		Destroy (gameObject);
+	}
+
+	void BlowBang ()
+	{
+		Instantiate (blownBangPrefab, transform.position, Quaternion.identity);
 	}
 }
