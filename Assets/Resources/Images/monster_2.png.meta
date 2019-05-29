@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 7105e22fa58fd4328950f61223d70f67
-timeCreated: 1559055845
+timeCreated: 1559147662
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: monster_2_0
     21300002: monster_2_1
+    21300004: monster_2_2
+    21300006: monster_2_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -110,12 +112,12 @@ TextureImporter:
       name: monster_2_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 2
         y: 1
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 9
+        height: 22
+      alignment: 9
+      pivot: {x: 1, y: 0.3851334}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -124,12 +126,40 @@ TextureImporter:
       name: monster_2_1
       rect:
         serializedVersion: 2
-        x: 19
+        x: 23
         y: 1
         width: 16
         height: 16
       alignment: 9
       pivot: {x: 0.8757076, y: 0.12520276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_2_2
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 1
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_2_3
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 1
+        width: 9
+        height: 22
+      alignment: 9
+      pivot: {x: 0, y: 0.3851334}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -8,6 +8,8 @@ public class MonsterCylora : Monster
 	public float refreshRate = 1f;
 	public float speed = 3;
 	[SerializeField]
+	Transform _head;
+	[SerializeField]
 	Transform _wing1;
 	[SerializeField]
 	Transform _wingAnchor1;
@@ -45,6 +47,16 @@ public class MonsterCylora : Monster
 	{
 		_agent.speed = speed;
 		UpdateWingsPosition ();
+		RotateTowards (_playerTransform);
+	}
+
+	void RotateTowards (Transform target)
+	{
+		var normal = target.position - _head.position;
+		normal.Normalize ();
+		var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
+		var rotation = Quaternion.Euler (90, rot, 90);
+		_head.rotation = rotation;
 	}
 
 	void UpdateWingsPosition ()
