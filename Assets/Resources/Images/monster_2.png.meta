@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7105e22fa58fd4328950f61223d70f67
-timeCreated: 1559147662
+timeCreated: 1560094865
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: monster_2_1
     21300004: monster_2_2
     21300006: monster_2_3
+    21300008: monster_2_4
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -112,10 +113,10 @@ TextureImporter:
       name: monster_2_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 1
         y: 1
-        width: 9
-        height: 22
+        width: 10
+        height: 23
       alignment: 9
       pivot: {x: 1, y: 0.3851334}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,10 +157,24 @@ TextureImporter:
         serializedVersion: 2
         x: 11
         y: 1
-        width: 9
-        height: 22
+        width: 10
+        height: 23
       alignment: 9
       pivot: {x: 0, y: 0.3851334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: monster_2_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 25
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

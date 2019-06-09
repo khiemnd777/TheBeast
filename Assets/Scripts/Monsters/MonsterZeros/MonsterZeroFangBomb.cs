@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterZeroFangBomb : MonsterSkill
+public class MonsterZeroFangBomb : MonoBehaviour
 {
 	public SpriteRenderer fangBomb;
 	public float minBombSize;
