@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1492464556}
   smoothSpeed: 0.125
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 6.25, z: 0}
   bound: {fileID: 1321635612}
 --- !u!4 &626005490
 Transform:
