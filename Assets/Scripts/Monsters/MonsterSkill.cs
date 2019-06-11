@@ -7,13 +7,14 @@ public abstract class MonsterSkill : MonoBehaviour
     public float timeBetweenLaunching;
     public float minDistanceExecuting;
     public float maxDistanceExecuting;
+    [System.NonSerialized]
     public bool beExecuting;
     public System.Func<IEnumerator> OnBeforeExecutingHandler;
     public System.Func<IEnumerator> OnAfterExecutingHandler;
 
     public virtual void Awake ()
     {
-        skillHandler = GetComponent<MonsterSkillHandler> ();
+
     }
 
     public virtual void Start ()
@@ -27,9 +28,6 @@ public abstract class MonsterSkill : MonoBehaviour
     {
         if (beExecuting) yield break;
         beExecuting = true;
-        yield return StartCoroutine (OnExecuting ());
-        beExecuting = false;
-
         var tBetweenAct = 1f;
         while (true)
         {

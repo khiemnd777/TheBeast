@@ -27,4 +27,10 @@ public class MonsterZeroBiteSkill : MonsterSkill
         host.KeepMoving ();
         yield break;
     }
+
+    void OnDrawGizmos ()
+	{
+		Gizmos.DrawWireSphere (host.transform.position, minDistanceExecuting);
+		Gizmos.DrawWireSphere (host.transform.position, maxDistanceExecuting);
+	}
 }

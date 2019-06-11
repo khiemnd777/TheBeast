@@ -83,7 +83,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4674501294138524}
   - component: {fileID: 114871801090716154}
-  - component: {fileID: 114630222002567922}
   - component: {fileID: 195326783675807078}
   - component: {fileID: 136233239294256874}
   - component: {fileID: 54527067971454830}
@@ -158,6 +157,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1575656653978344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4165188539858580}
+  - component: {fileID: 114536125046709086}
+  m_Layer: 10
+  m_Name: Monster Skill Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1707954650602680
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4197855944471020}
+  - component: {fileID: 114748564777924734}
+  m_Layer: 10
+  m_Name: Bite Skill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1730159036205650
 GameObject:
   m_ObjectHideFlags: 1
@@ -186,6 +217,22 @@ GameObject:
   - component: {fileID: 96292221685215128}
   m_Layer: 10
   m_Name: Trail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1853044701095088
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4965094675954932}
+  - component: {fileID: 114139527626390496}
+  m_Layer: 10
+  m_Name: Fang Bomb Skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,6 +308,34 @@ Transform:
   m_Children:
   - {fileID: 4330841392789890}
   m_Father: {fileID: 4953169090498370}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4165188539858580
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575656653978344}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4197855944471020}
+  - {fileID: 4965094675954932}
+  m_Father: {fileID: 4674501294138524}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4197855944471020
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1707954650602680}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4165188539858580}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4227656255171496
@@ -368,6 +443,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4227656255171496}
+  - {fileID: 4165188539858580}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -402,6 +478,19 @@ Transform:
   - {fileID: 4610267461162750}
   m_Father: {fileID: 4413719586763008}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4965094675954932
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1853044701095088}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4165188539858580}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &54527067971454830
 Rigidbody:
@@ -879,6 +968,28 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114139527626390496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1853044701095088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87302b578c2e6469ba9e2fc96d9053a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillHandler: {fileID: 114536125046709086}
+  timeBetweenLaunching: 0.5
+  minDistanceExecuting: 7.9
+  maxDistanceExecuting: 11
+  host: {fileID: 114871801090716154}
+  fangBombPrefab: {fileID: 114831213536505700, guid: da4f323998d8b4310b55608ce8f8e8cd,
+    type: 2}
+  defaultAnim: {fileID: 7400000, guid: 43c3f98f869e94d6ab187753ae525355, type: 2}
+  fangBombAnim: {fileID: 7400000, guid: 92a6f044c32664b4689132bda98c8e6a, type: 2}
+  projectileBomb: {fileID: 4610267461162750}
+  timeFangBombLaunching: 2
 --- !u!114 &114494067771056274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -892,31 +1003,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.1
   magnitude: 0.1
---- !u!114 &114630222002567922
+--- !u!114 &114536125046709086
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1166415487383410}
+  m_GameObject: {fileID: 1575656653978344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fc092fa9e557410b8d1b948ccdd8dcb, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cf52ab3586a74f3e8d2c3fb885bb778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  host: {fileID: 4674501294138524}
+  skills:
+  - {fileID: 114748564777924734}
+  - {fileID: 114139527626390496}
+--- !u!114 &114748564777924734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1707954650602680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3969f0f8c5aac48f883a100ea27c8528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillHandler: {fileID: 114536125046709086}
+  timeBetweenLaunching: 0.25
+  minDistanceExecuting: 0
+  maxDistanceExecuting: 3.5
   host: {fileID: 114871801090716154}
   defaultAnim: {fileID: 7400000, guid: 43c3f98f869e94d6ab187753ae525355, type: 2}
-  fangBombPrefab: {fileID: 114831213536505700, guid: da4f323998d8b4310b55608ce8f8e8cd,
-    type: 2}
-  projectileBomb: {fileID: 4610267461162750}
-  fangBombAnim: {fileID: 7400000, guid: 92a6f044c32664b4689132bda98c8e6a, type: 2}
-  timeFangBombLaunching: 2
-  timeBetweenLaunchFangBomb: 0.5
-  minDistanceExecuteFangBomb: 7.9
-  maxDistanceExecuteFangBomb: 11
   biteAnim: {fileID: 7400000, guid: 8dd1964e08d5b4999afc49c89a08e5b0, type: 2}
-  timeBetweenBites: 0.25
-  maxDistanceExecuteBite: 3.5
-  distanceBite: 2.5
 --- !u!114 &114871801090716154
 MonoBehaviour:
   m_ObjectHideFlags: 1
