@@ -63,6 +63,7 @@ public class GunHolderController : MonoBehaviour
 	void HoldTriggers ()
 	{
 		if (!_isMouseHoldingDown) return;
+		
 		HoldTrigger (rightGunHolder);
 		_timeForHoldLeftGunTrigger += Time.deltaTime / timeHoleLeftGunTrigger;
 		if (_timeForHoldLeftGunTrigger >= 1f)

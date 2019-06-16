@@ -17,7 +17,7 @@ public class Rifle : Gun
 	Animator _flashAnim;
 	[SerializeField]
 	AudioSource _audioSource;
-
+	Player2 _player;
 	bool _isHoldTrigger;
 	bool _availableHoldTrigger;
 	float _thetaProjectileAngle = 6f;
@@ -28,6 +28,7 @@ public class Rifle : Gun
 	public override void Awake ()
 	{
 		// _dotSight = FindObjectOfType<DotSight> ();
+		_player = FindObjectOfType<Player2> ();
 	}
 
 	public override void Update ()
@@ -56,6 +57,7 @@ public class Rifle : Gun
 	public override void HoldTrigger ()
 	{
 		if (!_availableHoldTrigger) return;
+		_player.Unlock("Katana");
 		_timeAvailableHoldTrigger = 0f;
 		_availableHoldTrigger = false;
 		var bulletRot = CalculateBulletQuaternion ();
@@ -67,7 +69,7 @@ public class Rifle : Gun
 		{
 			OnProjectileLaunched ();
 		}
-		EjectShell();
+		EjectShell ();
 		_flashAnim.Play ("Gun Flash", 0, 0);
 		_fireAnim.Play ("Rifle Fire", 0, 0);
 		// yield return new WaitForSeconds (.02f);
