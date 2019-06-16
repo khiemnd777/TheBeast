@@ -113,6 +113,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 			}
 			else
 			{
+				tCreatingBubble = 0f;
 				var bubblePos = Random.insideUnitSphere * bubbleMaxDistance + transform.position;
 				var bubbleDir = bubblePos - transform.position;
 				bubbleDir.Normalize ();
@@ -167,6 +168,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 
 	void BlowBang ()
 	{
-		Instantiate (blownBangPrefab, transform.position, Quaternion.identity);
+		var explosion = Instantiate<BlownBang> (blownBangPrefab, transform.position, Quaternion.identity);
+		explosion.Trigger(1.75f, 0f, 10f);
 	}
 }

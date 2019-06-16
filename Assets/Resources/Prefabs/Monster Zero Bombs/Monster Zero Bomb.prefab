@@ -121,7 +121,7 @@ MonoBehaviour:
   bubbleSpeed: 3.5
   bubbleMaxDistance: 1.5
   loadingBubbleTime: 2
-  creatingBubbleTime: 0.3
+  creatingBubbleTime: 0.0065
   minBubbleSize: 0.175
   maxBubbleSize: 0.365
   blownBangPrefab: {fileID: 114221305449310192, guid: 4b29aafdbff00494aa96324f1abdbdf7,

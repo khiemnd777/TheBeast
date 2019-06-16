@@ -82,8 +82,9 @@ public class GunHolderController : MonoBehaviour
 	{
 		if (gunHolder == null || gunHolder is Object && gunHolder.Equals (null)) return;
 		var normal = _dotSight.NormalizeFromPoint (gunHolder.transform.position);
-		var angle = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
-		gunHolder.transform.eulerAngles = new Vector3 (0, angle, 0);
+		var destRot = Utilities.RotateByNormal (normal, Vector3.up);
+		var gunHolderTransform = gunHolder.transform;
+		gunHolderTransform.rotation = Quaternion.RotateTowards(gunHolderTransform.rotation, destRot, Time.deltaTime * 630f);
 	}
 
 	void KeepInCover (GunHolder gunHolder)
@@ -96,7 +97,7 @@ public class GunHolderController : MonoBehaviour
 
 	void TakeUpArm (GunHolder gunHolder)
 	{
-		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))		
+		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))
 		{
 			gunHolder.TakeUpArm ();
 		}

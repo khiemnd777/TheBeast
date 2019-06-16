@@ -35,6 +35,7 @@ public class Utilities
         var hitVel = hitbackNormal * hitback;
         var hitVelLength = hitVel.sqrMagnitude;
         var agentVel = velocity - hitVel;
+        Debug.Log (velLength >= hitVelLength);
         var returnedVel = velLength >= hitVelLength ? agentVel : -hitVel;
         return returnedVel;
     }
@@ -48,7 +49,7 @@ public class Utilities
     }
 
     public static float DistanceFromTarget (Vector3 targetPosition, Vector3 position)
-	{
-		return (targetPosition - position).magnitude;
-	}
+    {
+        return (targetPosition - position).magnitude;
+    }
 }

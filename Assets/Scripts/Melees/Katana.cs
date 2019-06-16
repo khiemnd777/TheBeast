@@ -5,16 +5,18 @@ using UnityEngine;
 public class Katana : Melee
 {
 	public float hitback;
-	bool _inAnAction;
+	bool _inAnyAction;
 	int _slashCount;
 	BoxCollider _collider;
 	[SerializeField]
 	TrailRenderer _trail;
+	SlowMotionMonitor _slowMotionMonitor;
 
 	public override void Awake ()
 	{
 		base.Awake ();
 		_collider = GetComponent<BoxCollider> ();
+		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
 	}
 
 	public override void Start ()
@@ -25,8 +27,8 @@ public class Katana : Melee
 
 	public override void HoldTrigger (Hand hand, Animator handAnimator)
 	{
-		if (_inAnAction) return;
-		_inAnAction = true;
+		if (_inAnyAction) return;
+		_inAnyAction = true;
 		hand.enabled = false;
 		handAnimator.enabled = true;
 		StartCoroutine (EndOfAnimation (hand, handAnimator));
@@ -39,23 +41,17 @@ public class Katana : Melee
 	{
 		_trail.enabled = true;
 		var currentAnimatorStateInfo = handAnimator.GetCurrentAnimatorStateInfo (0);
-		// var t = 0f;
-		// while (t <= 1f)
-		// {
-		// 	t += Time.deltaTime / currentAnimatorStateInfo.length;
-		// 	yield return null;
-		// }
 		yield return new WaitForSeconds (currentAnimatorStateInfo.length);
 		handAnimator.enabled = false;
 		hand.enabled = true;
 		player.Unlock ("Katana");
-		_inAnAction = false;
+		_inAnyAction = false;
 		_trail.enabled = false;
 	}
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (!_inAnAction) return;
+		if (!_inAnyAction) return;
 		if (other)
 		{
 			var hitMonster = other.GetComponent<Monster> ();
@@ -64,7 +60,7 @@ public class Katana : Melee
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
 				var dir = contactPoint - player.transform.position;
 				dir.Normalize ();
-				hitMonster.OnHit (transform, hitback, -dir, contactPoint);
+				hitMonster.OnHit (transform, hitback, dir, contactPoint);
 				return;
 			}
 			var reversedDamage = other.GetComponent<ReversedDamage> ();
@@ -72,6 +68,8 @@ public class Katana : Melee
 			{
 				reversedDamage.reversed = true;
 				reversedDamage.speed *= 1.25f;
+				_slowMotionMonitor.Freeze (.009f, 1.5f);
+				return;
 			}
 		}
 	}

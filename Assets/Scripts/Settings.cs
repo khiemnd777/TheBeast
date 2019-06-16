@@ -10,4 +10,10 @@ public class Settings : MonoBehaviour
 	public int playerEchoBeamAmount = 72;
 	public float playerEchoBeamSpeed = 4f;
 	public float playerEchoBeamLifetime = 1.25f;
+	public float defaultTimeScale;
+	
+	void Update ()
+	{
+		// Time.timeScale = timeScale;
+	}
 }

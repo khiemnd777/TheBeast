@@ -42,16 +42,17 @@ public class Player2 : MonoBehaviour
 	void Start ()
 	{
 		_footstepSoundFx.volume = sprintVolume;
+		RegisterLock ("Explosion");
 	}
 
 	void Update ()
 	{
+		Rotate2 ();
 		if (IsLocked ())
 		{
 			_speed = 0;
 			return;
 		}
-		Rotate2 ();
 		var x = Input.GetAxisRaw ("Horizontal");
 		var y = Input.GetAxisRaw ("Vertical");
 		_isMoving = x != 0 || y != 0;
@@ -87,13 +88,29 @@ public class Player2 : MonoBehaviour
 
 	void FixedUpdate ()
 	{
+		if (IsLocked ()) return;
 		_rigidbody.velocity = _direction * _speed;
 	}
 
 	void Rotate2 ()
 	{
 		var normal = _dotSight.NormalizeFromPoint (transform.position);
-		body.rotation = Utilities.RotateByNormal (normal, Vector3.up);
+		var destRotation = Utilities.RotateByNormal (normal, Vector3.up);
+		body.rotation = Quaternion.RotateTowards (body.rotation, destRotation, Time.deltaTime * 630f);
+	}
+
+	public void OnHit (float damage, float hitbackForce, Vector3 impactedNormal, Vector3 impactedPoint)
+	{
+		var hitbackVel = Utilities.HitbackVelocity (_rigidbody.velocity, impactedNormal, hitbackForce);
+		_rigidbody.velocity = hitbackVel;
+		Lock ("Explosion");
+		StartCoroutine (ReleaseLockByExplosion ());
+	}
+
+	IEnumerator ReleaseLockByExplosion ()
+	{
+		yield return new WaitForSeconds (.25f);
+		Unlock ("Explosion");
 	}
 
 	public void RegisterLock (string name)

@@ -77,12 +77,14 @@ public class MeleeHolderController : MonoBehaviour
 		ReleaseTrigger (leftMeleeHolder);
 	}
 
-	void RotateMeleeHolder (MeleeHolder gunHolder)
+	void RotateMeleeHolder (MeleeHolder meleeHolder)
 	{
-		if (gunHolder == null || gunHolder is Object && gunHolder.Equals (null)) return;
-		var normal = _dotSight.NormalizeFromPoint (gunHolder.transform.position);
+		if (meleeHolder == null || meleeHolder is Object && meleeHolder.Equals (null)) return;
+		var normal = _dotSight.NormalizeFromPoint (meleeHolder.transform.position);
 		var angle = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
-		gunHolder.transform.eulerAngles = new Vector3 (0, angle, 0);
+		var destRot = Utilities.RotateByNormal (normal, Vector3.up);
+		var meleeHolderTransform = meleeHolder.transform;
+		meleeHolderTransform.rotation = Quaternion.RotateTowards (meleeHolderTransform.rotation, destRot, Time.deltaTime * 630f);
 	}
 
 	void KeepInCover (MeleeHolder meleeHolder)
