@@ -22,7 +22,7 @@ public class MeleeHolder : MonoBehaviour
 	{
 		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
 		{
-			Destroy (_heldMelee.gameObject);
+			_heldMelee.KeepInCover ();
 		}
 	}
 
@@ -31,12 +31,11 @@ public class MeleeHolder : MonoBehaviour
 		if (melee != null && melee is Object && !melee.Equals (null))
 		{
 			_heldMelee = Instantiate<Melee> (melee, transform.position, transform.rotation, transform);
-			_heldMelee.player = _player;
+			_heldMelee.TakeUpArm (_hand, _handAnimator, _player);
 			_hand.maximumRange = 1.4f;
 			if (_handAnimator != null && _handAnimator is Object && !_handAnimator.Equals (null))
 			{
 				_handAnimator.runtimeAnimatorController = _heldMelee.meleeAnimatorController;
-
 			}
 		}
 	}
@@ -45,7 +44,7 @@ public class MeleeHolder : MonoBehaviour
 	{
 		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
 		{
-			_heldMelee.HoldTrigger (_hand, _handAnimator);
+			_heldMelee.HoldTrigger ();
 		}
 	}
 }

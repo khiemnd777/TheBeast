@@ -14,7 +14,7 @@ public class GunHolder : MonoBehaviour
 	{
 		if (_heldGun != null && _heldGun is Object && !_heldGun.Equals (null))
 		{
-			Destroy (_heldGun.gameObject);
+			_heldGun.KeepInCover ();
 		}
 	}
 
@@ -24,6 +24,7 @@ public class GunHolder : MonoBehaviour
 		if (gun != null && gun is Object && !gun.Equals (null))
 		{
 			_heldGun = Instantiate<Gun> (gun, transform.position, transform.rotation, transform);
+			_heldGun.TakeUpArm ();
 			_heldGun.OnProjectileLaunched += OnProjectileLaunched;
 			_hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
 		}

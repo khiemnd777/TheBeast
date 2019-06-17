@@ -17,6 +17,16 @@ public abstract class Gun : MonoBehaviour
 	public abstract void ReleaseTrigger ();
 	public System.Action OnProjectileLaunched;
 
+	public virtual void TakeUpArm ()
+	{
+
+	}
+
+	public virtual void KeepInCover ()
+	{
+		Destroy (gameObject);
+	}
+
 	public void EjectShell ()
 	{
 		// eject shells.

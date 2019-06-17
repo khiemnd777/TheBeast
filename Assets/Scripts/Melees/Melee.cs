@@ -5,12 +5,20 @@ using UnityEngine;
 public class Melee : MonoBehaviour
 {
 	public RuntimeAnimatorController meleeAnimatorController;
-	[System.NonSerialized]
-	public Player2 player;
 
-	public virtual void HoldTrigger (Hand hand, Animator handAnimator)
+	public virtual void HoldTrigger ()
 	{
-		
+
+	}
+
+	public virtual void TakeUpArm (Hand hand, Animator handAnimator, Player2 player)
+	{
+
+	}
+
+	public virtual void KeepInCover ()
+	{
+		Destroy (gameObject);
 	}
 
 	public virtual void Awake ()

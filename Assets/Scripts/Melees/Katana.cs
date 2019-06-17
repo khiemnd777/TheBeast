@@ -5,6 +5,9 @@ using UnityEngine;
 public class Katana : Melee
 {
 	public float hitback;
+	Player2 _player;
+	Hand _hand;
+	Animator _handAnimator;
 	bool _inAnyAction;
 	int _slashCount;
 	BoxCollider _collider;
@@ -22,29 +25,46 @@ public class Katana : Melee
 	public override void Start ()
 	{
 		base.Start ();
-		player.RegisterLock ("Katana");
+		_player.RegisterLock ("Katana");
 	}
 
-	public override void HoldTrigger (Hand hand, Animator handAnimator)
+	public override void HoldTrigger ()
 	{
 		if (_inAnyAction) return;
 		_inAnyAction = true;
-		hand.enabled = false;
-		handAnimator.enabled = true;
-		StartCoroutine (EndOfAnimation (hand, handAnimator));
-		player.Lock ("Katana");
+		_hand.enabled = false;
+		_handAnimator.enabled = true;
+		StartCoroutine (EndOfAnimation ());
+		_player.Lock ("Katana");
 		var slashAnimName = _slashCount++ % 2 == 0 ? "Katana Slash" : "Katana Slash 2";
-		handAnimator.Play (slashAnimName, 0, 0);
+		_handAnimator.Play (slashAnimName, 0, 0);
 	}
 
-	IEnumerator EndOfAnimation (Hand hand, Animator handAnimator)
+	public override void TakeUpArm (Hand hand, Animator handAnimator, Player2 player)
+	{
+		_hand = hand;
+		_handAnimator = handAnimator;
+		_player = player;
+	}
+
+	public override void KeepInCover ()
+	{
+		_handAnimator.enabled = false;
+		_hand.enabled = true;
+		_player.Unlock ("Katana");
+		_inAnyAction = false;
+		_trail.enabled = false;
+		base.KeepInCover ();
+	}
+
+	IEnumerator EndOfAnimation ()
 	{
 		_trail.enabled = true;
-		var currentAnimatorStateInfo = handAnimator.GetCurrentAnimatorStateInfo (0);
+		var currentAnimatorStateInfo = _handAnimator.GetCurrentAnimatorStateInfo (0);
 		yield return new WaitForSeconds (currentAnimatorStateInfo.length);
-		handAnimator.enabled = false;
-		hand.enabled = true;
-		player.Unlock ("Katana");
+		_handAnimator.enabled = false;
+		_hand.enabled = true;
+		_player.Unlock ("Katana");
 		_inAnyAction = false;
 		_trail.enabled = false;
 	}
@@ -58,7 +78,7 @@ public class Katana : Melee
 			if (hitMonster)
 			{
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
-				var dir = contactPoint - player.transform.position;
+				var dir = contactPoint - _player.transform.position;
 				dir.Normalize ();
 				hitMonster.OnHit (transform, hitback, dir, contactPoint);
 				return;
