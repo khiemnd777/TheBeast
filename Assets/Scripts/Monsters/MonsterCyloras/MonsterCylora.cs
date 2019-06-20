@@ -7,6 +7,7 @@ public class MonsterCylora : Monster
 {
 	public float refreshRate = 1f;
 	public float speed = 3;
+	public Animator animator;
 	[SerializeField]
 	Transform _head;
 	[SerializeField]
@@ -30,6 +31,24 @@ public class MonsterCylora : Monster
 	Transform _playerTransform;
 	NavMeshAgent _agent;
 	float _tdt;
+    bool _isStopMoving;
+	float _storedSpeed;
+
+    public void StopMoving ()
+	{
+		if (!_isStopMoving)
+		{
+			_storedSpeed = speed;
+		}
+		speed = 0;
+		_isStopMoving = true;
+	}
+
+	public void KeepMoving ()
+	{
+		speed = _storedSpeed;
+		_isStopMoving = false;
+	}
 
 	void Awake ()
 	{

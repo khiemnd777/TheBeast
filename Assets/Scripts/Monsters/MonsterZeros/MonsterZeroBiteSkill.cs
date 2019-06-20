@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,15 +11,20 @@ public class MonsterZeroBiteSkill : MonsterSkill
     public override void Awake ()
     {
         base.Awake ();
+        OnBeforeExecutingHandler += OnBeforeExecuting;
         OnAfterExecutingHandler += OnAfterExecuting;
     }
 
     public override IEnumerator OnExecuting ()
     {
-        host.StopMoving ();
         host.animator.Play (biteAnim.name, 0, 0);
         yield return new WaitForSeconds (biteAnim.length);
-        host.animator.Play (defaultAnim.name, 0, 0);
+    }
+
+    IEnumerator OnBeforeExecuting()
+    {
+        host.StopMoving ();
+        yield break;
     }
 
     IEnumerator OnAfterExecuting ()

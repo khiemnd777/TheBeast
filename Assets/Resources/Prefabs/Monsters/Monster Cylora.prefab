@@ -69,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4834727793208436}
   - component: {fileID: 212889561113880038}
+  - component: {fileID: 95098847800651018}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -149,6 +150,22 @@ GameObject:
   - component: {fileID: 212559122729611808}
   m_Layer: 0
   m_Name: Wing 1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1469012853296306
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4641881462912384}
+  - component: {fileID: 114760873025756094}
+  m_Layer: 0
+  m_Name: Death Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -802,6 +819,19 @@ Transform:
   m_Father: {fileID: 4834727793208436}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4641881462912384
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469012853296306}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4815292011957768}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4765310901305242
 Transform:
   m_ObjectHideFlags: 1
@@ -824,7 +854,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4641881462912384}
   m_Father: {fileID: 4892626249404996}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -885,7 +916,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1107393336262210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2300482, y: 0, z: 0.43810546}
+  m_LocalPosition: {x: -3.03, y: 0, z: -0.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4185138180772388}
@@ -934,6 +965,23 @@ Transform:
   m_Father: {fileID: 4321729482065368}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -135}
+--- !u!95 &95098847800651018
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1172958075591804}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 19ace6af209ca45e9822378f58f9694c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95681124745434274
 Animator:
   serializedVersion: 3
@@ -1627,7 +1675,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   host: {fileID: 4892626249404996}
-  skills: []
+  skills:
+  - {fileID: 114760873025756094}
 --- !u!114 &114603578470338178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1640,7 +1689,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refreshRate: 1
-  speed: 0
+  speed: 3
+  animator: {fileID: 95681124745434274}
   _head: {fileID: 4834727793208436}
   _wing1: {fileID: 4503966355552110}
   _wingAnchor1: {fileID: 4883723453286966}
@@ -1650,6 +1700,59 @@ MonoBehaviour:
   _wingAnchor3: {fileID: 4765310901305242}
   _wing4: {fileID: 4023947707292336}
   _wingAnchor4: {fileID: 4916333242594028}
+--- !u!114 &114760873025756094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469012853296306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1eb88a9b9594afd9832649cdac96c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillHandler: {fileID: 0}
+  timeBetweenLaunching: 3
+  minDistanceExecuting: 9.7
+  maxDistanceExecuting: 13.45
+  host: {fileID: 114603578470338178}
+  defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
+  headAnimator: {fileID: 95098847800651018}
+  openFacesAnim: {fileID: 7400000, guid: ba1e0c6124aa7485e9df02c136e6c9c8, type: 2}
+  coreRotationScale: 1.75
+  phase1Time: 3.5
+  wingSpeed: 2000
+  _coreRotation: {fileID: 4338337514776726}
+  _phaseSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5475614
+      value: 0.117635444
+      inSlope: 0.8033216
+      outSlope: 0.8033216
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.91811943
+      value: 0.6749575
+      inSlope: 2.3311377
+      outSlope: 2.3311377
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 5.571429
+      outSlope: 5.571429
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!195 &195068033253660192
 NavMeshAgent:
   m_ObjectHideFlags: 1
