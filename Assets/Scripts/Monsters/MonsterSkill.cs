@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class MonsterSkill : MonoBehaviour
 {
+    [System.NonSerialized]
     public MonsterSkillHandler skillHandler;
     public float timeBetweenLaunching;
     public float minDistanceExecuting;
@@ -14,7 +15,7 @@ public abstract class MonsterSkill : MonoBehaviour
 
     public virtual void Awake ()
     {
-
+        skillHandler = GetComponentInParent<MonsterSkillHandler> ();
     }
 
     public virtual void Start ()

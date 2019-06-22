@@ -9,55 +9,108 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	public AnimationClip defaultAnim;
 	public Animator headAnimator;
 	public AnimationClip openFacesAnim;
+	public AnimationClip closeFacesAnim;
 	public float coreRotationScale;
-	public float phase1Time;
 	public float wingSpeed;
+	public float startRollingTime;
+	public float stopRollingTime;
+	public float idleToDashTime;
+	public float dashingVelocity;
 	[SerializeField]
 	Transform _coreRotation;
 	[SerializeField]
-	AnimationCurve _phaseSpeedCurve;
+	AnimationCurve _startRollingSpeedCurve;
+	[SerializeField]
+	AnimationCurve _stopRollingSpeedCurve;
+	Player2 _player;
+	bool _isStopRolling;
 
 	public override void Awake ()
 	{
 		base.Awake ();
+		_player = FindObjectOfType<Player2> ();
 		OnBeforeExecutingHandler += OnBeforeExecuting;
 		OnAfterExecutingHandler += OnAfterExecuting;
 	}
 
 	public override IEnumerator OnExecuting ()
 	{
-		yield return StartCoroutine (Phase1 ());
-		yield return StartCoroutine (Phase2 ());
+		yield return StartCoroutine (StartRolling ());
+		StartCoroutine (KeepRolling ());
+		yield return new WaitForSeconds (idleToDashTime);
+		yield return StartCoroutine (DashToTarget ());
+		yield return StartCoroutine (StopRolling ());
 	}
 
-	IEnumerator Phase1 ()
+	IEnumerator StartRolling ()
 	{
 		headAnimator.Play (openFacesAnim.name, 0, 0);
 		var speedRate = 0f;
 		var coreScaleRate = 0f;
+		var startTime = Mathf.Max (startRollingTime, openFacesAnim.length);
 		var t = 0f;
 		while (t <= 1f)
 		{
-			t += Time.deltaTime / phase1Time;
-			speedRate = Mathf.Lerp (0f, 1f, _phaseSpeedCurve.Evaluate (t));
-			coreScaleRate = Mathf.Lerp (1f, coreRotationScale, _phaseSpeedCurve.Evaluate (t));
+			t += Time.deltaTime / startRollingTime;
+			speedRate = Mathf.Lerp (0f, 1f, _startRollingSpeedCurve.Evaluate (t));
+			coreScaleRate = Mathf.Lerp (1f, coreRotationScale, _startRollingSpeedCurve.Evaluate (t));
+			_coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed * speedRate);
+			_coreRotation.localScale = Vector3.one * coreScaleRate;
+			yield return null;
+		}
+		_isStopRolling = false;
+	}
+
+	IEnumerator StopRolling ()
+	{
+		_isStopRolling = true;
+		headAnimator.Play (closeFacesAnim.name, 0, 0);
+		var speedRate = 0f;
+		var coreScaleRate = 0f;
+		var stopTime = Mathf.Max (stopRollingTime, closeFacesAnim.length);
+		var t = 0f;
+		while (t <= 1f)
+		{
+			t += Time.deltaTime / stopTime;
+			speedRate = Mathf.Lerp (1f, 0f, _stopRollingSpeedCurve.Evaluate (t));
+			coreScaleRate = Mathf.Lerp (coreRotationScale, 1f, _stopRollingSpeedCurve.Evaluate (t));
 			_coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed * speedRate);
 			_coreRotation.localScale = Vector3.one * coreScaleRate;
 			yield return null;
 		}
 	}
 
-	IEnumerator Phase2 ()
+	IEnumerator KeepRolling ()
 	{
-		while (true)
+		while (!_isStopRolling)
 		{
 			_coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed);
 			yield return null;
 		}
 	}
 
+	IEnumerator DashToTarget ()
+	{
+		host.StopRotatingToTarget ();
+		var destPosition = _player.transform.position;
+		var startPosition = host.transform.position;
+		var distance = Vector3.Distance (_player.transform.position, host.transform.position);
+		var velocity = dashingVelocity;
+		var t = distance / velocity;
+		var p = 0f;
+		while (p <= 1f)
+		{
+			p += Time.deltaTime / t;
+			host.transform.position = Vector3.Lerp (startPosition, destPosition, p);
+			yield return null;
+		}
+		host.KeepRotatingToTarget ();
+	}
+
 	IEnumerator OnBeforeExecuting ()
 	{
+		// host.StopLeadingToTarget ();
+		host.agent.enabled = false;
 		host.StopMoving ();
 		host.animator.enabled = false;
 		yield break;
@@ -67,6 +120,8 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	{
 		host.animator.enabled = true;
 		host.animator.Play (defaultAnim.name, 0, 0);
+		host.KeepLeadingToTarget ();
+		host.agent.enabled = true;
 		host.KeepMoving ();
 		yield break;
 	}

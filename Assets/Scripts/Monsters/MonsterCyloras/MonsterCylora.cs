@@ -29,12 +29,14 @@ public class MonsterCylora : Monster
 
 	Player2 _player;
 	Transform _playerTransform;
-	NavMeshAgent _agent;
+	[System.NonSerialized]
+	public NavMeshAgent agent;
+	bool _isStopMoving;
+	bool _isStopRotating;
 	float _tdt;
-    bool _isStopMoving;
 	float _storedSpeed;
 
-    public void StopMoving ()
+	public void StopMoving ()
 	{
 		if (!_isStopMoving)
 		{
@@ -50,9 +52,39 @@ public class MonsterCylora : Monster
 		_isStopMoving = false;
 	}
 
+	public void KeepMoving (float speed)
+	{
+		if (this.speed != 0 && this.speed != speed)
+		{
+			_storedSpeed = this.speed;
+		}
+		this.speed = speed;
+		_isStopMoving = false;
+	}
+
+	public void StopRotatingToTarget ()
+	{
+		_isStopRotating = true;
+	}
+
+	public void KeepRotatingToTarget ()
+	{
+		_isStopRotating = false;
+	}
+
+	public void StopLeadingToTarget ()
+	{
+		agent.updatePosition = false;
+	}
+
+	public void KeepLeadingToTarget ()
+	{
+		agent.updatePosition = true;
+	}
+
 	void Awake ()
 	{
-		_agent = GetComponent<NavMeshAgent> ();
+		agent = GetComponent<NavMeshAgent> ();
 		_player = FindObjectOfType<Player2> ();
 		_playerTransform = _player.transform;
 	}
@@ -64,13 +96,14 @@ public class MonsterCylora : Monster
 
 	void Update ()
 	{
-		_agent.speed = speed;
+		agent.speed = speed;
 		UpdateWingsPosition ();
 		RotateTowards (_playerTransform);
 	}
 
 	void RotateTowards (Transform target)
 	{
+		if (_isStopRotating) return;
 		var normal = target.position - _head.position;
 		normal.Normalize ();
 		var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
@@ -103,7 +136,10 @@ public class MonsterCylora : Monster
 				_tdt += Time.deltaTime / refreshRate;
 				if (_tdt >= 1f)
 				{
-					_agent.SetDestination (_playerTransform.position);
+					if (agent.enabled)
+					{
+						agent.SetDestination (_playerTransform.position);
+					}
 					_tdt = 0f;
 				}
 			}

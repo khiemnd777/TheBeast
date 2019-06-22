@@ -1711,7 +1711,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1eb88a9b9594afd9832649cdac96c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillHandler: {fileID: 0}
   timeBetweenLaunching: 3
   minDistanceExecuting: 9.7
   maxDistanceExecuting: 13.45
@@ -1719,11 +1718,15 @@ MonoBehaviour:
   defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
   headAnimator: {fileID: 95098847800651018}
   openFacesAnim: {fileID: 7400000, guid: ba1e0c6124aa7485e9df02c136e6c9c8, type: 2}
+  closeFacesAnim: {fileID: 7400000, guid: 2783a32bd137e4b7186854ae5b5334e3, type: 2}
   coreRotationScale: 1.75
-  phase1Time: 3.5
   wingSpeed: 2000
+  startRollingTime: 3.5
+  stopRollingTime: 1.5
+  idleToDashTime: 1.5
+  dashingVelocity: 13.5
   _coreRotation: {fileID: 4338337514776726}
-  _phaseSpeedCurve:
+  _startRollingSpeedCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
@@ -1733,22 +1736,52 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.5475614
-      value: 0.117635444
-      inSlope: 0.8033216
-      outSlope: 0.8033216
+      time: 0.47846833
+      value: 0.10164144
+      inSlope: 0.6568432
+      outSlope: 0.6568432
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.91811943
-      value: 0.6749575
-      inSlope: 2.3311377
-      outSlope: 2.3311377
+      time: 0.90993106
+      value: 0.6162754
+      inSlope: 2.0828843
+      outSlope: 2.0828843
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0.9937515
+      inSlope: 7.833371
+      outSlope: 7.833371
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  _stopRollingSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 5.249999
+      outSlope: 5.249999
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.13959605
+      value: 0.45293176
+      inSlope: 1.9085488
+      outSlope: 1.9085488
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.46818012
+      value: 0.87890244
+      inSlope: 0.63165534
+      outSlope: 0.63165534
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 5.571429
-      outSlope: 5.571429
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
