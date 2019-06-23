@@ -779,11 +779,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 114760873025756094, guid: 80218d10dd8fe44708f18091a668d5a7,
-        type: 2}
-      propertyPath: dashingVelocity
-      value: 18
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80218d10dd8fe44708f18091a668d5a7, type: 2}
   m_IsPrefabParent: 0
@@ -1549,7 +1544,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1166415487383410, guid: 43c3f30a4a076408da67da6142ea556c, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 43c3f30a4a076408da67da6142ea556c, type: 2}

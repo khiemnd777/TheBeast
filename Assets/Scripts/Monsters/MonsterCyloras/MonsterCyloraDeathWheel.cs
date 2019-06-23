@@ -91,6 +91,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 
 	IEnumerator DashToTarget ()
 	{
+		host.StopLeadingToTarget ();
 		host.StopRotatingToTarget ();
 		var destPosition = _player.transform.position;
 		var startPosition = host.transform.position;
@@ -109,8 +110,6 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 
 	IEnumerator OnBeforeExecuting ()
 	{
-		// host.StopLeadingToTarget ();
-		host.agent.enabled = false;
 		host.StopMoving ();
 		host.animator.enabled = false;
 		yield break;
@@ -121,7 +120,6 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		host.animator.enabled = true;
 		host.animator.Play (defaultAnim.name, 0, 0);
 		host.KeepLeadingToTarget ();
-		host.agent.enabled = true;
 		host.KeepMoving ();
 		yield break;
 	}

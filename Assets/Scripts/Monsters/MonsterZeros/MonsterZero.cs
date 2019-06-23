@@ -51,10 +51,10 @@ public class MonsterZero : Monster
 			_objectShake.Shake ();
 		}
 		// bleed out
-		var bloodNor = raycastHit.normal;
-		var rot = 360f - Mathf.Atan2 (bloodNor.z, bloodNor.x) * Mathf.Rad2Deg;
-		var bloodIns = Instantiate<Blood> (_bloodPrefab, raycastHit.point, Quaternion.Euler (0f, rot, 0f));
-		Destroy (bloodIns.gameObject, bloodIns.particleSystem.main.startLifetimeMultiplier);
+		if (_bloodPrefab)
+		{
+			Utilities.BleedOutAtPoint (_bloodPrefab, raycastHit.normal, raycastHit.point);
+		}
 	}
 
 	public override void OnHit (Transform hitBy, float hitback, Vector3 impactedNormal, Vector3 impactedPoint)
@@ -68,13 +68,9 @@ public class MonsterZero : Monster
 			_objectShake.Shake ();
 		}
 		// bleed out
-		if (_bloodPrefab)
+		if (_wideBloodPrefab)
 		{
-			var headRot = head.rotation;
-			var headEuler = headRot.eulerAngles;
-			var bloodInsRot = Quaternion.Euler (headEuler.x, headEuler.y + 90f, headEuler.z);
-			var bloodIns = Instantiate<Blood> (_wideBloodPrefab, impactedPoint, bloodInsRot);
-			Destroy (bloodIns.gameObject, bloodIns.particleSystem.main.startLifetimeMultiplier);
+			Utilities.BleedOut (_wideBloodPrefab, head.rotation, impactedPoint);
 		}
 	}
 

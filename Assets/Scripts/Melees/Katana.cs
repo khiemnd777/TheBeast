@@ -78,7 +78,7 @@ public class Katana : Melee
 			if (hitMonster)
 			{
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
-				var dir = contactPoint - _player.transform.position;
+				var dir = _player.transform.position - contactPoint;
 				dir.Normalize ();
 				hitMonster.OnHit (transform, hitback, dir, contactPoint);
 				return;
