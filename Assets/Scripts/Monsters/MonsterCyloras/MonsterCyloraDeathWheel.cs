@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MonsterCyloraDeathWheel : MonsterSkill
@@ -22,8 +23,11 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	AnimationCurve _startRollingSpeedCurve;
 	[SerializeField]
 	AnimationCurve _stopRollingSpeedCurve;
+	[SerializeField]
+	MonsterCyloraWing[] _wings;
 	Player2 _player;
 	bool _isStopRolling;
+	bool _isRollingMaxSpeed;
 
 	public override void Awake ()
 	{
@@ -31,15 +35,26 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		_player = FindObjectOfType<Player2> ();
 		OnBeforeExecutingHandler += OnBeforeExecuting;
 		OnAfterExecutingHandler += OnAfterExecuting;
+		foreach (var wing in _wings)
+		{
+			wing.onHit += OnWingHit;
+		}
+	}
+
+	void OnWingHit (MonsterCyloraWing wing)
+	{
+		if (!_isRollingMaxSpeed) return;
 	}
 
 	public override IEnumerator OnExecuting ()
 	{
 		yield return StartCoroutine (StartRolling ());
+		_isRollingMaxSpeed = true;
 		StartCoroutine (KeepRolling ());
 		yield return new WaitForSeconds (idleToDashTime);
 		yield return StartCoroutine (DashToTarget ());
 		yield return StartCoroutine (StopRolling ());
+		_isRollingMaxSpeed = false;
 	}
 
 	IEnumerator StartRolling ()

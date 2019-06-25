@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-	Camera _theCamera;
+	public Camera theCamera;
 	public Transform target;
 	public float smoothSpeed = .125f;
 	public Vector3 offset;
 	public BoxCollider bound;
 
-	void Awake ()
-	{
-		_theCamera = GetComponent<Camera> ();
-	}
-
 	void Update()
 	{
 		var desiredPos = target.position + offset;
 		var smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
-		transform.position = Utilities.CameraInBound(_theCamera, bound, smoothedPos);
+		transform.position = Utilities.CameraInBound(theCamera, bound, smoothedPos);
 	}
 }

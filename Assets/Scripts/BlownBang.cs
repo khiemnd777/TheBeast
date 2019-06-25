@@ -11,6 +11,8 @@ public class BlownBang : MonoBehaviour
 	float _damage;
 	Animator _animator;
 	SphereCollider _collider;
+	CameraShake _cameraShake;
+	SlowMotionMonitor _slowMotionMonitor;
 
 	float _animLength;
 	float _tAnimLength;
@@ -19,6 +21,8 @@ public class BlownBang : MonoBehaviour
 	{
 		_animator = GetComponent<Animator> ();
 		_collider = GetComponent<SphereCollider> ();
+		_cameraShake = FindObjectOfType<CameraShake> ();
+		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
 	}
 
 	void Start ()
@@ -64,6 +68,8 @@ public class BlownBang : MonoBehaviour
 			var dir = contactPoint - other.transform.position;
 			dir.Normalize ();
 			hitMonster.OnHit (transform, _hitbackForce, dir, contactPoint);
+			_cameraShake.Shake (.25f, .25f);
+			_slowMotionMonitor.Freeze (.5f, .25f);
 		}
 		var hitPlayer = other.GetComponent<Player2> ();
 		if (hitPlayer)
@@ -72,6 +78,8 @@ public class BlownBang : MonoBehaviour
 			var dir = contactPoint - other.transform.position;
 			dir.Normalize ();
 			hitPlayer.OnHit (_damage, _hitbackForce, dir, contactPoint);
+			_cameraShake.Shake (.25f, .25f);
+			_slowMotionMonitor.Freeze (.75f, .35f);
 		}
 	}
 }

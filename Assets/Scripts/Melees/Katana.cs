@@ -81,6 +81,7 @@ public class Katana : Melee
 				var dir = _player.transform.position - contactPoint;
 				dir.Normalize ();
 				hitMonster.OnHit (transform, hitback, dir, contactPoint);
+				_slowMotionMonitor.Freeze (.45f, .2f);
 				return;
 			}
 			var reversedDamage = other.GetComponent<ReversedDamage> ();

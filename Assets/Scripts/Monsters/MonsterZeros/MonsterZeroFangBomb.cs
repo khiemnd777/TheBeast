@@ -39,6 +39,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 	{
 		_reversedDamage = GetComponent<ReversedDamage> ();
 		_reversedDamage.speed = bombSpeed;
+		_reversedDamage.reversed = false;
 	}
 
 	void Start ()
@@ -142,14 +143,18 @@ public class MonsterZeroFangBomb : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+		if (other.gameObject.layer == LayerMask.NameToLayer ("Reversed Damage"))
+		{
+			return;
+		}
 		if (_reversedDamage.reversed && other.gameObject.layer == LayerMask.NameToLayer ("Enemy"))
 		{
 			BlowBang ();
 			DestroyAll ();
 			return;
 		}
-		if (other.gameObject.layer != LayerMask.NameToLayer ("Enemy") &&
-			other.gameObject.layer != LayerMask.NameToLayer ("Reversed Damage"))
+		if (other.gameObject.layer == LayerMask.NameToLayer ("Player") ||
+			other.gameObject.layer == LayerMask.NameToLayer ("Obstacle"))
 		{
 			BlowBang ();
 			DestroyAll ();
@@ -169,6 +174,6 @@ public class MonsterZeroFangBomb : MonoBehaviour
 	void BlowBang ()
 	{
 		var explosion = Instantiate<BlownBang> (blownBangPrefab, transform.position, Quaternion.identity);
-		explosion.Trigger(1.75f, 0f, 10f);
+		explosion.Trigger (1.75f, 0f, 10f);
 	}
 }
