@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MonsterSkillHandler : MonoBehaviour
@@ -25,14 +25,15 @@ public class MonsterSkillHandler : MonoBehaviour
 		var distanceFromTarget = Utilities.DistanceFromTarget (_player.transform.position, host.transform.position);
 		foreach (var skill in skills)
 		{
-			if (Mathf.Clamp (distanceFromTarget, skill.minDistanceExecuting, skill.maxDistanceExecuting) != distanceFromTarget) continue;
-			if (skill.beExecuting)
+			if (Mathf.Clamp (distanceFromTarget, skill.minDistanceExecuting, skill.maxDistanceExecuting) != distanceFromTarget)
 			{
-				accessExecutingSkill = false;
+				skill.OnOutOfRange ();
+				continue;
+			}
+			if (skills.Any (x => x.beExecuting))
+			{
 				return;
 			}
-			if (accessExecutingSkill) return;
-			accessExecutingSkill = true;
 			StartCoroutine (skill.Execute ());
 		}
 	}

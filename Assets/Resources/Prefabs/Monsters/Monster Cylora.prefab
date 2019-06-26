@@ -1,5 +1,109 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1720675566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1720675567}
+  - component: {fileID: 1720675568}
+  m_Layer: 10
+  m_Name: Death Saw
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1720675567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720675566}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4815292011957768}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1720675568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720675566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae6e76e363424223956dbb99d5cb810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenLaunching: 0.15
+  minDistanceExecuting: 1.71
+  maxDistanceExecuting: 3.18
+  host: {fileID: 114603578470338178}
+  defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
+  wingSpeed: 1500
+  rollingTime: 0.75
+  stopRollingTime: 0.25
+  scaleWingsValue: 1.8
+  _coreRotation: {fileID: 4338337514776726}
+  _stopRollingSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0000010170043
+      value: 0
+      inSlope: 5.1248956
+      outSlope: 5.1248956
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.27042806
+    - serializedVersion: 3
+      time: 0.16822457
+      value: 0.542026
+      inSlope: 1.6115927
+      outSlope: 1.6115927
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.18210967
+    - serializedVersion: 3
+      time: 0.2890663
+      value: 0.7288451
+      inSlope: 1.2188555
+      outSlope: 1.2188555
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.76992977
+    - serializedVersion: 3
+      time: 0.49809015
+      value: 0.9265289
+      inSlope: 0.6008299
+      outSlope: 0.6008299
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.67239237
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1030982095389138
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,6 +191,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4641881462912384}
+  - {fileID: 1720675567}
   m_Father: {fileID: 4892626249404996}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -105,6 +210,7 @@ MonoBehaviour:
   host: {fileID: 4892626249404996}
   skills:
   - {fileID: 114760873025756094}
+  - {fileID: 1720675568}
 --- !u!1 &1107393336262210
 GameObject:
   m_ObjectHideFlags: 0

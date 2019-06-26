@@ -12,6 +12,7 @@ public abstract class MonsterSkill : MonoBehaviour
     public bool beExecuting;
     public System.Func<IEnumerator> OnBeforeExecutingHandler;
     public System.Func<IEnumerator> OnAfterExecutingHandler;
+    bool _stopExecuting;
 
     public virtual void Awake ()
     {
@@ -28,14 +29,15 @@ public abstract class MonsterSkill : MonoBehaviour
     public virtual IEnumerator Execute ()
     {
         if (beExecuting) yield break;
+        _stopExecuting = false;
         beExecuting = true;
         var tBetweenAct = 1f;
+        if (OnBeforeExecutingHandler != null)
+        {
+            yield return StartCoroutine (OnBeforeExecutingHandler ());
+        }
         while (true)
         {
-            if (OnBeforeExecutingHandler != null)
-            {
-                yield return StartCoroutine (OnBeforeExecutingHandler ());
-            }
             if (timeBetweenLaunching > 0)
             {
                 while (tBetweenAct <= 1f)
@@ -46,12 +48,17 @@ public abstract class MonsterSkill : MonoBehaviour
             }
             tBetweenAct = 0f;
             yield return StartCoroutine (OnExecuting ());
-            if (!skillHandler.accessExecutingSkill) break;
+            if (_stopExecuting) break;
         }
         if (OnAfterExecutingHandler != null)
         {
             yield return StartCoroutine (OnAfterExecutingHandler ());
         }
         beExecuting = false;
+    }
+
+    public void OnOutOfRange ()
+    {
+        _stopExecuting = true;
     }
 }
