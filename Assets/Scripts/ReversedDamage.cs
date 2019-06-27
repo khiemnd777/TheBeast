@@ -6,4 +6,5 @@ public class ReversedDamage : MonoBehaviour
 {
 	public bool reversed;
 	public float speed;
+	public Vector3 normal;
 }

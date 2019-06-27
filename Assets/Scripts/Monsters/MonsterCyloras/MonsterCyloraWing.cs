@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterCyloraWing : MonoBehaviour
 {
     BoxCollider _collider;
-    public System.Action<MonsterCyloraWing> onHit;
+    public System.Action<MonsterCyloraWing, Collider> onHit;
 
     void Awake ()
     {
@@ -16,7 +16,7 @@ public class MonsterCyloraWing : MonoBehaviour
     {
         if (onHit != null)
         {
-            onHit (this);
+            onHit (this, other);
         }
     }
 }

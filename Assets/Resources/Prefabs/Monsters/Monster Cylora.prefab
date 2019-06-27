@@ -48,6 +48,9 @@ MonoBehaviour:
   maxDistanceExecuting: 3.18
   host: {fileID: 114603578470338178}
   defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
+  headAnimator: {fileID: 95098847800651018}
+  openFacesAnim: {fileID: 7400000, guid: ba1e0c6124aa7485e9df02c136e6c9c8, type: 2}
+  closeFacesAnim: {fileID: 7400000, guid: 2783a32bd137e4b7186854ae5b5334e3, type: 2}
   wingSpeed: 1500
   rollingTime: 0.75
   stopRollingTime: 0.25

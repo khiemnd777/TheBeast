@@ -86,7 +86,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 			}
 			else
 			{
-				transform.Translate (-_directedMoving * Time.deltaTime * _reversedDamage.speed);
+				transform.Translate (_reversedDamage.normal * Time.deltaTime * _reversedDamage.speed);
 			}
 			_tDestroy += Time.deltaTime / bombDestroyTime;
 			if (_tDestroy >= 1f)
@@ -143,7 +143,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject.layer == LayerMask.NameToLayer ("Reversed Damage"))
+		if (other.gameObject.layer == LayerMask.NameToLayer (LayerConstants.ReversedDamageable))
 		{
 			return;
 		}

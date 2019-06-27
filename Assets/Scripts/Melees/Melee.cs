@@ -11,7 +11,7 @@ public class Melee : MonoBehaviour
 
 	}
 
-	public virtual void TakeUpArm (Hand hand, Animator handAnimator, Player2 player)
+	public virtual void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)
 	{
 
 	}

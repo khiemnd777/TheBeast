@@ -65,7 +65,7 @@ public class BlownBang : MonoBehaviour
 		if (hitMonster)
 		{
 			var contactPoint = other.ClosestPointOnBounds (transform.position);
-			var dir = contactPoint - other.transform.position;
+			var dir = other.transform.position - contactPoint;
 			dir.Normalize ();
 			hitMonster.OnHit (transform, _hitbackForce, dir, contactPoint);
 			_cameraShake.Shake (.25f, .25f);
@@ -75,7 +75,7 @@ public class BlownBang : MonoBehaviour
 		if (hitPlayer)
 		{
 			var contactPoint = other.ClosestPointOnBounds (transform.position);
-			var dir = contactPoint - other.transform.position;
+			var dir = other.transform.position - contactPoint;
 			dir.Normalize ();
 			hitPlayer.OnHit (_damage, _hitbackForce, dir, contactPoint);
 			_cameraShake.Shake (.25f, .25f);

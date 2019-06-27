@@ -796,6 +796,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster Cylora
       objectReference: {fileID: 0}
+    - target: {fileID: 1107393336262210, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.76
@@ -1687,6 +1691,10 @@ PrefabInstance:
     - target: {fileID: 1166415487383410, guid: 43c3f30a4a076408da67da6142ea556c, type: 3}
       propertyPath: m_Name
       value: Monster Zero
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166415487383410, guid: 43c3f30a4a076408da67da6142ea556c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4674501294138524, guid: 43c3f30a4a076408da67da6142ea556c, type: 3}
       propertyPath: m_LocalPosition.x

@@ -34,8 +34,8 @@ public class Utilities
         var hitVel = hitbackNormal * hitback;
         var hitVelLength = hitVel.sqrMagnitude;
         var velLength = velocity.sqrMagnitude;
-        var returnedVel = velLength >= hitVelLength ? velocity - hitVel : -hitVel;
-        return returnedVel;                                                                                                     
+        var returnedVel = velLength >= hitVelLength ? velocity + hitVel : hitVel;
+        return returnedVel;
     }
 
     public static Quaternion RotateByNormal (Vector3 normal, Vector3 axis)
@@ -68,5 +68,10 @@ public class Utilities
         var bloodIns = Object.Instantiate<Blood> (bloodPrefab, bleedPoint, bloodInsRot);
         Object.Destroy (bloodIns.gameObject, bloodIns.particleSystem.main.startLifetimeMultiplier);
         return bloodIns;
+    }
+
+    public static Vector3 GetDirection(Transform transform, Vector3 axis)
+    {
+        return transform.rotation * axis;
     }
 }

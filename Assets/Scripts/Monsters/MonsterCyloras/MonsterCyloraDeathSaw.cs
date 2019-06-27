@@ -7,6 +7,9 @@ public class MonsterCyloraDeathSaw : MonsterSkill
 {
     public MonsterCylora host;
     public AnimationClip defaultAnim;
+	public Animator headAnimator;
+    public AnimationClip openFacesAnim;
+	public AnimationClip closeFacesAnim;
     public float wingSpeed;
     public float rollingTime;
     public float stopRollingTime;
@@ -49,11 +52,13 @@ public class MonsterCyloraDeathSaw : MonsterSkill
     public override IEnumerator OnExecuting ()
     {
         _isStopRolling = false;
+		headAnimator.Play (openFacesAnim.name, 0, .75f);
         StartCoroutine (RushForward ());
         StartCoroutine (KeepRolling ());
         StartCoroutine (ScaleWingsOut ());
         yield return new WaitForSeconds (rollingTime);
         _isStopRolling = true;
+		headAnimator.Play (closeFacesAnim.name, 0, .75f);
         StartCoroutine (GetBackAsBeforeRushed ());
         StartCoroutine (ScaleWingsIn ());
         yield return StartCoroutine (StopRolling ());

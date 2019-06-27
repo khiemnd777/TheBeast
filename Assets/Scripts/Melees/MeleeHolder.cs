@@ -31,7 +31,7 @@ public class MeleeHolder : MonoBehaviour
 		if (melee != null && melee is Object && !melee.Equals (null))
 		{
 			_heldMelee = Instantiate<Melee> (melee, transform.position, transform.rotation, transform);
-			_heldMelee.TakeUpArm (_hand, _handAnimator, _player);
+			_heldMelee.TakeUpArm (this, _hand, _handAnimator, _player);
 			_hand.maximumRange = 1.4f;
 			if (_handAnimator != null && _handAnimator is Object && !_handAnimator.Equals (null))
 			{

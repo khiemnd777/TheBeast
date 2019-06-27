@@ -44,7 +44,7 @@ public class MonsterZero : Monster
 		var hitTransform = raycastHit.transform;
 		if (_agent)
 		{
-			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, raycastHit.normal, hitback);
+			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, -raycastHit.normal, hitback);
 		}
 		if (_objectShake)
 		{

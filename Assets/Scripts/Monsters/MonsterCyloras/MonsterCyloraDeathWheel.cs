@@ -41,9 +41,10 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		}
 	}
 
-	void OnWingHit (MonsterCyloraWing wing)
+	void OnWingHit (MonsterCyloraWing wing, Collider other)
 	{
 		if (!_isRollingMaxSpeed) return;
+		
 	}
 
 	public override IEnumerator OnExecuting ()

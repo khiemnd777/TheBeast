@@ -5,6 +5,7 @@ using UnityEngine;
 public class Katana : Melee
 {
 	public float hitback;
+	MeleeHolder _holder;
 	Player2 _player;
 	Hand _hand;
 	Animator _handAnimator;
@@ -40,11 +41,12 @@ public class Katana : Melee
 		_handAnimator.Play (slashAnimName, 0, 0);
 	}
 
-	public override void TakeUpArm (Hand hand, Animator handAnimator, Player2 player)
+	public override void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)
 	{
 		_hand = hand;
 		_handAnimator = handAnimator;
 		_player = player;
+		_holder = holder;
 	}
 
 	public override void KeepInCover ()
@@ -78,8 +80,10 @@ public class Katana : Melee
 			if (hitMonster)
 			{
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
-				var dir = _player.transform.position - contactPoint;
+				// var dir = _player.transform.position - contactPoint;
+				var dir = Utilities.GetDirection (transform, Vector3.back);
 				dir.Normalize ();
+				dir = dir * _holder.transform.localScale.z;
 				hitMonster.OnHit (transform, hitback, dir, contactPoint);
 				_slowMotionMonitor.Freeze (.45f, .2f);
 				return;
@@ -87,8 +91,11 @@ public class Katana : Melee
 			var reversedDamage = other.GetComponent<ReversedDamage> ();
 			if (reversedDamage)
 			{
+				var dir = Utilities.GetDirection (transform, Vector3.back);
+				dir.Normalize ();
 				reversedDamage.reversed = true;
 				reversedDamage.speed *= 1.25f;
+				reversedDamage.normal = dir * _holder.transform.localScale.z;
 				_slowMotionMonitor.Freeze (.009f, 1.5f);
 				return;
 			}
