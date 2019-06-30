@@ -278,9 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fa8de904cbb47fb84d5c213782ee72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitback: 8
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
-  hitback: 5
   _trail: {fileID: 96034581088180826}
 --- !u!65 &65343621949363830
 BoxCollider:

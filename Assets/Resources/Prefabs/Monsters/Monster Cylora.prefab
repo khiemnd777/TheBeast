@@ -748,7 +748,7 @@ MonoBehaviour:
   startRollingTime: 3.5
   stopRollingTime: 1.5
   idleToDashTime: 1.5
-  dashingVelocity: 18
+  dashingVelocity: 25
   _coreRotation: {fileID: 4338337514776726}
   _startRollingSpeedCurve:
     serializedVersion: 2

@@ -9,6 +9,8 @@ public class Player2 : MonoBehaviour
 	public float walkSpeed = .5f;
 	public float sprintVolume = .09f;
 	public float walkVolume = .01f;
+	[System.NonSerialized]
+	public bool isFendingOff;
 	[SerializeField]
 	public Transform body;
 	[SerializeField]
@@ -107,9 +109,23 @@ public class Player2 : MonoBehaviour
 		StartCoroutine (ReleaseLockByExplosion ());
 	}
 
-	IEnumerator ReleaseLockByExplosion ()
+	public void OnFendingOff (float knockbackForce, Vector3 impactedNormal, Vector3 impactedPoint)
 	{
-		yield return new WaitForSeconds (.25f);
+		var hitbackVel = Utilities.HitbackVelocity (_rigidbody.velocity, impactedNormal, knockbackForce);
+		_rigidbody.velocity = hitbackVel;
+		isFendingOff = true;
+		StartCoroutine (SetFendingOffStatusOff ());
+	}
+
+	IEnumerator SetFendingOffStatusOff ()
+	{
+		yield return new WaitForSeconds (_settings.defaultFendingOffStatusOffTime);
+		isFendingOff = false;
+	}
+
+	public IEnumerator ReleaseLockByExplosion ()
+	{
+		yield return new WaitForSeconds (_settings.defaultReleaseLockExplosionTime);
 		Unlock ("Explosion");
 	}
 

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Melee : MonoBehaviour
 {
+	public float hitback;
+	protected MeleeHolder holder;
+	[System.NonSerialized]
+	public bool anyAction;
 	public RuntimeAnimatorController meleeAnimatorController;
 
 	public virtual void HoldTrigger ()
@@ -39,5 +43,18 @@ public class Melee : MonoBehaviour
 	public virtual void FixedUpdate ()
 	{
 
+	}
+
+	public virtual Vector3 GetDirection ()
+	{
+		var direction = Utilities.GetDirection (transform, Vector3.back);
+		return direction * holder.transform.localScale.z;
+	}
+
+	public Vector3 GetNormalDirection ()
+	{
+		var direction = GetDirection ();
+		direction.Normalize ();
+		return direction;
 	}
 }

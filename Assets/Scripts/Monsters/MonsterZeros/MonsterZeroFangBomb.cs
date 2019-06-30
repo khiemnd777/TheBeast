@@ -21,7 +21,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 	public float maxBubbleSize;
 	public BlownBang blownBangPrefab;
 
-	ReversedDamage _reversedDamage;
+	ReversedObject _reversedObject;
 	float _tBecomeFull;
 	float _tDestroy;
 	float _bombSize;
@@ -37,9 +37,9 @@ public class MonsterZeroFangBomb : MonoBehaviour
 
 	void Awake ()
 	{
-		_reversedDamage = GetComponent<ReversedDamage> ();
-		_reversedDamage.speed = bombSpeed;
-		_reversedDamage.reversed = false;
+		_reversedObject = GetComponent<ReversedObject> ();
+		_reversedObject.speed = bombSpeed;
+		_reversedObject.reversed = false;
 	}
 
 	void Start ()
@@ -80,13 +80,13 @@ public class MonsterZeroFangBomb : MonoBehaviour
 				_directedMoving = projectile.rotation * Vector3.down;
 				_firstFrameOfMoving = false;
 			}
-			if (!_reversedDamage.reversed)
+			if (!_reversedObject.reversed)
 			{
 				transform.Translate (_directedMoving * Time.deltaTime * bombSpeed);
 			}
 			else
 			{
-				transform.Translate (_reversedDamage.normal * Time.deltaTime * _reversedDamage.speed);
+				transform.Translate (_reversedObject.normal * Time.deltaTime * _reversedObject.speed);
 			}
 			_tDestroy += Time.deltaTime / bombDestroyTime;
 			if (_tDestroy >= 1f)
@@ -147,7 +147,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 		{
 			return;
 		}
-		if (_reversedDamage.reversed && other.gameObject.layer == LayerMask.NameToLayer ("Enemy"))
+		if (_reversedObject.reversed && other.gameObject.layer == LayerMask.NameToLayer ("Enemy"))
 		{
 			BlowBang ();
 			DestroyAll ();

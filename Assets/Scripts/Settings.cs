@@ -11,9 +11,6 @@ public class Settings : MonoBehaviour
 	public float playerEchoBeamSpeed = 4f;
 	public float playerEchoBeamLifetime = 1.25f;
 	public float defaultTimeScale;
-	
-	void Update ()
-	{
-		// Time.timeScale = timeScale;
-	}
+	public float defaultFendingOffStatusOffTime = .1f;
+	public float defaultReleaseLockExplosionTime = .25f;
 }

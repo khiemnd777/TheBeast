@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class Katana : Melee
 {
-	public float hitback;
-	MeleeHolder _holder;
 	Player2 _player;
 	Hand _hand;
 	Animator _handAnimator;
-	bool _inAnyAction;
 	int _slashCount;
 	BoxCollider _collider;
 	[SerializeField]
@@ -31,8 +28,8 @@ public class Katana : Melee
 
 	public override void HoldTrigger ()
 	{
-		if (_inAnyAction) return;
-		_inAnyAction = true;
+		if (anyAction) return;
+		anyAction = true;
 		_hand.enabled = false;
 		_handAnimator.enabled = true;
 		StartCoroutine (EndOfAnimation ());
@@ -46,7 +43,7 @@ public class Katana : Melee
 		_hand = hand;
 		_handAnimator = handAnimator;
 		_player = player;
-		_holder = holder;
+		base.holder = holder;
 	}
 
 	public override void KeepInCover ()
@@ -54,7 +51,7 @@ public class Katana : Melee
 		_handAnimator.enabled = false;
 		_hand.enabled = true;
 		_player.Unlock ("Katana");
-		_inAnyAction = false;
+		anyAction = false;
 		_trail.enabled = false;
 		base.KeepInCover ();
 	}
@@ -67,36 +64,45 @@ public class Katana : Melee
 		_handAnimator.enabled = false;
 		_hand.enabled = true;
 		_player.Unlock ("Katana");
-		_inAnyAction = false;
+		anyAction = false;
 		_trail.enabled = false;
 	}
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (!_inAnyAction) return;
+		if (!anyAction) return;
 		if (other)
 		{
 			var hitMonster = other.GetComponent<Monster> ();
 			if (hitMonster)
 			{
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
-				// var dir = _player.transform.position - contactPoint;
-				var dir = Utilities.GetDirection (transform, Vector3.back);
+				var dir = GetDirection ();
 				dir.Normalize ();
-				dir = dir * _holder.transform.localScale.z;
+				dir = dir * holder.transform.localScale.z;
 				hitMonster.OnHit (transform, hitback, dir, contactPoint);
 				_slowMotionMonitor.Freeze (.45f, .2f);
 				return;
 			}
-			var reversedDamage = other.GetComponent<ReversedDamage> ();
-			if (reversedDamage)
+			var reversedObject = other.GetComponent<ReversedObject> ();
+			if (reversedObject)
 			{
-				var dir = Utilities.GetDirection (transform, Vector3.back);
+				var dir = GetDirection ();
 				dir.Normalize ();
-				reversedDamage.reversed = true;
-				reversedDamage.speed *= 1.25f;
-				reversedDamage.normal = dir * _holder.transform.localScale.z;
+				reversedObject.reversed = true;
+				reversedObject.speed *= 1.25f;
+				reversedObject.normal = dir * holder.transform.localScale.z;
 				_slowMotionMonitor.Freeze (.009f, 1.5f);
+				return;
+			}
+			var monsterWeaponEntity = other.GetComponent<MonsterWeaponEntity> ();
+			if (monsterWeaponEntity && monsterWeaponEntity.anyAction)
+			{
+				var contactPoint = other.ClosestPointOnBounds (transform.position);
+				var dir = _player.transform.position - contactPoint;
+				dir.Normalize ();
+				_player.OnFendingOff (monsterWeaponEntity.knockbackForce, dir, contactPoint);
+				_slowMotionMonitor.Freeze (.2f, .2f);
 				return;
 			}
 		}

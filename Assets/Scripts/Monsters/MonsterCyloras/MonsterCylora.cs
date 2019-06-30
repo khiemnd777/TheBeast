@@ -33,7 +33,8 @@ public class MonsterCylora : Monster
 	Blood _wideBloodPrefab;
 	Player2 _player;
 	Transform _playerTransform;
-	NavMeshAgent _agent;
+	[System.NonSerialized]
+	public NavMeshAgent agent;
 	ObjectShake _objectShake;
 	bool _isStopMoving;
 	bool _isStopRotating;
@@ -66,6 +67,11 @@ public class MonsterCylora : Monster
 		_isStopMoving = false;
 	}
 
+	public void SetVelocity (Vector3 velocity)
+	{
+		agent.velocity = velocity;
+	}
+
 	public void StopRotatingToTarget ()
 	{
 		_isStopRotating = true;
@@ -78,21 +84,22 @@ public class MonsterCylora : Monster
 
 	public void StopLeadingToTarget ()
 	{
-		_agent.enabled = false;
+		agent.enabled = false;
 	}
 
 	public void KeepLeadingToTarget ()
 	{
-		_agent.enabled = true;
+		agent.enabled = true;
 	}
 
 	public override void OnHit (Transform hitBy, float hitback, RaycastHit raycastHit)
 	{
+		if (blocked) return;
 		var impactPoint = raycastHit.point;
 		var hitTransform = raycastHit.transform;
-		if (_agent)
+		if (agent)
 		{
-			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, -raycastHit.normal, hitback);
+			agent.velocity = Utilities.HitbackVelocity (agent.velocity, -raycastHit.normal, hitback);
 		}
 		if (_objectShake)
 		{
@@ -107,9 +114,10 @@ public class MonsterCylora : Monster
 
 	public override void OnHit (Transform hitBy, float hitback, Vector3 impactedNormal, Vector3 impactedPoint)
 	{
-		if (_agent)
+		if (blocked) return;
+		if (agent)
 		{
-			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, impactedNormal, hitback);
+			agent.velocity = Utilities.HitbackVelocity (agent.velocity, impactedNormal, hitback);
 		}
 		if (_objectShake)
 		{
@@ -124,7 +132,7 @@ public class MonsterCylora : Monster
 
 	void Awake ()
 	{
-		_agent = GetComponent<NavMeshAgent> ();
+		agent = GetComponent<NavMeshAgent> ();
 		_player = FindObjectOfType<Player2> ();
 		_objectShake = GetComponentInChildren<ObjectShake> ();
 		_playerTransform = _player.transform;
@@ -137,7 +145,7 @@ public class MonsterCylora : Monster
 
 	void Update ()
 	{
-		_agent.speed = speed;
+		agent.speed = speed;
 		UpdateWingsPosition ();
 		RotateTowards (_playerTransform);
 	}
@@ -177,9 +185,9 @@ public class MonsterCylora : Monster
 				_tdt += Time.deltaTime / refreshRate;
 				if (_tdt >= 1f)
 				{
-					if (_agent.enabled)
+					if (agent.enabled)
 					{
-						_agent.SetDestination (_playerTransform.position);
+						agent.SetDestination (_playerTransform.position);
 					}
 					_tdt = 0f;
 				}

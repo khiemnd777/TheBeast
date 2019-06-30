@@ -80,6 +80,8 @@ public class BlownBang : MonoBehaviour
 			hitPlayer.OnHit (_damage, _hitbackForce, dir, contactPoint);
 			_cameraShake.Shake (.25f, .25f);
 			_slowMotionMonitor.Freeze (.75f, .35f);
+			hitPlayer.Lock ("Explosion");
+			StartCoroutine (hitPlayer.ReleaseLockByExplosion ());
 		}
 	}
 }

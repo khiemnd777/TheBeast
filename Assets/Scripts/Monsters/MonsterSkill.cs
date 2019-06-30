@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class MonsterSkill : MonoBehaviour
 {
+    public float damage;
     [System.NonSerialized]
     public MonsterSkillHandler skillHandler;
     public float timeBetweenLaunching;

@@ -26,13 +26,17 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	[SerializeField]
 	MonsterCyloraWing[] _wings;
 	Player2 _player;
+	SlowMotionMonitor _slowMotionMonitor;
 	bool _isStopRolling;
 	bool _isRollingMaxSpeed;
+	bool _isStopDashing;
+	bool _isHitBack;
 
 	public override void Awake ()
 	{
 		base.Awake ();
 		_player = FindObjectOfType<Player2> ();
+		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
 		OnBeforeExecutingHandler += OnBeforeExecuting;
 		OnAfterExecutingHandler += OnAfterExecuting;
 		foreach (var wing in _wings)
@@ -43,17 +47,45 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 
 	void OnWingHit (MonsterCyloraWing wing, Collider other)
 	{
+		if (!wing.weaponEntity.anyAction) return;
 		if (!_isRollingMaxSpeed) return;
-		
+		if (!other) return;
+		var hitPlayer = other.GetComponent<Player2> ();
+		if (hitPlayer && !hitPlayer.isFendingOff)
+		{
+			Debug.Log(1);
+			var contactPoint = other.ClosestPointOnBounds (transform.position);
+			var dir = other.transform.position - contactPoint;
+			dir.Normalize ();
+			hitPlayer.OnHit (damage, wing.weaponEntity.knockbackForce, dir, contactPoint);
+			_slowMotionMonitor.Freeze (.2f, .2f);
+		}
+	}
+
+	void WingsInAction (bool anyAction)
+	{
+		foreach (var wing in _wings)
+		{
+			wing.weaponEntity.anyAction = anyAction;
+		}
 	}
 
 	public override IEnumerator OnExecuting ()
 	{
 		yield return StartCoroutine (StartRolling ());
+		_isStopRolling = false;
 		_isRollingMaxSpeed = true;
 		StartCoroutine (KeepRolling ());
 		yield return new WaitForSeconds (idleToDashTime);
+		_isStopDashing = false;
+		host.blocked = true;
+		WingsInAction (true);
 		yield return StartCoroutine (DashToTarget ());
+		_isStopDashing = true;
+		headAnimator.Play (closeFacesAnim.name, 0, 0);
+		_isStopRolling = true;
+		host.blocked = false;
+		WingsInAction (false);
 		yield return StartCoroutine (StopRolling ());
 		_isRollingMaxSpeed = false;
 	}
@@ -74,13 +106,10 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 			_coreRotation.localScale = Vector3.one * coreScaleRate;
 			yield return null;
 		}
-		_isStopRolling = false;
 	}
 
 	IEnumerator StopRolling ()
 	{
-		_isStopRolling = true;
-		headAnimator.Play (closeFacesAnim.name, 0, 0);
 		var speedRate = 0f;
 		var coreScaleRate = 0f;
 		var stopTime = Mathf.Max (stopRollingTime, closeFacesAnim.length);
@@ -107,21 +136,30 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 
 	IEnumerator DashToTarget ()
 	{
-		host.StopLeadingToTarget ();
-		host.StopRotatingToTarget ();
 		var destPosition = _player.transform.position;
 		var startPosition = host.transform.position;
 		var distance = Vector3.Distance (_player.transform.position, host.transform.position);
 		var velocity = dashingVelocity;
 		var t = distance / velocity;
 		var p = 0f;
+		var currentAcceleration = host.agent.acceleration;
+		host.agent.acceleration = 2000f;
 		while (p <= 1f)
 		{
+			if (_isStopDashing) yield break;
 			p += Time.deltaTime / t;
-			host.transform.position = Vector3.Lerp (startPosition, destPosition, p);
+			// host.transform.position = Vector3.Lerp (startPosition, destPosition, p);
+			var direction = _player.transform.position - host.transform.position;
+			var normal = Vector3.Normalize (direction);
+			var vel = normal * velocity;
+			// host.SetVelocity (vel);
+			host.agent.velocity = vel;
+			// host.KeepMoving(velocity);
 			yield return null;
 		}
-		host.KeepRotatingToTarget ();
+		host.agent.acceleration = currentAcceleration;
+		// host.SetVelocity (Vector3.zero);
+		host.agent.velocity = Vector3.zero;
 	}
 
 	IEnumerator OnBeforeExecuting ()
@@ -135,7 +173,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	{
 		host.animator.enabled = true;
 		host.animator.Play (defaultAnim.name, 0, 0);
-		host.KeepLeadingToTarget ();
+		// host.KeepLeadingToTarget ();
 		host.KeepMoving ();
 		yield break;
 	}
