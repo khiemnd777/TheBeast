@@ -53,7 +53,6 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		var hitPlayer = other.GetComponent<Player2> ();
 		if (hitPlayer && !hitPlayer.isFendingOff)
 		{
-			Debug.Log(1);
 			var contactPoint = other.ClosestPointOnBounds (transform.position);
 			var dir = other.transform.position - contactPoint;
 			dir.Normalize ();
