@@ -619,44 +619,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _theCamera: {fileID: 0}
---- !u!1 &695466353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1739442985556604, guid: 80218d10dd8fe44708f18091a668d5a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020514221}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &695466357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695466353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackForce: 8
---- !u!1 &850535741 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1030982095389138, guid: 80218d10dd8fe44708f18091a668d5a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020514221}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &850535745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 850535741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackForce: 8
 --- !u!1 &871408680
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,35 +840,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114603578470338178, guid: 80218d10dd8fe44708f18091a668d5a7,
-        type: 3}
-      propertyPath: speed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 195068033253660192, guid: 80218d10dd8fe44708f18091a668d5a7,
-        type: 3}
-      propertyPath: m_StoppingDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 195068033253660192, guid: 80218d10dd8fe44708f18091a668d5a7,
-        type: 3}
-      propertyPath: m_Speed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 195068033253660192, guid: 80218d10dd8fe44708f18091a668d5a7,
-        type: 3}
-      propertyPath: m_Acceleration
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 748902999, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
-      propertyPath: weaponEntity
-      value: 
-      objectReference: {fileID: 1735061998}
-    - target: {fileID: 114760873025756094, guid: 80218d10dd8fe44708f18091a668d5a7,
-        type: 3}
-      propertyPath: hitbackForce
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
 --- !u!1 &1071341717
@@ -1106,25 +1039,6 @@ MonoBehaviour:
   defaultTimeScale: 1
   defaultFendingOffStatusOffTime: 0.1
   defaultReleaseLockExplosionTime: 0.25
---- !u!1 &1284642778 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1726954635550708, guid: 80218d10dd8fe44708f18091a668d5a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020514221}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1284642782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284642778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackForce: 8
 --- !u!1 &1320285686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,25 +1539,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1718570062}
   m_CullTransparentMesh: 0
---- !u!1 &1735061994 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1759112806860934, guid: 80218d10dd8fe44708f18091a668d5a7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1020514221}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1735061998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735061994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  knockbackForce: 8
 --- !u!1 &1808906753
 GameObject:
   m_ObjectHideFlags: 0

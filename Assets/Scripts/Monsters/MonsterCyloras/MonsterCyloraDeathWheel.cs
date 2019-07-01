@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using UnityEngine;
 
 public class MonsterCyloraDeathWheel : MonsterSkill
@@ -27,6 +24,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	MonsterCyloraWing[] _wings;
 	Player2 _player;
 	SlowMotionMonitor _slowMotionMonitor;
+	CameraShake _cameraShake;
 	bool _isStopRolling;
 	bool _isRollingMaxSpeed;
 	bool _isStopDashing;
@@ -39,6 +37,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
 		OnBeforeExecutingHandler += OnBeforeExecuting;
 		OnAfterExecutingHandler += OnAfterExecuting;
+		_cameraShake = FindObjectOfType<CameraShake> ();
 		foreach (var wing in _wings)
 		{
 			wing.onHit += OnWingHit;
@@ -56,8 +55,9 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 			var contactPoint = other.ClosestPointOnBounds (transform.position);
 			var dir = other.transform.position - contactPoint;
 			dir.Normalize ();
-			hitPlayer.OnHit (damage, wing.weaponEntity.knockbackForce, dir, contactPoint);
+			hitPlayer.OnHit (damage, 9f, dir, contactPoint);
 			_slowMotionMonitor.Freeze (.2f, .2f);
+			_cameraShake.Shake(.2f, 0.5f);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		}
 		host.agent.acceleration = currentAcceleration;
 		// host.SetVelocity (Vector3.zero);
-		host.agent.velocity = Vector3.zero;
+		// host.agent.velocity = Vector3.zero;
 	}
 
 	IEnumerator OnBeforeExecuting ()

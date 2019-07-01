@@ -102,7 +102,7 @@ public class Katana : Melee
 				var dir = _player.transform.position - contactPoint;
 				dir.Normalize ();
 				_player.OnFendingOff (monsterWeaponEntity.knockbackForce, dir, contactPoint);
-				_slowMotionMonitor.Freeze (.2f, .2f);
+				_slowMotionMonitor.Freeze (.08f, .08f);
 				return;
 			}
 		}

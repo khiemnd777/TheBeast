@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae6e76e363424223956dbb99d5cb810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
   timeBetweenLaunching: 0.15
   minDistanceExecuting: 1.71
   maxDistanceExecuting: 3.18
@@ -107,6 +108,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _wings:
+  - {fileID: 748902999}
+  - {fileID: 1910262949}
+  - {fileID: 797343859}
+  - {fileID: 410818587}
 --- !u!1 &1030982095389138
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +124,7 @@ GameObject:
   - component: {fileID: 4182907036175382}
   - component: {fileID: 5899726506913908815}
   - component: {fileID: 797343859}
+  - component: {fileID: 850535745}
   m_Layer: 10
   m_Name: Wing 3
   m_TagString: Untagged
@@ -165,6 +172,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362418154eafb4293b98642b4f4d7528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &850535745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030982095389138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 5
 --- !u!1 &1051912751605946
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refreshRate: 1
-  speed: 3
+  speed: 1
   animator: {fileID: 95681124745434274}
   blocked: 0
   _head: {fileID: 4834727793208436}
@@ -288,11 +308,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.32
-  m_Speed: 3.5
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -735,6 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc1eb88a9b9594afd9832649cdac96c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
   timeBetweenLaunching: 3
   minDistanceExecuting: 9.7
   maxDistanceExecuting: 13.45
@@ -1528,6 +1549,7 @@ GameObject:
   - component: {fileID: 4023947707292336}
   - component: {fileID: 1777593345873597689}
   - component: {fileID: 410818587}
+  - component: {fileID: 1284642782}
   m_Layer: 10
   m_Name: Wing 4
   m_TagString: Untagged
@@ -1575,6 +1597,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362418154eafb4293b98642b4f4d7528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1284642782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726954635550708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 5
 --- !u!1 &1739442985556604
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,6 +1621,7 @@ GameObject:
   - component: {fileID: 4321729482065368}
   - component: {fileID: 7764751339578357982}
   - component: {fileID: 1910262949}
+  - component: {fileID: 695466357}
   m_Layer: 10
   m_Name: Wing 2
   m_TagString: Untagged
@@ -1633,6 +1669,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362418154eafb4293b98642b4f4d7528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &695466357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739442985556604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 5
 --- !u!1 &1742368318337190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,6 +1858,7 @@ GameObject:
   - component: {fileID: 4503966355552110}
   - component: {fileID: 3961720365875396705}
   - component: {fileID: 748902999}
+  - component: {fileID: 1735061998}
   m_Layer: 10
   m_Name: Wing 1
   m_TagString: Untagged
@@ -1856,6 +1906,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362418154eafb4293b98642b4f4d7528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1735061998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759112806860934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b048a813243f84b83af404a82bcc4230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knockbackForce: 5
 --- !u!1 &1760676834830062
 GameObject:
   m_ObjectHideFlags: 0

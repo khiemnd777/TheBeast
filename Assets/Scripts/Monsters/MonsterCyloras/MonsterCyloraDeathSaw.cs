@@ -7,9 +7,9 @@ public class MonsterCyloraDeathSaw : MonsterSkill
 {
     public MonsterCylora host;
     public AnimationClip defaultAnim;
-	public Animator headAnimator;
+    public Animator headAnimator;
     public AnimationClip openFacesAnim;
-	public AnimationClip closeFacesAnim;
+    public AnimationClip closeFacesAnim;
     public float wingSpeed;
     public float rollingTime;
     public float stopRollingTime;
@@ -18,7 +18,11 @@ public class MonsterCyloraDeathSaw : MonsterSkill
     Transform _coreRotation;
     [SerializeField]
     AnimationCurve _stopRollingSpeedCurve;
+    [SerializeField]
+    MonsterCyloraWing[] _wings;
     Player2 _player;
+    SlowMotionMonitor _slowMotionMonitor;
+    CameraShake _cameraShake;
     bool _isStopRolling;
     Vector3 _positionAsBeforeRushForward;
 
@@ -26,8 +30,38 @@ public class MonsterCyloraDeathSaw : MonsterSkill
     {
         base.Awake ();
         _player = FindObjectOfType<Player2> ();
+        _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
         OnBeforeExecutingHandler += OnBeforeExecuting;
         OnAfterExecutingHandler += OnAfterExecuting;
+        _cameraShake = FindObjectOfType<CameraShake> ();
+        foreach (var wing in _wings)
+        {
+            wing.onHit += OnWingHit;
+        }
+    }
+
+    void OnWingHit (MonsterCyloraWing wing, Collider other)
+    {
+        if (!wing.weaponEntity.anyAction) return;
+        if (!other) return;
+        var hitPlayer = other.GetComponent<Player2> ();
+        if (hitPlayer && !hitPlayer.isFendingOff)
+        {
+            var contactPoint = other.ClosestPointOnBounds (transform.position);
+            var dir = other.transform.position - contactPoint;
+            dir.Normalize ();
+            hitPlayer.OnHit (damage, wing.weaponEntity.knockbackForce, dir, contactPoint);
+            _slowMotionMonitor.Freeze (.025f, .025f);
+            _cameraShake.Shake (.06f, 0.125f);
+        }
+    }
+
+    void WingsInAction (bool anyAction)
+    {
+        foreach (var wing in _wings)
+        {
+            wing.weaponEntity.anyAction = anyAction;
+        }
     }
 
     IEnumerator OnBeforeExecuting ()
@@ -52,16 +86,19 @@ public class MonsterCyloraDeathSaw : MonsterSkill
     public override IEnumerator OnExecuting ()
     {
         _isStopRolling = false;
-		headAnimator.Play (openFacesAnim.name, 0, .75f);
+        headAnimator.Play (openFacesAnim.name, 0, .75f);
         StartCoroutine (RushForward ());
         StartCoroutine (KeepRolling ());
         StartCoroutine (ScaleWingsOut ());
+        WingsInAction (true);
         yield return new WaitForSeconds (rollingTime);
         _isStopRolling = true;
-		headAnimator.Play (closeFacesAnim.name, 0, .75f);
-        StartCoroutine (GetBackAsBeforeRushed ());
+        headAnimator.Play (closeFacesAnim.name, 0, .75f);
+        // StartCoroutine (GetBackAsBeforeRushed ());
         StartCoroutine (ScaleWingsIn ());
         yield return StartCoroutine (StopRolling ());
+        WingsInAction (false);
+
     }
 
     IEnumerator RushForward ()
@@ -69,7 +106,7 @@ public class MonsterCyloraDeathSaw : MonsterSkill
         _positionAsBeforeRushForward = host.transform.position;
         var directionToPlayerAsNormal = _player.transform.position - _positionAsBeforeRushForward;
         directionToPlayerAsNormal.Normalize ();
-        var updatedPositionAsRushedForward = _positionAsBeforeRushForward + directionToPlayerAsNormal * 1f;
+        var updatedPositionAsRushedForward = _positionAsBeforeRushForward + directionToPlayerAsNormal * 1.25f;
         var t = 0f;
         while (t <= 1f)
         {
