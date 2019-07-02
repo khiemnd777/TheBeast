@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterCyloraWing : MonoBehaviour
+public class MonsterZeroFang : MonoBehaviour
 {
-    public System.Action<MonsterCyloraWing, Collider> onHit;
+    public System.Action<MonsterZeroFang, Collider> onHit;
     [System.NonSerialized]
     public MonsterWeaponEntity weaponEntity;
 

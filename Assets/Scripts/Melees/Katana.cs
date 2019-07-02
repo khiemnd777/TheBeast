@@ -12,12 +12,14 @@ public class Katana : Melee
 	[SerializeField]
 	TrailRenderer _trail;
 	SlowMotionMonitor _slowMotionMonitor;
+	CameraShake _cameraShake;
 
 	public override void Awake ()
 	{
 		base.Awake ();
 		_collider = GetComponent<BoxCollider> ();
 		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
+		_cameraShake = FindObjectOfType<CameraShake> ();
 	}
 
 	public override void Start ()
@@ -79,9 +81,10 @@ public class Katana : Melee
 				var contactPoint = other.ClosestPointOnBounds (transform.position);
 				var dir = GetDirection ();
 				dir.Normalize ();
-				dir = dir * holder.transform.localScale.z;
+				// dir = dir * holder.transform.localScale.z;
 				hitMonster.OnHit (transform, hitback, dir, contactPoint);
 				_slowMotionMonitor.Freeze (.45f, .2f);
+				_cameraShake.Shake (.125f, .125f);
 				return;
 			}
 			var reversedObject = other.GetComponent<ReversedObject> ();
@@ -91,8 +94,8 @@ public class Katana : Melee
 				dir.Normalize ();
 				reversedObject.reversed = true;
 				reversedObject.speed *= 1.25f;
-				reversedObject.normal = dir * holder.transform.localScale.z;
-				_slowMotionMonitor.Freeze (.009f, 1.5f);
+				reversedObject.normal = dir; //* holder.transform.localScale.z;
+				_slowMotionMonitor.Freeze (.0625f, .2f);
 				return;
 			}
 			var monsterWeaponEntity = other.GetComponent<MonsterWeaponEntity> ();
