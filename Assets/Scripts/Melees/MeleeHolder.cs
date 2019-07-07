@@ -5,6 +5,7 @@ using UnityEngine;
 public class MeleeHolder : MonoBehaviour
 {
 	public Melee melee;
+	public float speed;
 	[SerializeField]
 	Hand _hand;
 	[SerializeField]
@@ -12,6 +13,7 @@ public class MeleeHolder : MonoBehaviour
 	Melee _heldMelee;
 	Vector3 _beginPosition;
 	Animator _handAnimator;
+	bool _isHoldingOn;
 
 	void Awake ()
 	{
@@ -44,7 +46,26 @@ public class MeleeHolder : MonoBehaviour
 	{
 		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
 		{
-			_heldMelee.HoldTrigger ();
+			if (_isHoldingOn) return;
+			StartCoroutine (OnHoldingTrigger ());
+		}
+	}
+
+	IEnumerator OnHoldingTrigger ()
+	{
+		_isHoldingOn = true;
+		yield return StartCoroutine (_heldMelee.HoldTrigger ());
+		yield return StartCoroutine (WaitingForNextMeleeBeOnTrigger ());
+		_isHoldingOn = false;
+	}
+
+	IEnumerator WaitingForNextMeleeBeOnTrigger ()
+	{
+		var t = 0f;
+		while (t < 1f)
+		{
+			t += Time.deltaTime * 10f * speed;
+			yield return null;
 		}
 	}
 }

@@ -11,6 +11,11 @@ public class Katana : Melee
 	BoxCollider _collider;
 	[SerializeField]
 	TrailRenderer _trail;
+	[SerializeField]
+	KatanaSlashEffect _slashEffectPrefab;
+	[SerializeField]
+	KatanaSlashEffect _slash2EffectPrefab;
+
 	SlowMotionMonitor _slowMotionMonitor;
 	CameraShake _cameraShake;
 
@@ -25,19 +30,25 @@ public class Katana : Melee
 	public override void Start ()
 	{
 		base.Start ();
-		_player.RegisterLock ("Katana");
 	}
 
-	public override void HoldTrigger ()
+	public override IEnumerator HoldTrigger ()
 	{
-		if (anyAction) return;
+		if (anyAction) yield break;
 		anyAction = true;
 		_hand.enabled = false;
 		_handAnimator.enabled = true;
-		StartCoroutine (EndOfAnimation ());
-		_player.Lock ("Katana");
 		var slashAnimName = _slashCount++ % 2 == 0 ? "Katana Slash" : "Katana Slash 2";
+		if (_slashCount % 2 == 0)
+		{
+			InstantiateSlashEffect (_slash2EffectPrefab);
+		}
+		else
+		{
+			InstantiateSlashEffect (_slashEffectPrefab);
+		}
 		_handAnimator.Play (slashAnimName, 0, 0);
+		yield return StartCoroutine (EndOfAnimation ());
 	}
 
 	public override void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)
@@ -52,7 +63,6 @@ public class Katana : Melee
 	{
 		_handAnimator.enabled = false;
 		_hand.enabled = true;
-		_player.Unlock ("Katana");
 		anyAction = false;
 		_trail.enabled = false;
 		base.KeepInCover ();
@@ -65,9 +75,18 @@ public class Katana : Melee
 		yield return new WaitForSeconds (currentAnimatorStateInfo.length);
 		_handAnimator.enabled = false;
 		_hand.enabled = true;
-		_player.Unlock ("Katana");
 		anyAction = false;
 		_trail.enabled = false;
+	}
+
+	void InstantiateSlashEffect (KatanaSlashEffect fx)
+	{
+		var ins = Instantiate<KatanaSlashEffect> (fx, _player.transform.position, Quaternion.identity, _player.transform);
+		ins.transform.localPosition = new Vector3 (1.08f, 0f, 0f);
+		var dir = _player.body.transform.rotation * Vector3.right;
+		dir.Normalize ();
+		ins.transform.rotation = Utilities.RotateByNormal (dir, Vector3.up);
+		ins.katana = this;
 	}
 
 	void OnTriggerEnter (Collider other)

@@ -257,7 +257,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706668506700552}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.194, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -282,6 +282,10 @@ MonoBehaviour:
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
   _trail: {fileID: 96034581088180826}
+  _slashEffectPrefab: {fileID: 139264849757396694, guid: 1c2c1b0801ab84c26ab673581e9ef06c,
+    type: 3}
+  _slash2EffectPrefab: {fileID: 1564176162144754630, guid: d44116a709adb41a6a76daae47c8fe9e,
+    type: 3}
 --- !u!65 &65343621949363830
 BoxCollider:
   m_ObjectHideFlags: 0

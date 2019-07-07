@@ -10,9 +10,9 @@ public class Melee : MonoBehaviour
 	public bool anyAction;
 	public RuntimeAnimatorController meleeAnimatorController;
 
-	public virtual void HoldTrigger ()
+	public virtual IEnumerator HoldTrigger ()
 	{
-
+		yield break;
 	}
 
 	public virtual void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)

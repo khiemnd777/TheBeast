@@ -103,8 +103,13 @@ public class ShotgunBullet : MonoBehaviour
 
 	void ActivateBulleImpactedFx (RaycastHit hit)
 	{
+		ActivateBulleImpactedFx(hit.point, hit.normal);
+	}
+
+	void ActivateBulleImpactedFx (Vector3 hitPoint, Vector3 hitNormal)
+	{
 		_bulletImpactFx.maxSpeed = 4.5f;
 		_bulletImpactFx.lifetime = .125f;
-		_bulletImpactFx.Use (hit.point, hit.normal);
+		_bulletImpactFx.Use (hitPoint, hitNormal);
 	}
 }

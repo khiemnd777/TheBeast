@@ -12,25 +12,30 @@ public class WeaponController : MonoBehaviour
 
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (0))
+		if (Input.GetMouseButtonDown (5))
 		{
 			if (typeOfWeapon != "gun")
 			{
 				typeOfWeapon = "gun";
-				_meleeHolderController.KeepMeleeInCover ();
-				_gunHolderController.TakeGunUpArm ();
-				_gunHolderController.DoUpdating ();
+				DoActionOnGun ();
+				return;
+			}
+		}
+		else if (Input.GetMouseButtonDown (0))
+		{
+			if (typeOfWeapon != "melee")
+			{
+				typeOfWeapon = "melee";
+				DoActionOnMelee ();
 				return;
 			}
 		}
 		else if (Input.GetMouseButtonDown (1))
 		{
-			if (typeOfWeapon != "melee")
+			if (typeOfWeapon != "shield")
 			{
-				typeOfWeapon = "melee";
-				_gunHolderController.KeepGunInCover ();
-				_meleeHolderController.TakeMeleeUpArm ();
-				_meleeHolderController.DoUpdating ();
+				typeOfWeapon = "shield";
+				DoActionOnShield ();
 				return;
 			}
 		}
@@ -42,5 +47,29 @@ public class WeaponController : MonoBehaviour
 		{
 			_meleeHolderController.DoUpdating ();
 		}
+		if (typeOfWeapon == "shield")
+		{
+
+		}
+	}
+
+	void DoActionOnGun ()
+	{
+		_meleeHolderController.KeepMeleeInCover ();
+		_gunHolderController.TakeGunUpArm ();
+		_gunHolderController.DoUpdating ();
+	}
+
+	void DoActionOnMelee ()
+	{
+		_gunHolderController.KeepGunInCover ();
+		_meleeHolderController.TakeMeleeUpArm ();
+		_meleeHolderController.DoUpdating ();
+	}
+
+	void DoActionOnShield ()
+	{
+		_gunHolderController.KeepGunInCover ();
+		_meleeHolderController.KeepMeleeInCover ();
 	}
 }

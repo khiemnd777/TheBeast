@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class MeleeHolderController : MonoBehaviour
 {
-	public MeleeHolder leftMeleeHolder;
 	public MeleeHolder rightMeleeHolder;
-	public float timeHoleLeftMeleeTrigger;
-
 	DotSight _dotSight;
-	bool _isLeft;
-	bool _isMouseHoldingDown;
-	float _timeForHoldLeftGunTrigger;
 
 	void Awake ()
 	{
@@ -20,61 +14,31 @@ public class MeleeHolderController : MonoBehaviour
 
 	public void DoUpdating ()
 	{
-		RotateMeleeHolder (leftMeleeHolder);
 		RotateMeleeHolder (rightMeleeHolder);
-		if (Input.GetMouseButtonDown (1))
+		if (Input.GetMouseButtonDown (0))
 		{
-			_isMouseHoldingDown = true;
-			// StartCoroutine (HoldTriggers ());
 			HoldTriggers ();
-		}
-		if (Input.GetMouseButtonUp (1))
-		{
-			_isMouseHoldingDown = false;
-			_timeForHoldLeftGunTrigger = 0f;
-			ReleaseTriggers ();
 		}
 	}
 
 	public void KeepMeleeInCover ()
 	{
 		KeepInCover (rightMeleeHolder);
-		KeepInCover (leftMeleeHolder);
 	}
 
 	public void TakeMeleeUpArm ()
 	{
 		TakeUpArm (rightMeleeHolder);
-		TakeUpArm (leftMeleeHolder);
 	}
-
-	// IEnumerator HoldTriggers ()
-	// {
-	// 	while (_isMouseHoldingDown)
-	// 	{
-	// 		HoldTrigger (rightMeleeHolder);
-	// 		yield return new WaitForSeconds (.125f);
-	// 		if (!_isMouseHoldingDown) yield break;
-	// 		HoldTrigger (leftMeleeHolder);
-	// 	}
-	// }
 
 	void HoldTriggers ()
 	{
-		if (!_isMouseHoldingDown) return;
 		HoldTrigger (rightMeleeHolder);
-		_timeForHoldLeftGunTrigger += Time.deltaTime / timeHoleLeftMeleeTrigger;
-		if (_timeForHoldLeftGunTrigger >= 1f)
-		{
-			_timeForHoldLeftGunTrigger = 0f;
-			HoldTrigger (leftMeleeHolder);
-		}
 	}
 
 	void ReleaseTriggers ()
 	{
 		ReleaseTrigger (rightMeleeHolder);
-		ReleaseTrigger (leftMeleeHolder);
 	}
 
 	void RotateMeleeHolder (MeleeHolder meleeHolder)
@@ -111,9 +75,9 @@ public class MeleeHolderController : MonoBehaviour
 		}
 	}
 
-	void ReleaseTrigger (MeleeHolder gunHolder)
+	void ReleaseTrigger (MeleeHolder meleeHolder)
 	{
-		if (gunHolder != null && gunHolder is Object && !gunHolder.Equals (null))
+		if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals (null))
 		{
 			// gunHolder.ReleaseTrigger ();
 		}
