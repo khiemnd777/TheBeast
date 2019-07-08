@@ -86,7 +86,8 @@ public class MonsterZeroFangBomb : MonoBehaviour
 			}
 			else
 			{
-				transform.Translate (_reversedObject.normal * Time.deltaTime * _reversedObject.speed);
+				// transform.Translate (_reversedObject.normal * Time.deltaTime * _reversedObject.speed);
+				transform.Translate (-_directedMoving * Time.deltaTime * _reversedObject.speed);
 			}
 			_tDestroy += Time.deltaTime / bombDestroyTime;
 			if (_tDestroy >= 1f)

@@ -12,12 +12,14 @@ public class Katana : Melee
 	[SerializeField]
 	TrailRenderer _trail;
 	[SerializeField]
-	KatanaSlashEffect _slashEffectPrefab;
+	AnimationClip _slashAnim;
 	[SerializeField]
-	KatanaSlashEffect _slash2EffectPrefab;
+	AnimationClip _slash2Anim;
+	AnimationClip _currentSlashAnim;
 
 	SlowMotionMonitor _slowMotionMonitor;
 	CameraShake _cameraShake;
+	Animator _playerAnimator;
 
 	public override void Awake ()
 	{
@@ -38,16 +40,9 @@ public class Katana : Melee
 		anyAction = true;
 		_hand.enabled = false;
 		_handAnimator.enabled = true;
-		var slashAnimName = _slashCount++ % 2 == 0 ? "Katana Slash" : "Katana Slash 2";
-		if (_slashCount % 2 == 0)
-		{
-			InstantiateSlashEffect (_slash2EffectPrefab);
-		}
-		else
-		{
-			InstantiateSlashEffect (_slashEffectPrefab);
-		}
-		_handAnimator.Play (slashAnimName, 0, 0);
+		_playerAnimator.enabled = true;
+		_currentSlashAnim = _slashCount++ % 2 == 0 ? _slashAnim : _slash2Anim;
+		_playerAnimator.Play (_currentSlashAnim.name, 0);
 		yield return StartCoroutine (EndOfAnimation ());
 	}
 
@@ -56,12 +51,14 @@ public class Katana : Melee
 		_hand = hand;
 		_handAnimator = handAnimator;
 		_player = player;
+		_playerAnimator = _player.animator;
 		base.holder = holder;
 	}
 
 	public override void KeepInCover ()
 	{
 		_handAnimator.enabled = false;
+		_playerAnimator.enabled = false;
 		_hand.enabled = true;
 		anyAction = false;
 		_trail.enabled = false;
@@ -71,62 +68,11 @@ public class Katana : Melee
 	IEnumerator EndOfAnimation ()
 	{
 		_trail.enabled = true;
-		var currentAnimatorStateInfo = _handAnimator.GetCurrentAnimatorStateInfo (0);
-		yield return new WaitForSeconds (currentAnimatorStateInfo.length);
+		yield return new WaitForSeconds (_currentSlashAnim.length);
 		_handAnimator.enabled = false;
+		_playerAnimator.enabled = false;
 		_hand.enabled = true;
 		anyAction = false;
 		_trail.enabled = false;
-	}
-
-	void InstantiateSlashEffect (KatanaSlashEffect fx)
-	{
-		var ins = Instantiate<KatanaSlashEffect> (fx, _player.transform.position, Quaternion.identity, _player.transform);
-		ins.transform.localPosition = new Vector3 (1.08f, 0f, 0f);
-		var dir = _player.body.transform.rotation * Vector3.right;
-		dir.Normalize ();
-		ins.transform.rotation = Utilities.RotateByNormal (dir, Vector3.up);
-		ins.katana = this;
-	}
-
-	void OnTriggerEnter (Collider other)
-	{
-		if (!anyAction) return;
-		if (other)
-		{
-			var hitMonster = other.GetComponent<Monster> ();
-			if (hitMonster)
-			{
-				var contactPoint = other.ClosestPointOnBounds (transform.position);
-				var dir = GetDirection ();
-				dir.Normalize ();
-				// dir = dir * holder.transform.localScale.z;
-				hitMonster.OnHit (transform, hitback, dir, contactPoint);
-				_slowMotionMonitor.Freeze (.45f, .2f);
-				_cameraShake.Shake (.125f, .125f);
-				return;
-			}
-			var reversedObject = other.GetComponent<ReversedObject> ();
-			if (reversedObject)
-			{
-				var dir = GetDirection ();
-				dir.Normalize ();
-				reversedObject.reversed = true;
-				reversedObject.speed *= 1.25f;
-				reversedObject.normal = dir; //* holder.transform.localScale.z;
-				_slowMotionMonitor.Freeze (.0625f, .2f);
-				return;
-			}
-			var monsterWeaponEntity = other.GetComponent<MonsterWeaponEntity> ();
-			if (monsterWeaponEntity && monsterWeaponEntity.anyAction)
-			{
-				var contactPoint = other.ClosestPointOnBounds (transform.position);
-				var dir = _player.transform.position - contactPoint;
-				dir.Normalize ();
-				_player.OnFendingOff (monsterWeaponEntity.knockbackForce, dir, contactPoint);
-				_slowMotionMonitor.Freeze (.08f, .08f);
-				return;
-			}
-		}
 	}
 }

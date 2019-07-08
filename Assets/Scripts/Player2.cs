@@ -13,6 +13,8 @@ public class Player2 : MonoBehaviour
 	public bool isFendingOff;
 	[SerializeField]
 	public Transform body;
+	[System.NonSerialized]
+	public Animator animator;
 	[SerializeField]
 	Transform _foots;
 	[SerializeField]
@@ -39,6 +41,7 @@ public class Player2 : MonoBehaviour
 		_rigidbody = GetComponent<Rigidbody> ();
 		_settings = FindObjectOfType<Settings> ();
 		_dotSight = FindObjectOfType<DotSight> ();
+		animator = GetComponent<Animator> ();
 	}
 
 	void Start ()

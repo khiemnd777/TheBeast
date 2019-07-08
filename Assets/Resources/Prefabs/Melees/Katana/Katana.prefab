@@ -286,6 +286,8 @@ MonoBehaviour:
     type: 3}
   _slash2EffectPrefab: {fileID: 1564176162144754630, guid: d44116a709adb41a6a76daae47c8fe9e,
     type: 3}
+  _slashAnim: {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
+  _slash2Anim: {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
 --- !u!65 &65343621949363830
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -295,7 +297,7 @@ BoxCollider:
   m_GameObject: {fileID: 1706668506700552}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.44, y: 0.13185546, z: 0.20015004}
   m_Center: {x: 0.83, y: 0, z: 0}
