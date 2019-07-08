@@ -36,13 +36,8 @@ public class KatanaSlashEffect : MonoBehaviour
             var reversedObject = other.GetComponent<ReversedObject> ();
             if (reversedObject)
             {
-                // var contactPoint = other.ClosestPointOnBounds (transform.position);
-                // var dir = contactPoint - _player.transform.position;
-                // var dir = other.transform.rotation * Vector3.down;
-                // dir.Normalize ();
                 reversedObject.reversed = true;
                 reversedObject.speed *= 1.25f;
-                // reversedObject.normal = -dir; //* holder.transform.localScale.z;
                 _slowMotionMonitor.Freeze (.0625f, .2f);
                 return;
             }
