@@ -282,10 +282,7 @@ MonoBehaviour:
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
   _trail: {fileID: 96034581088180826}
-  _slashEffectPrefab: {fileID: 139264849757396694, guid: 1c2c1b0801ab84c26ab673581e9ef06c,
-    type: 3}
-  _slash2EffectPrefab: {fileID: 1564176162144754630, guid: d44116a709adb41a6a76daae47c8fe9e,
-    type: 3}
+  _animatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f, type: 2}
   _slashAnim: {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
   _slash2Anim: {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
 --- !u!65 &65343621949363830

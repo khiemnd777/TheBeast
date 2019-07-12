@@ -8,11 +8,13 @@ public class WeaponController : MonoBehaviour
 	MeleeHolderController _meleeHolderController;
 	[SerializeField]
 	GunHolderController _gunHolderController;
+	[SerializeField]
+	ShieldHolderController _shieldHolderController;
 	string typeOfWeapon;
 
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (5))
+		if (Input.GetMouseButtonDown (1))
 		{
 			if (typeOfWeapon != "gun")
 			{
@@ -30,7 +32,7 @@ public class WeaponController : MonoBehaviour
 				return;
 			}
 		}
-		else if (Input.GetMouseButtonDown (1))
+		else if (Input.GetKeyDown (KeyCode.LeftShift))
 		{
 			if (typeOfWeapon != "shield")
 			{
@@ -49,19 +51,21 @@ public class WeaponController : MonoBehaviour
 		}
 		if (typeOfWeapon == "shield")
 		{
-
+			_shieldHolderController.DoUpdating ();
 		}
 	}
 
 	void DoActionOnGun ()
 	{
+		_shieldHolderController.TakeShieldDown ();
 		_meleeHolderController.KeepMeleeInCover ();
 		_gunHolderController.TakeGunUpArm ();
-		_gunHolderController.DoUpdating ();
+		// _gunHolderController.DoUpdating ();
 	}
 
 	void DoActionOnMelee ()
 	{
+		_shieldHolderController.TakeShieldDown ();
 		_gunHolderController.KeepGunInCover ();
 		_meleeHolderController.TakeMeleeUpArm ();
 		_meleeHolderController.DoUpdating ();
@@ -71,5 +75,7 @@ public class WeaponController : MonoBehaviour
 	{
 		_gunHolderController.KeepGunInCover ();
 		_meleeHolderController.KeepMeleeInCover ();
+		_shieldHolderController.TakeShieldUpAsCover ();
+		_shieldHolderController.DoUpdating ();
 	}
 }
