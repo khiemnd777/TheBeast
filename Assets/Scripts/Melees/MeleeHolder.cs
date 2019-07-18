@@ -5,12 +5,13 @@ using UnityEngine;
 public class MeleeHolder : MonoBehaviour
 {
 	public Melee melee;
+	[System.NonSerialized]
+	public Melee heldMelee;
 	public float speed;
 	[SerializeField]
 	Hand _hand;
 	[SerializeField]
 	Player2 _player;
-	Melee _heldMelee;
 	Vector3 _beginPosition;
 	Animator _handAnimator;
 	bool _isHoldingOn;
@@ -22,9 +23,9 @@ public class MeleeHolder : MonoBehaviour
 
 	public void KeepInCover ()
 	{
-		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
+		if (heldMelee != null && heldMelee is Object && !heldMelee.Equals (null))
 		{
-			_heldMelee.KeepInCover ();
+			heldMelee.KeepInCover ();
 		}
 	}
 
@@ -32,19 +33,22 @@ public class MeleeHolder : MonoBehaviour
 	{
 		if (melee != null && melee is Object && !melee.Equals (null))
 		{
-			_heldMelee = Instantiate<Melee> (melee, transform.position, transform.rotation, transform);
-			_heldMelee.TakeUpArm (this, _hand, _handAnimator, _player);
+			if (!heldMelee)
+			{
+				heldMelee = Instantiate<Melee> (melee, transform.position, transform.rotation, transform);
+			}
+			heldMelee.TakeUpArm (this, _hand, _handAnimator, _player);
 			_hand.maximumRange = 1.4f;
 			if (_handAnimator != null && _handAnimator is Object && !_handAnimator.Equals (null))
 			{
-				_handAnimator.runtimeAnimatorController = _heldMelee.meleeAnimatorController;
+				_handAnimator.runtimeAnimatorController = heldMelee.meleeAnimatorController;
 			}
 		}
 	}
 
 	public void HoldTrigger ()
 	{
-		if (_heldMelee != null && _heldMelee is Object && !_heldMelee.Equals (null))
+		if (heldMelee != null && heldMelee is Object && !heldMelee.Equals (null))
 		{
 			if (_isHoldingOn) return;
 			StartCoroutine (OnHoldingTrigger ());
@@ -54,7 +58,7 @@ public class MeleeHolder : MonoBehaviour
 	IEnumerator OnHoldingTrigger ()
 	{
 		_isHoldingOn = true;
-		yield return StartCoroutine (_heldMelee.HoldTrigger ());
+		yield return StartCoroutine (heldMelee.HoldTrigger ());
 		yield return StartCoroutine (WaitingForNextMeleeBeOnTrigger ());
 		_isHoldingOn = false;
 	}

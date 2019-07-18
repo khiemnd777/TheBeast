@@ -14,7 +14,7 @@ public class MeleeHolderController : MonoBehaviour
 
 	public void DoUpdating ()
 	{
-		RotateMeleeHolder (rightMeleeHolder);
+		// RotateMeleeHolder (rightMeleeHolder);
 		if (Input.GetMouseButtonDown (0))
 		{
 			HoldTriggers ();

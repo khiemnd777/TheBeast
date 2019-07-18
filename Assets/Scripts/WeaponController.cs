@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-	[SerializeField]
-	MeleeHolderController _meleeHolderController;
-	[SerializeField]
-	GunHolderController _gunHolderController;
-	[SerializeField]
-	ShieldHolderController _shieldHolderController;
+	public MeleeHolderController meleeHolderController;
+	public GunHolderController gunHolderController;
+	public ShieldHolderController shieldHolderController;
 	string typeOfWeapon;
 
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (1))
+		if (Input.GetMouseButtonDown (2))
 		{
 			if (typeOfWeapon != "gun")
 			{
@@ -43,39 +40,40 @@ public class WeaponController : MonoBehaviour
 		}
 		if (typeOfWeapon == "gun")
 		{
-			_gunHolderController.DoUpdating ();
+			gunHolderController.DoUpdating ();
 		}
 		if (typeOfWeapon == "melee")
 		{
-			_meleeHolderController.DoUpdating ();
+			meleeHolderController.DoUpdating ();
+			shieldHolderController.DoUpdating ();
 		}
 		if (typeOfWeapon == "shield")
 		{
-			_shieldHolderController.DoUpdating ();
+			shieldHolderController.DoUpdating ();
 		}
 	}
 
 	void DoActionOnGun ()
 	{
-		_shieldHolderController.TakeShieldDown ();
-		_meleeHolderController.KeepMeleeInCover ();
-		_gunHolderController.TakeGunUpArm ();
+		shieldHolderController.TakeShieldDown ();
+		meleeHolderController.KeepMeleeInCover ();
+		gunHolderController.TakeGunUpArm ();
 		// _gunHolderController.DoUpdating ();
 	}
 
 	void DoActionOnMelee ()
 	{
-		_shieldHolderController.TakeShieldDown ();
-		_gunHolderController.KeepGunInCover ();
-		_meleeHolderController.TakeMeleeUpArm ();
-		_meleeHolderController.DoUpdating ();
+		shieldHolderController.TakeShieldDown ();
+		gunHolderController.KeepGunInCover ();
+		meleeHolderController.TakeMeleeUpArm ();
+		meleeHolderController.DoUpdating ();
 	}
 
 	void DoActionOnShield ()
 	{
-		_gunHolderController.KeepGunInCover ();
-		_meleeHolderController.KeepMeleeInCover ();
-		_shieldHolderController.TakeShieldUpAsCover ();
-		_shieldHolderController.DoUpdating ();
+		gunHolderController.KeepGunInCover ();
+		// _meleeHolderController.KeepMeleeInCover ();
+		shieldHolderController.TakeShieldUpAsCover ();
+		shieldHolderController.DoUpdating ();
 	}
 }

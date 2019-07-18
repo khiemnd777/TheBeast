@@ -16,6 +16,8 @@ public class Katana : Melee
 	AnimationClip _slashAnim;
 	[SerializeField]
 	AnimationClip _slash2Anim;
+	[SerializeField]
+	AnimationClip _commonStyleAnim;
 	AnimationClip _currentSlashAnim;
 
 	SlowMotionMonitor _slowMotionMonitor;
@@ -32,18 +34,26 @@ public class Katana : Melee
 
 	public override void Start ()
 	{
-		base.Start ();
+		player.RegisterLock("Kanata");
 	}
 
 	public override IEnumerator HoldTrigger ()
 	{
 		if (anyAction) yield break;
+		player.Lock("Kanata");
+		_playerAnimator.runtimeAnimatorController = _animatorController;
 		anyAction = true;
 		_hand.enabled = false;
 		_playerAnimator.enabled = true;
-		_currentSlashAnim = _slashCount++ % 2 == 0 ? _slashAnim : _slash2Anim;
+		_currentSlashAnim = _slashCount++ % 2 == 0 ? _slash2Anim : _slashAnim;
+		_trail.enabled = true;
 		_playerAnimator.Play (_currentSlashAnim.name, 0);
-		yield return StartCoroutine (EndOfAnimation ());
+		yield return new WaitForSeconds (_currentSlashAnim.length);
+		_playerAnimator.Play (_commonStyleAnim.name, 0);
+		_hand.enabled = true;
+		anyAction = false;
+		_trail.enabled = false;
+		player.Unlock("Kanata");
 	}
 
 	public override void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)
@@ -53,6 +63,7 @@ public class Katana : Melee
 		_playerAnimator = _player.animator;
 		_playerAnimator.runtimeAnimatorController = _animatorController;
 		base.holder = holder;
+		_playerAnimator.Play (_commonStyleAnim.name, 0);
 	}
 
 	public override void KeepInCover ()
@@ -62,15 +73,5 @@ public class Katana : Melee
 		anyAction = false;
 		_trail.enabled = false;
 		base.KeepInCover ();
-	}
-
-	IEnumerator EndOfAnimation ()
-	{
-		_trail.enabled = true;
-		yield return new WaitForSeconds (_currentSlashAnim.length);
-		_playerAnimator.enabled = false;
-		_hand.enabled = true;
-		anyAction = false;
-		_trail.enabled = false;
 	}
 }

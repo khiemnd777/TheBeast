@@ -285,6 +285,7 @@ MonoBehaviour:
   _animatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f, type: 2}
   _slashAnim: {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
   _slash2Anim: {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
+  _commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
 --- !u!65 &65343621949363830
 BoxCollider:
   m_ObjectHideFlags: 0

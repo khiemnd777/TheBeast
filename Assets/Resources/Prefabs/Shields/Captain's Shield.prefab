@@ -137,3 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee1312521ff64c6798f2baa8b83d4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitback: 0
+  shieldAnimatorController: {fileID: 9100000, guid: 321bb5b4a81484fc38d95623e7725873,
+    type: 2}
+  _shieldCommonAnim: {fileID: 7400000, guid: 5a4cc7676fe274844a4fa1f89861ab86, type: 2}
+  _shieldReversionAnim: {fileID: 7400000, guid: 440ca5a8723f540d9907108a9db0efb3,
+    type: 2}

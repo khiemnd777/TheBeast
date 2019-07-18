@@ -9,6 +9,7 @@ public class Melee : MonoBehaviour
 	[System.NonSerialized]
 	public bool anyAction;
 	public RuntimeAnimatorController meleeAnimatorController;
+	protected Player2 player;
 
 	public virtual IEnumerator HoldTrigger ()
 	{
@@ -27,7 +28,7 @@ public class Melee : MonoBehaviour
 
 	public virtual void Awake ()
 	{
-
+		player = FindObjectOfType<Player2> ();
 	}
 
 	public virtual void Start ()

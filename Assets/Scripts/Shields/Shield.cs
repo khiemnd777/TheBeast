@@ -8,31 +8,37 @@ public class Shield : MonoBehaviour
 	protected ShieldHolder holder;
 	[System.NonSerialized]
 	public bool anyAction;
-	public RuntimeAnimatorController meleeAnimatorController;
+	public RuntimeAnimatorController shieldAnimatorController;
+	protected Player2 player;
 
 	public virtual IEnumerator HoldTrigger ()
 	{
 		yield break;
 	}
 
-    public virtual IEnumerator ReleaseTrigger ()
+	public virtual IEnumerator ReleaseTrigger ()
 	{
 		yield break;
 	}
 
+	public virtual void TakeShieldAsReverse ()
+	{
+		player.animator.runtimeAnimatorController = shieldAnimatorController;
+	}
+
 	public virtual void TakeShieldUpAsCover ()
 	{
-
+		player.animator.runtimeAnimatorController = shieldAnimatorController;
 	}
 
 	public virtual void TakeShieldDown ()
 	{
-		Destroy (gameObject);
+		// Destroy (gameObject);
 	}
 
 	public virtual void Awake ()
 	{
-
+		player = FindObjectOfType<Player2> ();
 	}
 
 	public virtual void Start ()

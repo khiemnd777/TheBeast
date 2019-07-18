@@ -23,7 +23,7 @@ public class Hand : MonoBehaviour
 
 	void Update ()
 	{
-		MoveInRange ();
+		// MoveInRange ();
 	}
 
 	void MoveInRange ()

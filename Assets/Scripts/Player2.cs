@@ -15,6 +15,7 @@ public class Player2 : MonoBehaviour
 	public Transform body;
 	[System.NonSerialized]
 	public Animator animator;
+	public WeaponController weaponController;
 	[SerializeField]
 	Transform _foots;
 	[SerializeField]
@@ -93,7 +94,11 @@ public class Player2 : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		if (IsLocked ()) return;
+		// if (IsLocked ())
+		// {
+		// 	Debug.Log(1);
+		// 	return;
+		// }
 		_rigidbody.velocity = _direction * _speed;
 	}
 

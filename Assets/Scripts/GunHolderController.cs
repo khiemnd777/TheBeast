@@ -20,8 +20,8 @@ public class GunHolderController : MonoBehaviour
 
 	public void DoUpdating ()
 	{
-		RotateGunHolder (leftGunHolder);
-		RotateGunHolder (rightGunHolder);
+		// RotateGunHolder (leftGunHolder);
+		// RotateGunHolder (rightGunHolder);
 		if (Input.GetMouseButtonDown (0))
 		{
 			_isMouseHoldingDown = true;
