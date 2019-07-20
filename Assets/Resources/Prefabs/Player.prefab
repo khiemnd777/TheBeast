@@ -836,7 +836,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   melee: {fileID: 114033769023172182, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 3}
-  speed: 1
+  delay: 0.0001
   _hand: {fileID: 114646073436216314}
   _player: {fileID: 114926467534503532}
 --- !u!1 &1840431887079818

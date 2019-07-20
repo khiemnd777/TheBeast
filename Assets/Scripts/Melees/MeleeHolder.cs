@@ -7,7 +7,7 @@ public class MeleeHolder : MonoBehaviour
 	public Melee melee;
 	[System.NonSerialized]
 	public Melee heldMelee;
-	public float speed;
+	public float delay;
 	[SerializeField]
 	Hand _hand;
 	[SerializeField]
@@ -59,16 +59,16 @@ public class MeleeHolder : MonoBehaviour
 	{
 		_isHoldingOn = true;
 		yield return StartCoroutine (heldMelee.HoldTrigger ());
-		yield return StartCoroutine (WaitingForNextMeleeBeOnTrigger ());
+		// yield return StartCoroutine (WaitingForNextMeleeBeOnTrigger ());
 		_isHoldingOn = false;
 	}
 
 	IEnumerator WaitingForNextMeleeBeOnTrigger ()
 	{
 		var t = 0f;
-		while (t < 1f)
+		while (t <= 1f)
 		{
-			t += Time.deltaTime * 10f * speed;
+			t += Time.deltaTime / delay;
 			yield return null;
 		}
 	}
