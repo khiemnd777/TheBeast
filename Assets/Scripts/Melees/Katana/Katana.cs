@@ -6,23 +6,21 @@ public class Katana : Melee
 {
 	Player2 _player;
 	Hand _hand;
-	int _slashCount;
+	int _slashQueueIndex;
 	BoxCollider _collider;
 	[SerializeField]
 	TrailRenderer _trail;
 	[SerializeField]
 	RuntimeAnimatorController _animatorController;
 	[SerializeField]
-	AnimationClip _slashAnim;
-	[SerializeField]
-	AnimationClip _slash2Anim;
-	[SerializeField]
 	AnimationClip _commonStyleAnim;
 	AnimationClip _currentSlashAnim;
-
+	public List<AnimationClip> slashQueue;
 	SlowMotionMonitor _slowMotionMonitor;
 	CameraShake _cameraShake;
 	Animator _playerAnimator;
+	float _startTriggerTime;
+	float _endTriggerTime;
 
 	public override void Awake ()
 	{
@@ -30,6 +28,7 @@ public class Katana : Melee
 		_collider = GetComponent<BoxCollider> ();
 		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
 		_cameraShake = FindObjectOfType<CameraShake> ();
+		// StartQueuingSlashes ();
 	}
 
 	public override void Start ()
@@ -37,28 +36,34 @@ public class Katana : Melee
 		player.RegisterLock ("Kanata");
 	}
 
-	float _startTriggerTime;
-	float _endTriggerTime;
+	// void StartQueuingSlashes ()
+	// {
+	// 	slashQueue.AddRange (new [] { _slash2Anim, _slashAnim, _slash3Anim });
+	// }
 
 	public override IEnumerator HoldTrigger ()
 	{
 		_startTriggerTime = Time.time;
 		var _triggerDistanceTime = _startTriggerTime - _endTriggerTime;
-		var resetFirstSlash = _triggerDistanceTime > .3f;
+		var resetFirstSlash = _triggerDistanceTime >.3f;
 		if (resetFirstSlash)
 		{
-			_currentSlashAnim = _slash2Anim;
-			_slashCount = 1;
+			_currentSlashAnim = slashQueue[0];
+			_slashQueueIndex = 0;
 		}
 		else
 		{
-			_currentSlashAnim = _slashCount++ % 2 == 0 ? _slash2Anim : _slashAnim;
+			_currentSlashAnim = slashQueue[++_slashQueueIndex];
+			if (_slashQueueIndex >= slashQueue.Count)
+			{
+				_slashQueueIndex = 0;
+			}
 		}
 		player.Lock ("Kanata");
 		_playerAnimator.runtimeAnimatorController = _animatorController;
 		anyAction = true;
 		_hand.enabled = false;
-		_trail.enabled = true;
+		_trail.enabled = false;
 		_playerAnimator.Play (_currentSlashAnim.name, 0);
 		yield return new WaitForSeconds (_currentSlashAnim.length);
 		_endTriggerTime = Time.time;
