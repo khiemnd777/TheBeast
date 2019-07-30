@@ -11,8 +11,6 @@ public class Katana : Melee
 	[SerializeField]
 	TrailRenderer _trail;
 	[SerializeField]
-	RuntimeAnimatorController _animatorController;
-	[SerializeField]
 	AnimationClip _commonStyleAnim;
 	AnimationClip _currentSlashAnim;
 	public List<AnimationClip> slashQueue;
@@ -28,18 +26,12 @@ public class Katana : Melee
 		_collider = GetComponent<BoxCollider> ();
 		_slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
 		_cameraShake = FindObjectOfType<CameraShake> ();
-		// StartQueuingSlashes ();
 	}
 
 	public override void Start ()
 	{
 		player.RegisterLock ("Kanata");
 	}
-
-	// void StartQueuingSlashes ()
-	// {
-	// 	slashQueue.AddRange (new [] { _slash2Anim, _slashAnim, _slash3Anim });
-	// }
 
 	public override IEnumerator HoldTrigger ()
 	{
@@ -60,7 +52,7 @@ public class Katana : Melee
 			}
 		}
 		player.Lock ("Kanata");
-		_playerAnimator.runtimeAnimatorController = _animatorController;
+		_playerAnimator.runtimeAnimatorController = meleeAnimatorController;
 		anyAction = true;
 		_hand.enabled = false;
 		_trail.enabled = false;
@@ -78,17 +70,58 @@ public class Katana : Melee
 		_hand = hand;
 		_player = player;
 		_playerAnimator = _player.animator;
-		_playerAnimator.runtimeAnimatorController = _animatorController;
+		_playerAnimator.runtimeAnimatorController = meleeAnimatorController;
 		base.holder = holder;
 		_playerAnimator.Play (_commonStyleAnim.name, 0);
 	}
 
 	public override void KeepInCover ()
 	{
-		_playerAnimator.enabled = false;
+		// _playerAnimator.enabled = false;
 		_hand.enabled = true;
 		anyAction = false;
 		_trail.enabled = false;
 		base.KeepInCover ();
+	}
+
+	void OnTriggerEnter (Collider other)
+	{
+		if (!anyAction) return;
+		if (other)
+		{
+			var hitMonster = other.GetComponent<Monster> ();
+			if (hitMonster)
+			{
+				var contactPoint = other.ClosestPointOnBounds (transform.position);
+				var dir = GetDirection ();
+				dir.Normalize ();
+				// dir = dir * holder.transform.localScale.z;
+				hitMonster.OnHit (transform, hitback, dir, contactPoint);
+				_slowMotionMonitor.Freeze (.45f, .2f);
+				_cameraShake.Shake (.125f, .125f);
+				return;
+			}
+			var reversedObject = other.GetComponent<ReversedObject> ();
+			if (reversedObject)
+			{
+				var dir = GetDirection ();
+				dir.Normalize ();
+				reversedObject.reversed = true;
+				reversedObject.speed *= 1.25f;
+				reversedObject.normal = dir; //* holder.transform.localScale.z;
+				_slowMotionMonitor.Freeze (.0625f, .2f);
+				return;
+			}
+			var monsterWeaponEntity = other.GetComponent<MonsterWeaponEntity> ();
+			if (monsterWeaponEntity && monsterWeaponEntity.anyAction)
+			{
+				var contactPoint = other.ClosestPointOnBounds (transform.position);
+				var dir = _player.transform.position - contactPoint;
+				dir.Normalize ();
+				_player.OnFendingOff (monsterWeaponEntity.knockbackForce, dir, contactPoint);
+				_slowMotionMonitor.Freeze (.08f, .08f);
+				return;
+			}
+		}
 	}
 }

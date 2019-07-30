@@ -11,7 +11,7 @@ public class WeaponController : MonoBehaviour
 
 	void Update ()
 	{
-		if (Input.GetMouseButtonDown (2))
+		if (Input.GetMouseButtonDown (0))
 		{
 			if (typeOfWeapon != "gun")
 			{
@@ -20,7 +20,7 @@ public class WeaponController : MonoBehaviour
 				return;
 			}
 		}
-		else if (Input.GetMouseButtonDown (0))
+		else if (Input.GetMouseButtonDown (1))
 		{
 			if (typeOfWeapon != "melee")
 			{
@@ -58,7 +58,7 @@ public class WeaponController : MonoBehaviour
 		shieldHolderController.TakeShieldDown ();
 		meleeHolderController.KeepMeleeInCover ();
 		gunHolderController.TakeGunUpArm ();
-		// _gunHolderController.DoUpdating ();
+		gunHolderController.DoUpdating ();
 	}
 
 	void DoActionOnMelee ()

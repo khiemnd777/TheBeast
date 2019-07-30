@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203424051365646}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.77, y: 0, z: 0.04}
+  m_LocalPosition: {x: 1.392, y: 0, z: 0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4152232847446728}
@@ -72,13 +72,13 @@ TrailRenderer:
   m_Time: 0.175
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1.25
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.21126556
         inSlope: -0.50148016
         outSlope: -0.50148016
         tangentMode: 0
@@ -86,31 +86,31 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.28786695
-        value: 0.81784797
-        inSlope: -0.9438356
-        outSlope: -0.9438356
+        time: 0.22612989
+        value: 0.13474631
+        inSlope: -0.19355007
+        outSlope: -0.19355007
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.4923948
       - serializedVersion: 3
-        time: 0.6180287
-        value: 0.4761942
-        inSlope: -1.1321332
-        outSlope: -1.1321332
+        time: 0.57481563
+        value: 0.07478725
+        inSlope: -0.11776166
+        outSlope: -0.11776166
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.3412196
       - serializedVersion: 3
         time: 1
         value: 0.01587677
-        inSlope: -1.3956106
-        outSlope: -1.3956106
+        inSlope: 0.11977038
+        outSlope: 0.11977038
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.45005894
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -278,11 +278,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8fa8de904cbb47fb84d5c213782ee72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitback: 8
+  hitback: 5
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
   _trail: {fileID: 96034581088180826}
-  _animatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f, type: 2}
   _commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
   slashQueue:
   - {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
@@ -298,7 +297,7 @@ BoxCollider:
   m_GameObject: {fileID: 1706668506700552}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.44, y: 0.13185546, z: 0.20015004}
   m_Center: {x: 0.83, y: 0, z: 0}

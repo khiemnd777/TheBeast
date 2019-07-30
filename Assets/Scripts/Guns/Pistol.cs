@@ -21,6 +21,7 @@ public class Pistol : Gun
 
 	public override void Awake ()
 	{
+		base.Awake ();
 		// _dotSight = FindObjectOfType<DotSight> ();
 	}
 
@@ -43,6 +44,7 @@ public class Pistol : Gun
 		// sound of being at launching bullet
 		_timeAvailableHoleTrigger = 0f;
 		_availableHoldTrigger = false;
+		// Launch the bullet
 		var bulletIns = Instantiate<Bullet> (bulletPrefab, _projectile.position, _projectile.rotation);
 		bulletIns.maxDistance = maxDistance;
 		bulletIns.timeImpactAtMaxDistance = timeImpactAtMaxDistance;
