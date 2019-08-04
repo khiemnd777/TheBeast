@@ -24,6 +24,13 @@ public class MonsterCyloraDeathFeather : MonsterSkill
     AnimationCurve _stopRollingSpeedCurve;
     [SerializeField]
     MonsterCyloraWing[] _wings;
+    [Space]
+    [SerializeField]
+    float _projectRotationSpeed;
+    [SerializeField]
+    Transform _coreProjectileRotation;
+    [SerializeField]
+    Transform[] _featherProjectiles;
     Player2 _player;
     SlowMotionMonitor _slowMotionMonitor;
     CameraShake _cameraShake;
@@ -31,6 +38,7 @@ public class MonsterCyloraDeathFeather : MonsterSkill
     bool _isRollingMaxSpeed;
     bool _isHitBack;
     float _currentAcceleration;
+    bool _breakLaunchingTheFeathers;
 
     public override void Awake ()
     {
@@ -96,6 +104,7 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         _isStopRolling = false;
         _isRollingMaxSpeed = true;
         StartCoroutine ("KeepRolling");
+        StartCoroutine ("KeepRollingProjectiles");
         host.blocked = true;
         WingsInAction (true);
         yield return StartCoroutine (LaunchTheFeathers ());
@@ -109,16 +118,23 @@ public class MonsterCyloraDeathFeather : MonsterSkill
 
     IEnumerator LaunchTheFeathers ()
     {
-        var t = 0f;
-        while (t <= 1f)
+        // var t = 0f;
+        StartCoroutine (CountdownLaunchTheFeathers ());
+        while (!_breakLaunchingTheFeathers)
         {
-            t += Time.deltaTime / 3f;
-            foreach (var wing in _wings)
+            foreach (var projectile in _featherProjectiles)
             {
-                InstantiateTheFeather (featherPrefab, wing);
+                InstantiateTheFeather (featherPrefab, projectile);
             }
-            yield return new WaitForSeconds(.07f);
+            yield return new WaitForSeconds (.085f);
         }
+        _breakLaunchingTheFeathers = false;
+    }
+
+    IEnumerator CountdownLaunchTheFeathers ()
+    {
+        yield return new WaitForSeconds (3f);
+        _breakLaunchingTheFeathers = true;
     }
 
     IEnumerator StartRolling ()
@@ -160,18 +176,27 @@ public class MonsterCyloraDeathFeather : MonsterSkill
     {
         while (!_isStopRolling)
         {
-            _coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed);
+            _coreRotation.Rotate (Vector3.back * Time.fixedDeltaTime * wingSpeed);
             yield return null;
         }
     }
 
-    void InstantiateTheFeather (MonsterCyloraFeather featherPrefab, MonsterCyloraWing wing)
+    IEnumerator KeepRollingProjectiles ()
     {
-        // var wingDir = (wing.transform.position - host.transform.position);
-        // var wingNormal = Vector3.Normalize(wingDir);
-        // var featherRot = Utilities.RotateByNormal(wingNormal, Vector3.up);
-        var feather = Instantiate<MonsterCyloraFeather> (featherPrefab, wing.transform.position, Quaternion.identity);
-        feather.transform.rotation = wing.transform.rotation;
+        while (!_isStopRolling)
+        {
+            _coreProjectileRotation.Rotate (Vector3.up * Time.fixedDeltaTime * _projectRotationSpeed);
+            yield return new WaitForFixedUpdate ();
+        }
+    }
+
+    void InstantiateTheFeather (MonsterCyloraFeather featherPrefab, Transform projectile)
+    {
+        var wingDir = (projectile.transform.position - host.transform.position);
+        var wingNormal = Vector3.Normalize (wingDir);
+        var featherRot = Utilities.RotateByNormal (wingNormal, Vector3.up);
+        var feather = Instantiate<MonsterCyloraFeather> (featherPrefab, projectile.transform.position, Quaternion.identity);
+        feather.transform.rotation = featherRot;
         Destroy (feather.gameObject, 2f);
     }
 
