@@ -8,6 +8,16 @@ public class MonsterCyloraWing : MonoBehaviour
     [System.NonSerialized]
     public MonsterWeaponEntity weaponEntity;
 
+    public void TurnOffCollider ()
+    {
+        GetComponent<BoxCollider> ().enabled = false;
+    }
+
+    public void TurnOnCollider ()
+    {
+        GetComponent<BoxCollider> ().enabled = true;
+    }
+
     void Awake ()
     {
         weaponEntity = GetComponent<MonsterWeaponEntity> ();

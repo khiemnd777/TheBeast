@@ -8,6 +8,8 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	public Animator headAnimator;
 	public AnimationClip openFacesAnim;
 	public AnimationClip closeFacesAnim;
+	public AnimationClip passiveStoppingAnim;
+	public AnimationClip passiveStoppingAtFaceAnim;
 	public float coreRotationScale;
 	public float wingSpeed;
 	public float startRollingTime;
@@ -29,6 +31,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	bool _isRollingMaxSpeed;
 	bool _isStopDashing;
 	bool _isHitBack;
+	float _currentAcceleration;
 
 	public override void Awake ()
 	{
@@ -44,20 +47,44 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		}
 	}
 
+	void TurnOffWingColliders ()
+	{
+		foreach (var wing in _wings)
+		{
+			wing.TurnOffCollider ();
+		}
+	}
+
+	void TurnOnWingColliders ()
+	{
+		foreach (var wing in _wings)
+		{
+			wing.TurnOnCollider ();
+		}
+	}
+
 	void OnWingHit (MonsterCyloraWing wing, Collider other)
 	{
+		if (!beExecuting) return;
 		if (!wing.weaponEntity.anyAction) return;
 		if (!_isRollingMaxSpeed) return;
 		if (!other) return;
 		var hitPlayer = other.GetComponent<Player2> ();
-		if (hitPlayer && !hitPlayer.isFendingOff)
+		if (hitPlayer)
 		{
-			var contactPoint = other.ClosestPointOnBounds (transform.position);
-			var dir = other.transform.position - contactPoint;
-			dir.Normalize ();
-			hitPlayer.OnHit (damage, 9f, dir, contactPoint);
-			_slowMotionMonitor.Freeze (.2f, .2f);
-			_cameraShake.Shake(.2f, 0.5f);
+			if (hitPlayer.isFendingOff)
+			{
+				StopExecutingSkill ();
+			}
+			else
+			{
+				var contactPoint = other.ClosestPointOnBounds (transform.position);
+				var dir = other.transform.position - contactPoint;
+				dir.Normalize ();
+				hitPlayer.OnHit (damage, 9f, dir, contactPoint);
+				_slowMotionMonitor.Freeze (.2f, .2f);
+				_cameraShake.Shake (.2f, 0.5f);
+			}
 		}
 	}
 
@@ -74,7 +101,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		yield return StartCoroutine (StartRolling ());
 		_isStopRolling = false;
 		_isRollingMaxSpeed = true;
-		StartCoroutine (KeepRolling ());
+		StartCoroutine ("KeepRolling");
 		yield return new WaitForSeconds (idleToDashTime);
 		_isStopDashing = false;
 		host.blocked = true;
@@ -137,11 +164,10 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	{
 		var destPosition = _player.transform.position;
 		var startPosition = host.transform.position;
-		var distance = Vector3.Distance (_player.transform.position, host.transform.position);
+		var distance = Vector3.Distance (_player.transform.position, host.transform.position) + 10f;
 		var velocity = dashingVelocity;
 		var t = distance / velocity;
 		var p = 0f;
-		var currentAcceleration = host.agent.acceleration;
 		host.agent.acceleration = 2000f;
 		while (p <= 1f)
 		{
@@ -156,7 +182,6 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 			// host.KeepMoving(velocity);
 			yield return null;
 		}
-		host.agent.acceleration = currentAcceleration;
 		// host.SetVelocity (Vector3.zero);
 		// host.agent.velocity = Vector3.zero;
 	}
@@ -165,16 +190,45 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 	{
 		host.StopMoving ();
 		host.animator.enabled = false;
+		_currentAcceleration = host.agent.acceleration;
 		yield break;
 	}
 
 	IEnumerator OnAfterExecuting ()
 	{
+		host.agent.acceleration = _currentAcceleration;
 		host.animator.enabled = true;
 		host.animator.Play (defaultAnim.name, 0, 0);
 		// host.KeepLeadingToTarget ();
 		host.KeepMoving ();
 		yield break;
+	}
+
+	public override void OnStoppedExecutingSkill ()
+	{
+		TurnOffWingColliders ();
+		skillHandler.isPassiveFendingOff = true;
+		host.agent.acceleration = _currentAcceleration;
+		host.blocked = false;
+		WingsInAction (false);
+		host.animator.enabled = true;
+		// host.animator.Play (defaultAnim.name, 0, 0);
+		StartCoroutine ("PassiveStoppingOnFendingOff");
+	}
+
+	IEnumerator PassiveStoppingOnFendingOff ()
+	{
+		host.animator.Play (passiveStoppingAnim.name, 0, 0);
+		headAnimator.Play (passiveStoppingAtFaceAnim.name, 0, 0);
+		var direction = _player.transform.position - host.transform.position;
+		var normal = Vector3.Normalize (direction);
+		host.agent.velocity = -normal * 5f;
+		yield return new WaitForSeconds (5f);
+		host.animator.Play (defaultAnim.name, 0, 0);
+		headAnimator.Play (closeFacesAnim.name, 0, 0);
+		host.KeepMoving ();
+		skillHandler.isPassiveFendingOff = false;
+		TurnOnWingColliders ();
 	}
 
 	void OnDrawGizmos ()

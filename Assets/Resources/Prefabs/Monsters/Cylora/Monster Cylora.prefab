@@ -1,5 +1,128 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &318737037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 318737038}
+  - component: {fileID: 318737039}
+  m_Layer: 10
+  m_Name: Death Feathers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &318737038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318737037}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4815292011957768}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &318737039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318737037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 505fa7a80d5624a5882f530631a3d2ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  timeBetweenLaunching: 5
+  minDistanceExecuting: 7.74
+  maxDistanceExecuting: 9.9
+  host: {fileID: 114603578470338178}
+  featherPrefab: {fileID: 4411752042324289446, guid: ef013bbe1a67a46bf99514e9080695d9,
+    type: 3}
+  defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
+  headAnimator: {fileID: 1637349068}
+  openFacesAnim: {fileID: 7400000, guid: ba1e0c6124aa7485e9df02c136e6c9c8, type: 2}
+  closeFacesAnim: {fileID: 7400000, guid: 2783a32bd137e4b7186854ae5b5334e3, type: 2}
+  passiveStoppingAnim: {fileID: 0}
+  passiveStoppingAtFaceAnim: {fileID: 0}
+  coreRotationScale: 1.75
+  wingSpeed: 2000
+  startRollingTime: 3.5
+  stopRollingTime: 1.5
+  _coreRotation: {fileID: 4338337514776726}
+  _startRollingSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7799132
+      value: 0.24580723
+      inSlope: 0.9954971
+      outSlope: 0.9954971
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.21999864
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0041809
+      value: 0.9937515
+      inSlope: 5.452883
+      outSlope: 5.452883
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.20443243
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _stopRollingSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _wings:
+  - {fileID: 748902999}
+  - {fileID: 1910262949}
+  - {fileID: 797343859}
+  - {fileID: 410818587}
 --- !u!1 &1720675566
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,11 +168,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   timeBetweenLaunching: 0.15
-  minDistanceExecuting: 1.71
+  minDistanceExecuting: -1.01
   maxDistanceExecuting: 3.18
   host: {fileID: 114603578470338178}
   defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
-  headAnimator: {fileID: 95098847800651018}
+  headAnimator: {fileID: 1637349068}
   openFacesAnim: {fileID: 7400000, guid: ba1e0c6124aa7485e9df02c136e6c9c8, type: 2}
   closeFacesAnim: {fileID: 7400000, guid: 2783a32bd137e4b7186854ae5b5334e3, type: 2}
   wingSpeed: 1500
@@ -215,6 +338,7 @@ Transform:
   m_Children:
   - {fileID: 4641881462912384}
   - {fileID: 1720675567}
+  - {fileID: 318737038}
   m_Father: {fileID: 4892626249404996}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -232,6 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   host: {fileID: 4892626249404996}
   skills:
+  - {fileID: 318737039}
   - {fileID: 114760873025756094}
   - {fileID: 1720675568}
 --- !u!1 &1107393336262210
@@ -282,7 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   refreshRate: 1
-  speed: 1
+  speed: 3
   animator: {fileID: 95681124745434274}
   blocked: 0
   _head: {fileID: 4834727793208436}
@@ -298,6 +423,7 @@ MonoBehaviour:
     type: 3}
   _wideBloodPrefab: {fileID: 114319558123064554, guid: df3886872a35e4eef8292ba638629b49,
     type: 3}
+  skillHandler: {fileID: 114394403642776168}
 --- !u!195 &195068033253660192
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -343,7 +469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4834727793208436}
-  - component: {fileID: 95098847800651018}
+  - component: {fileID: 1637349068}
   m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
@@ -370,7 +496,7 @@ Transform:
   m_Father: {fileID: 4159624411965666}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95098847800651018
+--- !u!95 &1637349068
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -757,13 +883,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   timeBetweenLaunching: 3
-  minDistanceExecuting: 9.7
-  maxDistanceExecuting: 13.45
+  minDistanceExecuting: 12.9
+  maxDistanceExecuting: 18.3
   host: {fileID: 114603578470338178}
   defaultAnim: {fileID: 7400000, guid: 069bf20c566e0450083c0ab6fe2c820c, type: 2}
-  headAnimator: {fileID: 95098847800651018}
+  headAnimator: {fileID: 1637349068}
   openFacesAnim: {fileID: 7400000, guid: ba1e0c6124aa7485e9df02c136e6c9c8, type: 2}
   closeFacesAnim: {fileID: 7400000, guid: 2783a32bd137e4b7186854ae5b5334e3, type: 2}
+  passiveStoppingAnim: {fileID: 7400000, guid: 5fa8dbd3a8431480e8d8192c67d89dbb, type: 2}
+  passiveStoppingAtFaceAnim: {fileID: 7400000, guid: 4f3414bf261774c14891a168fef7c176,
+    type: 2}
   coreRotationScale: 1.75
   wingSpeed: 2000
   startRollingTime: 3.5

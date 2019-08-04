@@ -1680,6 +1680,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1486571627
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1107393336262210, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_Name
+      value: Monster Cylora
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892626249404996, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 80218d10dd8fe44708f18091a668d5a7, type: 3}
 --- !u!4 &1492464556 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4282247987286110, guid: b1406b9b2af0b47beb712b9324429f91,
@@ -2108,7 +2165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1166415487383410, guid: 43c3f30a4a076408da67da6142ea556c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4674501294138524, guid: 43c3f30a4a076408da67da6142ea556c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2247,3 +2304,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014410202}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &4411752043294281218
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4411752042324289441, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_Name
+      value: Monster Cylora Feather
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4411752042324289444, guid: ef013bbe1a67a46bf99514e9080695d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ef013bbe1a67a46bf99514e9080695d9, type: 3}

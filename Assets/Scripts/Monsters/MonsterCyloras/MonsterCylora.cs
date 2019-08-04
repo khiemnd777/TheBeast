@@ -35,6 +35,7 @@ public class MonsterCylora : Monster
 	Transform _playerTransform;
 	[System.NonSerialized]
 	public NavMeshAgent agent;
+	public MonsterSkillHandler skillHandler;
 	ObjectShake _objectShake;
 	bool _isStopMoving;
 	bool _isStopRotating;
@@ -140,7 +141,7 @@ public class MonsterCylora : Monster
 
 	void Start ()
 	{
-		StartCoroutine (LeadtoTarget ());
+		StartCoroutine (LeadToTarget ());
 	}
 
 	void Update ()
@@ -176,7 +177,7 @@ public class MonsterCylora : Monster
 		wing.rotation = Utilities.RotateByNormal (wingDir, Vector3.up);
 	}
 
-	IEnumerator LeadtoTarget ()
+	IEnumerator LeadToTarget ()
 	{
 		while (true)
 		{

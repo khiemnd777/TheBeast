@@ -42,6 +42,7 @@ public class MonsterCyloraDeathSaw : MonsterSkill
 
     void OnWingHit (MonsterCyloraWing wing, Collider other)
     {
+		if (!beExecuting) return;
         if (!wing.weaponEntity.anyAction) return;
         if (!other) return;
         var hitPlayer = other.GetComponent<Player2> ();
@@ -130,15 +131,6 @@ public class MonsterCyloraDeathSaw : MonsterSkill
         }
     }
 
-    IEnumerator KeepRolling ()
-    {
-        while (!_isStopRolling)
-        {
-            _coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed);
-            yield return null;
-        }
-    }
-
     IEnumerator ScaleWingsOut ()
     {
         var t = 0f;
@@ -161,6 +153,15 @@ public class MonsterCyloraDeathSaw : MonsterSkill
             t += Time.deltaTime / .2f;
             scaleWingsRate = Mathf.Lerp (scaleWingsValue, 1f, t);
             _coreRotation.localScale = Vector3.one * scaleWingsRate;
+            yield return null;
+        }
+    }
+
+    IEnumerator KeepRolling ()
+    {
+        while (!_isStopRolling)
+        {
+            _coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed);
             yield return null;
         }
     }

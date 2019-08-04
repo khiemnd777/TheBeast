@@ -8,6 +8,10 @@ public class MonsterSkillHandler : MonoBehaviour
 	public List<MonsterSkill> skills;
 	[System.NonSerialized]
 	public bool accessExecutingSkill;
+	[System.NonSerialized]
+	public MonsterSkill executingSkill;
+	[System.NonSerialized]
+	public bool isPassiveFendingOff;
 	Player2 _player;
 
 	void Start ()
@@ -17,6 +21,7 @@ public class MonsterSkillHandler : MonoBehaviour
 
 	void Update ()
 	{
+		if (isPassiveFendingOff) return;
 		ExecuteSkillsBaseDistance ();
 	}
 
@@ -34,7 +39,8 @@ public class MonsterSkillHandler : MonoBehaviour
 			{
 				return;
 			}
-			StartCoroutine (skill.Execute ());
+			executingSkill = skill;
+			executingSkill.StartExecutingSkill ();
 		}
 	}
 }
