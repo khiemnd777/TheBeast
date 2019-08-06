@@ -28,9 +28,14 @@ public class MonsterCyloraDeathFeather : MonsterSkill
     [SerializeField]
     float _projectRotationSpeed;
     [SerializeField]
-    Transform _coreProjectileRotation;
+    Transform _coreProjectileRotation1;
     [SerializeField]
-    Transform[] _featherProjectiles;
+    Transform[] _featherProjectiles1;
+    [Space]
+    [SerializeField]
+    Transform _coreProjectileRotation2;
+    [SerializeField]
+    Transform[] _featherProjectiles2;
     Player2 _player;
     SlowMotionMonitor _slowMotionMonitor;
     CameraShake _cameraShake;
@@ -100,40 +105,101 @@ public class MonsterCyloraDeathFeather : MonsterSkill
 
     public override IEnumerator OnExecuting ()
     {
+        SetActiveTheWings (true);
         yield return StartCoroutine (StartRolling ());
+        _breakLaunchingTheFeathers = false;
         _isStopRolling = false;
         _isRollingMaxSpeed = true;
-        StartCoroutine ("KeepRolling");
-        StartCoroutine ("KeepRollingProjectiles");
+        StartCoroutine (KeepRolling ());
+        StartCoroutine (KeepRollingProjectiles1 ());
         host.blocked = true;
         WingsInAction (true);
-        yield return StartCoroutine (LaunchTheFeathers ());
-        headAnimator.Play (closeFacesAnim.name, 0, 0);
-        _isStopRolling = true;
+        StartCoroutine (LaunchTheFeathersAtProjectileSystem1 ());
+        StartCoroutine (LaunchTheFeathersAtProjectileSystem2 ());
+        yield return StartCoroutine (CountdownLaunchTheFeathersAtStep1 ());
+        yield return StartCoroutine (ScaleRolling ());
+        yield return StartCoroutine (LaunchTheFeatherAtStep2 ());
         host.blocked = false;
+        yield return new WaitForSeconds (7f);
+        headAnimator.Play (closeFacesAnim.name, 0, 0);
+        SetActiveTheWings (true);
+        _isStopRolling = true;
         WingsInAction (false);
         yield return StartCoroutine (StopRolling ());
         _isRollingMaxSpeed = false;
     }
 
-    IEnumerator LaunchTheFeathers ()
+    void LaunchTheFeathersAtProjectile (Transform[] projectiles)
     {
-        // var t = 0f;
-        StartCoroutine (CountdownLaunchTheFeathers ());
-        while (!_breakLaunchingTheFeathers)
+        foreach (var projectile in projectiles)
         {
-            foreach (var projectile in _featherProjectiles)
-            {
-                InstantiateTheFeather (featherPrefab, projectile);
-            }
-            yield return new WaitForSeconds (.085f);
+            InstantiateTheFeather (featherPrefab, projectile);
         }
-        _breakLaunchingTheFeathers = false;
     }
 
-    IEnumerator CountdownLaunchTheFeathers ()
+    IEnumerator LaunchTheFeathersAtProjectileSystem1 ()
     {
-        yield return new WaitForSeconds (3f);
+        while (!_breakLaunchingTheFeathers)
+        {
+            LaunchTheFeathersAtProjectile (_featherProjectiles1);
+            yield return new WaitForSeconds (.085f);
+        }
+    }
+
+    void LaunchTheFeatherAsCircle ()
+    {
+        LaunchTheFeathersAtProjectile (_featherProjectiles2);
+        var angles = _coreProjectileRotation2.rotation.eulerAngles;
+        _coreProjectileRotation2.rotation = Quaternion.Euler (new Vector3 (angles.x, angles.y + 11.25f, angles.z));
+        LaunchTheFeathersAtProjectile (_featherProjectiles2);
+        angles = _coreProjectileRotation2.rotation.eulerAngles;
+        _coreProjectileRotation2.rotation = Quaternion.Euler (new Vector3 (angles.x, angles.y + 11.25f, angles.z));
+        LaunchTheFeathersAtProjectile (_featherProjectiles2);
+        angles = _coreProjectileRotation2.rotation.eulerAngles;
+        _coreProjectileRotation2.rotation = Quaternion.Euler (new Vector3 (angles.x, angles.y + 11.25f, angles.z));
+        LaunchTheFeathersAtProjectile (_featherProjectiles2);
+    }
+
+    IEnumerator LaunchTheFeathersAtProjectileSystem2 ()
+    {
+        yield return new WaitForSeconds (1f);
+        while (!_breakLaunchingTheFeathers)
+        {
+            LaunchTheFeatherAsCircle ();
+            yield return new WaitForSeconds (.8f);
+            var angles = _coreProjectileRotation2.rotation.eulerAngles;
+            _coreProjectileRotation2.rotation = Quaternion.Euler (new Vector3 (angles.x, angles.y + 5.625f, angles.z));
+        }
+    }
+
+    IEnumerator LaunchTheFeatherAtStep2 ()
+    {
+        yield return new WaitForSeconds (1f);
+        SetActiveTheWings (false);
+        var count = 2;
+        do
+        {
+            LaunchTheFeatherAsCircle ();
+            _cameraShake.Shake (.2f, 0.5f);
+            yield return new WaitForSeconds (.2f);
+            var angles = _coreProjectileRotation2.rotation.eulerAngles;
+            _coreProjectileRotation2.rotation = Quaternion.Euler (new Vector3 (angles.x, angles.y + 5.625f, angles.z));
+        } while (count-- > 0);
+        _slowMotionMonitor.Freeze (.2f, .2f);
+
+    }
+
+    void SetActiveTheWings (bool active)
+    {
+        foreach (var wing in _wings)
+        {
+            wing.gameObject.SetActive (active);
+        }
+    }
+
+    IEnumerator CountdownLaunchTheFeathersAtStep1 ()
+    {
+        yield return new WaitForSeconds (5f);
         _breakLaunchingTheFeathers = true;
     }
 
@@ -164,9 +230,27 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         while (t <= 1f)
         {
             t += Time.deltaTime / stopTime;
-            speedRate = Mathf.Lerp (1f, 0f, _stopRollingSpeedCurve.Evaluate (t));
-            coreScaleRate = Mathf.Lerp (coreRotationScale, 1f, _stopRollingSpeedCurve.Evaluate (t));
+            speedRate = Mathf.Lerp (.75f, 0f, _stopRollingSpeedCurve.Evaluate (t));
+            coreScaleRate = Mathf.Lerp (.01f, 1f, _stopRollingSpeedCurve.Evaluate (t));
             _coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed * speedRate);
+            _coreRotation.localScale = Vector3.one * coreScaleRate;
+            foreach (var wing in _wings)
+            {
+                wing.transform.localScale = Vector3.one * coreScaleRate;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator ScaleRolling ()
+    {
+        var coreScaleRate = 0f;
+        var scaleTime = 1.25f;
+        var t = 0f;
+        while (t <= 1f)
+        {
+            t += Time.deltaTime / scaleTime;
+            coreScaleRate = Mathf.Lerp (coreRotationScale, .1f, _stopRollingSpeedCurve.Evaluate (t));
             _coreRotation.localScale = Vector3.one * coreScaleRate;
             yield return null;
         }
@@ -181,11 +265,11 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         }
     }
 
-    IEnumerator KeepRollingProjectiles ()
+    IEnumerator KeepRollingProjectiles1 ()
     {
         while (!_isStopRolling)
         {
-            _coreProjectileRotation.Rotate (Vector3.up * Time.fixedDeltaTime * _projectRotationSpeed);
+            _coreProjectileRotation1.Rotate (Vector3.up * Time.fixedDeltaTime * _projectRotationSpeed);
             yield return new WaitForFixedUpdate ();
         }
     }
@@ -197,7 +281,7 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         var featherRot = Utilities.RotateByNormal (wingNormal, Vector3.up);
         var feather = Instantiate<MonsterCyloraFeather> (featherPrefab, projectile.transform.position, Quaternion.identity);
         feather.transform.rotation = featherRot;
-        Destroy (feather.gameObject, 2f);
+        Destroy (feather.gameObject, 3f);
     }
 
     void OnDrawGizmos ()
