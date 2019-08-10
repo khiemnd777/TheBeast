@@ -36,6 +36,11 @@ public class MonsterCyloraDeathFeather : MonsterSkill
     Transform _coreProjectileRotation2;
     [SerializeField]
     Transform[] _featherProjectiles2;
+    [Space]
+    [SerializeField]
+    Transform _coreProjectileRotation3;
+    [SerializeField]
+    Transform _featherProjectile3;
     Player2 _player;
     SlowMotionMonitor _slowMotionMonitor;
     CameraShake _cameraShake;
@@ -115,10 +120,12 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         host.blocked = true;
         WingsInAction (true);
         StartCoroutine (LaunchTheFeathersAtProjectileSystem1 ());
-        StartCoroutine (LaunchTheFeathersAtProjectileSystem2 ());
+        // StartCoroutine (LaunchTheFeathersAtProjectileSystem2 ());
+        StartCoroutine (LaunchTheFeathersAtProjectileSystem3 ());
         yield return StartCoroutine (CountdownLaunchTheFeathersAtStep1 ());
         yield return StartCoroutine (ScaleRolling ());
-        yield return StartCoroutine (LaunchTheFeatherAtStep2 ());
+        // yield return StartCoroutine (LaunchTheFeatherAtStep2 ());
+        yield return StartCoroutine (LaunchTheFeatherAtFinal ());
         host.blocked = false;
         yield return new WaitForSeconds (7f);
         headAnimator.Play (closeFacesAnim.name, 0, 0);
@@ -143,6 +150,17 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         {
             LaunchTheFeathersAtProjectile (_featherProjectiles1);
             yield return new WaitForSeconds (.085f);
+        }
+    }
+
+    void LaunchFeather3 (int amount, float startAngle)
+    {
+        var deltaAngle = 360f / amount;
+        for (var i = 0; i < amount; i++)
+        {
+            var rotatedAngle = startAngle + i * deltaAngle;
+            _coreProjectileRotation3.rotation = Quaternion.Euler (0f, rotatedAngle, 0f);
+            InstantiateTheFeather (featherPrefab, _featherProjectile3);
         }
     }
 
@@ -172,6 +190,18 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         }
     }
 
+    IEnumerator LaunchTheFeathersAtProjectileSystem3 ()
+    {
+        yield return new WaitForSeconds (1f);
+        var startAngle = 0f;
+        while (!_breakLaunchingTheFeathers)
+        {
+            LaunchFeather3 (16, startAngle);
+            startAngle += 32f;
+            yield return new WaitForSeconds (.525f);
+        }
+    }
+
     IEnumerator LaunchTheFeatherAtStep2 ()
     {
         yield return new WaitForSeconds (1f);
@@ -186,7 +216,22 @@ public class MonsterCyloraDeathFeather : MonsterSkill
             _coreProjectileRotation2.rotation = Quaternion.Euler (new Vector3 (angles.x, angles.y + 5.625f, angles.z));
         } while (count-- > 0);
         _slowMotionMonitor.Freeze (.2f, .2f);
+    }
 
+    IEnumerator LaunchTheFeatherAtFinal ()
+    {
+        yield return new WaitForSeconds (1f);
+        SetActiveTheWings (false);
+        var count = 4;
+        var startAngle = 0f;
+        do
+        {
+            LaunchFeather3 (32, startAngle);
+            startAngle += 5.625f;
+            _cameraShake.Shake (.2f, 0.5f);
+            yield return new WaitForSeconds (.2f);
+        } while (--count > 0);
+        _slowMotionMonitor.Freeze (.2f, .2f);
     }
 
     void SetActiveTheWings (bool active)
