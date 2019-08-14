@@ -15,6 +15,7 @@ public abstract class MonsterSkill : MonoBehaviour
     public bool beCoolingDown;
     public System.Func<IEnumerator> OnBeforeExecutingHandler;
     public System.Func<IEnumerator> OnAfterExecutingHandler;
+    protected bool isInRange;
     bool _stopExecuting;
     Coroutine _currentExecutingSkill;
 
@@ -24,6 +25,11 @@ public abstract class MonsterSkill : MonoBehaviour
     }
 
     public virtual void Start ()
+    {
+
+    }
+
+    public virtual void Update ()
     {
 
     }
@@ -45,33 +51,24 @@ public abstract class MonsterSkill : MonoBehaviour
         if (beExecuting) yield break;
         if (beCoolingDown) yield break;
         _stopExecuting = false;
-        beExecuting = true;
-        if (OnBeforeExecutingHandler != null)
-        {
-            yield return StartCoroutine (OnBeforeExecutingHandler ());
-        }
-        // while (true)
-        // {
-        //     if (timeBetweenLaunching > 0)
-        //     {
-        //         while (tBetweenAct <= 1f)
-        //         {
-        //             tBetweenAct += Time.deltaTime / timeBetweenLaunching;
-        //             yield return null;
-        //         }
-        //     }
-        //     tBetweenAct = 0f;
-        //     yield return StartCoroutine (OnExecuting ());
-        //     if (_stopExecuting) break;
-        // }
-        yield return StartCoroutine (OnExecuting ());
-        if (OnAfterExecutingHandler != null)
-        {
-            yield return StartCoroutine (OnAfterExecutingHandler ());
-        }
-        beExecuting = false;
+        yield return StartCoroutine (Execute (this));
         beCoolingDown = true;
         StartCoroutine (CoolingDown ());
+    }
+
+    protected IEnumerator Execute (MonsterSkill skill)
+    {
+        skill.beExecuting = true;
+        if (skill.OnBeforeExecutingHandler != null)
+        {
+            yield return StartCoroutine (skill.OnBeforeExecutingHandler ());
+        }
+        yield return StartCoroutine (skill.OnExecuting ());
+        if (skill.OnAfterExecutingHandler != null)
+        {
+            yield return StartCoroutine (skill.OnAfterExecutingHandler ());
+        }
+        skill.beExecuting = false;
     }
 
     IEnumerator CoolingDown ()
@@ -90,6 +87,7 @@ public abstract class MonsterSkill : MonoBehaviour
 
     public void StartExecutingSkill ()
     {
+        isInRange = true;
         StartCoroutine ("Execute");
     }
 
@@ -102,8 +100,9 @@ public abstract class MonsterSkill : MonoBehaviour
         OnStoppedExecutingSkill ();
     }
 
-    public void OnOutOfRange ()
+    public virtual void OnOutOfRange ()
     {
+        isInRange = false;
         _stopExecuting = true;
     }
 }

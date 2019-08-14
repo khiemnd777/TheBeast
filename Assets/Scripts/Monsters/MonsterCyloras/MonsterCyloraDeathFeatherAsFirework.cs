@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterCyloraDeathFeather : MonsterSkill
+public class MonsterCyloraDeathFeatherAsFirework : MonsterSkill
 {
     public MonsterCylora host;
     public MonsterCyloraFeather featherPrefab;
@@ -333,7 +333,6 @@ public class MonsterCyloraDeathFeather : MonsterSkill
         var featherRot = Utilities.RotateByNormal (wingNormal, Vector3.up);
         var feather = Instantiate<MonsterCyloraFeather> (featherPrefab, projectile.transform.position, Quaternion.identity);
         feather.damage = damage;
-        feather.speed = 12f;
         feather.transform.rotation = featherRot;
         Destroy (feather.gameObject, 3f);
     }

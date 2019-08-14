@@ -38,9 +38,9 @@ public class Utilities
         return returnedVel;
     }
 
-    public static Quaternion RotateByNormal (Vector3 normal, Vector3 axis)
+    public static Quaternion RotateByNormal (Vector3 normal, Vector3 axis, float additive = 360f)
     {
-        var rot = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
+        var rot = additive - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
         var vectRot = axis * rot;
         var qtrn = Quaternion.Euler (vectRot);
         return qtrn;

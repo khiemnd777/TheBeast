@@ -28,6 +28,7 @@ public class MonsterSkillHandler : MonoBehaviour
 	void ExecuteSkillsBaseDistance ()
 	{
 		var distanceFromTarget = Utilities.DistanceFromTarget (_player.transform.position, host.transform.position);
+		var executeableList = new List<MonsterSkill> ();
 		foreach (var skill in skills)
 		{
 			if (Mathf.Clamp (distanceFromTarget, skill.minDistanceExecuting, skill.maxDistanceExecuting) != distanceFromTarget)
@@ -39,8 +40,11 @@ public class MonsterSkillHandler : MonoBehaviour
 			{
 				return;
 			}
-			executingSkill = skill;
-			executingSkill.StartExecutingSkill ();
+			executeableList.Add (skill);
 		}
+		if (!executeableList.Any ()) return;
+		executingSkill = executeableList.ElementAt (Random.Range (0, executeableList.Count));
+		if (!executingSkill) return;
+		executingSkill.StartExecutingSkill ();
 	}
 }

@@ -213,7 +213,7 @@ public class MonsterCyloraDeathWheel : MonsterSkill
 		WingsInAction (false);
 		host.animator.enabled = true;
 		// host.animator.Play (defaultAnim.name, 0, 0);
-		StartCoroutine ("PassiveStoppingOnFendingOff");
+		StartCoroutine (PassiveStoppingOnFendingOff ());
 	}
 
 	IEnumerator PassiveStoppingOnFendingOff ()
