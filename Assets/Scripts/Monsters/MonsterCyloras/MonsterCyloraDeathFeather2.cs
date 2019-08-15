@@ -16,7 +16,7 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
     public float wingSpeed;
     public float startRollingTime;
     public float stopRollingTime;
-	public float idleToDashTime;
+    public float idleToDashTime;
     public float dashingVelocity;
     [SerializeField]
     Transform _coreRotation;
@@ -74,14 +74,21 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
         if (!_isRollingMaxSpeed) return;
         if (!other) return;
         var hitPlayer = other.GetComponent<Player2> ();
-        if (hitPlayer && !hitPlayer.isFendingOff)
+        if (hitPlayer)
         {
-            var contactPoint = other.ClosestPointOnBounds (transform.position);
-            var dir = other.transform.position - contactPoint;
-            dir.Normalize ();
-            hitPlayer.OnHit (damage, 9f, dir, contactPoint);
-            _slowMotionMonitor.Freeze (.2f, .2f);
-            _cameraShake.Shake (.2f, 0.5f);
+            if (hitPlayer.isFendingOff)
+            {
+                StopExecutingSkill ();
+            }
+            else
+            {
+                var contactPoint = other.ClosestPointOnBounds (transform.position);
+                var dir = other.transform.position - contactPoint;
+                dir.Normalize ();
+                hitPlayer.OnHit (damage, 9f, dir, contactPoint);
+                _slowMotionMonitor.Freeze (.2f, .2f);
+                _cameraShake.Shake (.2f, 0.5f);
+            }
         }
     }
 
@@ -217,18 +224,18 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
     IEnumerator StopRolling ()
     {
         var speedRate = 0f;
-		var coreScaleRate = 0f;
-		var stopTime = Mathf.Max (stopRollingTime, closeFacesAnim.length);
-		var t = 0f;
-		while (t <= 1f)
-		{
-			t += Time.deltaTime / stopTime;
-			speedRate = Mathf.Lerp (1f, 0f, _stopRollingSpeedCurve.Evaluate (t));
-			coreScaleRate = Mathf.Lerp (coreRotationScale, 1f, _stopRollingSpeedCurve.Evaluate (t));
-			_coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed * speedRate);
-			_coreRotation.localScale = Vector3.one * coreScaleRate;
-			yield return null;
-		}
+        var coreScaleRate = 0f;
+        var stopTime = Mathf.Max (stopRollingTime, closeFacesAnim.length);
+        var t = 0f;
+        while (t <= 1f)
+        {
+            t += Time.deltaTime / stopTime;
+            speedRate = Mathf.Lerp (1f, 0f, _stopRollingSpeedCurve.Evaluate (t));
+            coreScaleRate = Mathf.Lerp (coreRotationScale, 1f, _stopRollingSpeedCurve.Evaluate (t));
+            _coreRotation.Rotate (Vector3.back * Time.deltaTime * wingSpeed * speedRate);
+            _coreRotation.localScale = Vector3.one * coreScaleRate;
+            yield return null;
+        }
     }
 
     IEnumerator KeepRolling ()
@@ -250,6 +257,49 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
         feather.speed = speed;
         feather.transform.rotation = featherRot;
         Destroy (feather.gameObject, 3f);
+    }
+
+    void TurnOffWingColliders ()
+    {
+        foreach (var wing in _wings)
+        {
+            wing.TurnOffCollider ();
+        }
+    }
+
+    void TurnOnWingColliders ()
+    {
+        foreach (var wing in _wings)
+        {
+            wing.TurnOnCollider ();
+        }
+    }
+
+    public override void OnStoppedExecutingSkill ()
+    {
+        TurnOffWingColliders ();
+        skillHandler.isPassiveFendingOff = true;
+        host.agent.acceleration = _currentAcceleration;
+        host.blocked = false;
+        WingsInAction (false);
+        host.animator.enabled = true;
+        // host.animator.Play (defaultAnim.name, 0, 0);
+        StartCoroutine (PassiveStoppingOnFendingOff ());
+    }
+
+    IEnumerator PassiveStoppingOnFendingOff ()
+    {
+        host.animator.Play (passiveStoppingAnim.name, 0, 0);
+        headAnimator.Play (passiveStoppingAtFaceAnim.name, 0, 0);
+        var direction = _player.transform.position - host.transform.position;
+        var normal = Vector3.Normalize (direction);
+        host.agent.velocity = -normal * 5f;
+        yield return new WaitForSeconds (5f);
+        host.animator.Play (defaultAnim.name, 0, 0);
+        headAnimator.Play (closeFacesAnim.name, 0, 0);
+        host.KeepMoving ();
+        skillHandler.isPassiveFendingOff = false;
+        TurnOnWingColliders ();
     }
 
     void OnDrawGizmos ()
