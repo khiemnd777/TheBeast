@@ -51,7 +51,7 @@ public class ShieldHolderController : MonoBehaviour
 			ReverseTrigger ();
 			return;
 		}
-		if (weaponController.meleeHolderController.rightMeleeHolder.heldMelee.anyAction) return;
+		if ((weaponController?.meleeHolderController?.rightMeleeHolder?.heldMelee?.anyAction).GetValueOrDefault()) return;
 		TakeShieldUpAsCover ();
 	}
 
