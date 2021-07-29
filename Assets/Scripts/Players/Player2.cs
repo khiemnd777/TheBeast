@@ -27,7 +27,6 @@ public class Player2 : MonoBehaviour
 	AudioSource _footstepSoundFx;
 	IDictionary<string, bool> _lockControlList = new Dictionary<string, bool> ();
 	DotSight _dotSight;
-	Echo _echo;
 	Vector3 _direction;
 	Rigidbody _rigidbody;
 	bool _isLeftFoot;
