@@ -40,20 +40,17 @@ public class Player : NetIdentity
 
   protected override void OnNetAwake()
   {
+  }
+
+  protected override void OnNetStart()
+  {
     _rigidbody = GetComponent<Rigidbody>();
-    _settings = FindObjectOfType<Settings>();
+    _settings = Settings.instance;
     if (isLocal)
     {
       _dotSightController = FindObjectOfType<DotSightController>();
       _cameraController = FindObjectOfType<CameraController>();
       animator = GetComponent<Animator>();
-    }
-  }
-
-  protected override void OnNetStart()
-  {
-    if (isLocal)
-    {
       _cameraController.SetTarget(this.transform);
       _dotSightController.InitDotSight();
       _dotSightController.SetPlayer(this);

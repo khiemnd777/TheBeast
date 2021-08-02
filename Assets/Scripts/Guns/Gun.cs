@@ -5,78 +5,81 @@ using UnityEngine;
 
 public abstract class Gun : MonoBehaviour
 {
-	public GunHandType gunHandType;
-	public float knockbackIndex;
-	public RuntimeAnimatorController gunAnimatorController;
-	public AnimationClip gunHandTypeAnimation;
-	[Header ("Shells")]
-	public Shell shellPrefab;
-	public Transform shellEjection;
-	
-	protected Player player;
-	IDictionary<string, bool> _lockControlList = new Dictionary<string, bool> ();
+  public GunHandType gunHandType;
+  public float knockbackIndex;
+  public RuntimeAnimatorController gunAnimatorController;
+  public AnimationClip gunHandTypeAnimation;
+  [Header("Shells")]
+  public Shell shellPrefab;
+  public Transform shellEjection;
 
-	public abstract void HoldTrigger ();
-	public abstract void ReleaseTrigger ();
-	public System.Action OnProjectileLaunched;
+  protected Player player;
+  IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
 
-	public virtual void TakeUpArm ()
-	{
-		player.animator.runtimeAnimatorController = gunAnimatorController;
-		player.animator.Play (gunHandTypeAnimation.name, 0);
-	}
+  public abstract void HoldTrigger();
+  public abstract void ReleaseTrigger();
+  public System.Action OnProjectileLaunched;
 
-	public virtual void KeepInCover ()
-	{
-		Destroy (gameObject);
-	}
+  public virtual void TakeUpArm()
+  {
+    if (player.animator)
+    {
+      player.animator.runtimeAnimatorController = gunAnimatorController;
+      player.animator.Play(gunHandTypeAnimation.name, 0);
+    }
+  }
 
-	public void EjectShell ()
-	{
-		// eject shells.
-		Instantiate (shellPrefab, shellEjection.position, shellEjection.rotation);
-	}
+  public virtual void KeepInCover()
+  {
+    Destroy(gameObject);
+  }
 
-	public void RegisterLock (string name)
-	{
-		if (_lockControlList.ContainsKey (name)) return;
-		_lockControlList.Add (name, false);
-	}
+  public void EjectShell()
+  {
+    // eject shells.
+    Instantiate(shellPrefab, shellEjection.position, shellEjection.rotation);
+  }
 
-	public void Lock (string name)
-	{
-		if (!_lockControlList.ContainsKey (name)) return;
-		_lockControlList[name] = true;
-	}
+  public void RegisterLock(string name)
+  {
+    if (_lockControlList.ContainsKey(name)) return;
+    _lockControlList.Add(name, false);
+  }
 
-	public void Unlock (string name)
-	{
-		if (!_lockControlList.ContainsKey (name)) return;
-		_lockControlList[name] = false;
-	}
+  public void Lock(string name)
+  {
+    if (!_lockControlList.ContainsKey(name)) return;
+    _lockControlList[name] = true;
+  }
 
-	public bool IsLocked ()
-	{
-		return _lockControlList.Values.Any (locked => locked);
-	}
+  public void Unlock(string name)
+  {
+    if (!_lockControlList.ContainsKey(name)) return;
+    _lockControlList[name] = false;
+  }
 
-	public virtual void Awake ()
-	{
-		player = FindObjectOfType<Player> ();
-	}
+  public bool IsLocked()
+  {
+    return _lockControlList.Values.Any(locked => locked);
+  }
 
-	public virtual void Start ()
-	{
+  public virtual void Awake()
+  {
+    player = FindObjectOfType<Player>();
+  }
 
-	}
+  public virtual void Start()
+  {
 
-	public virtual void Update ()
-	{
+  }
 
-	}
+  public virtual void Update()
+  {
 
-	public virtual void FixedUpdate ()
-	{
+  }
 
-	}
+  public virtual void FixedUpdate()
+  {
+
+  }
 }

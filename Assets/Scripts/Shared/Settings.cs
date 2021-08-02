@@ -2,12 +2,12 @@
 
 public class Settings : MonoBehaviour
 {
-	public float playerFootOnGroundDelta = 2f;
-	public float defaultTimeScale;
-	public float defaultFendingOffStatusOffTime = .1f;
-	public float defaultReleaseLockExplosionTime = .25f;
+  public float playerFootOnGroundDelta = 2f;
+  public float defaultTimeScale;
+  public float defaultFendingOffStatusOffTime = .1f;
+  public float defaultReleaseLockExplosionTime = .25f;
 
-	/// <summary>
+  /// <summary>
   /// [Readonly] Returns true if this object is active on an active server.
   /// </summary>
   public bool isServer { get; private set; }
@@ -17,7 +17,7 @@ public class Settings : MonoBehaviour
   /// </summary>
   public bool isClient { get; private set; }
 
-  static Settings pInstance;
+  static Settings _instance;
 
   /// <summary>
   /// Get the Settings through a static instance
@@ -27,25 +27,25 @@ public class Settings : MonoBehaviour
   {
     get
     {
-      return pInstance ?? (pInstance = FindObjectOfType<Settings> ());
+      return _instance ?? (_instance = FindObjectOfType<Settings>());
     }
   }
 
   /// <summary>
   /// Awake is called when the script instance is being loaded.
   /// </summary>
-  void Awake ()
+  void Awake()
   {
     // If application runs in batch-mode.
     if (Application.isBatchMode)
     {
-      Debug.Log ("Run as server.");
+      print("Run as server.");
       isServer = true;
       isClient = false;
       return;
     }
     // If application runs on WebGL/Editor.
-    Debug.Log ("Run as client.");
+    print("Run as client.");
     isServer = false;
     isClient = true;
   }

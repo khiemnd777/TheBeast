@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4245616328405503377}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.6162474, y: -0.0048537496, z: -2.470751}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -59,9 +59,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   netIdentifierPrefabs:
   - name: player
-    netIdentityPrefab: {fileID: 114165711909730940, guid: b1406b9b2af0b47beb712b9324429f91,
+    netIdentityPrefab: {fileID: 114926467534503532, guid: b1406b9b2af0b47beb712b9324429f91,
       type: 3}
-  networkManager: {fileID: 0}
 --- !u!114 &4245616328405503382
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -81,16 +81,21 @@ namespace Net
     /// <param name="id"></param>
     /// <param name="name"></param>
     /// <param name="life"></param>
-    void Create(string prefabName, int id, string name, float life)
+    void Create(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
     {
       if (netObjectList.Exists(id)) return;
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
       if (prefab.netIdentityPrefab)
       {
         var netIdentifierPrefab = prefab.netIdentityPrefab;
-        var netIdentityIns = Instantiate<NetIdentity>(netIdentifierPrefab, Vector3.zero, Quaternion.identity);
-        netIdentityIns.Init(id, name);
+        var netIdentityIns = Instantiate<NetIdentity>(
+          netIdentifierPrefab,
+          Utility.PositionArrayToVector3(Vector3.zero, position),
+          Utility.AnglesArrayToQuaternion(rotation));
+        netIdentityIns.Init(id, netName);
         netObjectList.Store(netIdentityIns);
+        netIdentityIns.life = life;
+        netIdentityIns.maxLife = maxLife;
       }
     }
 
@@ -142,7 +147,11 @@ namespace Net
     {
       if (!_settings.isClient) return;
       var isLocalPlayer = clientId.Equals(_networkManager.clientId.ToString());
-      if (isLocalPlayer) return;
+      if (isLocalPlayer)
+      {
+        Create(prefabName, clientId, netName, id, position, rotation, life, maxLife);
+        return;
+      }
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
       if (prefab.netIdentityPrefab)
       {

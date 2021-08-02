@@ -38,11 +38,13 @@ namespace Net
     void Awake()
     {
       clientId = Guid.NewGuid();
+      _settings = Settings.instance;
     }
 
     void Start()
     {
-      _settings = Settings.instance;
+      print("Start network manager!");
+      print("Initiated settings!");
       _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnConnected);
       _socket.On(Constants.EVENT_OBJECT_REGISTERED, OnObjectRegistered);
       _socket.On(Constants.EVENT_OTHER_OBJECT_REGISTERED, OnOtherObjectRegistered);
