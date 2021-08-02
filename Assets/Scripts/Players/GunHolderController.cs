@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GunHolderController : MonoBehaviour
 {
@@ -8,14 +6,14 @@ public class GunHolderController : MonoBehaviour
 	public GunHolder rightGunHolder;
 	public float timeHoleLeftGunTrigger;
 
-	DotSight _dotSight;
+	DotSightController _dotSightController;
 	bool _isLeft;
 	bool _isMouseHoldingDown;
 	float _timeForHoldLeftGunTrigger;
 
 	void Awake ()
 	{
-		_dotSight = FindObjectOfType<DotSight> ();
+		_dotSightController = FindObjectOfType<DotSightController> ();
 	}
 
 	public void DoUpdating ()
@@ -82,8 +80,8 @@ public class GunHolderController : MonoBehaviour
 	void RotateGunHolder (GunHolder gunHolder)
 	{
 		if (gunHolder == null || gunHolder is Object && gunHolder.Equals (null)) return;
-		var normal = _dotSight.NormalizeFromPoint (gunHolder.transform.position);
-		var destRot = Utilities.RotateByNormal (normal, Vector3.up);
+		var normal = _dotSightController.NormalizeFromPoint (gunHolder.transform.position);
+		var destRot = Utility.RotateByNormal (normal, Vector3.up);
 		var gunHolderTransform = gunHolder.transform;
 		gunHolderTransform.rotation = Quaternion.RotateTowards(gunHolderTransform.rotation, destRot, Time.deltaTime * 630f);
 	}

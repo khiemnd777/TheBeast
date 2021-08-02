@@ -16,7 +16,7 @@ public class MonsterZero : Monster
 	Blood _wideBloodPrefab;
 	NavMeshAgent _agent;
 	ObjectShake _objectShake;
-	Player2 _player;
+	Player _player;
 	Transform _playerTransform;
 	float _tdt;
 	float _storedSpeed;
@@ -44,7 +44,7 @@ public class MonsterZero : Monster
 		var hitTransform = raycastHit.transform;
 		if (_agent)
 		{
-			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, -raycastHit.normal, hitback);
+			_agent.velocity = Utility.HitbackVelocity (_agent.velocity, -raycastHit.normal, hitback);
 		}
 		if (_objectShake)
 		{
@@ -53,7 +53,7 @@ public class MonsterZero : Monster
 		// bleed out
 		if (_bloodPrefab)
 		{
-			Utilities.BleedOutAtPoint (_bloodPrefab, raycastHit.normal, raycastHit.point);
+			Utility.BleedOutAtPoint (_bloodPrefab, raycastHit.normal, raycastHit.point);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class MonsterZero : Monster
 	{
 		if (_agent)
 		{
-			_agent.velocity = Utilities.HitbackVelocity (_agent.velocity, impactedNormal, hitback);
+			_agent.velocity = Utility.HitbackVelocity (_agent.velocity, impactedNormal, hitback);
 		}
 		if (_objectShake)
 		{
@@ -70,7 +70,7 @@ public class MonsterZero : Monster
 		// bleed out
 		if (_wideBloodPrefab)
 		{
-			Utilities.BleedOut (_wideBloodPrefab, head.rotation, impactedPoint);
+			Utility.BleedOut (_wideBloodPrefab, head.rotation, impactedPoint);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class MonsterZero : Monster
 	{
 		_agent = GetComponent<NavMeshAgent> ();
 		_objectShake = GetComponentInChildren<ObjectShake> ();
-		_player = FindObjectOfType<Player2> ();
+		_player = FindObjectOfType<Player> ();
 		_playerTransform = _player.transform;
 	}
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Katana : Melee
 {
-	Player2 _player;
+	Player _player;
 	Hand _hand;
 	int _slashQueueIndex;
 	BoxCollider _collider;
@@ -65,7 +65,7 @@ public class Katana : Melee
 		player.Unlock ("Kanata");
 	}
 
-	public override void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)
+	public override void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player player)
 	{
 		_hand = hand;
 		_player = player;

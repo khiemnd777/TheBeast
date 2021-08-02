@@ -7,13 +7,13 @@ public class KatanaSlashEffect : MonoBehaviour
     public float hitback;
     SlowMotionMonitor _slowMotionMonitor;
     CameraShake _cameraShake;
-    Player2 _player;
+    Player _player;
 
     void Awake ()
     {
         _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
         _cameraShake = FindObjectOfType<CameraShake> ();
-        _player = FindObjectOfType<Player2> ();
+        _player = FindObjectOfType<Player> ();
     }
 
     void OnTriggerEnter (Collider other)

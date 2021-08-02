@@ -5,11 +5,11 @@ using UnityEngine;
 public class MeleeHolderController : MonoBehaviour
 {
 	public MeleeHolder rightMeleeHolder;
-	DotSight _dotSight;
+	DotSightController _dotSightController;
 
 	void Awake ()
 	{
-		_dotSight = FindObjectOfType<DotSight> ();
+		_dotSightController = FindObjectOfType<DotSightController> ();
 	}
 
 	public void DoUpdating ()
@@ -44,9 +44,9 @@ public class MeleeHolderController : MonoBehaviour
 	void RotateMeleeHolder (MeleeHolder meleeHolder)
 	{
 		if (meleeHolder == null || meleeHolder is Object && meleeHolder.Equals (null)) return;
-		var normal = _dotSight.NormalizeFromPoint (meleeHolder.transform.position);
+		var normal = _dotSightController.NormalizeFromPoint (meleeHolder.transform.position);
 		var angle = 360f - Mathf.Atan2 (normal.z, normal.x) * Mathf.Rad2Deg;
-		var destRot = Utilities.RotateByNormal (normal, Vector3.up);
+		var destRot = Utility.RotateByNormal (normal, Vector3.up);
 		var meleeHolderTransform = meleeHolder.transform;
 		meleeHolderTransform.rotation = Quaternion.RotateTowards (meleeHolderTransform.rotation, destRot, Time.deltaTime * 630f);
 	}

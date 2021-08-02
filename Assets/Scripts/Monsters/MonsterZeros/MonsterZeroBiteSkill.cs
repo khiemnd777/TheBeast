@@ -27,7 +27,7 @@ public class MonsterZeroBiteSkill : MonsterSkill
     {
         if (!fang.weaponEntity.anyAction) return;
         if (!other) return;
-        var hitPlayer = other.GetComponent<Player2> ();
+        var hitPlayer = other.GetComponent<Player> ();
         if (hitPlayer && !hitPlayer.isFendingOff)
         {
             var contactPoint = other.ClosestPointOnBounds (transform.position);

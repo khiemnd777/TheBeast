@@ -71,7 +71,7 @@ public class BlownBang : MonoBehaviour
 			_cameraShake.Shake (.25f, .25f);
 			_slowMotionMonitor.Freeze (.5f, .25f);
 		}
-		var hitPlayer = other.GetComponent<Player2> ();
+		var hitPlayer = other.GetComponent<Player> ();
 		if (hitPlayer)
 		{
 			var contactPoint = other.ClosestPointOnBounds (transform.position);

@@ -9,14 +9,14 @@ public class Melee : MonoBehaviour
 	[System.NonSerialized]
 	public bool anyAction;
 	public RuntimeAnimatorController meleeAnimatorController;
-	protected Player2 player;
+	protected Player player;
 
 	public virtual IEnumerator HoldTrigger ()
 	{
 		yield break;
 	}
 
-	public virtual void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player2 player)
+	public virtual void TakeUpArm (MeleeHolder holder, Hand hand, Animator handAnimator, Player player)
 	{
 
 	}
@@ -28,7 +28,7 @@ public class Melee : MonoBehaviour
 
 	public virtual void Awake ()
 	{
-		player = FindObjectOfType<Player2> ();
+		player = FindObjectOfType<Player> ();
 	}
 
 	public virtual void Start ()
@@ -48,7 +48,7 @@ public class Melee : MonoBehaviour
 
 	public virtual Vector3 GetDirection ()
 	{
-		var direction = Utilities.GetDirection (transform, Vector3.back);
+		var direction = Utility.GetDirection (transform, Vector3.back);
 		return direction * holder.transform.localScale.z;
 	}
 

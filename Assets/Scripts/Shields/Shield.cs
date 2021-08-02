@@ -9,7 +9,7 @@ public class Shield : MonoBehaviour
 	[System.NonSerialized]
 	public bool anyAction;
 	public RuntimeAnimatorController shieldAnimatorController;
-	protected Player2 player;
+	protected Player player;
 
 	public virtual IEnumerator HoldTrigger ()
 	{
@@ -38,7 +38,7 @@ public class Shield : MonoBehaviour
 
 	public virtual void Awake ()
 	{
-		player = FindObjectOfType<Player2> ();
+		player = FindObjectOfType<Player> ();
 	}
 
 	public virtual void Start ()
@@ -58,7 +58,7 @@ public class Shield : MonoBehaviour
 
 	public virtual Vector3 GetDirection ()
 	{
-		var direction = Utilities.GetDirection (transform, Vector3.back);
+		var direction = Utility.GetDirection (transform, Vector3.back);
 		return direction * holder.transform.localScale.z;
 	}
 

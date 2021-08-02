@@ -11,7 +11,7 @@ public class MeleeHolder : MonoBehaviour
 	[SerializeField]
 	Hand _hand;
 	[SerializeField]
-	Player2 _player;
+	Player _player;
 	Vector3 _beginPosition;
 	Animator _handAnimator;
 	bool _isHoldingOn;

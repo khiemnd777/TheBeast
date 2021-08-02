@@ -20,7 +20,7 @@ public class MonsterCyloraDeathSaw : MonsterSkill
     AnimationCurve _stopRollingSpeedCurve;
     [SerializeField]
     MonsterCyloraWing[] _wings;
-    Player2 _player;
+    Player _player;
     SlowMotionMonitor _slowMotionMonitor;
     CameraShake _cameraShake;
     bool _isStopRolling;
@@ -29,7 +29,7 @@ public class MonsterCyloraDeathSaw : MonsterSkill
     public override void Awake ()
     {
         base.Awake ();
-        _player = FindObjectOfType<Player2> ();
+        _player = FindObjectOfType<Player> ();
         _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
         OnBeforeExecutingHandler += OnBeforeExecuting;
         OnAfterExecutingHandler += OnAfterExecuting;
@@ -45,7 +45,7 @@ public class MonsterCyloraDeathSaw : MonsterSkill
 		if (!beExecuting) return;
         if (!wing.weaponEntity.anyAction) return;
         if (!other) return;
-        var hitPlayer = other.GetComponent<Player2> ();
+        var hitPlayer = other.GetComponent<Player> ();
         if (hitPlayer && !hitPlayer.isFendingOff)
         {
             var contactPoint = other.ClosestPointOnBounds (transform.position);

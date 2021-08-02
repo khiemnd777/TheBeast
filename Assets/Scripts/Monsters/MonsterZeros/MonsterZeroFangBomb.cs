@@ -119,7 +119,7 @@ public class MonsterZeroFangBomb : MonoBehaviour
 				var bubblePos = Random.insideUnitSphere * bubbleMaxDistance + transform.position;
 				var bubbleDir = bubblePos - transform.position;
 				bubbleDir.Normalize ();
-				var bubbleRot = Utilities.RotateByNormal (bubbleDir, Vector3.up);
+				var bubbleRot = Utility.RotateByNormal (bubbleDir, Vector3.up);
 				var bubbleIns = Instantiate<Transform> (bubblePrefab, bubblePos, bubbleRot);
 				bubbleIns.localScale = Vector3.one * Random.Range (minBubbleSize, maxBubbleSize);
 				_bubbles.Add (bubbleIns);

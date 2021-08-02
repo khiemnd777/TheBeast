@@ -24,7 +24,7 @@ public class MonsterCyloraFeather : MonoBehaviour
 
     void OnTriggerEnter (Collider other)
     {
-        var hitPlayer = other.GetComponent<Player2> ();
+        var hitPlayer = other.GetComponent<Player> ();
         if (hitPlayer && !hitPlayer.isFendingOff)
         {
             var contactPoint = other.ClosestPointOnBounds (transform.position);

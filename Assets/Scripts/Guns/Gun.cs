@@ -13,7 +13,7 @@ public abstract class Gun : MonoBehaviour
 	public Shell shellPrefab;
 	public Transform shellEjection;
 	
-	protected Player2 player;
+	protected Player player;
 	IDictionary<string, bool> _lockControlList = new Dictionary<string, bool> ();
 
 	public abstract void HoldTrigger ();
@@ -62,7 +62,7 @@ public abstract class Gun : MonoBehaviour
 
 	public virtual void Awake ()
 	{
-		player = FindObjectOfType<Player2> ();
+		player = FindObjectOfType<Player> ();
 	}
 
 	public virtual void Start ()

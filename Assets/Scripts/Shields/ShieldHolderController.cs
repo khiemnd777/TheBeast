@@ -6,14 +6,14 @@ public class ShieldHolderController : MonoBehaviour
 	public float timeHoldShieldTrigger;
 	public WeaponController weaponController;
 
-	DotSight _dotSight;
+	DotSightController _dotSightController;
 	bool _isLeft;
 	bool _isKeyHoldingDown;
 	bool _isReversing;
 
 	void Awake ()
 	{
-		_dotSight = FindObjectOfType<DotSight> ();
+		_dotSightController = FindObjectOfType<DotSightController> ();
 	}
 
 	public void DoUpdating ()

@@ -14,6 +14,15 @@ public class CameraController : MonoBehaviour
 	{
 		var desiredPos = target.position + offset;
 		var smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
-		transform.position = Utilities.CameraInBound(theCamera, bound, smoothedPos);
+		transform.position = Utility.CameraInBound(theCamera, bound, smoothedPos);
 	}
+
+	/// <summary>
+  /// Set a specific target for the camera tracking after.
+  /// </summary>
+  /// <param name="target"></param>
+  public void SetTarget (Transform target)
+  {
+    this.target = target;
+  }
 }

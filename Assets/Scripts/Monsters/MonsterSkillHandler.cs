@@ -12,11 +12,11 @@ public class MonsterSkillHandler : MonoBehaviour
 	public MonsterSkill executingSkill;
 	[System.NonSerialized]
 	public bool isPassiveFendingOff;
-	Player2 _player;
+	Player _player;
 
 	void Start ()
 	{
-		_player = FindObjectOfType<Player2> ();
+		_player = FindObjectOfType<Player> ();
 	}
 
 	void Update ()
@@ -27,7 +27,7 @@ public class MonsterSkillHandler : MonoBehaviour
 
 	void ExecuteSkillsBaseDistance ()
 	{
-		var distanceFromTarget = Utilities.DistanceFromTarget (_player.transform.position, host.transform.position);
+		var distanceFromTarget = Utility.DistanceFromTarget (_player.transform.position, host.transform.position);
 		var executeableList = new List<MonsterSkill> ();
 		foreach (var skill in skills)
 		{

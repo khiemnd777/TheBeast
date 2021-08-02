@@ -31,7 +31,7 @@ public class MonsterCylora : Monster
 	Blood _bloodPrefab;
 	[SerializeField]
 	Blood _wideBloodPrefab;
-	Player2 _player;
+	Player _player;
 	Transform _playerTransform;
 	[System.NonSerialized]
 	public NavMeshAgent agent;
@@ -100,7 +100,7 @@ public class MonsterCylora : Monster
 		var hitTransform = raycastHit.transform;
 		if (agent)
 		{
-			agent.velocity = Utilities.HitbackVelocity (agent.velocity, -raycastHit.normal, hitback);
+			agent.velocity = Utility.HitbackVelocity (agent.velocity, -raycastHit.normal, hitback);
 		}
 		if (_objectShake)
 		{
@@ -109,7 +109,7 @@ public class MonsterCylora : Monster
 		// bleed out
 		if (_bloodPrefab)
 		{
-			Utilities.BleedOutAtPoint (_bloodPrefab, raycastHit.normal, raycastHit.point);
+			Utility.BleedOutAtPoint (_bloodPrefab, raycastHit.normal, raycastHit.point);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class MonsterCylora : Monster
 		if (blocked) return;
 		if (agent)
 		{
-			agent.velocity = Utilities.HitbackVelocity (agent.velocity, impactedNormal, hitback);
+			agent.velocity = Utility.HitbackVelocity (agent.velocity, impactedNormal, hitback);
 		}
 		if (_objectShake)
 		{
@@ -127,14 +127,14 @@ public class MonsterCylora : Monster
 		// bleed out
 		if (_wideBloodPrefab)
 		{
-			Utilities.BleedOut (_wideBloodPrefab, _head.rotation, impactedPoint);
+			Utility.BleedOut (_wideBloodPrefab, _head.rotation, impactedPoint);
 		}
 	}
 
 	void Awake ()
 	{
 		agent = GetComponent<NavMeshAgent> ();
-		_player = FindObjectOfType<Player2> ();
+		_player = FindObjectOfType<Player> ();
 		_objectShake = GetComponentInChildren<ObjectShake> ();
 		_playerTransform = _player.transform;
 	}
@@ -174,7 +174,7 @@ public class MonsterCylora : Monster
 		wing.position = anchor.position;
 		var wingDir = (wing.position - transform.position);
 		wingDir.Normalize ();
-		wing.rotation = Utilities.RotateByNormal (wingDir, Vector3.up);
+		wing.rotation = Utility.RotateByNormal (wingDir, Vector3.up);
 	}
 
 	IEnumerator LeadToTarget ()

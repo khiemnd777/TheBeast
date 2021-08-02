@@ -17,7 +17,7 @@ public class Rifle : Gun
 	Animator _flashAnim;
 	[SerializeField]
 	AudioSource _audioSource;
-	Player2 _player;
+	Player _player;
 	bool _isHoldTrigger;
 	bool _availableHoldTrigger;
 	float _thetaProjectileAngle = 6f;
@@ -28,7 +28,7 @@ public class Rifle : Gun
 	public override void Awake ()
 	{
 		// _dotSight = FindObjectOfType<DotSight> ();
-		_player = FindObjectOfType<Player2> ();
+		_player = FindObjectOfType<Player> ();
 	}
 
 	public override void Update ()

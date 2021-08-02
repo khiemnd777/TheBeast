@@ -8,12 +8,12 @@ public class Hand : MonoBehaviour
 	public float maximumRange = 1f;
 	[SerializeField]
 	Transform _arm;
-	DotSight _dotSight;
+	DotSightController _dotSightController;
 	float _maximumDistance = 4f;
 
 	void Awake ()
 	{
-		_dotSight = FindObjectOfType<DotSight> ();
+		_dotSightController = FindObjectOfType<DotSightController> ();
 	}
 
 	void Start ()
@@ -28,7 +28,7 @@ public class Hand : MonoBehaviour
 
 	void MoveInRange ()
 	{
-		var distance = Vector3.Distance (_dotSight.GetPosition (), _arm.position);
+		var distance = Vector3.Distance (_dotSightController.GetPosition (), _arm.position);
 		var rangeForMoving = distance / _maximumDistance;
 		var pos = transform.localPosition;
 		pos.x = Mathf.Clamp (rangeForMoving, 0, maximumRange);

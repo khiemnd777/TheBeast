@@ -43,7 +43,7 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
     Transform _coreProjectileRotation3;
     [SerializeField]
     Transform _featherProjectile3;
-    Player2 _player;
+    Player _player;
     SlowMotionMonitor _slowMotionMonitor;
     CameraShake _cameraShake;
     bool _isStopDashing;
@@ -56,7 +56,7 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
     public override void Awake ()
     {
         base.Awake ();
-        _player = FindObjectOfType<Player2> ();
+        _player = FindObjectOfType<Player> ();
         _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor> ();
         OnBeforeExecutingHandler += OnBeforeExecuting;
         OnAfterExecutingHandler += OnAfterExecuting;
@@ -73,7 +73,7 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
         if (!wing.weaponEntity.anyAction) return;
         if (!_isRollingMaxSpeed) return;
         if (!other) return;
-        var hitPlayer = other.GetComponent<Player2> ();
+        var hitPlayer = other.GetComponent<Player> ();
         if (hitPlayer)
         {
             if (hitPlayer.isFendingOff)
@@ -251,7 +251,7 @@ public class MonsterCyloraDeathFeather2 : MonsterSkill
     {
         var wingDir = (projectile.transform.position - host.transform.position);
         var wingNormal = Vector3.Normalize (wingDir);
-        var featherRot = Utilities.RotateByNormal (wingNormal, Vector3.up);
+        var featherRot = Utility.RotateByNormal (wingNormal, Vector3.up);
         var feather = Instantiate<MonsterCyloraFeather> (featherPrefab, projectile.transform.position, Quaternion.identity);
         feather.damage = damage;
         feather.speed = speed;

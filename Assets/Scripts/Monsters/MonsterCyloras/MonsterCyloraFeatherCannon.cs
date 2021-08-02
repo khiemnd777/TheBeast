@@ -14,12 +14,12 @@ public class MonsterCyloraFeatherCannon : MonsterSkill
     public float maxExecutingTime;
     public AnimationClip normalStateClip;
     public MonsterCyloraFeather featherPrefab;
-    Player2 _player;
+    Player _player;
     bool _stop;
 
     public override void Awake ()
     {
-        _player = FindObjectOfType<Player2> ();
+        _player = FindObjectOfType<Player> ();
     }
 
     public override IEnumerator OnExecuting ()
@@ -37,7 +37,7 @@ public class MonsterCyloraFeatherCannon : MonsterSkill
     {
         var wingDir = (projectile.transform.position - host.transform.position);
         var wingNormal = Vector3.Normalize (wingDir);
-        var featherRot = Utilities.RotateByNormal (wingNormal, Vector3.up);
+        var featherRot = Utility.RotateByNormal (wingNormal, Vector3.up);
         var feather = Instantiate<MonsterCyloraFeather> (featherPrefab, projectile.transform.position, Quaternion.identity);
         feather.damage = damage;
         feather.speed = speed;
@@ -66,7 +66,7 @@ public class MonsterCyloraFeatherCannon : MonsterSkill
         {
             var direction = host.transform.position - _player.transform.position;
             var normal = Vector3.Normalize (direction);
-            var rot = Utilities.RotateByNormal (normal, Vector3.up, 180f);
+            var rot = Utility.RotateByNormal (normal, Vector3.up, 180f);
             var newEuler = rot.eulerAngles + Vector3.up * Random.Range (-7f, 7f);
             coreRotation.rotation = Quaternion.Euler (newEuler);
             yield return null;
@@ -77,7 +77,7 @@ public class MonsterCyloraFeatherCannon : MonsterSkill
     {
         var direction = host.transform.position - _player.transform.position;
         var normal = Vector3.Normalize (direction);
-        var rot = Utilities.RotateByNormal (normal, Vector3.up, 180f);
+        var rot = Utility.RotateByNormal (normal, Vector3.up, 180f);
         var newEuler = rot.eulerAngles + Vector3.up * Random.Range (-10f, 10f);
         coreRotation.rotation = Quaternion.Euler (newEuler);
     }
