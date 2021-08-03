@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3d6c5ee210c2b438acc61e948fe54e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprintSpeed: 1
+  sprintSpeed: 3.8
   walkSpeed: 3.8
   sprintVolume: 0.09
   walkVolume: 0.09

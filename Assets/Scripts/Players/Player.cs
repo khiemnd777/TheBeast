@@ -28,6 +28,7 @@ public class Player : NetIdentity
   AudioSource _footstepSoundFx;
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
   DotSightController _dotSightController;
+  DotSight _dotSight;
   Vector3 _direction;
   Rigidbody _rigidbody;
   bool _isLeftFoot;
@@ -38,22 +39,26 @@ public class Player : NetIdentity
   Settings _settings;
   CameraController _cameraController;
 
-  protected override void OnNetAwake()
+  protected override void Awake()
   {
+    base.Awake();
   }
 
-  protected override void OnNetStart()
+  protected override void Start()
   {
+    base.Start();
     _rigidbody = GetComponent<Rigidbody>();
     _settings = Settings.instance;
     if (isLocal)
     {
-      _dotSightController = FindObjectOfType<DotSightController>();
       _cameraController = FindObjectOfType<CameraController>();
-      animator = GetComponent<Animator>();
       _cameraController.SetTarget(this.transform);
+      _dotSightController = FindObjectOfType<DotSightController>();
       _dotSightController.InitDotSight();
       _dotSightController.SetPlayer(this);
+      _dotSightController.VisibleCursor(false);
+      _dotSight = _dotSightController.dotSight;
+      animator = GetComponent<Animator>();
       this.life = 300f;
       this.maxLife = 300f;
       _footstepSoundFx.volume = sprintVolume;
@@ -61,8 +66,9 @@ public class Player : NetIdentity
     }
   }
 
-  protected override void OnNetUpdate()
+  protected override void Update()
   {
+    base.Update();
     Rotate2();
     if (IsLocked())
     {
@@ -102,8 +108,9 @@ public class Player : NetIdentity
     }
   }
 
-  protected override void OnNetFixedUpdate()
+  protected override void FixedUpdate()
   {
+    base.FixedUpdate();
     // if (IsLocked ())
     // {
     // 	Debug.Log(1);
@@ -118,7 +125,7 @@ public class Player : NetIdentity
     {
       if (_dotSightController)
       {
-        var normal = _dotSightController.NormalizeFromPoint(transform.position);
+        var normal = _dotSight.NormalizeFromPoint(transform.position);
         var destRotation = Utility.RotateByNormal(normal, Vector3.up);
         body.rotation = Quaternion.RotateTowards(body.rotation, destRotation, Time.deltaTime * 630f);
       }

@@ -45,11 +45,12 @@ public class Katana : Melee
 		}
 		else
 		{
-			_currentSlashAnim = slashQueue[++_slashQueueIndex];
+			++_slashQueueIndex;
 			if (_slashQueueIndex >= slashQueue.Count)
 			{
 				_slashQueueIndex = 0;
 			}
+			_currentSlashAnim = slashQueue[_slashQueueIndex];
 		}
 		player.Lock ("Kanata");
 		_playerAnimator.runtimeAnimatorController = meleeAnimatorController;

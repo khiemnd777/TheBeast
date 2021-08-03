@@ -7,13 +7,18 @@ public class GunHolderController : MonoBehaviour
   public float timeHoleLeftGunTrigger;
 
   DotSightController _dotSightController;
+  DotSight _dotSight;
   bool _isLeft;
   bool _isMouseHoldingDown;
   float _timeForHoldLeftGunTrigger;
 
-  void Awake()
+  void Start()
   {
     _dotSightController = FindObjectOfType<DotSightController>();
+    if (_dotSightController)
+    {
+      _dotSight = _dotSightController.dotSight;
+    }
   }
 
   public void DoUpdating()
@@ -80,8 +85,8 @@ public class GunHolderController : MonoBehaviour
   void RotateGunHolder(GunHolder gunHolder)
   {
     if (gunHolder == null || gunHolder is Object && gunHolder.Equals(null)) return;
-    if (!_dotSightController) return;
-    var normal = _dotSightController.NormalizeFromPoint(gunHolder.transform.position);
+    if (!_dotSight) return;
+    var normal = _dotSight.NormalizeFromPoint(gunHolder.transform.position);
     var destRot = Utility.RotateByNormal(normal, Vector3.up);
     var gunHolderTransform = gunHolder.transform;
     gunHolderTransform.rotation = Quaternion.RotateTowards(gunHolderTransform.rotation, destRot, Time.deltaTime * 630f);

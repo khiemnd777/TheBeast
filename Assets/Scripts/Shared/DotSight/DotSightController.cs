@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class DotSightController : MonoBehaviour
 {
+  Settings _settings;
+
   [SerializeField]
   DotSight _dotSightPrefab;
 
@@ -19,32 +21,27 @@ public class DotSightController : MonoBehaviour
 
   DotSight _dotSight;
 
-  void Awake()
+  void Start()
   {
-    Cursor.visible = false;
+    _settings = Settings.instance;
   }
 
   void Update()
   {
-    if (_netPlayerController && _dotSight)
+    if (_netIdentity && _netIdentity.isLocal)
     {
-      var dotSightNormalFromPoint = _dotSight.NormalizeFromPoint(_netPlayerController.transform.position);
-      var destinationRotation = Utility.RotateToDirection(dotSightNormalFromPoint, Vector3.up);
-      _netPlayerController.Rotate(destinationRotation);
+      if (_netPlayerController && _dotSight)
+      {
+        var dotSightNormalFromPoint = _dotSight.NormalizeFromPoint(_netPlayerController.transform.position);
+        var destinationRotation = Utility.RotateToDirection(dotSightNormalFromPoint, Vector3.up);
+        _netPlayerController.Rotate(destinationRotation);
+      }
     }
   }
 
-  public Vector3 GetPosition()
+  public void VisibleCursor(bool visible)
   {
-    return transform.position;
-  }
-
-  public Vector3 NormalizeFromPoint(Vector3 point)
-  {
-    var pos = GetPosition();
-    var dir = pos - point;
-    dir.Normalize();
-    return dir;
+    Cursor.visible = visible;
   }
 
   /// <summary>

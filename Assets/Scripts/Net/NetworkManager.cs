@@ -24,7 +24,7 @@ namespace Net
     {
       get
       {
-        return _socket ?? (_socket = new SocketIOWrapper(FindObjectOfType<SocketIOComponent2>()));
+        return _socket;
       }
     }
 
@@ -38,12 +38,13 @@ namespace Net
     void Awake()
     {
       clientId = Guid.NewGuid();
-      _settings = Settings.instance;
+      _socket = new SocketIOWrapper(FindObjectOfType<SocketIOComponent2>());
     }
 
     void Start()
     {
       print("Start network manager!");
+      _settings = Settings.instance;
       print("Initiated settings!");
       _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnConnected);
       _socket.On(Constants.EVENT_OBJECT_REGISTERED, OnObjectRegistered);
