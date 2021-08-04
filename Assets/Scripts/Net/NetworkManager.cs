@@ -17,6 +17,7 @@ namespace Net
     public event Action<NetObjectJSON> onOtherDisconnected;
     public event Action<NetObjectJSON> onClientRegisterFinished;
     public event Action<NetRegisterJSON> onServerRegister;
+    public event Action<NetMessageJSON> onReceiveMessageJson;
 
     Settings _settings;
     ISocketWrapper _socket;
@@ -50,9 +51,11 @@ namespace Net
       _socket.On(Constants.EVENT_OBJECT_REGISTERED, OnObjectRegistered);
       _socket.On(Constants.EVENT_OTHER_OBJECT_REGISTERED, OnOtherObjectRegistered);
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
+      _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);
       if (_settings.isServer)
       {
         print("Connecting to socket...");
+        // Let's consider this event-object-register
         _socket.On(Constants.EVENT_OBJECT_REGISTER, OnObjectRegister);
         _socket.On(Constants.EVENT_SERVER_REGISTER, OnServerRegister);
       }
@@ -62,6 +65,15 @@ namespace Net
         _socket.On(Constants.EVENT_CLIENT_REGISTER_FINISHED, OnClientRegisterFinished);
       }
       StartCoroutine(Connect());
+    }
+
+    void OnReceiveEmitMessage(SocketEvent evt)
+    {
+      var dataJson = NetMessageJSON.Deserialize(evt.data);
+      if (onReceiveMessageJson != null)
+      {
+        onReceiveMessageJson(dataJson);
+      }
     }
 
     void OnConnected(SocketEvent evt)

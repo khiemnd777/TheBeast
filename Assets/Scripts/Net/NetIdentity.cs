@@ -116,5 +116,16 @@ namespace Net
       this.id = id;
       this.netName = name;
     }
+
+    public void EmitMessage(string eventName, object message)
+    {
+      var clientId = NetworkManagerCache.networkManager.clientId.ToString();
+      socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(clientId, id, eventName, message));
+    }
+
+    public virtual void OnReceiveMessage(string eventName, object message)
+    {
+
+    }
   }
 }

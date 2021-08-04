@@ -1,5 +1,7 @@
 public class Constants
 {
+  public const string EVENT_EMIT_MESSAGE = "emit message";
+  public const string EVENT_RECEIVE_EMIT_MESSAGE = "receive emit message";
   public const string EVENT_OBJECT_REGISTER = "object register";
   public const string EVENT_OBJECT_REGISTERED = "object registered";
   public const string EVENT_OTHER_OBJECT_REGISTERED = "other object registered";

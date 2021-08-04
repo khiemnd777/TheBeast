@@ -43,6 +43,17 @@ namespace Net
         print("Initializing other players...");
         socket.Emit(Constants.EVENT_SERVER_LOAD_PLAYERS);
       };
+      _networkManager.onReceiveMessageJson += (NetMessageJSON dataJson) =>
+      {
+        if (netObjectList.Exists(dataJson.id))
+        {
+          var netObj = netObjectList.Find(dataJson.id);
+          if (netObj)
+          {
+            netObj.OnReceiveMessage(dataJson.eventName, dataJson.message);
+          }
+        }
+      };
       if (_settings.isServer)
       {
         _networkManager.onServerRegister += (NetRegisterJSON netRegisterJson) =>

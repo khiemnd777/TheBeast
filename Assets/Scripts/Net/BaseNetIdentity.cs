@@ -34,52 +34,22 @@ namespace Net
       {
         id = GetInstanceID();
       }
-      OnNetAwake();
-    }
-
-    protected virtual void OnNetAwake()
-    {
-
     }
 
     protected virtual void Start()
     {
-      OnNetStart();
-    }
-
-    protected virtual void OnNetStart()
-    {
-
     }
 
     protected virtual void Update()
     {
-      OnNetUpdate();
-    }
-
-    protected virtual void OnNetUpdate()
-    {
-
     }
 
     protected virtual void FixedUpdate()
     {
-      OnNetFixedUpdate();
-    }
-
-    protected virtual void OnNetFixedUpdate()
-    {
-
     }
 
     protected virtual void LateUpdate()
     {
-      OnNetLateUpdate();
-    }
-
-    protected virtual void OnNetLateUpdate()
-    {
-
     }
 
     public void SetNetIdAtClientSide(int id)
