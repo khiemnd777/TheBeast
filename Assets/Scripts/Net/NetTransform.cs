@@ -40,9 +40,24 @@ namespace Net
     {
       _networkManager = NetworkManagerCache.networkManager;
       _socket = NetworkManagerCache.socket;
-      _netIdentity = GetComponent<NetIdentity>();
       _rb = GetComponent<Rigidbody>();
       _cachedTransform = transform;
+      _netIdentity = GetComponent<NetIdentity>();
+      _netIdentity.onMessageReceived += (eventName, message) =>
+      {
+        if (eventName == Constants.EVENT_OBJECT_TRANSFORM)
+        {
+          if (_netIdentity.isLocal)
+          {
+            return;
+          }
+          var netObj = NetObjectJSON.Deserialize(message);
+          var point = Point.FromArray(netObj.position);
+          Translate(point);
+          var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
+          Rotate(rotation);
+        }
+      };
     }
 
     /// <summary>
@@ -107,7 +122,7 @@ namespace Net
     {
       if (!_targetRotation) return;
       var destinationAngles = rotation.eulerAngles;
-      var realQuaternion = Quaternion.Euler(new Vector3(90f, destinationAngles.y, destinationAngles.z));
+      var realQuaternion = Quaternion.Euler(new Vector3(destinationAngles.x, destinationAngles.y, destinationAngles.z));
       _targetRotation.rotation = realQuaternion;
       if (_netIdentity.isLocal)
       {
@@ -122,32 +137,7 @@ namespace Net
       var point = Point.FromVector3(_cachedTransform.position);
       var rotation = !_targetRotation ? Quaternion.identity : _targetRotation.rotation;
       var netObjectJson = new NetObjectJSON(_networkManager.clientId.ToString(), _netIdentity.id, string.Empty, _netIdentity.name, 0f, 0f, point, rotation);
-      _socket.Emit(Constants.EVENT_SERVER_OBJECT_TRANSFORM, netObjectJson);
-    }
-
-    /// <summary>
-    /// Send translation message to server.
-    /// </summary>
-    [Obsolete("use EmitTransformEvent instead")]
-    void SendTranslationMessage()
-    {
-      // Just sends the translate message when the object has moved.
-      if (!canSendTranslateMessage) return;
-      var point = Point.FromVector3(_cachedTransform.position);
-      var netPosition = new NetPositionJSON(_netIdentity.id, point);
-      _socket.Emit(Constants.EVENT_SERVER_PLAYER_TRANSLATE, netPosition);
-    }
-
-    /// <summary>
-    /// Send rotation message to server.
-    /// </summary>
-    [Obsolete("use EmitTransformEvent instead")]
-    void SendRotationMessage()
-    {
-      if (!_targetRotation) return;
-      if (!canSendRotationMessage) return;
-      var netRotation = new NetRotationJSON(_netIdentity.id, _targetRotation.rotation);
-      _socket.Emit(Constants.EVENT_SERVER_PLAYER_ROTATE, netRotation);
+      _netIdentity.EmitMessage(Constants.EVENT_OBJECT_TRANSFORM, netObjectJson);
     }
   }
 }

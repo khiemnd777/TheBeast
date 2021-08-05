@@ -6,6 +6,7 @@ public class Constants
   public const string EVENT_OBJECT_REGISTERED = "object registered";
   public const string EVENT_OTHER_OBJECT_REGISTERED = "other object registered";
   public const string EVENT_CONNECT = "connect";
+  public const string EVENT_OBJECT_TRANSFORM = "object transform";
   public const string EVENT_SERVER_OBJECT_TRANSFORM = "object transform";
   public const string EVENT_REGISTER = "register";
   public const string EVENT_SERVER_REGISTER = "server register";

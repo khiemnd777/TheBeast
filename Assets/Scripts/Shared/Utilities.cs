@@ -79,6 +79,11 @@ public class Utility
     return new Point(Mathf.Clamp(value.x, min.x, max.x), Mathf.Clamp(value.y, min.y, max.y));
   }
 
+  public static Point ArrayToPoint(float[] position)
+  {
+    return new Point(position[0], position[1]);
+  }
+
   public static Quaternion RotateToDirection(Vector3 normalize, Vector3 axis, float additive = 360f, bool isBaseY = false)
   {
     var angle = VectorToAngle(normalize, additive, isBaseY);

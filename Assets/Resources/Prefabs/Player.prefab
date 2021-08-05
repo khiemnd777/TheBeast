@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 4282247987286110}
   - component: {fileID: 54499205949214892}
   - component: {fileID: 114638739138071236}
+  - component: {fileID: 114541830428908528}
   - component: {fileID: 136874918869126214}
   - component: {fileID: 114926467534503532}
   - component: {fileID: 81561896755273322}
@@ -114,6 +115,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useLocalPosition: 0
   _targetRotation: {fileID: 4638004554132482}
+--- !u!114 &114541830428908528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042711476360370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeccb8df463b4201a94b3ff9b89dbc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initSpeed: 4
+  sprintSpeed: 1
+  walkSpeed: 0.5
 --- !u!136 &136874918869126214
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ namespace Net
 {
   public class NetIdentity : BaseNetIdentity
   {
+    public event Action<string, string> onMessageReceived;
+
     public float life { get; set; }
 
     public float maxLife { get; set; }
@@ -123,9 +125,12 @@ namespace Net
       socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(clientId, id, eventName, message));
     }
 
-    public virtual void OnReceiveMessage(string eventName, object message)
+    public virtual void OnReceiveMessage(string eventName, string message)
     {
-
+      if (onMessageReceived != null)
+      {
+        onMessageReceived(eventName, message);
+      }
     }
   }
 }
