@@ -130,6 +130,7 @@ MonoBehaviour:
   initSpeed: 4
   sprintSpeed: 1
   walkSpeed: 0.5
+  _player: {fileID: 114926467534503532}
 --- !u!136 &136874918869126214
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 114818816484530026, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
   _hand: {fileID: 114646073436216314}
+  _player: {fileID: 114926467534503532}
 --- !u!1 &1112880509173418
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 114818816484530026, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
   _hand: {fileID: 114559316574283722}
+  _player: {fileID: 114926467534503532}
 --- !u!1 &1317396814667922
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ public class Player : NetIdentity
   [Space]
   [SerializeField]
   AudioSource _footstepSoundFx;
+  AudioListener _audioListener;
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
   DotSightController _dotSightController;
   DotSight _dotSight;
@@ -39,18 +40,19 @@ public class Player : NetIdentity
   Settings _settings;
   CameraController _cameraController;
 
-  protected override void Awake()
-  {
-    base.Awake();
-  }
+  Locker _locker = new Locker();
+  public Locker locker { get { return _locker; } }
 
   protected override void Start()
   {
     base.Start();
     _rigidbody = GetComponent<Rigidbody>();
     _settings = Settings.instance;
+    _audioListener = GetComponent<AudioListener>();
+    _audioListener.gameObject.SetActive(false);
     if (isLocal)
     {
+      _audioListener.gameObject.SetActive(true);
       _cameraController = FindObjectOfType<CameraController>();
       _cameraController.SetTarget(this.transform);
       _dotSightController = FindObjectOfType<DotSightController>();
@@ -62,7 +64,7 @@ public class Player : NetIdentity
       this.life = 300f;
       this.maxLife = 300f;
       // _footstepSoundFx.volume = sprintVolume;
-      RegisterLock("Explosion");
+      _locker.RegisterLock("Explosion");
     }
   }
 
@@ -137,7 +139,7 @@ public class Player : NetIdentity
   {
     var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, impactedNormal, hitbackForce);
     _rigidbody.velocity = hitbackVel;
-    Lock("Explosion");
+    _locker.Lock("Explosion");
     StartCoroutine(ReleaseLockByExplosion());
   }
 
@@ -194,29 +196,6 @@ public class Player : NetIdentity
   public IEnumerator ReleaseLockByExplosion()
   {
     yield return new WaitForSeconds(_settings.defaultReleaseLockExplosionTime);
-    Unlock("Explosion");
-  }
-
-  public void RegisterLock(string name)
-  {
-    if (_lockControlList.ContainsKey(name)) return;
-    _lockControlList.Add(name, false);
-  }
-
-  public void Lock(string name)
-  {
-    if (!_lockControlList.ContainsKey(name)) return;
-    _lockControlList[name] = true;
-  }
-
-  public void Unlock(string name)
-  {
-    if (!_lockControlList.ContainsKey(name)) return;
-    _lockControlList[name] = false;
-  }
-
-  public bool IsLocked()
-  {
-    return _lockControlList.Values.Any(locked => locked);
+    _locker.Unlock("Explosion");
   }
 }

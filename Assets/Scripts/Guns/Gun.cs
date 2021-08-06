@@ -20,6 +20,9 @@ public abstract class Gun : MonoBehaviour
   public abstract void ReleaseTrigger();
   public System.Action OnProjectileLaunched;
 
+  Locker _locker = new Locker();
+  public Locker locker { get { return _locker; } }
+
   public virtual void TakeUpArm()
   {
     if (player.animator)
@@ -40,32 +43,8 @@ public abstract class Gun : MonoBehaviour
     Instantiate(shellPrefab, shellEjection.position, shellEjection.rotation);
   }
 
-  public void RegisterLock(string name)
-  {
-    if (_lockControlList.ContainsKey(name)) return;
-    _lockControlList.Add(name, false);
-  }
-
-  public void Lock(string name)
-  {
-    if (!_lockControlList.ContainsKey(name)) return;
-    _lockControlList[name] = true;
-  }
-
-  public void Unlock(string name)
-  {
-    if (!_lockControlList.ContainsKey(name)) return;
-    _lockControlList[name] = false;
-  }
-
-  public bool IsLocked()
-  {
-    return _lockControlList.Values.Any(locked => locked);
-  }
-
   public virtual void Awake()
   {
-    player = FindObjectOfType<Player>();
   }
 
   public virtual void Start()
@@ -81,5 +60,10 @@ public abstract class Gun : MonoBehaviour
   public virtual void FixedUpdate()
   {
 
+  }
+
+  public void SetPlayer(Player player)
+  {
+    this.player = player;
   }
 }

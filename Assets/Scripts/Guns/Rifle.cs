@@ -57,7 +57,7 @@ public class Rifle : Gun
 	public override void HoldTrigger ()
 	{
 		if (!_availableHoldTrigger) return;
-		_player.Unlock("Katana");
+		_player.locker.Unlock("Katana");
 		_timeAvailableHoldTrigger = 0f;
 		_availableHoldTrigger = false;
 		var bulletRot = CalculateBulletQuaternion ();
