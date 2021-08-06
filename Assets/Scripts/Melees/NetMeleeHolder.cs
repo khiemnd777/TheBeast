@@ -1,16 +1,25 @@
 ﻿using System.Collections;
+using Net;
 using UnityEngine;
 
-public class MeleeHolder : MonoBehaviour
+public class NetMeleeHolder : MonoBehaviour
 {
-  public Melee melee;
+  public NetMelee melee;
+
   [System.NonSerialized]
-  public Melee heldMelee;
+  public NetMelee heldMelee;
+
   public float delay;
+
   [SerializeField]
-  Hand _hand;
+  NetHand _hand;
+
+  [SerializeField]
+  NetIdentity _netIdentity;
+
   [SerializeField]
   Player _player;
+
   Vector3 _beginPosition;
   Animator _handAnimator;
   bool _isHoldingOn;
@@ -34,9 +43,10 @@ public class MeleeHolder : MonoBehaviour
     {
       if (!heldMelee)
       {
-        heldMelee = Instantiate<Melee>(melee, transform.position, transform.rotation, transform);
+        heldMelee = Instantiate<NetMelee>(melee, transform.position, transform.rotation, transform);
       }
       heldMelee.SetPlayer(_player);
+      heldMelee.SetNetIdentity(_netIdentity);
       heldMelee.TakeUpArm(this, _hand, _handAnimator);
       _hand.maximumRange = 1.4f;
       if (_handAnimator != null && _handAnimator is Object && !_handAnimator.Equals(null))

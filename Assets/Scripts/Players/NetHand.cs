@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Net;
+using UnityEngine;
 
-public class Hand : MonoBehaviour
+public class NetHand : MonoBehaviour
 {
   [Range(0, 2)]
   public float maximumRange = 1f;
@@ -10,19 +11,28 @@ public class Hand : MonoBehaviour
   DotSight _dotSight;
   float _maximumDistance = 4f;
 
+  [SerializeField]
+  NetIdentity _netIdentity;
+
   void Start()
   {
     transform.position = _arm.position;
-    _dotSightController = FindObjectOfType<DotSightController>();
-    if (_dotSightController)
+    if (_netIdentity.isLocal)
     {
-      _dotSight = _dotSightController.dotSight;
+      _dotSightController = FindObjectOfType<DotSightController>();
+      if (_dotSightController)
+      {
+        _dotSight = _dotSightController.dotSight;
+      }
     }
   }
 
   void Update()
   {
-    // MoveInRange ();
+    if (_netIdentity.isLocal)
+    {
+      MoveInRange();
+    }
   }
 
   void MoveInRange()

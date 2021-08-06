@@ -1,23 +1,29 @@
-﻿using UnityEngine;
+﻿using Net;
+using UnityEngine;
 
-public class MeleeHolderController : MonoBehaviour
+public class NetMeleeHolderController : MonoBehaviour
 {
-  public MeleeHolder rightMeleeHolder;
+  [SerializeField]
+  NetIdentity _netIdentity;
+  public NetMeleeHolder rightMeleeHolder;
   DotSightController _dotSightController;
   DotSight _dotSight;
 
   void Start()
   {
-    _dotSightController = FindObjectOfType<DotSightController>();
-    if (_dotSightController)
+    if (_netIdentity.isLocal)
     {
-      _dotSight = _dotSightController.dotSight;
+      _dotSightController = FindObjectOfType<DotSightController>();
+      if (_dotSightController)
+      {
+        _dotSight = _dotSightController.dotSight;
+      }
     }
   }
 
   public void DoUpdating()
   {
-    // RotateMeleeHolder (rightMeleeHolder);
+    RotateMeleeHolder (rightMeleeHolder);
     if (Input.GetMouseButtonDown(1))
     {
       HoldTriggers();
@@ -44,7 +50,7 @@ public class MeleeHolderController : MonoBehaviour
     ReleaseTrigger(rightMeleeHolder);
   }
 
-  void RotateMeleeHolder(MeleeHolder meleeHolder)
+  void RotateMeleeHolder(NetMeleeHolder meleeHolder)
   {
     if (meleeHolder == null || meleeHolder is Object && meleeHolder.Equals(null)) return;
     var normal = _dotSight.NormalizeFromPoint(meleeHolder.transform.position);
@@ -54,7 +60,7 @@ public class MeleeHolderController : MonoBehaviour
     meleeHolderTransform.rotation = Quaternion.RotateTowards(meleeHolderTransform.rotation, destRot, Time.deltaTime * 630f);
   }
 
-  void KeepInCover(MeleeHolder meleeHolder)
+  void KeepInCover(NetMeleeHolder meleeHolder)
   {
     if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals(null))
     {
@@ -62,7 +68,7 @@ public class MeleeHolderController : MonoBehaviour
     }
   }
 
-  void TakeUpArm(MeleeHolder meleeHolder)
+  void TakeUpArm(NetMeleeHolder meleeHolder)
   {
     if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals(null))
     {
@@ -70,7 +76,7 @@ public class MeleeHolderController : MonoBehaviour
     }
   }
 
-  void HoldTrigger(MeleeHolder meleeHolder)
+  void HoldTrigger(NetMeleeHolder meleeHolder)
   {
     if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals(null))
     {
@@ -78,7 +84,7 @@ public class MeleeHolderController : MonoBehaviour
     }
   }
 
-  void ReleaseTrigger(MeleeHolder meleeHolder)
+  void ReleaseTrigger(NetMeleeHolder meleeHolder)
   {
     if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals(null))
     {

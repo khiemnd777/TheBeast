@@ -1,21 +1,25 @@
 ﻿using System.Collections;
+using Net;
 using UnityEngine;
 
-public class Melee : MonoBehaviour
+public class NetMelee : MonoBehaviour
 {
   public float hitback;
-  protected MeleeHolder holder;
+  protected NetMeleeHolder holder;
+
+  [System.NonSerialized]
+  public RuntimeAnimatorController meleeAnimatorController;
   [System.NonSerialized]
   public bool anyAction;
-  public RuntimeAnimatorController meleeAnimatorController;
   protected Player player;
+  protected NetIdentity netIdentity;
 
   public virtual IEnumerator HoldTrigger()
   {
     yield break;
   }
 
-  public virtual void TakeUpArm(MeleeHolder holder, Hand hand, Animator handAnimator)
+  public virtual void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
   {
 
   }
@@ -61,5 +65,10 @@ public class Melee : MonoBehaviour
   public void SetPlayer(Player player)
   {
     this.player = player;
+  }
+
+  public void SetNetIdentity(NetIdentity netIdentity)
+  {
+    this.netIdentity = netIdentity;
   }
 }
