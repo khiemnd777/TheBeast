@@ -5,6 +5,9 @@ namespace Net
 {
   public class BaseNetIdentity : MonoBehaviour
   {
+    public bool syncCreatingImmediately;
+    public string netPrefabName;
+    
     protected ISocketWrapper socket;
     protected Settings settings;
     /// <summary>

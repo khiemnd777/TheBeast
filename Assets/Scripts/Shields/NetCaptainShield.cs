@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CaptainShield : Shield
+public class NetCaptainShield : NetShield
 {
   [SerializeField]
   AnimationClip _shieldCommonAnim;
   [SerializeField]
   AnimationClip _shieldReversionAnim;
-  MeleeHolderController _meleeHolderController;
   bool _isReversing;
 
   public override void Start()

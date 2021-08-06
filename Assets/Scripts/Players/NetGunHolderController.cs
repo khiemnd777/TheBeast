@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using Net;
+using UnityEngine;
 
 public class NetGunHolderController : MonoBehaviour
 {
-  public GunHolder leftGunHolder;
-  public GunHolder rightGunHolder;
+  [SerializeField]
+  NetIdentity _netIdentity;
+
+  public NetGunHolder leftGunHolder;
+  public NetGunHolder rightGunHolder;
   public float timeHoleLeftGunTrigger;
 
   DotSightController _dotSightController;
@@ -14,10 +18,13 @@ public class NetGunHolderController : MonoBehaviour
 
   void Start()
   {
-    _dotSightController = FindObjectOfType<DotSightController>();
-    if (_dotSightController)
+    if (_netIdentity.isLocal)
     {
-      _dotSight = _dotSightController.dotSight;
+      _dotSightController = FindObjectOfType<DotSightController>();
+      if (_dotSightController)
+      {
+        _dotSight = _dotSightController.dotSight;
+      }
     }
   }
 
@@ -28,8 +35,6 @@ public class NetGunHolderController : MonoBehaviour
     if (Input.GetMouseButtonDown(0))
     {
       _isMouseHoldingDown = true;
-      // StartCoroutine (HoldTriggers ());
-      // HoldTriggers ();
     }
     if (Input.GetMouseButtonUp(0))
     {
@@ -39,17 +44,6 @@ public class NetGunHolderController : MonoBehaviour
     }
     HoldTriggers();
   }
-
-  // IEnumerator HoldTriggers ()
-  // {
-  // 	while (_isMouseHoldingDown)
-  // 	{
-  // 		HoldTrigger (rightGunHolder);
-  // 		yield return new WaitForSeconds (.125f);
-  // 		if (!_isMouseHoldingDown) yield break;
-  // 		HoldTrigger (leftGunHolder);
-  // 	}
-  // }
 
   public void KeepGunInCover()
   {
@@ -82,7 +76,7 @@ public class NetGunHolderController : MonoBehaviour
     ReleaseTrigger(leftGunHolder);
   }
 
-  void RotateGunHolder(GunHolder gunHolder)
+  void RotateGunHolder(NetGunHolder gunHolder)
   {
     if (gunHolder == null || gunHolder is Object && gunHolder.Equals(null)) return;
     if (!_dotSight) return;
@@ -92,7 +86,7 @@ public class NetGunHolderController : MonoBehaviour
     gunHolderTransform.rotation = Quaternion.RotateTowards(gunHolderTransform.rotation, destRot, Time.deltaTime * 630f);
   }
 
-  void KeepInCover(GunHolder gunHolder)
+  void KeepInCover(NetGunHolder gunHolder)
   {
     if (gunHolder != null && gunHolder is Object && !gunHolder.Equals(null))
     {
@@ -100,7 +94,7 @@ public class NetGunHolderController : MonoBehaviour
     }
   }
 
-  void TakeUpArm(GunHolder gunHolder)
+  void TakeUpArm(NetGunHolder gunHolder)
   {
     if (gunHolder != null && gunHolder is Object && !gunHolder.Equals(null))
     {
@@ -108,7 +102,7 @@ public class NetGunHolderController : MonoBehaviour
     }
   }
 
-  void HoldTrigger(GunHolder gunHolder)
+  void HoldTrigger(NetGunHolder gunHolder)
   {
     if (gunHolder != null && gunHolder is Object && !gunHolder.Equals(null))
     {
@@ -117,7 +111,7 @@ public class NetGunHolderController : MonoBehaviour
     }
   }
 
-  void ReleaseTrigger(GunHolder gunHolder)
+  void ReleaseTrigger(NetGunHolder gunHolder)
   {
     if (gunHolder != null && gunHolder is Object && !gunHolder.Equals(null))
     {
