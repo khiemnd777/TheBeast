@@ -5,9 +5,7 @@ namespace Net
 {
   public class BaseNetIdentity : MonoBehaviour
   {
-    public bool syncCreatingImmediately;
-    public string netPrefabName;
-    
+    protected NetworkManager networkManager;
     protected ISocketWrapper socket;
     protected Settings settings;
     /// <summary>
@@ -32,6 +30,7 @@ namespace Net
     {
       // Init the Settings through a static instance.
       settings = Settings.instance;
+      networkManager = NetworkManagerCache.networkManager;
       socket = NetworkManagerCache.socket;
       if (settings.isServer)
       {

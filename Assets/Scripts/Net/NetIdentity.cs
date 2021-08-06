@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Net
 {
@@ -119,6 +120,30 @@ namespace Net
       this.netName = name;
     }
 
+    public void CloneEverywhereImmediately(string prefabName)
+    {
+      if (isLocal)
+      {
+        var clientId = networkManager.clientId;
+        id = GetInstanceID();
+        socket.Emit(Constants.EVENT_CLONE, new NetCloneJSON(
+            clientId.ToString(),
+            prefabName,
+            name,
+            life,
+            maxLife,
+            Point.FromVector3(transform.position),
+            transform.rotation
+          )
+        );
+      }
+    }
+
+    public void SetIsLocal()
+    {
+      this.isLocal = true;
+    }
+
     public void EmitMessage(string eventName, object message)
     {
       var clientId = NetworkManagerCache.networkManager.clientId.ToString();
@@ -131,6 +156,20 @@ namespace Net
       {
         onMessageReceived(eventName, message);
       }
+    }
+
+    public static T InstantiateLocal<T>(T original, Vector3 position, Quaternion rotation) where T : NetIdentity
+    {
+      var target = Instantiate<T>(original, position, rotation);
+      target.SetIsLocal();
+      return target;
+    }
+    
+    public static T InstantiateLocalAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation) where T : NetIdentity
+    {
+      var target = InstantiateLocal(original, position, rotation);
+      target.CloneEverywhereImmediately(prefabName);
+      return target;
     }
   }
 }

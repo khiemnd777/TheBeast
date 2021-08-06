@@ -9,6 +9,7 @@ public class Constants
   public const string EVENT_OBJECT_TRANSFORM = "object transform";
   public const string EVENT_SERVER_OBJECT_TRANSFORM = "object transform";
   public const string EVENT_REGISTER = "register";
+  public const string EVENT_CLONE = "clone";
   public const string EVENT_SERVER_REGISTER = "server register";
   public const string EVENT_SERVER_REGISTER_FINISHED = "server register finished";
   public const string EVENT_CLIENT_REGISTER_FINISHED = "client register finished";

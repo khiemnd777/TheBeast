@@ -92,7 +92,7 @@ namespace Net
     /// <param name="id"></param>
     /// <param name="name"></param>
     /// <param name="life"></param>
-    void Create(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
+    public void Create(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
     {
       if (netObjectList.Exists(id)) return;
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
@@ -108,6 +108,12 @@ namespace Net
         netIdentityIns.life = life;
         netIdentityIns.maxLife = maxLife;
       }
+    }
+
+    public void CloneEverywhere(string prefabName, string clientId, string netName, Vector3 position, Quaternion rotation, float life, float maxLife)
+    {
+      Debug.Log("Cloning...");
+      socket.Emit(Constants.EVENT_CLONE, new NetCloneJSON(clientId, prefabName, netName, life, maxLife, Point.FromVector3(position), rotation));
     }
 
     /// <summary>
