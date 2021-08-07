@@ -61,6 +61,9 @@ MonoBehaviour:
   - name: player
     netIdentityPrefab: {fileID: 114926467534503532, guid: b1406b9b2af0b47beb712b9324429f91,
       type: 3}
+  - name: pistol_bullet
+    netIdentityPrefab: {fileID: 9200986866846674981, guid: b4aedaa5fd0b64848b7c3a03d464af3d,
+      type: 3}
 --- !u!114 &4245616328405503382
 MonoBehaviour:
   m_ObjectHideFlags: 0

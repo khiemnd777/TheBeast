@@ -384,7 +384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4856977486619140}
-  - component: {fileID: 114818816484530026}
+  - component: {fileID: 114475979285705558}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -410,7 +410,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114818816484530026
+--- !u!114 &114475979285705558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1965105923772624}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30ce3cd8fdb174bcc885f39ba52870cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 8035b0e4a358afb4fa1a5b2ab575cd12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gunHandType: 0
@@ -431,14 +431,9 @@ MonoBehaviour:
   shellPrefab: {fileID: 114309261342482958, guid: a3a343a25d4ef470b9d491f73a2ce306,
     type: 3}
   shellEjection: {fileID: 4647786063581042}
-  maxDistance: 17
-  timeImpactAtMaxDistance: 0.2
   timeBetweenShoot: 0.225
-  bulletPrefab: {fileID: 114261257215822610, guid: b4aedaa5fd0b64848b7c3a03d464af3d,
+  bulletPrefab: {fileID: 9200986866846674981, guid: b4aedaa5fd0b64848b7c3a03d464af3d,
     type: 3}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1280
   _projectile: {fileID: 4832442425740844}
   _flashAnim: {fileID: 95429412228150600}
   _audioSource: {fileID: 82919574562966992}

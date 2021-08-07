@@ -3195,6 +3195,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4245616328405503381, guid: 8ed6b32aa1a91ac4f9baa4b0ad0d66c1,
+        type: 3}
+      propertyPath: netIdentifierPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245616328405503381, guid: 8ed6b32aa1a91ac4f9baa4b0ad0d66c1,
+        type: 3}
+      propertyPath: netIdentifierPrefabs.Array.data[1].name
+      value: pistol_bullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4245616328405503381, guid: 8ed6b32aa1a91ac4f9baa4b0ad0d66c1,
+        type: 3}
+      propertyPath: netIdentifierPrefabs.Array.data[1].netIdentityPrefab
+      value: 
+      objectReference: {fileID: 114926467534503532, guid: b1406b9b2af0b47beb712b9324429f91,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ed6b32aa1a91ac4f9baa4b0ad0d66c1, type: 3}
 --- !u!1001 &5321568887261703238
