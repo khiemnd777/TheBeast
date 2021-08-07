@@ -54,6 +54,18 @@ namespace Net
           }
         }
       };
+      _networkManager.onBroadcastCloneEverywhereJson += (NetCloneJSON dataJson) =>
+      {
+        CloneEverywhere(
+          dataJson.prefabName,
+          dataJson.clientId,
+          dataJson.netName,
+          dataJson.position,
+          dataJson.rotation,
+          dataJson.life,
+          dataJson.maxLife
+        );
+      };
       if (_settings.isServer)
       {
         _networkManager.onServerRegister += (NetRegisterJSON netRegisterJson) =>
@@ -110,10 +122,30 @@ namespace Net
       }
     }
 
-    public void CloneEverywhere(string prefabName, string clientId, string netName, Vector3 position, Quaternion rotation, float life, float maxLife)
+    public void CloneEverywhere(string prefabName, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife)
     {
-      Debug.Log("Cloning...");
-      socket.Emit(Constants.EVENT_CLONE, new NetCloneJSON(clientId, prefabName, netName, life, maxLife, Point.FromVector3(position), rotation));
+      if (clientId != _networkManager.clientId.ToString())
+      {
+        var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
+        if (prefab.netIdentityPrefab)
+        {
+          var netIdentifierPrefab = prefab.netIdentityPrefab;
+          var netIdentityIns = Instantiate<NetIdentity>(
+            netIdentifierPrefab,
+            Utility.PositionArrayToVector3(Vector3.zero, position),
+            Utility.AnglesArrayToQuaternion(rotation));
+          if (_settings.isServer)
+          {
+            netIdentityIns.InitServer(netIdentityIns.GetInstanceID(), netName);
+          }
+          if (_settings.isClient)
+          {
+            netIdentityIns.InitOther(netIdentityIns.GetInstanceID(), netName);
+          }
+          netIdentityIns.life = life;
+          netIdentityIns.maxLife = maxLife;
+        }
+      }
     }
 
     /// <summary>

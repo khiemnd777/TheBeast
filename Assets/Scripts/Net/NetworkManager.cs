@@ -18,6 +18,7 @@ namespace Net
     public event Action<NetObjectJSON> onClientRegisterFinished;
     public event Action<NetRegisterJSON> onServerRegister;
     public event Action<NetMessageJSON> onReceiveMessageJson;
+    public event Action<NetCloneJSON> onBroadcastCloneEverywhereJson;
 
     Settings _settings;
     ISocketWrapper _socket;
@@ -52,6 +53,7 @@ namespace Net
       _socket.On(Constants.EVENT_OTHER_OBJECT_REGISTERED, OnOtherObjectRegistered);
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
       _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);
+      _socket.On(Constants.EVENT_BROADCAST_CLONE_EVERYWHERE, OnBroadcastCloneEverywhere);
       if (_settings.isServer)
       {
         print("Connecting to socket...");
@@ -65,6 +67,15 @@ namespace Net
         _socket.On(Constants.EVENT_CLIENT_REGISTER_FINISHED, OnClientRegisterFinished);
       }
       StartCoroutine(Connect());
+    }
+
+    void OnBroadcastCloneEverywhere(SocketEvent evt)
+    {
+      var dataJson = NetCloneJSON.Deserialize(evt.data);
+      if (onBroadcastCloneEverywhereJson != null)
+      {
+        onBroadcastCloneEverywhereJson(dataJson);
+      }
     }
 
     void OnReceiveEmitMessage(SocketEvent evt)

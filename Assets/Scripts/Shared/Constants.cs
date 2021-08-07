@@ -2,14 +2,15 @@ public class Constants
 {
   public const string EVENT_EMIT_MESSAGE = "emit message";
   public const string EVENT_RECEIVE_EMIT_MESSAGE = "receive emit message";
+  public const string EVENT_REGISTER = "register";
+  public const string EVENT_CLONE_EVERYWHERE = "clone everywhere";
+  public const string EVENT_BROADCAST_CLONE_EVERYWHERE = "broadcast clone everywhere";
   public const string EVENT_OBJECT_REGISTER = "object register";
   public const string EVENT_OBJECT_REGISTERED = "object registered";
   public const string EVENT_OTHER_OBJECT_REGISTERED = "other object registered";
   public const string EVENT_CONNECT = "connect";
   public const string EVENT_OBJECT_TRANSFORM = "object transform";
   public const string EVENT_SERVER_OBJECT_TRANSFORM = "object transform";
-  public const string EVENT_REGISTER = "register";
-  public const string EVENT_CLONE = "clone";
   public const string EVENT_SERVER_REGISTER = "server register";
   public const string EVENT_SERVER_REGISTER_FINISHED = "server register finished";
   public const string EVENT_CLIENT_REGISTER_FINISHED = "client register finished";

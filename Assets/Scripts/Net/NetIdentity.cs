@@ -126,7 +126,7 @@ namespace Net
       {
         var clientId = networkManager.clientId;
         id = GetInstanceID();
-        socket.Emit(Constants.EVENT_CLONE, new NetCloneJSON(
+        socket.Emit(Constants.EVENT_CLONE_EVERYWHERE, new NetCloneJSON(
             clientId.ToString(),
             prefabName,
             name,
