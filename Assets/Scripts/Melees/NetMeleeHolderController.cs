@@ -23,10 +23,13 @@ public class NetMeleeHolderController : MonoBehaviour
 
   public void DoUpdating()
   {
-    RotateMeleeHolder (rightMeleeHolder);
-    if (Input.GetMouseButtonDown(1))
+    if (_netIdentity.isLocal)
     {
-      HoldTriggers();
+      RotateMeleeHolder(rightMeleeHolder);
+      if (Input.GetMouseButtonDown(1))
+      {
+        HoldTriggers();
+      }
     }
   }
 

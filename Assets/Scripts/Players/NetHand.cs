@@ -12,6 +12,11 @@ public class NetHand : MonoBehaviour
   float _maximumDistance = 4f;
 
   [SerializeField]
+  float _emitMessageInterval = .2f;
+
+  Cooldown _emitMessageCooldown;
+
+  [SerializeField]
   NetIdentity _netIdentity;
 
   Vector3 _lastLocalPosition;
@@ -29,15 +34,11 @@ public class NetHand : MonoBehaviour
     }
     if (_netIdentity.isClient)
     {
-      _netIdentity.onMessageReceived += (eventName, message) =>
-      {
-        if (eventName == "hand_move_in_range")
-        {
-          var receivedMessage = Utility.Deserialize<MoveInRangeJson>(message);
-          var localPosition = receivedMessage.localPosition;
-          transform.localPosition = Utility.PositionArrayToVector3(transform.localPosition, localPosition);
-        }
-      };
+      _netIdentity.onMessageReceived += OnReceivedMoveInRange;
+    }
+    if (_netIdentity.isLocal)
+    {
+      _emitMessageCooldown = new Cooldown(EmitMoveInRange);
     }
   }
 
@@ -46,7 +47,8 @@ public class NetHand : MonoBehaviour
     if (_netIdentity.isLocal)
     {
       MoveInRange();
-      EmitMoveInRange();
+      _emitMessageCooldown.Count(_emitMessageInterval);
+      _emitMessageCooldown.Execute();
     }
   }
 
@@ -69,6 +71,16 @@ public class NetHand : MonoBehaviour
       {
         localPosition = Utility.Vector3ToPositionArray(transform.localPosition)
       });
+    }
+  }
+
+  void OnReceivedMoveInRange(string eventName, string message)
+  {
+    if (eventName == "hand_move_in_range")
+    {
+      var receivedMessage = Utility.Deserialize<MoveInRangeJson>(message);
+      var localPosition = receivedMessage.localPosition;
+      transform.localPosition = Utility.PositionArrayToVector3(transform.localPosition, localPosition);
     }
   }
 }

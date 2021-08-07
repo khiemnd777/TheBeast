@@ -20,26 +20,17 @@ public class NetWeaponController : MonoBehaviour
       {
         case "gun_does_action":
           {
-            if (!_netIdentity.isLocal)
-            {
-              DoActionOnGun();
-            }
+            DoActionOnGun();
           }
           break;
         case "melee_does_action":
           {
-            if (!_netIdentity.isLocal)
-            {
-              DoActionOnMelee();
-            }
+            DoActionOnMelee();
           }
           break;
         case "shield_does_action":
           {
-            if (!_netIdentity.isLocal)
-            {
-              DoActionOnShield();
-            }
+            DoActionOnShield();
           }
           break;
         default:

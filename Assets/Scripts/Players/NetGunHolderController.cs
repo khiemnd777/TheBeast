@@ -9,6 +9,12 @@ public class NetGunHolderController : MonoBehaviour
   public NetGunHolder leftGunHolder;
   public NetGunHolder rightGunHolder;
   public float timeHoleLeftGunTrigger;
+  Cooldown _holeLeftGunTriggerCooldown;
+
+  [SerializeField]
+  float _emitGunHolderRotateTowardsInterval = .2f;
+  Cooldown _emitLeftGunHolderRotateTowardsCooldown;
+  Cooldown _emitRightGunHolderRotateTowardsCooldown;
 
   DotSightController _dotSightController;
   DotSight _dotSight;
@@ -25,54 +31,38 @@ public class NetGunHolderController : MonoBehaviour
       {
         _dotSight = _dotSightController.dotSight;
       }
+      _holeLeftGunTriggerCooldown = new Cooldown(HoldTriggerLeftGun);
+      _emitLeftGunHolderRotateTowardsCooldown = new Cooldown(EmitGunHolderRotateTowards(leftGunHolder, true));
+      _emitRightGunHolderRotateTowardsCooldown = new Cooldown(EmitGunHolderRotateTowards(rightGunHolder, false));
     }
-    _netIdentity.onMessageReceived += (eventName, message) =>
+    if (_netIdentity.isClient)
     {
-      switch (eventName)
-      {
-        case "left_gun_rotate_towards":
-          {
-            if (_netIdentity.isClient && !_netIdentity.isLocal)
-            {
-              var rotationJson = Utility.Deserialize<GunRotateTowardsJson>(message);
-              var gunRotation = Utility.AnglesArrayToQuaternion(rotationJson.rotation);
-              leftGunHolder.RotateTowards(gunRotation);
-            }
-          }
-          break;
-        case "right_gun_rotate_towards":
-          {
-            if (_netIdentity.isClient && !_netIdentity.isLocal)
-            {
-              var rotationJson = Utility.Deserialize<GunRotateTowardsJson>(message);
-              var gunRotation = Utility.AnglesArrayToQuaternion(rotationJson.rotation);
-              leftGunHolder.RotateTowards(gunRotation);
-            }
-          }
-          break;
-        default:
-          break;
-      }
-    };
+      _netIdentity.onMessageReceived += OnReceivedGunHolderRotateTowards;
+    }
   }
 
   public void DoUpdating()
   {
-    RotateGunHolder(leftGunHolder);
-    RotateGunHolder(rightGunHolder);
-    EmitGunHolderRotateTowards(leftGunHolder, true);
-    EmitGunHolderRotateTowards(rightGunHolder, false);
-    if (Input.GetMouseButtonDown(0))
+    if (_netIdentity.isLocal)
     {
-      _isMouseHoldingDown = true;
+      RotateGunHolder(leftGunHolder);
+      RotateGunHolder(rightGunHolder);
+      _emitLeftGunHolderRotateTowardsCooldown.Count(_emitGunHolderRotateTowardsInterval);
+      _emitLeftGunHolderRotateTowardsCooldown.Execute();
+      _emitRightGunHolderRotateTowardsCooldown.Count(_emitGunHolderRotateTowardsInterval);
+      _emitRightGunHolderRotateTowardsCooldown.Execute();
+      if (Input.GetMouseButtonDown(0))
+      {
+        _isMouseHoldingDown = true;
+      }
+      if (Input.GetMouseButtonUp(0))
+      {
+        _isMouseHoldingDown = false;
+        _timeForHoldLeftGunTrigger = 0f;
+        ReleaseTriggers();
+      }
+      HoldTriggers();
     }
-    if (Input.GetMouseButtonUp(0))
-    {
-      _isMouseHoldingDown = false;
-      _timeForHoldLeftGunTrigger = 0f;
-      ReleaseTriggers();
-    }
-    HoldTriggers();
   }
 
   public void KeepGunInCover()
@@ -92,12 +82,8 @@ public class NetGunHolderController : MonoBehaviour
     if (!_isMouseHoldingDown) return;
 
     HoldTrigger(rightGunHolder);
-    _timeForHoldLeftGunTrigger += Time.deltaTime / timeHoleLeftGunTrigger;
-    if (_timeForHoldLeftGunTrigger >= 1f)
-    {
-      _timeForHoldLeftGunTrigger = 0f;
-      HoldTrigger(leftGunHolder);
-    }
+    _holeLeftGunTriggerCooldown.Count(timeHoleLeftGunTrigger);
+    _holeLeftGunTriggerCooldown.Execute();
   }
 
   void ReleaseTriggers()
@@ -115,13 +101,39 @@ public class NetGunHolderController : MonoBehaviour
     gunHolder.RotateTowards(destRot);
   }
 
-  public void EmitGunHolderRotateTowards(NetGunHolder gunHolder, bool isLeftSide)
+  public System.Action EmitGunHolderRotateTowards(NetGunHolder gunHolder, bool isLeftSide)
   {
-    var eventName = isLeftSide ? "left_gun_rotate_towards" : "right_gun_rotate_towards";
-    _netIdentity.EmitMessage(eventName, new GunRotateTowardsJson
+    return new System.Action(() =>
     {
-      rotation = Utility.QuaternionToAnglesArray(gunHolder.transform.rotation)
+      var eventName = isLeftSide ? "left_gun_rotate_towards" : "right_gun_rotate_towards";
+      _netIdentity.EmitMessage(eventName, new GunRotateTowardsJson
+      {
+        rotation = Utility.QuaternionToAnglesArray(gunHolder.transform.rotation)
+      });
     });
+  }
+
+  void OnReceivedGunHolderRotateTowards(string eventName, string message)
+  {
+    switch (eventName)
+    {
+      case "left_gun_rotate_towards":
+        {
+          var rotationJson = Utility.Deserialize<GunRotateTowardsJson>(message);
+          var gunRotation = Utility.AnglesArrayToQuaternion(rotationJson.rotation);
+          leftGunHolder.RotateTowards(gunRotation);
+        }
+        break;
+      case "right_gun_rotate_towards":
+        {
+          var rotationJson = Utility.Deserialize<GunRotateTowardsJson>(message);
+          var gunRotation = Utility.AnglesArrayToQuaternion(rotationJson.rotation);
+          rightGunHolder.RotateTowards(gunRotation);
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   void KeepInCover(NetGunHolder gunHolder)
@@ -147,6 +159,11 @@ public class NetGunHolderController : MonoBehaviour
       gunHolder.BeforeHoldTrigger();
       gunHolder.HoldTrigger();
     }
+  }
+
+  void HoldTriggerLeftGun()
+  {
+    HoldTrigger(leftGunHolder);
   }
 
   void ReleaseTrigger(NetGunHolder gunHolder)

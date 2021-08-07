@@ -15,17 +15,20 @@ public class NetShieldHolderController : MonoBehaviour
 
   public void DoUpdating()
   {
-    if (Input.GetKeyDown(KeyCode.LeftShift))
+    if (_netIdentity.isLocal)
     {
-      _isKeyHoldingDown = true;
-      TakeShieldUpAsCover ();
+      if (Input.GetKeyDown(KeyCode.LeftShift))
+      {
+        _isKeyHoldingDown = true;
+        TakeShieldUpAsCover();
+      }
+      if (Input.GetKeyUp(KeyCode.LeftShift))
+      {
+        _isKeyHoldingDown = false;
+        TakeShieldDown();
+      }
+      HoldTriggers();
     }
-    if (Input.GetKeyUp(KeyCode.LeftShift))
-    {
-      _isKeyHoldingDown = false;
-      TakeShieldDown();
-    }
-    HoldTriggers();
   }
 
   public void TakeShieldDown()
