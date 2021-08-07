@@ -26,12 +26,42 @@ public class NetGunHolderController : MonoBehaviour
         _dotSight = _dotSightController.dotSight;
       }
     }
+    _netIdentity.onMessageReceived += (eventName, message) =>
+    {
+      switch (eventName)
+      {
+        case "left_gun_rotate_towards":
+          {
+            if (_netIdentity.isClient && !_netIdentity.isLocal)
+            {
+              var rotationJson = Utility.Deserialize<GunRotateTowardsJson>(message);
+              var gunRotation = Utility.AnglesArrayToQuaternion(rotationJson.rotation);
+              leftGunHolder.RotateTowards(gunRotation);
+            }
+          }
+          break;
+        case "right_gun_rotate_towards":
+          {
+            if (_netIdentity.isClient && !_netIdentity.isLocal)
+            {
+              var rotationJson = Utility.Deserialize<GunRotateTowardsJson>(message);
+              var gunRotation = Utility.AnglesArrayToQuaternion(rotationJson.rotation);
+              leftGunHolder.RotateTowards(gunRotation);
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    };
   }
 
   public void DoUpdating()
   {
     RotateGunHolder(leftGunHolder);
     RotateGunHolder(rightGunHolder);
+    EmitGunHolderRotateTowards(leftGunHolder, true);
+    EmitGunHolderRotateTowards(rightGunHolder, false);
     if (Input.GetMouseButtonDown(0))
     {
       _isMouseHoldingDown = true;
@@ -82,8 +112,16 @@ public class NetGunHolderController : MonoBehaviour
     if (!_dotSight) return;
     var normal = _dotSight.NormalizeFromPoint(gunHolder.transform.position);
     var destRot = Utility.RotateByNormal(normal, Vector3.up);
-    var gunHolderTransform = gunHolder.transform;
-    gunHolderTransform.rotation = Quaternion.RotateTowards(gunHolderTransform.rotation, destRot, Time.deltaTime * 630f);
+    gunHolder.RotateTowards(destRot);
+  }
+
+  public void EmitGunHolderRotateTowards(NetGunHolder gunHolder, bool isLeftSide)
+  {
+    var eventName = isLeftSide ? "left_gun_rotate_towards" : "right_gun_rotate_towards";
+    _netIdentity.EmitMessage(eventName, new GunRotateTowardsJson
+    {
+      rotation = Utility.QuaternionToAnglesArray(gunHolder.transform.rotation)
+    });
   }
 
   void KeepInCover(NetGunHolder gunHolder)
@@ -118,4 +156,9 @@ public class NetGunHolderController : MonoBehaviour
       gunHolder.ReleaseTrigger();
     }
   }
+}
+
+public struct GunRotateTowardsJson
+{
+  public float[] rotation;
 }

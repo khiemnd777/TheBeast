@@ -16,7 +16,7 @@ namespace Net
       this.cliendId = clientId;
       this.id = id;
       this.eventName = eventName;
-      this.message = JsonUtility.ToJson(message);
+      this.message = message == null ? string.Empty : JsonUtility.ToJson(message);
     }
 
     public static NetMessageJSON Deserialize(object data)

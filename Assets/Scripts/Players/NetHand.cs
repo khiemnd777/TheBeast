@@ -14,6 +14,8 @@ public class NetHand : MonoBehaviour
   [SerializeField]
   NetIdentity _netIdentity;
 
+  Vector3 _lastLocalPosition;
+
   void Start()
   {
     transform.position = _arm.position;
@@ -25,6 +27,18 @@ public class NetHand : MonoBehaviour
         _dotSight = _dotSightController.dotSight;
       }
     }
+    if (_netIdentity.isClient)
+    {
+      _netIdentity.onMessageReceived += (eventName, message) =>
+      {
+        if (eventName == "hand_move_in_range")
+        {
+          var receivedMessage = Utility.Deserialize<MoveInRangeJson>(message);
+          var localPosition = receivedMessage.localPosition;
+          transform.localPosition = Utility.PositionArrayToVector3(transform.localPosition, localPosition);
+        }
+      };
+    }
   }
 
   void Update()
@@ -32,6 +46,7 @@ public class NetHand : MonoBehaviour
     if (_netIdentity.isLocal)
     {
       MoveInRange();
+      EmitMoveInRange();
     }
   }
 
@@ -43,5 +58,22 @@ public class NetHand : MonoBehaviour
     pos.x = Mathf.Clamp(rangeForMoving, 0, maximumRange);
     pos.z = 0;
     transform.localPosition = pos;
+    _lastLocalPosition = transform.localPosition;
   }
+
+  void EmitMoveInRange()
+  {
+    if (_lastLocalPosition != transform.localPosition)
+    {
+      _netIdentity.EmitMessage("hand_move_in_range", new MoveInRangeJson
+      {
+        localPosition = Utility.Vector3ToPositionArray(transform.localPosition)
+      });
+    }
+  }
+}
+
+public struct MoveInRangeJson
+{
+  public float[] localPosition;
 }

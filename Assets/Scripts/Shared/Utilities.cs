@@ -117,4 +117,13 @@ public class Utility
   {
     return Quaternion.Euler(rotation[0], rotation[1], rotation[2]);
   }
+
+  public static T Deserialize<T>(object data)
+  {
+    return JsonUtility.FromJson<T>(data.ToString());
+  }
+  public static T Deserialize<T>(string data)
+  {
+    return JsonUtility.FromJson<T>(data);
+  }
 }

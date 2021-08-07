@@ -3,12 +3,50 @@ using UnityEngine;
 
 public class NetWeaponController : MonoBehaviour
 {
+  NetworkManager _networkManager;
   [SerializeField]
   NetIdentity _netIdentity;
   public NetMeleeHolderController meleeHolderController;
   public NetGunHolderController gunHolderController;
   public NetShieldHolderController shieldHolderController;
   string _typeOfWeapon;
+
+  void Start()
+  {
+    _networkManager = NetworkManagerCache.networkManager;
+    _netIdentity.onMessageReceived += (eventName, message) =>
+    {
+      switch (eventName)
+      {
+        case "gun_does_action":
+          {
+            if (!_netIdentity.isLocal)
+            {
+              DoActionOnGun();
+            }
+          }
+          break;
+        case "melee_does_action":
+          {
+            if (!_netIdentity.isLocal)
+            {
+              DoActionOnMelee();
+            }
+          }
+          break;
+        case "shield_does_action":
+          {
+            if (!_netIdentity.isLocal)
+            {
+              DoActionOnShield();
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    };
+  }
 
   void Update()
   {
@@ -20,6 +58,8 @@ public class NetWeaponController : MonoBehaviour
         {
           _typeOfWeapon = "gun";
           DoActionOnGun();
+          gunHolderController.DoUpdating();
+          EmitDoActionOnGun();
           return;
         }
       }
@@ -29,6 +69,8 @@ public class NetWeaponController : MonoBehaviour
         {
           _typeOfWeapon = "melee";
           DoActionOnMelee();
+          meleeHolderController.DoUpdating();
+          EmitDoActionOnMelee();
           return;
         }
       }
@@ -38,6 +80,8 @@ public class NetWeaponController : MonoBehaviour
         {
           _typeOfWeapon = "shield";
           DoActionOnShield();
+          shieldHolderController.DoUpdating();
+          EmitDoActionOnShield();
           return;
         }
       }
@@ -62,7 +106,11 @@ public class NetWeaponController : MonoBehaviour
     shieldHolderController.TakeShieldDown();
     meleeHolderController.KeepMeleeInCover();
     gunHolderController.TakeGunUpArm();
-    gunHolderController.DoUpdating();
+  }
+
+  void EmitDoActionOnGun()
+  {
+    _netIdentity.EmitMessage("gun_does_action", null);
   }
 
   void DoActionOnMelee()
@@ -70,7 +118,11 @@ public class NetWeaponController : MonoBehaviour
     shieldHolderController.TakeShieldDown();
     gunHolderController.KeepGunInCover();
     meleeHolderController.TakeMeleeUpArm();
-    meleeHolderController.DoUpdating();
+  }
+
+  void EmitDoActionOnMelee()
+  {
+    _netIdentity.EmitMessage("melee_does_action", null);
   }
 
   void DoActionOnShield()
@@ -78,6 +130,10 @@ public class NetWeaponController : MonoBehaviour
     gunHolderController.KeepGunInCover();
     meleeHolderController.KeepMeleeInCover();
     shieldHolderController.TakeShieldUpAsCover();
-    shieldHolderController.DoUpdating();
+  }
+
+  void EmitDoActionOnShield()
+  {
+    _netIdentity.EmitMessage("shield_does_action", null);
   }
 }

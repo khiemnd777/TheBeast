@@ -18,6 +18,12 @@ public class NetGunHolder : MonoBehaviour
   NetGun _heldGun;
   Vector3 _beginPosition;
 
+  public void RotateTowards(Quaternion rotation)
+  {
+    var gunHolderTransform = this.transform;
+    gunHolderTransform.rotation = Quaternion.RotateTowards(gunHolderTransform.rotation, rotation, Time.deltaTime * 630f);
+  }
+
   public void KeepInCover()
   {
     if (_heldGun != null && _heldGun is Object && !_heldGun.Equals(null))
