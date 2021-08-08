@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 607855100}
-  - component: {fileID: 5128863795343899419}
+  - component: {fileID: 1381266810201434984}
   m_Layer: 9
   m_Name: Shield Holder Left
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 4231119443258990}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5128863795343899419
+--- !u!114 &1381266810201434984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,11 +40,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 607855099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37e31ad6719ab475995099a7f4a752e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 3af462916e9b37f4cace87317d27c21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shield: {fileID: 0}
-  _hand: {fileID: 114559316574283722}
+  _hand: {fileID: 5056917549202193006}
+  _player: {fileID: 114926467534503532}
+  _netIdentity: {fileID: 114926467534503532}
 --- !u!1 &1042711476360370
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +164,7 @@ MonoBehaviour:
   sprintVolume: 0.09
   walkVolume: 0.09
   body: {fileID: 4638004554132482}
-  weaponController: {fileID: 114034950330729850}
+  weaponController: {fileID: 0}
   _foots: {fileID: 4920601870792432}
   _leftFoot: {fileID: 4568847482821162}
   _rightFoot: {fileID: 4300715290258162}
@@ -203,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4801486913627510}
-  - component: {fileID: 114402308416715554}
+  - component: {fileID: 2465954048352105666}
   m_Layer: 9
   m_Name: Gun Holder Right
   m_TagString: Untagged
@@ -225,7 +227,7 @@ Transform:
   m_Father: {fileID: 4457902611713038}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114402308416715554
+--- !u!114 &2465954048352105666
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,12 +236,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056017847573556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a873c59f0e4704685a66cd63ca837a73, type: 3}
+  m_Script: {fileID: 11500000, guid: f1a9c100045118942a0b9f717a143e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 114818816484530026, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
-  _hand: {fileID: 114646073436216314}
+  holderSide: 2
+  gun: {fileID: 114475979285705558, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
+  _hand: {fileID: 4990350982846293327}
   _player: {fileID: 114926467534503532}
+  _netIdentity: {fileID: 114926467534503532}
 --- !u!1 &1112880509173418
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4384552406609224}
-  - component: {fileID: 114034950330729850}
+  - component: {fileID: 6320884318204845869}
   m_Layer: 9
   m_Name: Weapon Controller
   m_TagString: Untagged
@@ -303,7 +307,7 @@ Transform:
   m_Father: {fileID: 4638004554132482}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114034950330729850
+--- !u!114 &6320884318204845869
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,12 +316,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1138991031687062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a583eba03df9497fb34b1a2f7551239, type: 3}
+  m_Script: {fileID: 11500000, guid: bab86b3b2d4eae34bbb4f71ca7486941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeHolderController: {fileID: 114471443334418938}
-  gunHolderController: {fileID: 114110882481770768}
-  shieldHolderController: {fileID: 8437761359509516012}
+  _netIdentity: {fileID: 114926467534503532}
+  meleeHolderController: {fileID: 1764760804611764717}
+  gunHolderController: {fileID: 3100228075772743651}
+  shieldHolderController: {fileID: 7858393943986072601}
 --- !u!1 &1205669470919500
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +486,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4721777243743470}
-  - component: {fileID: 114272390559594730}
+  - component: {fileID: 3909330016658087219}
   m_Layer: 9
   m_Name: Gun Holder Left
   m_TagString: Untagged
@@ -503,7 +508,7 @@ Transform:
   m_Father: {fileID: 4231119443258990}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114272390559594730
+--- !u!114 &3909330016658087219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -512,12 +517,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1261834043450388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a873c59f0e4704685a66cd63ca837a73, type: 3}
+  m_Script: {fileID: 11500000, guid: f1a9c100045118942a0b9f717a143e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 114818816484530026, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
-  _hand: {fileID: 114559316574283722}
+  holderSide: 1
+  gun: {fileID: 114475979285705558, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
+  _hand: {fileID: 5056917549202193006}
   _player: {fileID: 114926467534503532}
+  _netIdentity: {fileID: 114926467534503532}
 --- !u!1 &1317396814667922
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,7 +534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4830192123062614}
-  - component: {fileID: 114471443334418938}
+  - component: {fileID: 1764760804611764717}
   m_Layer: 9
   m_Name: Melee Holder Controller
   m_TagString: Untagged
@@ -549,7 +556,7 @@ Transform:
   m_Father: {fileID: 4638004554132482}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114471443334418938
+--- !u!114 &1764760804611764717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -558,10 +565,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1317396814667922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23b35a676522840b1bda7369e1068602, type: 3}
+  m_Script: {fileID: 11500000, guid: d444da3f7b2e550429f1f7c48231a54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightMeleeHolder: {fileID: 114769537945670052}
+  _netIdentity: {fileID: 114926467534503532}
+  rightMeleeHolder: {fileID: 888831830183364112}
 --- !u!1 &1339156332130638
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +610,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4231119443258990}
-  - component: {fileID: 114559316574283722}
+  - component: {fileID: 5056917549202193006}
   m_Layer: 9
   m_Name: Hand Left
   m_TagString: Untagged
@@ -626,7 +634,7 @@ Transform:
   m_Father: {fileID: 4953064695362700}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114559316574283722
+--- !u!114 &5056917549202193006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -635,11 +643,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1339975809675436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939b1bff78e06413b89bfbdbd2c2c9f8, type: 3}
+  m_Script: {fileID: 11500000, guid: d457dd7b586b998499c1ded6641fdf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maximumRange: 1.4
   _arm: {fileID: 4953064695362700}
+  _emitMessageInterval: 0.2
+  _netIdentity: {fileID: 114926467534503532}
 --- !u!1 &1414067763261820
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,7 +659,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4457902611713038}
-  - component: {fileID: 114646073436216314}
+  - component: {fileID: 4990350982846293327}
   m_Layer: 9
   m_Name: Hand Right
   m_TagString: Untagged
@@ -673,7 +683,7 @@ Transform:
   m_Father: {fileID: 4883832106839028}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114646073436216314
+--- !u!114 &4990350982846293327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -682,11 +692,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414067763261820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939b1bff78e06413b89bfbdbd2c2c9f8, type: 3}
+  m_Script: {fileID: 11500000, guid: d457dd7b586b998499c1ded6641fdf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maximumRange: 1.4
   _arm: {fileID: 4883832106839028}
+  _emitMessageInterval: 0.2
+  _netIdentity: {fileID: 114926467534503532}
 --- !u!1 &1462517871253156
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4791525021445314}
-  - component: {fileID: 114110882481770768}
+  - component: {fileID: 3100228075772743651}
   m_Layer: 9
   m_Name: Gun Holder Controller
   m_TagString: Untagged
@@ -748,7 +760,7 @@ Transform:
   m_Father: {fileID: 4638004554132482}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114110882481770768
+--- !u!114 &3100228075772743651
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -757,12 +769,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1634352181869944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c87f58a1bfc5042e9a51d72390c896e8, type: 3}
+  m_Script: {fileID: 11500000, guid: c9fe7a94cf5faa64ead8764d1f5ec0b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftGunHolder: {fileID: 114272390559594730}
-  rightGunHolder: {fileID: 114402308416715554}
+  _netIdentity: {fileID: 114926467534503532}
+  leftGunHolder: {fileID: 3909330016658087219}
+  rightGunHolder: {fileID: 2465954048352105666}
   timeHoleLeftGunTrigger: 0.1
+  _emitGunHolderRotateTowardsInterval: 0.2
 --- !u!1 &1771418501197548
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,6 +787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4583807335980728}
   - component: {fileID: 114769537945670052}
+  - component: {fileID: 888831830183364112}
   m_Layer: 9
   m_Name: Melee Holder Right
   m_TagString: Untagged
@@ -808,7 +823,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   melee: {fileID: 114033769023172182, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 3}
   delay: 0.0001
-  _hand: {fileID: 114646073436216314}
+  _hand: {fileID: 0}
+  _player: {fileID: 114926467534503532}
+--- !u!114 &888831830183364112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771418501197548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5443a09d87b94f49b403e241c6e9c2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  melee: {fileID: 114576771325265718, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 3}
+  delay: 0.0001
+  _hand: {fileID: 4990350982846293327}
+  _netIdentity: {fileID: 114926467534503532}
   _player: {fileID: 114926467534503532}
 --- !u!1 &1840431887079818
 GameObject:
@@ -996,8 +1028,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6394366782970908764}
-  - component: {fileID: 921726184131874201}
-  - component: {fileID: 8437761359509516012}
+  - component: {fileID: 7858393943986072601}
   m_Layer: 9
   m_Name: Shield Holder Controller
   m_TagString: Untagged
@@ -1019,7 +1050,7 @@ Transform:
   m_Father: {fileID: 4638004554132482}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &921726184131874201
+--- !u!114 &7858393943986072601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1028,24 +1059,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3120478781763891533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c87f58a1bfc5042e9a51d72390c896e8, type: 3}
+  m_Script: {fileID: 11500000, guid: e78a513cc0b278b47827dec452ba138f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftGunHolder: {fileID: 114272390559594730}
-  rightGunHolder: {fileID: 114402308416715554}
-  timeHoleLeftGunTrigger: 0.1
---- !u!114 &8437761359509516012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3120478781763891533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1c32a886c714dc6934198930db872e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shieldHolder: {fileID: 5128863795343899419}
+  _netIdentity: {fileID: 114926467534503532}
   timeHoldShieldTrigger: 0
-  weaponController: {fileID: 114034950330729850}
+  shieldHolder: {fileID: 1381266810201434984}
+  weaponController: {fileID: 6320884318204845869}

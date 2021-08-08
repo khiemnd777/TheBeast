@@ -12,8 +12,10 @@ public abstract class NetGun : MonoBehaviour
   public Shell shellPrefab;
   public Transform shellEjection;
 
+  protected HolderSide holderSide = HolderSide.Right;
   protected Player player;
   protected NetIdentity netIdentity;
+  protected Settings settings;
 
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
 
@@ -50,7 +52,7 @@ public abstract class NetGun : MonoBehaviour
 
   public virtual void Start()
   {
-
+    settings = Settings.instance;
   }
 
   public virtual void Update()
@@ -66,6 +68,11 @@ public abstract class NetGun : MonoBehaviour
   public void SetPlayer(Player player)
   {
     this.player = player;
+  }
+
+  public void SetHolderSide(HolderSide holderSide)
+  {
+    this.holderSide = holderSide;
   }
 
   public void SetNetIdentity(NetIdentity netIdentity)

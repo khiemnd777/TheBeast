@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NetGunHolder : MonoBehaviour
 {
+  public HolderSide holderSide = HolderSide.Right;
   public NetGun gun;
 
   [SerializeField]
@@ -38,6 +39,7 @@ public class NetGunHolder : MonoBehaviour
     if (gun != null && gun is Object && !gun.Equals(null))
     {
       _heldGun = Instantiate<NetGun>(gun, transform.position, transform.rotation, transform);
+      _heldGun.SetHolderSide(holderSide);
       _heldGun.SetPlayer(_player);
       _heldGun.SetNetIdentity(_netIdentity);
       _heldGun.TakeUpArm();

@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4152232847446728}
-  - component: {fileID: 114033769023172182}
+  - component: {fileID: 114576771325265718}
   - component: {fileID: 65343621949363830}
   m_Layer: 13
   m_Name: Katana
@@ -266,7 +266,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114033769023172182
+--- !u!114 &114576771325265718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,12 +275,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1706668506700552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8fa8de904cbb47fb84d5c213782ee72, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ff5bd054ffca77488a851c5557bd179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitback: 3
-  meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
-    type: 2}
   _trail: {fileID: 96034581088180826}
   _commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
   slashQueue:
