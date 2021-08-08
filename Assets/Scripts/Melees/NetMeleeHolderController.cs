@@ -89,9 +89,6 @@ public class NetMeleeHolderController : MonoBehaviour
 
   void ReleaseTrigger(NetMeleeHolder meleeHolder)
   {
-    if (meleeHolder != null && meleeHolder is Object && !meleeHolder.Equals(null))
-    {
-      // gunHolder.ReleaseTrigger ();
-    }
+
   }
 }

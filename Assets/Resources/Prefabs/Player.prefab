@@ -786,7 +786,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4583807335980728}
-  - component: {fileID: 114769537945670052}
   - component: {fileID: 888831830183364112}
   m_Layer: 9
   m_Name: Melee Holder Right
@@ -809,22 +808,6 @@ Transform:
   m_Father: {fileID: 4457902611713038}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114769537945670052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771418501197548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6860c11b0d7844048bb4101944370e2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  melee: {fileID: 114033769023172182, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 3}
-  delay: 0.0001
-  _hand: {fileID: 0}
-  _player: {fileID: 114926467534503532}
 --- !u!114 &888831830183364112
 MonoBehaviour:
   m_ObjectHideFlags: 0

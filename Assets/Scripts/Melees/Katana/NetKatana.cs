@@ -30,6 +30,7 @@ public class NetKatana : NetMelee
   public override void Start()
   {
     player.locker.RegisterLock("Kanata");
+    netIdentity.onMessageReceived += OnMessageReceived;
   }
 
   public override IEnumerator HoldTrigger()
@@ -51,6 +52,11 @@ public class NetKatana : NetMelee
       }
       _currentSlashAnim = slashQueue[_slashQueueIndex];
     }
+    // Katana trigger to server and another clients.
+    netIdentity.EmitMessage("katana_trigger", new KatanaSlashJson
+    {
+      slashQueueIndex = _slashQueueIndex
+    });
     base.player.locker.Lock("Kanata");
     _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
     anyAction = true;
@@ -72,6 +78,34 @@ public class NetKatana : NetMelee
     _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
     base.holder = holder;
     _playerAnimator.Play(_commonStyleAnim.name, 0);
+    // Emit after taking-up arm
+    netIdentity.EmitMessage("katana_take_up_arm", null);
+  }
+
+  void OnMessageReceived(string eventName, string message)
+  {
+    switch (eventName)
+    {
+      case "katana_take_up_arm":
+        {
+          _playerAnimator = player.animator;
+          _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+        }
+        break;
+      case "katana_trigger":
+        {
+          var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
+          if (dataJson.slashQueueIndex < slashQueue.Count)
+          {
+            _currentSlashAnim = slashQueue[dataJson.slashQueueIndex];
+            _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+            _playerAnimator.Play(_currentSlashAnim.name, 0);
+          }
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   public override void KeepInCover()
@@ -80,6 +114,10 @@ public class NetKatana : NetMelee
     _hand.enabled = true;
     anyAction = false;
     _trail.enabled = false;
+    if (netIdentity.isClient)
+    {
+      netIdentity.onMessageReceived -= OnMessageReceived;
+    }
     base.KeepInCover();
   }
 
@@ -123,4 +161,9 @@ public class NetKatana : NetMelee
       }
     }
   }
+}
+
+public struct KatanaSlashJson
+{
+  public int slashQueueIndex;
 }

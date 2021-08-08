@@ -24,17 +24,7 @@ public class NetPistol : NetGun
     base.Start();
     if (netIdentity.isClient)
     {
-      netIdentity.onMessageReceived += (eventName, message) =>
-      {
-        if (eventName == "left_pistol_trigger" && holderSide == HolderSide.Left)
-        {
-          DoesTriggerEffect();
-        }
-        if (eventName == "right_pistol_trigger" && holderSide == HolderSide.Right)
-        {
-          DoesTriggerEffect();
-        }
-      };
+      netIdentity.onMessageReceived += OnMessageReceived;
     }
   }
 
@@ -65,6 +55,27 @@ public class NetPistol : NetGun
     // Emit message to trigger the pistol.
     var eventName = holderSide == HolderSide.Left ? "left_pistol_trigger" : "right_pistol_trigger";
     netIdentity.EmitMessage(eventName, null);
+  }
+
+  void OnMessageReceived(string eventName, string message)
+  {
+    if (eventName == "left_pistol_trigger" && holderSide == HolderSide.Left)
+    {
+      DoesTriggerEffect();
+    }
+    if (eventName == "right_pistol_trigger" && holderSide == HolderSide.Right)
+    {
+      DoesTriggerEffect();
+    }
+  }
+
+  public override void KeepInCover()
+  {
+    if (netIdentity.isClient)
+    {
+      netIdentity.onMessageReceived -= OnMessageReceived;
+    }
+    base.KeepInCover();
   }
 
   void DoesTriggerEffect()

@@ -7,10 +7,11 @@ public class NetMelee : MonoBehaviour
   public float hitback;
   protected NetMeleeHolder holder;
 
-  [System.NonSerialized]
   public RuntimeAnimatorController meleeAnimatorController;
+
   [System.NonSerialized]
   public bool anyAction;
+  
   protected Player player;
   protected NetIdentity netIdentity;
 

@@ -279,6 +279,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitback: 3
+  meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
+    type: 2}
   _trail: {fileID: 96034581088180826}
   _commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
   slashQueue:
