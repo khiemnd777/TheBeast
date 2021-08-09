@@ -97,8 +97,9 @@ public class NetKatana : NetMelee
           var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
           if (dataJson.slashQueueIndex < slashQueue.Count)
           {
-            _currentSlashAnim = slashQueue[dataJson.slashQueueIndex];
+            _playerAnimator = player.animator;
             _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+            _currentSlashAnim = slashQueue[dataJson.slashQueueIndex];
             _playerAnimator.Play(_currentSlashAnim.name, 0);
           }
         }
