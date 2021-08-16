@@ -7,6 +7,18 @@ namespace Net
   {
     public event Action<string, string> onMessageReceived;
 
+    /// <summary>
+    /// This property is used at server-side and local-site.
+    /// </summary>
+    public string clientId { get; set; }
+
+    /// <summary>
+    /// This property is used at server-side.
+    /// </summary>
+    public string type { get; set; }
+
+    public string prefabName { get; set; }
+
     public float life { get; set; }
 
     public float maxLife { get; set; }
@@ -164,7 +176,7 @@ namespace Net
       target.SetIsLocal();
       return target;
     }
-    
+
     public static T InstantiateLocalAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation) where T : NetIdentity
     {
       var target = InstantiateLocal(original, position, rotation);

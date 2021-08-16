@@ -8,7 +8,6 @@ namespace Net
   public class NetRegistrar : MonoBehaviour
   {
     public event Action<int, int> onPlayerCount;
-    public event Action onLocalPlayerRegistered;
     [SerializeField]
     NetIdentityItem[] netIdentifierPrefabs;
     NetworkManager _networkManager;
@@ -53,6 +52,20 @@ namespace Net
             netObj.OnReceiveMessage(dataJson.eventName, dataJson.message);
           }
         }
+        else
+        {
+          // Generate the object at the client if it does not exist.
+          if (_settings.isClient)
+          {
+            if (dataJson.eventName == Constants.EVENT_OBJECT_TRANSFORM)
+            {
+              var netObj = NetObjectJSON.Deserialize(dataJson.message);
+              var position = Point.FromArray(netObj.position);
+              var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
+              CreateAtTheClientSide(netObj.prefabName, netObj.clientId, netObj.netName, netObj.id, netObj.position, netObj.rotation, 0f, 0f);
+            }
+          }
+        }
       };
       _networkManager.onBroadcastCloneEverywhereJson += (NetCloneJSON dataJson) =>
       {
@@ -70,7 +83,7 @@ namespace Net
       {
         _networkManager.onServerRegister += (NetRegisterJSON netRegisterJson) =>
         {
-          print($"Register {netRegisterJson.prefabName}'s '{netRegisterJson.netName}' for client-id '{netRegisterJson.clientId}'");
+          Debug.Log($"Register {netRegisterJson.prefabName}'s '{netRegisterJson.netName}' for client-id '{netRegisterJson.clientId}'");
           CreateAtTheServerSide(netRegisterJson.prefabName, netRegisterJson.clientId, netRegisterJson.netName);
         };
       }
@@ -78,14 +91,6 @@ namespace Net
       {
         _networkManager.onClientRegisterFinished += (NetObjectJSON netObjJson) =>
         {
-          // Detects the local player at the client-side.
-          if (netObjJson.clientId.Equals(_networkManager.clientId.ToString()))
-          {
-            if (onLocalPlayerRegistered != null)
-            {
-              onLocalPlayerRegistered();
-            }
-          }
           CreateAtTheClientSide(netObjJson.prefabName, netObjJson.clientId, netObjJson.netName, netObjJson.id, netObjJson.position, netObjJson.rotation, netObjJson.life, netObjJson.maxLife);
         };
       }
@@ -104,21 +109,23 @@ namespace Net
     /// <param name="id"></param>
     /// <param name="name"></param>
     /// <param name="life"></param>
-    public void Create(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
+    public void CreateLocally(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
     {
       if (netObjectList.Exists(id)) return;
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
       if (prefab.netIdentityPrefab)
       {
         var netIdentifierPrefab = prefab.netIdentityPrefab;
-        var netIdentityIns = Instantiate<NetIdentity>(
+        var netId = Instantiate<NetIdentity>(
           netIdentifierPrefab,
           Utility.PositionArrayToVector3(Vector3.zero, position),
           Utility.AnglesArrayToQuaternion(rotation));
-        netIdentityIns.Init(id, netName);
-        netObjectList.Store(netIdentityIns);
-        netIdentityIns.life = life;
-        netIdentityIns.maxLife = maxLife;
+        netObjectList.Store(netId);
+        netId.clientId = clientId;
+        netId.prefabName = prefabName;
+        netId.Init(id, netName);
+        netId.life = life;
+        netId.maxLife = maxLife;
       }
     }
 
@@ -148,24 +155,6 @@ namespace Net
       }
     }
 
-    /// <summary>
-    /// Create other net player by prefab.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="name"></param>
-    void CreateOther(string prefabName, int id, string name, float hp)
-    {
-      if (netObjectList.Exists(id)) return;
-      var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
-      if (prefab.netIdentityPrefab)
-      {
-        var netIdentifierPrefab = prefab.netIdentityPrefab;
-        var netIdentityIns = Instantiate<NetIdentity>(netIdentifierPrefab, Vector3.zero, Quaternion.identity);
-        netIdentityIns.InitOther(id, name);
-        netObjectList.Store(netIdentityIns);
-      }
-    }
-
     void CreateAtTheServerSide(string prefabName, string clientId, string netName)
     {
       if (!_settings.isServer) return;
@@ -174,6 +163,9 @@ namespace Net
       {
         var netIdentifierPrefab = prefab.netIdentityPrefab;
         var netId = netObjectList.Create(netIdentifierPrefab, netName, Vector3.zero, Quaternion.identity);
+        netId.clientId = clientId;
+        netId.prefabName = prefabName;
+        netId.type = "player";
         netObjectList.Store(netId);
         Debug.Log($"The object '{netName}' '{netId.id}' has been instantiated.");
         socket.Emit(Constants.EVENT_SERVER_REGISTER_FINISHED,
@@ -198,7 +190,7 @@ namespace Net
       var isLocalPlayer = clientId.Equals(_networkManager.clientId.ToString());
       if (isLocalPlayer)
       {
-        Create(prefabName, clientId, netName, id, position, rotation, life, maxLife);
+        CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife);
         return;
       }
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
@@ -215,6 +207,7 @@ namespace Net
           Utility.AnglesArrayToQuaternion(rotation),
           false
         );
+        netId.prefabName = prefabName;
         netObjectList.Store(netId);
       }
     }

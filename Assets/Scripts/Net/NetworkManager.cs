@@ -19,6 +19,7 @@ namespace Net
     public event Action<NetRegisterJSON> onServerRegister;
     public event Action<NetMessageJSON> onReceiveMessageJson;
     public event Action<NetCloneJSON> onBroadcastCloneEverywhereJson;
+    public event Action<NetClientIdJSON> onRequestGettingPlayers;
 
     Settings _settings;
     ISocketWrapper _socket;
@@ -49,8 +50,6 @@ namespace Net
       _settings = Settings.instance;
       print("Initiated settings!");
       _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnConnected);
-      _socket.On(Constants.EVENT_OBJECT_REGISTERED, OnObjectRegistered);
-      _socket.On(Constants.EVENT_OTHER_OBJECT_REGISTERED, OnOtherObjectRegistered);
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
       _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);
       _socket.On(Constants.EVENT_BROADCAST_CLONE_EVERYWHERE, OnBroadcastCloneEverywhere);
@@ -58,7 +57,6 @@ namespace Net
       {
         print("Connecting to socket...");
         // Let's consider this event-object-register
-        _socket.On(Constants.EVENT_OBJECT_REGISTER, OnObjectRegister);
         _socket.On(Constants.EVENT_SERVER_REGISTER, OnServerRegister);
       }
       else

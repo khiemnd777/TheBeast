@@ -14,6 +14,7 @@ public class Constants
   public const string EVENT_SERVER_REGISTER = "server register";
   public const string EVENT_SERVER_REGISTER_FINISHED = "server register finished";
   public const string EVENT_CLIENT_REGISTER_FINISHED = "client register finished";
+  public const string EVENT_REQUEST_GETTING_PLAYERS = "request getting players";
 
   #region Player
   public const string EVENT_REQUIRE_REGISTER_PLAYER = "server register player";

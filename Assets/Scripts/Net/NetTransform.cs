@@ -136,7 +136,7 @@ namespace Net
       if (!canSendTranslateMessage && !canSendRotationMessage) return;
       var point = Point.FromVector3(_cachedTransform.position);
       var rotation = !_targetRotation ? Quaternion.identity : _targetRotation.rotation;
-      var netObjectJson = new NetObjectJSON(_networkManager.clientId.ToString(), _netIdentity.id, string.Empty, _netIdentity.name, 0f, 0f, point, rotation);
+      var netObjectJson = new NetObjectJSON(_networkManager.clientId.ToString(), _netIdentity.id, _netIdentity.prefabName, _netIdentity.netName, 0f, 0f, point, rotation);
       _netIdentity.EmitMessage(Constants.EVENT_OBJECT_TRANSFORM, netObjectJson);
     }
   }

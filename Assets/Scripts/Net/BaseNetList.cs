@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Net.Socket;
@@ -69,12 +70,17 @@ namespace Net
     }
 
     /// <summary>
-    /// Get all players on the list.
+    /// Get all objects on the list.
     /// </summary>
     /// <returns></returns>
     public virtual List<T> All()
     {
       return list.Select(x => x.Value).ToList();
+    }
+
+    public virtual List<T> All(Func<KeyValuePair<int, T>, bool> predicate)
+    {
+      return list.Where(predicate).Select(x => x.Value).ToList();
     }
 
     public virtual int Count()

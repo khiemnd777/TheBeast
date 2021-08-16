@@ -27,6 +27,18 @@ namespace Net
       this.rotation = Utility.QuaternionToAnglesArray(rotation);
     }
 
+    public NetObjectJSON(string clientId, int id, string prefabName, string netName, float life, float maxLife, Vector3 point, Quaternion rotation)
+    {
+      this.clientId = clientId;
+      this.id = id;
+      this.prefabName = prefabName;
+      this.netName = netName;
+      this.life = life;
+      this.maxLife = maxLife;
+      this.position = new[] { point.x, point.z };
+      this.rotation = Utility.QuaternionToAnglesArray(rotation);
+    }
+
     public static NetObjectJSON Deserialize(object data)
     {
       return JsonUtility.FromJson<NetObjectJSON>(data.ToString());
