@@ -48,10 +48,10 @@ public class Player : NetIdentity
     _rigidbody = GetComponent<Rigidbody>();
     _settings = Settings.instance;
     _audioListener = GetComponent<AudioListener>();
-    _audioListener.gameObject.SetActive(false);
+    _audioListener.enabled = false;
     if (isLocal)
     {
-      _audioListener.gameObject.SetActive(true);
+      _audioListener.enabled = true;
       _cameraController = FindObjectOfType<CameraController>();
       _cameraController.SetTarget(this.transform);
       _dotSightController = FindObjectOfType<DotSightController>();
@@ -66,73 +66,6 @@ public class Player : NetIdentity
       _locker.RegisterLock("Explosion");
     }
   }
-
-  // protected override void Update()
-  // {
-  //   base.Update();
-  //   Rotate2();
-  //   if (IsLocked())
-  //   {
-  //     _speed = 0;
-  //     return;
-  //   }
-  //   var x = Input.GetAxisRaw("Horizontal");
-  //   var y = Input.GetAxisRaw("Vertical");
-  //   _isMoving = x != 0 || y != 0;
-  //   _direction = Utility.AlterVector3(_direction, x, y);
-  //   // Sprint by default
-  //   _speed = sprintSpeed;
-  //   _footstepSoundFx.volume = sprintVolume;
-  //   // Walk
-  //   if (Input.GetKey(KeyCode.LeftShift))
-  //   {
-  //     _speed = walkSpeed;
-  //     _footstepSoundFx.volume = walkVolume;
-  //   }
-  //   if (_isMoving)
-  //   {
-  //     // foot rotation
-  //     _foots.rotation = Quaternion.LookRotation(Vector3.up, _direction);
-  //     _isStopping = false;
-  //     _timeFootOnGround += Time.deltaTime / (_settings.playerFootOnGroundDelta / _speed);
-  //     if (_timeFootOnGround >= 1)
-  //     {
-  //       _isLeftFoot = !_isLeftFoot;
-  //       _timeFootOnGround = 0f;
-  //     }
-  //   }
-  //   else if (!_isStopping)
-  //   {
-  //     _isLeftFoot = !_isLeftFoot;
-  //     _timeFootOnGround = 0f;
-  //     _isStopping = true;
-  //   }
-  // }
-
-  // protected override void FixedUpdate()
-  // {
-  //   base.FixedUpdate();
-  //   // if (IsLocked ())
-  //   // {
-  //   // 	Debug.Log(1);
-  //   // 	return;
-  //   // }
-  //   _rigidbody.velocity = _direction * _speed;
-  // }
-
-  // void Rotate2()
-  // {
-  //   if (isLocal)
-  //   {
-  //     if (_dotSightController)
-  //     {
-  //       var normal = _dotSight.NormalizeFromPoint(transform.position);
-  //       var destRotation = Utility.RotateByNormal(normal, Vector3.up);
-  //       body.rotation = Quaternion.RotateTowards(body.rotation, destRotation, Time.deltaTime * 630f);
-  //     }
-
-  //   }
-  // }
 
   public void OnHit(float damage, float hitbackForce, Vector3 impactedNormal, Vector3 impactedPoint)
   {

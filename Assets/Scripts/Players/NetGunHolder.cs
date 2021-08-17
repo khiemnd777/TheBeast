@@ -42,9 +42,12 @@ public class NetGunHolder : MonoBehaviour
       _heldGun.SetHolderSide(holderSide);
       _heldGun.SetPlayer(_player);
       _heldGun.SetNetIdentity(_netIdentity);
-      _heldGun.TakeUpArm();
-      _heldGun.OnProjectileLaunched += OnProjectileLaunched;
-      _hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
+      if (_netIdentity.isLocal)
+      {
+        _heldGun.TakeUpArm();
+        _heldGun.OnProjectileLaunched += OnProjectileLaunched;
+        _hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
+      }
     }
   }
 

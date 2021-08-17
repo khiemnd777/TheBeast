@@ -30,7 +30,10 @@ public class NetKatana : NetMelee
   public override void Start()
   {
     player.locker.RegisterLock("Kanata");
-    netIdentity.onMessageReceived += OnMessageReceived;
+    if (!netIdentity.isLocal)
+    {
+      netIdentity.onMessageReceived += OnMessageReceived;
+    }
   }
 
   public override IEnumerator HoldTrigger()
@@ -74,24 +77,26 @@ public class NetKatana : NetMelee
   public override void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
   {
     _hand = hand;
+    player.animator.enabled = true;
     _playerAnimator = player.animator;
     _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
     base.holder = holder;
     _playerAnimator.Play(_commonStyleAnim.name, 0);
     // Emit after taking-up arm
-    netIdentity.EmitMessage("katana_take_up_arm", null);
+    // netIdentity.EmitMessage("katana_take_up_arm", null);
   }
 
   void OnMessageReceived(string eventName, string message)
   {
     switch (eventName)
     {
-      case "katana_take_up_arm":
-        {
-          _playerAnimator = player.animator;
-          _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
-        }
-        break;
+      // case "katana_take_up_arm":
+      //   {
+      //     player.animator.enabled = true;
+      //     _playerAnimator = player.animator;
+      //     _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+      //   }
+      //   break;
       case "katana_trigger":
         {
           var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
@@ -111,11 +116,11 @@ public class NetKatana : NetMelee
 
   public override void KeepInCover()
   {
-    // _playerAnimator.enabled = false;
+    _playerAnimator.enabled = false;
     _hand.enabled = true;
     anyAction = false;
     _trail.enabled = false;
-    if (netIdentity.isClient)
+    if (!netIdentity.isLocal)
     {
       netIdentity.onMessageReceived -= OnMessageReceived;
     }

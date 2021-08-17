@@ -34,6 +34,7 @@ namespace Net
       InitEvents();
     }
 
+    object initClientObj = new object();
     void InitEvents()
     {
       // This will be fired after the connection was completely connected.
@@ -59,10 +60,17 @@ namespace Net
           {
             if (dataJson.eventName == Constants.EVENT_OBJECT_TRANSFORM)
             {
-              var netObj = NetObjectJSON.Deserialize(dataJson.message);
-              var position = Point.FromArray(netObj.position);
-              var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
-              CreateAtTheClientSide(netObj.prefabName, netObj.clientId, netObj.netName, netObj.id, netObj.position, netObj.rotation, 0f, 0f);
+              lock (initClientObj)
+              {
+                if (!netObjectList.Exists(dataJson.id))
+                {
+                  var netObj = NetObjectJSON.Deserialize(dataJson.message);
+                  Debug.Log($"Instantiate the object of client {netObj.clientId}");
+                  var position = Point.FromArray(netObj.position);
+                  var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
+                  CreateAtTheClientSide(netObj.prefabName, netObj.clientId, netObj.netName, netObj.id, netObj.position, netObj.rotation, 0f, 0f);
+                }
+              }
             }
           }
         }
@@ -120,12 +128,33 @@ namespace Net
           netIdentifierPrefab,
           Utility.PositionArrayToVector3(Vector3.zero, position),
           Utility.AnglesArrayToQuaternion(rotation));
-        netObjectList.Store(netId);
         netId.clientId = clientId;
         netId.prefabName = prefabName;
         netId.Init(id, netName);
         netId.life = life;
         netId.maxLife = maxLife;
+        netObjectList.Store(netId);
+      }
+    }
+
+    public void CreateClientOther(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
+    {
+      if (netObjectList.Exists(id)) return;
+      var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
+      if (prefab.netIdentityPrefab)
+      {
+        var netIdentifierPrefab = prefab.netIdentityPrefab;
+        var netId = Instantiate<NetIdentity>(
+          netIdentifierPrefab,
+          Utility.PositionArrayToVector3(Vector3.zero, position),
+          Utility.AnglesArrayToQuaternion(rotation));
+        netId.SetNetIdAtClientSide(id);
+        netId.clientId = clientId;
+        netId.prefabName = prefabName;
+        netId.InitOther(id, netName);
+        netId.life = life;
+        netId.maxLife = maxLife;
+        netObjectList.Store(netId);
       }
     }
 
@@ -180,7 +209,6 @@ namespace Net
             netId.transform.rotation
           )
         );
-
       }
     }
 
@@ -193,23 +221,7 @@ namespace Net
         CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife);
         return;
       }
-      var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
-      if (prefab.netIdentityPrefab)
-      {
-        var netIdentifierPrefab = prefab.netIdentityPrefab;
-        var netId = netObjectList.Create(
-          netIdentifierPrefab,
-          id,
-          netName,
-          life,
-          maxLife,
-          Utility.PositionArrayToVector3(Vector3.zero, position),
-          Utility.AnglesArrayToQuaternion(rotation),
-          false
-        );
-        netId.prefabName = prefabName;
-        netObjectList.Store(netId);
-      }
+      CreateClientOther(prefabName, clientId, netName, id, position, rotation, life, maxLife);
     }
   }
 }

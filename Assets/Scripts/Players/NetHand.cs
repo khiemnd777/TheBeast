@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class NetHand : MonoBehaviour
 {
+  public HolderSide holderSide = HolderSide.Right;
   [Range(0, 2)]
   public float maximumRange = 1f;
   [SerializeField]
@@ -32,7 +33,7 @@ public class NetHand : MonoBehaviour
         _dotSight = _dotSightController.dotSight;
       }
     }
-    if (_netIdentity.isClient)
+    if (_netIdentity.isClient && !_netIdentity.isLocal)
     {
       _netIdentity.onMessageReceived += OnReceivedMoveInRange;
     }
@@ -58,19 +59,20 @@ public class NetHand : MonoBehaviour
     var rangeForMoving = distance / _maximumDistance;
     var pos = transform.localPosition;
     pos.x = Mathf.Clamp(rangeForMoving, 0, maximumRange);
-    pos.z = 0;
+    // pos.z = 0;
     transform.localPosition = pos;
-    _lastLocalPosition = transform.localPosition;
   }
 
   void EmitMoveInRange()
   {
-    if (_lastLocalPosition != transform.localPosition)
+    if (_lastLocalPosition != transform.localPosition && transform.localPosition != Vector3.zero)
     {
       _netIdentity.EmitMessage("hand_move_in_range", new MoveInRangeJson
       {
+        side = (int)holderSide,
         localPosition = Utility.Vector3ToPositionArray(transform.localPosition)
       });
+      _lastLocalPosition = transform.localPosition;
     }
   }
 
@@ -79,13 +81,20 @@ public class NetHand : MonoBehaviour
     if (eventName == "hand_move_in_range")
     {
       var receivedMessage = Utility.Deserialize<MoveInRangeJson>(message);
-      var localPosition = receivedMessage.localPosition;
-      transform.localPosition = Utility.PositionArrayToVector3(transform.localPosition, localPosition);
+      if (receivedMessage.side == (int)holderSide)
+      {
+        var localPosition = receivedMessage.localPosition;
+        var expectedPos = Utility.PositionArrayToVector3(transform.localPosition, localPosition);
+        var pos = transform.localPosition;
+        pos.x = expectedPos.x;
+        transform.localPosition = pos;
+      }
     }
   }
 }
 
 public struct MoveInRangeJson
 {
+  public int side;
   public float[] localPosition;
 }

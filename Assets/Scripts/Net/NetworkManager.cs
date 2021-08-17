@@ -105,6 +105,7 @@ namespace Net
 
     void OnClientRegisterFinished(SocketEvent evt)
     {
+      Debug.Log("Registered completely!");
       var dataJSON = NetObjectJSON.Deserialize(evt.data);
       if (onClientRegisterFinished != null)
       {
