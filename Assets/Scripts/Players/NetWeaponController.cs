@@ -33,6 +33,11 @@ public class NetWeaponController : MonoBehaviour
             DoActionOnShield();
           }
           break;
+        case "make_sure_gun_taken_up":
+          {
+            gunHolderController.TakeGunUpArm();
+          }
+          break;
         default:
           break;
       }
@@ -79,6 +84,7 @@ public class NetWeaponController : MonoBehaviour
       if (_typeOfWeapon == "gun")
       {
         gunHolderController.DoUpdating();
+        _netIdentity.EmitMessage("make_sure_gun_taken_up", null);
       }
       if (_typeOfWeapon == "melee")
       {

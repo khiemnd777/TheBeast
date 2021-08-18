@@ -51,7 +51,7 @@ namespace Net
           {
             return;
           }
-          var netObj = NetObjectJSON.Deserialize(message);
+          var netObj = NetTransformJSON.Deserialize(message);
           var point = Point.FromArray(netObj.position);
           Translate(point);
           var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
@@ -136,8 +136,8 @@ namespace Net
       if (!canSendTranslateMessage && !canSendRotationMessage) return;
       var point = Point.FromVector3(_cachedTransform.position);
       var rotation = !_targetRotation ? Quaternion.identity : _targetRotation.rotation;
-      var netObjectJson = new NetObjectJSON(_networkManager.clientId.ToString(), _netIdentity.id, _netIdentity.prefabName, _netIdentity.netName, 0f, 0f, point, rotation);
-      _netIdentity.EmitMessage(Constants.EVENT_OBJECT_TRANSFORM, netObjectJson);
+      var netTransformJson = new NetTransformJSON(point, rotation);
+      _netIdentity.EmitMessage(Constants.EVENT_OBJECT_TRANSFORM, netTransformJson);
     }
   }
 }

@@ -159,7 +159,19 @@ namespace Net
     public void EmitMessage(string eventName, object message)
     {
       var clientId = NetworkManagerCache.networkManager.clientId.ToString();
-      socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(clientId, id, eventName, message));
+      socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(
+        clientId
+        , id
+        , prefabName
+        , netName
+        , life
+        , maxLife
+        , Utility.Vector3ToPositionArray(transform.position)
+        , Utility.QuaternionToAnglesArray(transform.rotation)
+        , eventName
+        , message
+        )
+      );
     }
 
     public virtual void OnReceiveMessage(string eventName, string message)

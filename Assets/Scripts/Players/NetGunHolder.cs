@@ -33,20 +33,27 @@ public class NetGunHolder : MonoBehaviour
     }
   }
 
+  object holdGunObjectLock = new object();
   public void TakeUpArm()
   {
     _beginPosition = transform.localPosition;
     if (gun != null && gun is Object && !gun.Equals(null))
     {
-      _heldGun = Instantiate<NetGun>(gun, transform.position, transform.rotation, transform);
-      _heldGun.SetHolderSide(holderSide);
-      _heldGun.SetPlayer(_player);
-      _heldGun.SetNetIdentity(_netIdentity);
-      if (_netIdentity.isLocal)
+      if (!_heldGun)
       {
-        _heldGun.TakeUpArm();
-        _heldGun.OnProjectileLaunched += OnProjectileLaunched;
-        _hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
+        lock (holdGunObjectLock)
+        {
+          _heldGun = Instantiate<NetGun>(gun, transform.position, transform.rotation, transform);
+          _heldGun.SetHolderSide(holderSide);
+          _heldGun.SetPlayer(_player);
+          _heldGun.SetNetIdentity(_netIdentity);
+        }
+        if (_netIdentity.isLocal)
+        {
+          _heldGun.TakeUpArm();
+          _heldGun.OnProjectileLaunched += OnProjectileLaunched;
+          _hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
+        }
       }
     }
   }

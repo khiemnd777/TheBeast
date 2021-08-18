@@ -24,7 +24,6 @@ public class NetHand : MonoBehaviour
 
   void Start()
   {
-    transform.position = _arm.position;
     if (_netIdentity.isLocal)
     {
       _dotSightController = FindObjectOfType<DotSightController>();
