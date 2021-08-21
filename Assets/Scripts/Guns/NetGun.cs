@@ -30,6 +30,7 @@ public abstract class NetGun : MonoBehaviour
   {
     if (player.animator)
     {
+      player.animator.enabled = false;
       player.animator.runtimeAnimatorController = gunAnimatorController;
       player.animator.Play(gunHandTypeAnimation.name, 0);
     }

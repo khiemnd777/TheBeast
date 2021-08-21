@@ -49,6 +49,8 @@ public class Player : NetIdentity
     _settings = Settings.instance;
     _audioListener = GetComponent<AudioListener>();
     _audioListener.enabled = false;
+    animator = GetComponent<Animator>();
+    animator.enabled = false;
     if (isLocal)
     {
       _audioListener.enabled = true;
@@ -59,7 +61,6 @@ public class Player : NetIdentity
       _dotSightController.SetPlayer(this);
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
-      animator = GetComponent<Animator>();
       this.life = 300f;
       this.maxLife = 300f;
       // _footstepSoundFx.volume = sprintVolume;

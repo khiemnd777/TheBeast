@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NetMelee : MonoBehaviour
 {
+  protected NetHand hand;
+  protected Animator playerAnimator;
   public float hitback;
   protected NetMeleeHolder holder;
 
@@ -11,7 +13,7 @@ public class NetMelee : MonoBehaviour
 
   [System.NonSerialized]
   public bool anyAction;
-  
+
   protected Player player;
   protected NetIdentity netIdentity;
 
@@ -22,7 +24,14 @@ public class NetMelee : MonoBehaviour
 
   public virtual void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
   {
-
+    this.hand = hand;
+    this.holder = holder;
+    if (player.animator)
+    {
+      player.animator.enabled = true;
+      playerAnimator = player.animator;
+      playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+    }
   }
 
   public virtual void KeepInCover()

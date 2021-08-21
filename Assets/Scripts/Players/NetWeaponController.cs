@@ -38,6 +38,11 @@ public class NetWeaponController : MonoBehaviour
             gunHolderController.TakeGunUpArm();
           }
           break;
+        case "make_sure_melee_taken_up":
+          {
+            meleeHolderController.TakeMeleeUpArm();
+          }
+          break;
         default:
           break;
       }
@@ -84,7 +89,6 @@ public class NetWeaponController : MonoBehaviour
       if (_typeOfWeapon == "gun")
       {
         gunHolderController.DoUpdating();
-        _netIdentity.EmitMessage("make_sure_gun_taken_up", null);
       }
       if (_typeOfWeapon == "melee")
       {
@@ -94,6 +98,17 @@ public class NetWeaponController : MonoBehaviour
       if (_typeOfWeapon == "shield")
       {
         shieldHolderController.DoUpdating();
+      }
+      if (Input.GetMouseButton(0))
+      {
+        if (_typeOfWeapon == "gun")
+        {
+          _netIdentity.EmitMessage("make_sure_gun_taken_up", null);
+        }
+        if (_typeOfWeapon == "melee")
+        {
+          _netIdentity.EmitMessage("make_sure_melee_taken_up", null);
+        }
       }
     }
   }

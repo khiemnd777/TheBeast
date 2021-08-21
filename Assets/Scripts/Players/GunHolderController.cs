@@ -40,17 +40,6 @@ public class GunHolderController : MonoBehaviour
     HoldTriggers();
   }
 
-  // IEnumerator HoldTriggers ()
-  // {
-  // 	while (_isMouseHoldingDown)
-  // 	{
-  // 		HoldTrigger (rightGunHolder);
-  // 		yield return new WaitForSeconds (.125f);
-  // 		if (!_isMouseHoldingDown) yield break;
-  // 		HoldTrigger (leftGunHolder);
-  // 	}
-  // }
-
   public void KeepGunInCover()
   {
     KeepInCover(rightGunHolder);

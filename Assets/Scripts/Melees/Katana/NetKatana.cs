@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NetKatana : NetMelee
 {
-  NetHand _hand;
   int _slashQueueIndex;
   BoxCollider _collider;
   [SerializeField]
@@ -15,7 +14,6 @@ public class NetKatana : NetMelee
   public List<AnimationClip> slashQueue;
   SlowMotionMonitor _slowMotionMonitor;
   CameraShake _cameraShake;
-  Animator _playerAnimator;
   float _startTriggerTime;
   float _endTriggerTime;
 
@@ -61,51 +59,38 @@ public class NetKatana : NetMelee
       slashQueueIndex = _slashQueueIndex
     });
     base.player.locker.Lock("Kanata");
-    _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+    playerAnimator.runtimeAnimatorController = meleeAnimatorController;
     anyAction = true;
-    _hand.enabled = false;
+    hand.enabled = false;
     _trail.enabled = false;
-    _playerAnimator.Play(_currentSlashAnim.name, 0);
+    playerAnimator.Play(_currentSlashAnim.name, 0);
     yield return new WaitForSeconds(_currentSlashAnim.length);
     _endTriggerTime = Time.time;
     anyAction = false;
-    _hand.enabled = true;
+    hand.enabled = true;
     _trail.enabled = false;
     base.player.locker.Unlock("Kanata");
   }
 
   public override void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
   {
-    _hand = hand;
-    player.animator.enabled = true;
-    _playerAnimator = player.animator;
-    _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
-    base.holder = holder;
-    _playerAnimator.Play(_commonStyleAnim.name, 0);
-    // Emit after taking-up arm
-    // netIdentity.EmitMessage("katana_take_up_arm", null);
+    base.TakeUpArm(holder, hand, handAnimator);
+    playerAnimator.Play(_commonStyleAnim.name, 0);
   }
 
   void OnMessageReceived(string eventName, string message)
   {
     switch (eventName)
     {
-      // case "katana_take_up_arm":
-      //   {
-      //     player.animator.enabled = true;
-      //     _playerAnimator = player.animator;
-      //     _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
-      //   }
-      //   break;
       case "katana_trigger":
         {
           var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
           if (dataJson.slashQueueIndex < slashQueue.Count)
           {
-            _playerAnimator = player.animator;
-            _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+            playerAnimator = player.animator;
+            playerAnimator.runtimeAnimatorController = meleeAnimatorController;
             _currentSlashAnim = slashQueue[dataJson.slashQueueIndex];
-            _playerAnimator.Play(_currentSlashAnim.name, 0);
+            playerAnimator.Play(_currentSlashAnim.name, 0);
           }
         }
         break;
@@ -116,13 +101,45 @@ public class NetKatana : NetMelee
 
   public override void KeepInCover()
   {
-    _playerAnimator.enabled = false;
-    _hand.enabled = true;
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log("Katana is keeping in the cover");
+    }
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log($"Katana's {playerAnimator}");
+    }
+    playerAnimator.enabled = false;
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log("1");
+    }
+    hand.enabled = true;
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log("2");
+    }
     anyAction = false;
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log("3");
+    }
     _trail.enabled = false;
     if (!netIdentity.isLocal)
     {
+      Debug.Log("4");
+    }
+    if (!netIdentity.isLocal)
+    {
       netIdentity.onMessageReceived -= OnMessageReceived;
+    }
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log("5");
+    }
+    if (!netIdentity.isLocal)
+    {
+      Debug.Log("Katana is kept in the cover!");
     }
     base.KeepInCover();
   }

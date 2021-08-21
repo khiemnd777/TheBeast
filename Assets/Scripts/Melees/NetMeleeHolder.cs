@@ -36,14 +36,17 @@ public class NetMeleeHolder : MonoBehaviour
       heldMelee.KeepInCover();
     }
   }
-
+  object holdMeleeObjectLock = new object();
   public void TakeUpArm()
   {
     if (melee != null && melee is Object && !melee.Equals(null))
     {
-      if (!heldMelee)
+      lock (holdMeleeObjectLock)
       {
-        heldMelee = Instantiate<NetMelee>(melee, transform.position, transform.rotation, transform);
+        if (!heldMelee)
+        {
+          heldMelee = Instantiate<NetMelee>(melee, transform.position, transform.rotation, transform);
+        }
       }
       heldMelee.SetPlayer(_player);
       heldMelee.SetNetIdentity(_netIdentity);
