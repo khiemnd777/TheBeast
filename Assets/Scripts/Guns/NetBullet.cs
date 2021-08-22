@@ -5,7 +5,9 @@ using UnityEngine.AI;
 public class NetBullet : NetIdentity
 {
   public float timeImpactAtMaxDistance;
+  public float damage;
   public float hitback;
+  public float freezedTime;
   public float maxDistance;
   public LayerMask layerMask;
   [SerializeField]
@@ -22,7 +24,7 @@ public class NetBullet : NetIdentity
     base.Start();
     _bulletImpactFx = GetComponent<BulletImpactEffect>();
     _direction = transform.rotation * Vector3.right;
-    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * maxDistance, Color.yellow);
+    // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * maxDistance, Color.yellow);
   }
 
   protected override void Update()
@@ -51,18 +53,27 @@ public class NetBullet : NetIdentity
     {
       var impactPoint = _raycastHit.point;
       var hitTransform = _raycastHit.transform;
-      var agent = hitTransform.GetComponent<NavMeshAgent>();
-      var hitMonster = hitTransform.GetComponent<Monster>();
-      if (hitMonster)
+      if (isServer)
       {
-        hitMonster.OnHit(transform, hitback, _raycastHit);
+        var hitPlayer = hitTransform.GetComponent<Player>();
+        if (hitPlayer)
+        {
+          var impactedPosition = hitPlayer.transform.position - impactPoint;
+          impactedPosition.Normalize();
+          hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPosition);
+        }
       }
-      ActivateBulleImpactedFx(_raycastHit);
+      // var hitMonster = hitTransform.GetComponent<Monster>();
+      // if (hitMonster)
+      // {
+      //   hitMonster.OnHit(transform, hitback, _raycastHit);
+      // }
+      ActivateBulletImpactedFx(_raycastHit);
     }
     Destroy(gameObject);
   }
 
-  void ActivateBulleImpactedFx(RaycastHit hit)
+  void ActivateBulletImpactedFx(RaycastHit hit)
   {
     _bulletImpactFx.maxSpeed = 4.5f;
     _bulletImpactFx.lifetime = .125f;

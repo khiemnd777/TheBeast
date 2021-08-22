@@ -21,6 +21,8 @@ namespace Net
 
     public float life { get; set; }
 
+    protected float currentLife { get; set; }
+
     public float maxLife { get; set; }
 
     public bool lifeEnd

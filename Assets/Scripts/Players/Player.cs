@@ -61,13 +61,57 @@ public class Player : NetIdentity
       _dotSightController.SetPlayer(this);
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
-      this.life = 300f;
-      this.maxLife = 300f;
+      this.maxLife = this.currentLife = this.life = 300f;
       // _footstepSoundFx.volume = sprintVolume;
       _locker.RegisterLock("Explosion");
+      _locker.RegisterLock("Hitting");
+      // Sync the life from server
+      onMessageReceived += (eventName, eventMessage) =>
+      {
+        if (eventName == "object_life")
+        {
+          var lifeJson = Utility.Deserialize<ObjectLifeJson>(eventMessage);
+          currentLife = life = lifeJson.life;
+        }
+      };
+    }
+    if (!isServer)
+    {
+      // Sync the hitting from server to the client
+      onMessageReceived += (eventName, eventMessage) =>
+      {
+        if (eventName == "object_hitted")
+        {
+          var hittedObjJson = Utility.Deserialize<HittedObjectJson>(eventMessage);
+          OnHittingUp(
+            hittedObjJson.damagePoint,
+            hittedObjJson.freezedTime,
+            hittedObjJson.hitbackPoint,
+            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition)
+          );
+        }
+      };
     }
   }
 
+  protected override void Update()
+  {
+    base.Update();
+    if (isServer)
+    {
+      // Sync the life point to the local
+      if (currentLife != life)
+      {
+        EmitMessage("object_life", new ObjectLifeJson
+        {
+          life = life
+        });
+        currentLife = life;
+      }
+    }
+  }
+
+  [System.Obsolete]
   public void OnHit(float damage, float hitbackForce, Vector3 impactedNormal, Vector3 impactedPoint)
   {
     var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, impactedNormal, hitbackForce);
@@ -76,10 +120,42 @@ public class Player : NetIdentity
     StartCoroutine(ReleaseLockByExplosion());
   }
 
+  public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 normalizedImpactedPosition)
+  {
+    if (isServer)
+    {
+      life -= damagePoint;
+      if (lifeEnd)
+      {
+        // Dead!
+      }
+      else
+      {
+        var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, normalizedImpactedPosition, hitbackPoint);
+        _rigidbody.velocity = hitbackVel;
+        EmitMessage("object_hitted", new HittedObjectJson
+        {
+          damagePoint = damagePoint,
+          freezedTime = freezedTime,
+          hitbackPoint = hitbackPoint,
+          normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
+        });
+      }
+    }
+    if (isClient)
+    {
+      var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, normalizedImpactedPosition, hitbackPoint);
+      _rigidbody.velocity = hitbackVel;
+      _locker.Lock("Hitting");
+      StartCoroutine(ReleaseLockAfterOn("Hitting", freezedTime));
+    }
+  }
+
   /// <summary>
   /// Fill health point to player.
   /// </summary>
   /// <param name="hp"></param>
+  [System.Obsolete]
   public void SetHp(float hp)
   {
     this.life = hp;
@@ -89,27 +165,10 @@ public class Player : NetIdentity
   /// Fill MAX health point to player.
   /// </summary>
   /// <param name="maxHp"></param>
+  [System.Obsolete]
   public void SetMaxHp(float maxHp)
   {
     this.maxLife = maxHp;
-  }
-
-  /// <summary>
-  /// Add value into MAX health point.
-  /// </summary>
-  /// <param name="value"></param>
-  public void AddMaxHp(float value)
-  {
-    this.maxLife += value;
-  }
-
-  public void AddHp(float hp)
-  {
-    this.life += hp;
-    if (this.life >= this.maxLife)
-    {
-      this.maxLife = this.life;
-    }
   }
 
   public void OnFendingOff(float knockbackForce, Vector3 impactedNormal, Vector3 impactedPoint)
@@ -131,4 +190,23 @@ public class Player : NetIdentity
     yield return new WaitForSeconds(_settings.defaultReleaseLockExplosionTime);
     _locker.Unlock("Explosion");
   }
+
+  public IEnumerator ReleaseLockAfterOn(string lockName, float freezedTime)
+  {
+    yield return new WaitForSeconds(freezedTime);
+    _locker.Unlock(lockName);
+  }
+}
+
+public struct HittedObjectJson
+{
+  public float damagePoint;
+  public float freezedTime;
+  public float hitbackPoint;
+  public float[] normalizedImpactedPosition;
+}
+
+public struct ObjectLifeJson
+{
+  public float life;
 }
