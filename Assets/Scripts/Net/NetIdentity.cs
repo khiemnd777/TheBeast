@@ -134,18 +134,18 @@ namespace Net
       this.netName = name;
     }
 
-    public void CloneEverywhereImmediately(string prefabName)
+    public void CloneEverywhereImmediately(string prefabName, float lifetime)
     {
       if (isLocal)
       {
         var clientId = networkManager.clientId;
-        id = GetInstanceID();
         socket.Emit(Constants.EVENT_CLONE_EVERYWHERE, new NetCloneJSON(
             clientId.ToString(),
             prefabName,
             name,
             life,
             maxLife,
+            lifetime,
             Point.FromVector3(transform.position),
             transform.rotation
           )
@@ -191,10 +191,15 @@ namespace Net
       return target;
     }
 
-    public static T InstantiateLocalAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation) where T : NetIdentity
+    public static T InstantiateLocalAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation, Func<T, float> funcLifetime) where T : NetIdentity
     {
       var target = InstantiateLocal(original, position, rotation);
-      target.CloneEverywhereImmediately(prefabName);
+      var lifetime = funcLifetime != null ? funcLifetime(target) : 0f;
+      target.CloneEverywhereImmediately(prefabName, lifetime);
+      if (lifetime > 0f)
+      {
+        Destroy(target.gameObject, lifetime);
+      }
       return target;
     }
   }

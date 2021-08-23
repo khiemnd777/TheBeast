@@ -11,16 +11,18 @@ namespace Net
     public string netName;
     public float life;
     public float maxLife;
+    public float lifetime;
     public float[] position;
     public float[] rotation;
 
-    public NetCloneJSON(string clientId, string prefabName, string netName, float life, float maxLife, Point point, Quaternion rotation)
+    public NetCloneJSON(string clientId, string prefabName, string netName, float life, float maxLife, float lifetime, Point point, Quaternion rotation)
     {
       this.clientId = clientId;
       this.prefabName = prefabName;
       this.netName = netName;
       this.life = life;
       this.maxLife = maxLife;
+      this.lifetime = lifetime;
       this.position = new[] { point.x, point.y };
       this.rotation = Utility.QuaternionToAnglesArray(rotation);
     }

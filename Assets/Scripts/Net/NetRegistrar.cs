@@ -91,7 +91,8 @@ namespace Net
           dataJson.position,
           dataJson.rotation,
           dataJson.life,
-          dataJson.maxLife
+          dataJson.maxLife,
+          dataJson.lifetime
         );
       };
       if (_settings.isServer)
@@ -175,7 +176,7 @@ namespace Net
       return null;
     }
 
-    public void CloneEverywhere(string prefabName, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife)
+    public void CloneEverywhere(string prefabName, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife, float lifetime)
     {
       if (clientId != _networkManager.clientId.ToString())
       {
@@ -197,6 +198,10 @@ namespace Net
           }
           netIdentityIns.life = life;
           netIdentityIns.maxLife = maxLife;
+          if (lifetime > 0f)
+          {
+            Destroy(netIdentityIns.gameObject, lifetime);
+          }
         }
       }
     }

@@ -41,7 +41,7 @@ public class NetPistol : NetGun
     }
   }
 
-  public override void HoldTrigger()
+  public override void HoldTrigger(Vector3 dotSightPoint)
   {
     if (_isHoldTrigger) return;
     if (!_availableHoldTrigger) return;
@@ -49,7 +49,12 @@ public class NetPistol : NetGun
     _timeAvailableHoleTrigger = 0f;
     _availableHoldTrigger = false;
     // Launch the bullet
-    NetIdentity.InstantiateLocalAndEverywhere<NetBullet>("pistol_bullet", bulletPrefab, _projectile.position, _projectile.rotation);
+    NetIdentity.InstantiateLocalAndEverywhere<NetBullet>("pistol_bullet", bulletPrefab, _projectile.position, _projectile.rotation, (netBullet) => {
+      var bulletVel = netBullet.maxDistance / netBullet.timeImpactAtMaxDistance;
+      var bulletLength = Vector3.Distance(dotSightPoint, _projectile.position);
+      var bulletLifetime = bulletLength / bulletVel;
+      return bulletLifetime;
+    });
     DoesTriggerEffect();
     _isHoldTrigger = true;
     // Emit message to trigger the pistol.

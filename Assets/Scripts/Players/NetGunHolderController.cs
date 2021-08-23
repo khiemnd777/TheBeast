@@ -156,8 +156,9 @@ public class NetGunHolderController : MonoBehaviour
   {
     if (gunHolder != null && gunHolder is Object && !gunHolder.Equals(null))
     {
+      // Get dot sight position as destination.
       gunHolder.BeforeHoldTrigger();
-      gunHolder.HoldTrigger();
+      gunHolder.HoldTrigger(_dotSight.GetCurrentPoint());
     }
   }
 

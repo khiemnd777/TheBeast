@@ -19,7 +19,7 @@ public abstract class NetGun : MonoBehaviour
 
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
 
-  public abstract void HoldTrigger();
+  public abstract void HoldTrigger(Vector3 dotSightPoint);
   public abstract void ReleaseTrigger();
   public System.Action OnProjectileLaunched;
 

@@ -41,7 +41,7 @@ public class DotSight : MonoBehaviour
   }
 
   /// <summary>
-  /// Initialize some stucks before appears the dot sight.
+  /// Initialize some stuck before appears the dot sight.
   /// </summary>
   /// <param name="mainCamera"></param>
   public void Init (Camera mainCamera)

@@ -64,12 +64,12 @@ public class NetGunHolder : MonoBehaviour
     transform.localPosition = _beginPosition;
   }
 
-  public void HoldTrigger()
+  public void HoldTrigger(Vector3 dotSightPoint)
   {
     if (_heldGun != null && _heldGun is Object && !_heldGun.Equals(null))
     {
       if (_heldGun.locker.IsLocked()) return;
-      _heldGun.HoldTrigger();
+      _heldGun.HoldTrigger(dotSightPoint);
     }
   }
 
