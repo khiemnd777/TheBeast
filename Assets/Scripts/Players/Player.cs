@@ -51,6 +51,10 @@ public class Player : NetIdentity
     _audioListener.enabled = false;
     animator = GetComponent<Animator>();
     animator.enabled = false;
+    if (isServer)
+    {
+      this.maxLife = this.currentLife = this.life = 300f;
+    }
     if (isLocal)
     {
       _audioListener.enabled = true;
@@ -68,27 +72,25 @@ public class Player : NetIdentity
       // Sync the life from server
       onMessageReceived += (eventName, eventMessage) =>
       {
+        Debug.Log($"{eventName}: {eventMessage}");
         if (eventName == "object_life")
         {
           var lifeJson = Utility.Deserialize<ObjectLifeJson>(eventMessage);
           currentLife = life = lifeJson.life;
+          return;
         }
-      };
-    }
-    if (!isServer)
-    {
-      // Sync the hitting from server to the client
-      onMessageReceived += (eventName, eventMessage) =>
-      {
+        // Sync the hitting from server to the client
         if (eventName == "object_hitted")
         {
           var hittedObjJson = Utility.Deserialize<HittedObjectJson>(eventMessage);
+          Debug.Log(JsonUtility.ToJson(hittedObjJson));
           OnHittingUp(
             hittedObjJson.damagePoint,
             hittedObjJson.freezedTime,
             hittedObjJson.hitbackPoint,
             Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition)
           );
+          return;
         }
       };
     }
@@ -124,31 +126,42 @@ public class Player : NetIdentity
   {
     if (isServer)
     {
+      Debug.Log($"{clientId}'s {life} hp");
+      Debug.Log($"{clientId} is taken {damagePoint}");
       life -= damagePoint;
       if (lifeEnd)
       {
+        Debug.Log($"{clientId} is dead!");
         // Dead!
+        return;
       }
-      else
+      Debug.Log($"emit object_hitted to: {clientId}");
+      EmitMessage("object_hitted", new HittedObjectJson
       {
-        var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, normalizedImpactedPosition, hitbackPoint);
-        _rigidbody.velocity = hitbackVel;
-        EmitMessage("object_hitted", new HittedObjectJson
-        {
-          damagePoint = damagePoint,
-          freezedTime = freezedTime,
-          hitbackPoint = hitbackPoint,
-          normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
-        });
-      }
+        damagePoint = damagePoint,
+        freezedTime = freezedTime,
+        hitbackPoint = hitbackPoint,
+        normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
+      });
     }
-    if (isClient)
+    if (isLocal)
     {
+      Debug.Log($"hitbackPoint: {hitbackPoint}");
       var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, normalizedImpactedPosition, hitbackPoint);
-      _rigidbody.velocity = hitbackVel;
+      Debug.Log($"hitbackVel: {hitbackVel}");
+      // _rigidbody.velocity = hitbackVel;
+      // _rigidbody.AddForce(hitbackVel, ForceMode.VelocityChange);
+      StartCoroutine(HitBack(hitbackVel));
       _locker.Lock("Hitting");
       StartCoroutine(ReleaseLockAfterOn("Hitting", freezedTime));
     }
+  }
+
+  IEnumerator HitBack(Vector3 hitbackVel)
+  {
+    _rigidbody.velocity = hitbackVel;
+    yield return new WaitForFixedUpdate();
+    // _rigidbody.AddForce(hitbackVel, ForceMode.Impulse);
   }
 
   /// <summary>

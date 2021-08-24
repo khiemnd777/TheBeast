@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NetMelee : MonoBehaviour
 {
+  public float damage;
+  public float freezedTime;
   protected NetHand hand;
   protected Animator playerAnimator;
   public float hitback;

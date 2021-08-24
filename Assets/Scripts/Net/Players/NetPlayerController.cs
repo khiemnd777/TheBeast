@@ -80,7 +80,10 @@ namespace Net
         var verticalDirection = GetVerticalDirection();
         _movingCalculator.Calculate(horizontalDirection, verticalDirection);
         _speedCalculator.Calculate();
-        _netTransform.Velocity(_movingCalculator.direction, _speedCalculator.speed);
+        if (!_player.locker.IsLocked())
+        {
+          _netTransform.Velocity(_movingCalculator.direction, _speedCalculator.speed);
+        }
       }
     }
 

@@ -30,7 +30,7 @@ public class Katana : Melee
 
   public override void Start()
   {
-    player.locker.RegisterLock("Kanata");
+    player.locker.RegisterLock("Katana");
   }
 
   public override IEnumerator HoldTrigger()
@@ -52,7 +52,7 @@ public class Katana : Melee
       }
       _currentSlashAnim = slashQueue[_slashQueueIndex];
     }
-    player.locker.Lock("Kanata");
+    player.locker.Lock("Katana");
     _playerAnimator.runtimeAnimatorController = meleeAnimatorController;
     anyAction = true;
     _hand.enabled = false;
@@ -63,7 +63,7 @@ public class Katana : Melee
     anyAction = false;
     _hand.enabled = true;
     _trail.enabled = false;
-    player.locker.Unlock("Kanata");
+    player.locker.Unlock("Katana");
   }
 
   public override void TakeUpArm(MeleeHolder holder, Hand hand, Animator handAnimator)

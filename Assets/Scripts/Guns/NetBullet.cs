@@ -60,6 +60,7 @@ public class NetBullet : NetIdentity
         {
           var impactedPosition = hitPlayer.transform.position - impactPoint;
           impactedPosition.Normalize();
+          Debug.Log($"Hit on {hitPlayer.clientId}");
           hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPosition);
         }
       }

@@ -27,7 +27,7 @@ public class NetKatana : NetMelee
 
   public override void Start()
   {
-    player.locker.RegisterLock("Kanata");
+    player.locker.RegisterLock("Katana");
     if (!netIdentity.isLocal)
     {
       netIdentity.onMessageReceived += OnMessageReceived;
@@ -58,7 +58,7 @@ public class NetKatana : NetMelee
     {
       slashQueueIndex = _slashQueueIndex
     });
-    base.player.locker.Lock("Kanata");
+    base.player.locker.Lock("Katana");
     playerAnimator.runtimeAnimatorController = meleeAnimatorController;
     anyAction = true;
     hand.enabled = false;
@@ -69,7 +69,7 @@ public class NetKatana : NetMelee
     anyAction = false;
     hand.enabled = true;
     _trail.enabled = false;
-    base.player.locker.Unlock("Kanata");
+    base.player.locker.Unlock("Katana");
   }
 
   public override void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
@@ -103,44 +103,12 @@ public class NetKatana : NetMelee
   {
     if (!netIdentity.isLocal)
     {
-      Debug.Log("Katana is keeping in the cover");
-    }
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log($"Katana's {playerAnimator}");
-    }
-    playerAnimator.enabled = false;
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log("1");
-    }
-    hand.enabled = true;
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log("2");
-    }
-    anyAction = false;
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log("3");
-    }
-    _trail.enabled = false;
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log("4");
-    }
-    if (!netIdentity.isLocal)
-    {
       netIdentity.onMessageReceived -= OnMessageReceived;
     }
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log("5");
-    }
-    if (!netIdentity.isLocal)
-    {
-      Debug.Log("Katana is kept in the cover!");
-    }
+    if (playerAnimator) playerAnimator.enabled = false;
+    if (hand) hand.enabled = true;
+    if (_trail) _trail.enabled = false;
+    anyAction = false;
     base.KeepInCover();
   }
 
@@ -149,18 +117,30 @@ public class NetKatana : NetMelee
     if (!anyAction) return;
     if (other)
     {
-      var hitMonster = other.GetComponent<Monster>();
-      if (hitMonster)
+      if (netIdentity.isServer)
       {
-        var contactPoint = other.ClosestPointOnBounds(transform.position);
-        var dir = GetDirection();
-        dir.Normalize();
-        // dir = dir * holder.transform.localScale.z;
-        hitMonster.OnHit(transform, hitback, dir, contactPoint);
-        _slowMotionMonitor.Freeze(.45f, .2f);
-        _cameraShake.Shake(.125f, .125f);
-        return;
+        var otherPlayer = other.GetComponent<Player>();
+        if (otherPlayer)
+        {
+          var impactedPosition = other.ClosestPointOnBounds(transform.position);
+          // var dir = GetDirection();
+          // dir.Normalize();
+          impactedPosition.Normalize();
+          otherPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPosition);
+        }
       }
+      // var hitMonster = other.GetComponent<Monster>();
+      // if (hitMonster)
+      // {
+      //   var contactPoint = other.ClosestPointOnBounds(transform.position);
+      //   var dir = GetDirection();
+      //   dir.Normalize();
+      //   // dir = dir * holder.transform.localScale.z;
+      //   hitMonster.OnHit(transform, hitback, dir, contactPoint);
+      //   _slowMotionMonitor.Freeze(.45f, .2f);
+      //   _cameraShake.Shake(.125f, .125f);
+      //   return;
+      // }
       var reversedObject = other.GetComponent<ReversedObject>();
       if (reversedObject)
       {

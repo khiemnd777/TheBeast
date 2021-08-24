@@ -213,7 +213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeImpactAtMaxDistance: 0.2
   damage: 15
-  hitback: 0.4
+  hitback: 0.75
   freezedTime: 0.25
   maxDistance: 17
   layerMask:
