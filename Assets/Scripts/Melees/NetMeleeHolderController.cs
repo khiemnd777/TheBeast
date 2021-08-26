@@ -29,6 +29,7 @@ public class NetMeleeHolderController : MonoBehaviour
       if (Input.GetMouseButtonDown(1))
       {
         HoldTriggers();
+        _netIdentity.EmitMessage("make_sure_melee_taken_up", null);
       }
     }
   }

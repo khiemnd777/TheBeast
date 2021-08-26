@@ -50,10 +50,7 @@ public class NetPistol : NetGun
     _availableHoldTrigger = false;
     // Launch the bullet
     NetIdentity.InstantiateLocalAndEverywhere<NetBullet>("pistol_bullet", bulletPrefab, _projectile.position, _projectile.rotation, (netBullet) => {
-      var bulletVel = netBullet.maxDistance / netBullet.timeImpactAtMaxDistance;
-      var bulletLength = Vector3.Distance(dotSightPoint, _projectile.position);
-      var bulletLifetime = bulletLength / bulletVel;
-      return bulletLifetime;
+      return netBullet.CalculateBulletLifetime(dotSightPoint, _projectile.position);
     });
     DoesTriggerEffect();
     _isHoldTrigger = true;

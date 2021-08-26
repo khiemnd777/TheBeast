@@ -53,7 +53,7 @@ public class Player : NetIdentity
     animator.enabled = false;
     if (isServer)
     {
-      this.maxLife = this.currentLife = this.life = 300f;
+      this.maxLife = this.currentLife = this.life = 100f;
     }
     if (isLocal)
     {
@@ -65,7 +65,7 @@ public class Player : NetIdentity
       _dotSightController.SetPlayer(this);
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
-      this.maxLife = this.currentLife = this.life = 300f;
+      this.maxLife = this.currentLife = this.life = 100f;
       // _footstepSoundFx.volume = sprintVolume;
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
@@ -126,8 +126,6 @@ public class Player : NetIdentity
   {
     if (isServer)
     {
-      Debug.Log($"{clientId}'s {life} hp");
-      Debug.Log($"{clientId} is taken {damagePoint}");
       life -= damagePoint;
       if (lifeEnd)
       {
@@ -135,7 +133,6 @@ public class Player : NetIdentity
         // Dead!
         return;
       }
-      Debug.Log($"emit object_hitted to: {clientId}");
       EmitMessage("object_hitted", new HittedObjectJson
       {
         damagePoint = damagePoint,

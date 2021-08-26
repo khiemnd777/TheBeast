@@ -278,7 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ff5bd054ffca77488a851c5557bd179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitback: 3
+  damage: 90
+  freezedTime: 0.2
+  hitback: 1
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
   _trail: {fileID: 96034581088180826}

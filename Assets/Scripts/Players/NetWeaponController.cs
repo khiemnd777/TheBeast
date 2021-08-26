@@ -99,17 +99,6 @@ public class NetWeaponController : MonoBehaviour
       {
         shieldHolderController.DoUpdating();
       }
-      if (Input.GetMouseButton(0))
-      {
-        if (_typeOfWeapon == "gun")
-        {
-          _netIdentity.EmitMessage("make_sure_gun_taken_up", null);
-        }
-        if (_typeOfWeapon == "melee")
-        {
-          _netIdentity.EmitMessage("make_sure_melee_taken_up", null);
-        }
-      }
     }
   }
 

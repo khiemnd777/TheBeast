@@ -54,8 +54,9 @@ public class NetGunHolderController : MonoBehaviour
       if (Input.GetMouseButtonDown(0))
       {
         _isMouseHoldingDown = true;
+        _netIdentity.EmitMessage("make_sure_gun_taken_up", null);
       }
-      if (Input.GetMouseButtonUp(0))
+      else if (Input.GetMouseButtonUp(0))
       {
         _isMouseHoldingDown = false;
         _timeForHoldLeftGunTrigger = 0f;

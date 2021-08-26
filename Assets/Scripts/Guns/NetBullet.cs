@@ -60,7 +60,6 @@ public class NetBullet : NetIdentity
         {
           var impactedPosition = hitPlayer.transform.position - impactPoint;
           impactedPosition.Normalize();
-          Debug.Log($"Hit on {hitPlayer.clientId}");
           hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPosition);
         }
       }
@@ -79,5 +78,13 @@ public class NetBullet : NetIdentity
     _bulletImpactFx.maxSpeed = 4.5f;
     _bulletImpactFx.lifetime = .125f;
     _bulletImpactFx.Use(hit.point, hit.normal);
+  }
+
+  public float CalculateBulletLifetime(Vector3 dotSightPoint, Vector3 projectilePoint)
+  {
+    var bulletVel = maxDistance / timeImpactAtMaxDistance;
+    var bulletLength = Vector3.Distance(dotSightPoint, projectilePoint);
+    var bulletLifetime = bulletLength / bulletVel;
+    return bulletLifetime + Time.fixedDeltaTime;
   }
 }

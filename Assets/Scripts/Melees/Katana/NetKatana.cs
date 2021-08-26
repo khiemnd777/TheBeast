@@ -87,15 +87,26 @@ public class NetKatana : NetMelee
           var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
           if (dataJson.slashQueueIndex < slashQueue.Count)
           {
-            playerAnimator = player.animator;
-            playerAnimator.runtimeAnimatorController = meleeAnimatorController;
-            _currentSlashAnim = slashQueue[dataJson.slashQueueIndex];
-            playerAnimator.Play(_currentSlashAnim.name, 0);
+            StartCoroutine(OnKatanaTriggerAnim(dataJson.slashQueueIndex));
           }
         }
         break;
       default:
         break;
+    }
+  }
+
+  IEnumerator OnKatanaTriggerAnim(int slashQueueIndex)
+  {
+    if (slashQueueIndex < slashQueue.Count)
+    {
+      anyAction = true;
+      playerAnimator = player.animator;
+      playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+      _currentSlashAnim = slashQueue[slashQueueIndex];
+      playerAnimator.Play(_currentSlashAnim.name, 0);
+      yield return new WaitForSeconds(_currentSlashAnim.length);
+      anyAction = false;
     }
   }
 
@@ -141,27 +152,29 @@ public class NetKatana : NetMelee
       //   _cameraShake.Shake(.125f, .125f);
       //   return;
       // }
-      var reversedObject = other.GetComponent<ReversedObject>();
-      if (reversedObject)
-      {
-        var dir = GetDirection();
-        dir.Normalize();
-        reversedObject.reversed = true;
-        reversedObject.speed *= 1.25f;
-        reversedObject.normal = dir; //* holder.transform.localScale.z;
-        _slowMotionMonitor.Freeze(.0625f, .2f);
-        return;
-      }
-      var monsterWeaponEntity = other.GetComponent<MonsterWeaponEntity>();
-      if (monsterWeaponEntity && monsterWeaponEntity.anyAction)
-      {
-        var contactPoint = other.ClosestPointOnBounds(transform.position);
-        var dir = player.transform.position - contactPoint;
-        dir.Normalize();
-        player.OnFendingOff(monsterWeaponEntity.knockbackForce, dir, contactPoint);
-        _slowMotionMonitor.Freeze(.08f, .08f);
-        return;
-      }
+
+      // var reversedObject = other.GetComponent<ReversedObject>();
+      // if (reversedObject)
+      // {
+      //   var dir = GetDirection();
+      //   dir.Normalize();
+      //   reversedObject.reversed = true;
+      //   reversedObject.speed *= 1.25f;
+      //   reversedObject.normal = dir; //* holder.transform.localScale.z;
+      //   _slowMotionMonitor.Freeze(.0625f, .2f);
+      //   return;
+      // }
+
+      // var monsterWeaponEntity = other.GetComponent<MonsterWeaponEntity>();
+      // if (monsterWeaponEntity && monsterWeaponEntity.anyAction)
+      // {
+      //   var contactPoint = other.ClosestPointOnBounds(transform.position);
+      //   var dir = player.transform.position - contactPoint;
+      //   dir.Normalize();
+      //   player.OnFendingOff(monsterWeaponEntity.knockbackForce, dir, contactPoint);
+      //   _slowMotionMonitor.Freeze(.08f, .08f);
+      //   return;
+      // }
     }
   }
 }
