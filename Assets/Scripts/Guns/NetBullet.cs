@@ -58,9 +58,9 @@ public class NetBullet : NetIdentity
         var hitPlayer = hitTransform.GetComponent<Player>();
         if (hitPlayer)
         {
-          var impactedPosition = hitPlayer.transform.position - impactPoint;
-          impactedPosition.Normalize();
-          hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPosition);
+          var impactedPositionNormalize = hitPlayer.transform.position - impactPoint;
+          impactedPositionNormalize.Normalize();
+          hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactPoint, impactedPositionNormalize, false);
         }
       }
       // var hitMonster = hitTransform.GetComponent<Monster>();

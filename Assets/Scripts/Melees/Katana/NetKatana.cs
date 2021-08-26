@@ -85,10 +85,7 @@ public class NetKatana : NetMelee
       case "katana_trigger":
         {
           var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
-          if (dataJson.slashQueueIndex < slashQueue.Count)
-          {
-            StartCoroutine(OnKatanaTriggerAnim(dataJson.slashQueueIndex));
-          }
+          StartCoroutine(OnKatanaTriggerAnim(dataJson.slashQueueIndex));
         }
         break;
       default:
@@ -98,16 +95,20 @@ public class NetKatana : NetMelee
 
   IEnumerator OnKatanaTriggerAnim(int slashQueueIndex)
   {
+    anyAction = true;
     if (slashQueueIndex < slashQueue.Count)
     {
-      anyAction = true;
+      if (netIdentity.isServer)
+      {
+        Debug.Log($"{netIdentity.clientId}'s katana anim on server");
+      }
       playerAnimator = player.animator;
       playerAnimator.runtimeAnimatorController = meleeAnimatorController;
       _currentSlashAnim = slashQueue[slashQueueIndex];
       playerAnimator.Play(_currentSlashAnim.name, 0);
       yield return new WaitForSeconds(_currentSlashAnim.length);
-      anyAction = false;
     }
+    anyAction = false;
   }
 
   public override void KeepInCover()
@@ -125,6 +126,10 @@ public class NetKatana : NetMelee
 
   void OnTriggerEnter(Collider other)
   {
+    if (netIdentity.isServer)
+    {
+      Debug.Log($"Katana trigger with anyAction: {anyAction}, on {other}");
+    }
     if (!anyAction) return;
     if (other)
     {
@@ -133,11 +138,11 @@ public class NetKatana : NetMelee
         var otherPlayer = other.GetComponent<Player>();
         if (otherPlayer)
         {
-          var impactedPosition = other.ClosestPointOnBounds(transform.position);
-          // var dir = GetDirection();
-          // dir.Normalize();
-          impactedPosition.Normalize();
-          otherPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPosition);
+          Debug.Log($"{otherPlayer.clientId} slashed by katana...");
+          var impactedPositionNormalized = other.ClosestPointOnBounds(transform.position);
+          var impactedPoint = impactedPositionNormalized;
+          impactedPositionNormalized.Normalize();
+          otherPlayer.OnHittingUp(damage, freezedTime, hitback, impactedPoint, impactedPositionNormalized, true);
         }
       }
       // var hitMonster = other.GetComponent<Monster>();

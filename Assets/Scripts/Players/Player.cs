@@ -11,17 +11,28 @@ public class Player : NetIdentity
   public float walkVolume = .01f;
   [System.NonSerialized]
   public bool isFendingOff;
-  [SerializeField]
   public Transform body;
+  public Transform head;
   [System.NonSerialized]
   public Animator animator;
   public WeaponController weaponController;
+
   [SerializeField]
   Transform _foots;
+
   [SerializeField]
   Transform _leftFoot;
+
   [SerializeField]
   Transform _rightFoot;
+
+  [Space]
+  [SerializeField]
+  Blood _playerBlood;
+
+  [SerializeField]
+  Blood _playerSlashBlood;
+
   [Space]
   [SerializeField]
   AudioSource _footstepSoundFx;
@@ -53,7 +64,7 @@ public class Player : NetIdentity
     animator.enabled = false;
     if (isServer)
     {
-      this.maxLife = this.currentLife = this.life = 100f;
+      this.maxLife = this.currentLife = this.life = 1000f;
     }
     if (isLocal)
     {
@@ -65,30 +76,36 @@ public class Player : NetIdentity
       _dotSightController.SetPlayer(this);
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
-      this.maxLife = this.currentLife = this.life = 100f;
+      this.maxLife = this.currentLife = this.life = 1000f;
       // _footstepSoundFx.volume = sprintVolume;
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
       // Sync the life from server
       onMessageReceived += (eventName, eventMessage) =>
       {
-        Debug.Log($"{eventName}: {eventMessage}");
         if (eventName == "object_life")
         {
           var lifeJson = Utility.Deserialize<ObjectLifeJson>(eventMessage);
           currentLife = life = lifeJson.life;
           return;
         }
+      };
+    }
+    if (isClient)
+    {
+      onMessageReceived += (eventName, eventMessage) =>
+      {
         // Sync the hitting from server to the client
         if (eventName == "object_hitted")
         {
           var hittedObjJson = Utility.Deserialize<HittedObjectJson>(eventMessage);
-          Debug.Log(JsonUtility.ToJson(hittedObjJson));
           OnHittingUp(
             hittedObjJson.damagePoint,
             hittedObjJson.freezedTime,
             hittedObjJson.hitbackPoint,
-            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition)
+            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.impactedPosition),
+            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition),
+            hittedObjJson.bySlash
           );
           return;
         }
@@ -122,7 +139,7 @@ public class Player : NetIdentity
     StartCoroutine(ReleaseLockByExplosion());
   }
 
-  public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 normalizedImpactedPosition)
+  public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 impactedPosition, Vector3 normalizedImpactedPosition, bool bySlash)
   {
     if (isServer)
     {
@@ -138,19 +155,32 @@ public class Player : NetIdentity
         damagePoint = damagePoint,
         freezedTime = freezedTime,
         hitbackPoint = hitbackPoint,
-        normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
+        impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
+        normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
+        bySlash = bySlash
       });
     }
     if (isLocal)
     {
-      Debug.Log($"hitbackPoint: {hitbackPoint}");
       var hitbackVel = Utility.HitbackVelocity(_rigidbody.velocity, normalizedImpactedPosition, hitbackPoint);
-      Debug.Log($"hitbackVel: {hitbackVel}");
-      // _rigidbody.velocity = hitbackVel;
-      // _rigidbody.AddForce(hitbackVel, ForceMode.VelocityChange);
       StartCoroutine(HitBack(hitbackVel));
       _locker.Lock("Hitting");
       StartCoroutine(ReleaseLockAfterOn("Hitting", freezedTime));
+    }
+    if (isClient)
+    {
+      // Bleed in the client-side.
+      if (bySlash)
+      {
+        if (_playerSlashBlood)
+        {
+          Blood.BleedOutAtPoint(_playerSlashBlood, -normalizedImpactedPosition, impactedPosition);
+        }
+      }
+      else if (_playerBlood)
+      {
+        Blood.BleedOutAtPoint(_playerBlood, -normalizedImpactedPosition, impactedPosition);
+      }
     }
   }
 
@@ -213,7 +243,9 @@ public struct HittedObjectJson
   public float damagePoint;
   public float freezedTime;
   public float hitbackPoint;
+  public float[] impactedPosition;
   public float[] normalizedImpactedPosition;
+  public bool bySlash;
 }
 
 public struct ObjectLifeJson

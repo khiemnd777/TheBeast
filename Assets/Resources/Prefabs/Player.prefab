@@ -164,10 +164,15 @@ MonoBehaviour:
   sprintVolume: 0.09
   walkVolume: 0.09
   body: {fileID: 4638004554132482}
+  head: {fileID: 4527925290100626}
   weaponController: {fileID: 0}
   _foots: {fileID: 4920601870792432}
   _leftFoot: {fileID: 4568847482821162}
   _rightFoot: {fileID: 4300715290258162}
+  _playerBlood: {fileID: 114367984338432462, guid: 0ae25e8fb1bd29849af5e6c3c5746ce9,
+    type: 3}
+  _playerSlashBlood: {fileID: 114319558123064554, guid: bd995b0ef0a8b4949b4b19682620eb17,
+    type: 3}
   _footstepSoundFx: {fileID: 82049890166464758}
 --- !u!81 &81561896755273322
 AudioListener:
@@ -646,6 +651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d457dd7b586b998499c1ded6641fdf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holderSide: 2
   maximumRange: 1.4
   _arm: {fileID: 4953064695362700}
   _emitMessageInterval: 0.2
@@ -695,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d457dd7b586b998499c1ded6641fdf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holderSide: 2
   maximumRange: 1.4
   _arm: {fileID: 4883832106839028}
   _emitMessageInterval: 0.2
