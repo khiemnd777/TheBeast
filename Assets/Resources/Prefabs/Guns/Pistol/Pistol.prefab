@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunHandType: 0
+  weight: 1
   knockbackIndex: 0.15
   gunAnimatorController: {fileID: 9100000, guid: 02c9e332f35bb4b4b996964645ab50c0,
     type: 2}

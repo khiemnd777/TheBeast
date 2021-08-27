@@ -5,29 +5,18 @@ using UnityEngine;
 
 public class Player : NetIdentity
 {
-  public float sprintSpeed = 1f;
-  public float walkSpeed = .5f;
-  public float sprintVolume = .09f;
-  public float walkVolume = .01f;
   [System.NonSerialized]
   public bool isFendingOff;
-  public Transform body;
 
   [System.NonSerialized]
   public Animator animator;
   public WeaponController weaponController;
 
-  [SerializeField]
-  Transform _foots;
-
-  [SerializeField]
-  Transform _leftFoot;
-
-  [SerializeField]
-  Transform _rightFoot;
-
   [Space]
   public MeleeCollider meleeCollider;
+
+  [System.NonSerialized]
+  public float gunWeightIncrement = 1f;
 
   [Space]
   [SerializeField]
@@ -37,19 +26,10 @@ public class Player : NetIdentity
   Blood _playerSlashBlood;
 
   [Space]
-  [SerializeField]
-  AudioSource _footstepSoundFx;
   AudioListener _audioListener;
-  IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
   DotSightController _dotSightController;
   DotSight _dotSight;
-  Vector3 _direction;
   Rigidbody _rigidbody;
-  bool _isLeftFoot;
-  bool _isMoving;
-  bool _isStopping = true;
-  float _timeFootOnGround;
-  float _speed;
   Settings _settings;
   CameraController _cameraController;
 
@@ -82,7 +62,6 @@ public class Player : NetIdentity
       // Player's local mask is excepted to the self-interactions.
       this.gameObject.layer = LayerMask.NameToLayer("PlayerLocal");
       this.maxLife = this.currentLife = this.life = 1000f;
-      // _footstepSoundFx.volume = sprintVolume;
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
       // Sync the life from server

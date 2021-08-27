@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class NetGun : MonoBehaviour
 {
   public GunHandType gunHandType;
+  public GunWeight weight;
   public float knockbackIndex;
   public RuntimeAnimatorController gunAnimatorController;
   public AnimationClip gunHandTypeAnimation;
@@ -38,6 +39,7 @@ public abstract class NetGun : MonoBehaviour
 
   public virtual void KeepInCover()
   {
+    this.player.gunWeightIncrement = 1f;
     Destroy(gameObject);
   }
 
@@ -69,6 +71,39 @@ public abstract class NetGun : MonoBehaviour
   public void SetPlayer(Player player)
   {
     this.player = player;
+  }
+
+  public void SetGunWeightToPlayer(Player player)
+  {
+    switch (weight)
+    {
+      case GunWeight.Light:
+        {
+          player.gunWeightIncrement = .9f;
+        }
+        break;
+      case GunWeight.Medium:
+        {
+          player.gunWeightIncrement = .8f;
+        }
+        break;
+      case GunWeight.Heavy:
+        {
+          player.gunWeightIncrement = .5f;
+        }
+        break;
+      case GunWeight.VeryHeavy:
+        {
+          player.gunWeightIncrement = .25f;
+        }
+        break;
+      case GunWeight.HandFree:
+      default:
+        {
+          player.gunWeightIncrement = 1;
+        }
+        break;
+    }
   }
 
   public void SetHolderSide(HolderSide holderSide)

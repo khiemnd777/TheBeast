@@ -48,6 +48,7 @@ public class NetGunHolder : MonoBehaviour
       }
       _heldGun.SetHolderSide(holderSide);
       _heldGun.SetPlayer(_player);
+      _heldGun.SetGunWeightToPlayer(_player);
       _heldGun.SetNetIdentity(_netIdentity);
       if (_netIdentity.isLocal)
       {

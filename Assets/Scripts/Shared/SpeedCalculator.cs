@@ -75,36 +75,23 @@ public class SpeedCalculator
   /// <summary>
   /// The calculation of speed by speed-type and init-speed.
   /// </summary>
-  public void Calculate()
+  public void Calculate(float increments)
   {
     switch (_speedType)
     {
       case SpeedType.Sprint:
         {
-          _speed = _stopFlag ? 0 : _initSpeed * _sprintSpeed;
+          _speed = _stopFlag ? 0 : _initSpeed * _sprintSpeed * increments;
         }
         break;
       case SpeedType.Walk:
         {
-          _speed = _stopFlag ? 0 : _initSpeed * _walkSpeed;
+          _speed = _stopFlag ? 0 : _initSpeed * _walkSpeed * increments;
         }
         break;
       default:
-        {
-
-        }
         break;
     }
-  }
-
-  /// <summary>
-  /// The calculation of speed by speed-type and init-speed.
-  /// </summary>
-  /// <param name="speedType"></param>
-  public void Calculate(SpeedType speedType)
-  {
-    SetSpeedType(speedType);
-    Calculate();
   }
 
   /// <summary>

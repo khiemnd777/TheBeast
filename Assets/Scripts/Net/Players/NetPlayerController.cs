@@ -79,7 +79,7 @@ namespace Net
         var horizontalDirection = GetHorizontalDirection();
         var verticalDirection = GetVerticalDirection();
         _movingCalculator.Calculate(horizontalDirection, verticalDirection);
-        _speedCalculator.Calculate();
+        _speedCalculator.Calculate(_player.gunWeightIncrement);
         if (!_player.locker.IsLocked())
         {
           _netTransform.Velocity(_movingCalculator.direction, _speedCalculator.speed);
