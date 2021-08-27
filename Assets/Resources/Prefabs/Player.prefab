@@ -164,11 +164,11 @@ MonoBehaviour:
   sprintVolume: 0.09
   walkVolume: 0.09
   body: {fileID: 4638004554132482}
-  head: {fileID: 4527925290100626}
   weaponController: {fileID: 0}
   _foots: {fileID: 4920601870792432}
   _leftFoot: {fileID: 4568847482821162}
   _rightFoot: {fileID: 4300715290258162}
+  meleeCollider: {fileID: 3087823061401850823}
   _playerBlood: {fileID: 114367984338432462, guid: 0ae25e8fb1bd29849af5e6c3c5746ce9,
     type: 3}
   _playerSlashBlood: {fileID: 114319558123064554, guid: bd995b0ef0a8b4949b4b19682620eb17,
@@ -896,6 +896,7 @@ Transform:
   - {fileID: 6394366782970908764}
   - {fileID: 4953064695362700}
   - {fileID: 4883832106839028}
+  - {fileID: 1324989424027411777}
   m_Father: {fileID: 4282247987286110}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1009,6 +1010,54 @@ Transform:
   m_Father: {fileID: 4638004554132482}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2574087280307897931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324989424027411777}
+  - component: {fileID: 3087823061401850823}
+  m_Layer: 0
+  m_Name: Melee Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1324989424027411777
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574087280307897931}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4638004554132482}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3087823061401850823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574087280307897931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94211f0168d0f4c42b6233efaefd694b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  range: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3120478781763891533
 GameObject:
   m_ObjectHideFlags: 0

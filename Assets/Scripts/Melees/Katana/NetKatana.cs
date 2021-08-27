@@ -4,135 +4,119 @@ using UnityEngine;
 
 public class NetKatana : NetMelee
 {
-  int _slashQueueIndex;
   BoxCollider _collider;
+
   [SerializeField]
   TrailRenderer _trail;
-  [SerializeField]
-  AnimationClip _commonStyleAnim;
   AnimationClip _currentSlashAnim;
   public List<AnimationClip> slashQueue;
   SlowMotionMonitor _slowMotionMonitor;
   CameraShake _cameraShake;
-  float _startTriggerTime;
-  float _endTriggerTime;
 
   public override void Awake()
   {
     base.Awake();
     _collider = GetComponent<BoxCollider>();
-    _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor>();
-    _cameraShake = FindObjectOfType<CameraShake>();
   }
 
   public override void Start()
   {
-    player.locker.RegisterLock("Katana");
-    if (!netIdentity.isLocal)
+    base.Start();
+    if (netIdentity.isLocal)
     {
-      netIdentity.onMessageReceived += OnMessageReceived;
+      _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor>();
+      _cameraShake = FindObjectOfType<CameraShake>();
     }
+    if (netIdentity.isServer)
+    {
+      _trail.enabled = false;
+    }
+    player.locker.RegisterLock("Katana");
   }
 
-  public override IEnumerator HoldTrigger()
+  public override void OnBeforePlayAnimation()
   {
-    _startTriggerTime = Time.time;
-    var _triggerDistanceTime = _startTriggerTime - _endTriggerTime;
-    var resetFirstSlash = _triggerDistanceTime > .3f;
-    if (resetFirstSlash)
-    {
-      _currentSlashAnim = slashQueue[0];
-      _slashQueueIndex = 0;
-    }
-    else
-    {
-      ++_slashQueueIndex;
-      if (_slashQueueIndex >= slashQueue.Count)
-      {
-        _slashQueueIndex = 0;
-      }
-      _currentSlashAnim = slashQueue[_slashQueueIndex];
-    }
-    // Katana trigger to server and another clients.
-    netIdentity.EmitMessage("katana_trigger", new KatanaSlashJson
-    {
-      slashQueueIndex = _slashQueueIndex
-    });
-    base.player.locker.Lock("Katana");
-    playerAnimator.runtimeAnimatorController = meleeAnimatorController;
-    anyAction = true;
-    hand.enabled = false;
+    base.OnBeforePlayAnimation();
     _trail.enabled = false;
-    playerAnimator.Play(_currentSlashAnim.name, 0);
-    yield return new WaitForSeconds(_currentSlashAnim.length);
-    _endTriggerTime = Time.time;
-    anyAction = false;
-    hand.enabled = true;
-    _trail.enabled = false;
-    base.player.locker.Unlock("Katana");
   }
+
+  public override void OnAfterPlayAnimation()
+  {
+    base.OnAfterPlayAnimation();
+    _trail.enabled = false;
+  }
+
+  // public override IEnumerator HoldTrigger()
+  // {
+  //   _startTriggerTime = Time.time;
+  //   var _triggerDistanceTime = _startTriggerTime - _endTriggerTime;
+  //   var resetFirstSlash = _triggerDistanceTime > .3f;
+  //   if (resetFirstSlash)
+  //   {
+  //     _currentSlashAnim = slashQueue[0];
+  //     _slashQueueIndex = 0;
+  //   }
+  //   else
+  //   {
+  //     ++_slashQueueIndex;
+  //     if (_slashQueueIndex >= slashQueue.Count)
+  //     {
+  //       _slashQueueIndex = 0;
+  //     }
+  //     _currentSlashAnim = slashQueue[_slashQueueIndex];
+  //   }
+  //   // Katana trigger to server and another clients.
+  //   netIdentity.EmitMessage("katana_trigger", new KatanaSlashJson
+  //   {
+  //     slashQueueIndex = _slashQueueIndex
+  //   });
+  //   base.player.locker.Lock("Katana");
+  //   playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+  //   anyAction = true;
+  //   hand.enabled = false;
+  //   _trail.enabled = false;
+  //   playerAnimator.Play(_currentSlashAnim.name, 0);
+  //   yield return new WaitForSeconds(_currentSlashAnim.length);
+  //   _endTriggerTime = Time.time;
+  //   anyAction = false;
+  //   hand.enabled = true;
+  //   _trail.enabled = false;
+  //   base.player.locker.Unlock("Katana");
+  // }
 
   public override void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
   {
     base.TakeUpArm(holder, hand, handAnimator);
-    playerAnimator.Play(_commonStyleAnim.name, 0);
-  }
-
-  void OnMessageReceived(string eventName, string message)
-  {
-    switch (eventName)
-    {
-      case "katana_trigger":
-        {
-          var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
-          StartCoroutine(OnKatanaTriggerAnim(dataJson.slashQueueIndex));
-        }
-        break;
-      default:
-        break;
-    }
+    playerAnimator.Play(commonStyleAnim.name, 0);
   }
 
   IEnumerator OnKatanaTriggerAnim(int slashQueueIndex)
   {
-    anyAction = true;
     if (slashQueueIndex < slashQueue.Count)
     {
-      if (netIdentity.isServer)
-      {
-        Debug.Log($"{netIdentity.clientId}'s katana anim on server");
-      }
-      playerAnimator = player.animator;
-      playerAnimator.runtimeAnimatorController = meleeAnimatorController;
       _currentSlashAnim = slashQueue[slashQueueIndex];
       playerAnimator.Play(_currentSlashAnim.name, 0);
       yield return new WaitForSeconds(_currentSlashAnim.length);
     }
     anyAction = false;
+    hand.enabled = true;
   }
 
   public override void KeepInCover()
   {
-    if (!netIdentity.isLocal)
-    {
-      netIdentity.onMessageReceived -= OnMessageReceived;
-    }
-    if (playerAnimator) playerAnimator.enabled = false;
-    if (hand) hand.enabled = true;
     if (_trail) _trail.enabled = false;
-    anyAction = false;
     base.KeepInCover();
   }
 
   void OnTriggerEnter(Collider other)
   {
-    if (netIdentity.isServer)
-    {
-      Debug.Log($"Katana trigger with anyAction: {anyAction}, on {other}");
-    }
     if (!anyAction) return;
     if (other)
     {
+      if (netIdentity.isServer)
+      {
+        Debug.Log($"Katana trigger with anyAction: {anyAction}, on {other}");
+      }
       if (netIdentity.isServer)
       {
         var otherPlayer = other.GetComponent<Player>();

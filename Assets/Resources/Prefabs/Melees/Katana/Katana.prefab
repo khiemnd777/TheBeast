@@ -279,12 +279,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 90
+  range: 3
+  size: 0.25
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  slashQueue2:
+  - delayRateOnCollision: 0.25
+    animationClip: {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
+  - delayRateOnCollision: 0.125
+    animationClip: {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
+  - delayRateOnCollision: 0.5
+    animationClip: {fileID: 7400000, guid: a39f38a3b84ad4ba79ff777c8435ca3d, type: 2}
+  - delayRateOnCollision: 0.75
+    animationClip: {fileID: 7400000, guid: e3d3a0357e0b340209af8b061fada7f4, type: 2}
+  commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
   freezedTime: 0.2
   hitback: 1
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
   _trail: {fileID: 96034581088180826}
-  _commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
   slashQueue:
   - {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
   - {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
@@ -299,7 +313,7 @@ BoxCollider:
   m_GameObject: {fileID: 1706668506700552}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.44, y: 0.13185546, z: 0.20015004}
   m_Center: {x: 0.83, y: 0, z: 0}

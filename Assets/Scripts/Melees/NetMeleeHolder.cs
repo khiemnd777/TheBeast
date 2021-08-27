@@ -46,12 +46,13 @@ public class NetMeleeHolder : MonoBehaviour
         if (!heldMelee)
         {
           heldMelee = Instantiate<NetMelee>(melee, transform.position, transform.rotation, transform);
+          heldMelee.SetPlayer(_player);
+          heldMelee.SetNetIdentity(_netIdentity);
+          heldMelee.TakeUpArm(this, _hand, _handAnimator);
+          heldMelee.OnPostInstantiated();
+          _hand.maximumRange = 1.4f;
         }
       }
-      heldMelee.SetPlayer(_player);
-      heldMelee.SetNetIdentity(_netIdentity);
-      heldMelee.TakeUpArm(this, _hand, _handAnimator);
-      _hand.maximumRange = 1.4f;
       if (_handAnimator != null && _handAnimator is Object && !_handAnimator.Equals(null))
       {
         _handAnimator.runtimeAnimatorController = heldMelee.meleeAnimatorController;

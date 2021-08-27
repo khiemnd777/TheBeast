@@ -44,7 +44,7 @@ public class NetMeleeHolderController : MonoBehaviour
     TakeUpArm(rightMeleeHolder);
   }
 
-  void HoldTriggers()
+  public void HoldTriggers()
   {
     HoldTrigger(rightMeleeHolder);
   }

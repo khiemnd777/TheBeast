@@ -12,7 +12,7 @@ public class Player : NetIdentity
   [System.NonSerialized]
   public bool isFendingOff;
   public Transform body;
-  public Transform head;
+
   [System.NonSerialized]
   public Animator animator;
   public WeaponController weaponController;
@@ -25,6 +25,9 @@ public class Player : NetIdentity
 
   [SerializeField]
   Transform _rightFoot;
+
+  [Space]
+  public MeleeCollider meleeCollider;
 
   [Space]
   [SerializeField]
@@ -76,6 +79,8 @@ public class Player : NetIdentity
       _dotSightController.SetPlayer(this);
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
+      // Player's local mask is excepted to the self-interactions.
+      this.gameObject.layer = LayerMask.NameToLayer("PlayerLocal");
       this.maxLife = this.currentLife = this.life = 1000f;
       // _footstepSoundFx.volume = sprintVolume;
       _locker.RegisterLock("Explosion");

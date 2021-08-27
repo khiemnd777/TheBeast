@@ -26,6 +26,7 @@ public class NetWeaponController : MonoBehaviour
         case "melee_does_action":
           {
             DoActionOnMelee();
+            meleeHolderController.HoldTriggers();
           }
           break;
         case "shield_does_action":
