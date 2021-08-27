@@ -279,31 +279,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 90
-  range: 3
-  size: 0.25
+  range: 2.1
+  size: 0.8
   layerMask:
     serializedVersion: 2
     m_Bits: 512
-  slashQueue2:
-  - delayRateOnCollision: 0.25
-    animationClip: {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
-  - delayRateOnCollision: 0.125
-    animationClip: {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
-  - delayRateOnCollision: 0.5
-    animationClip: {fileID: 7400000, guid: a39f38a3b84ad4ba79ff777c8435ca3d, type: 2}
-  - delayRateOnCollision: 0.75
-    animationClip: {fileID: 7400000, guid: e3d3a0357e0b340209af8b061fada7f4, type: 2}
   commonStyleAnim: {fileID: 7400000, guid: bd115e89449cb4d79b83e321b4b448cd, type: 2}
+  slashQueue2:
+  - damage: 90
+    delayRateOnCollision: 0.25
+    animationClip: {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
+  - damage: 60
+    delayRateOnCollision: 0.125
+    animationClip: {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
+  - damage: 120
+    delayRateOnCollision: 0.5
+    animationClip: {fileID: 7400000, guid: a39f38a3b84ad4ba79ff777c8435ca3d, type: 2}
+  - damage: 150
+    delayRateOnCollision: 0.75
+    animationClip: {fileID: 7400000, guid: e3d3a0357e0b340209af8b061fada7f4, type: 2}
   freezedTime: 0.2
   hitback: 1
   meleeAnimatorController: {fileID: 9100000, guid: d3dcbe5e20a404c2191d57612313a28f,
     type: 2}
   _trail: {fileID: 96034581088180826}
-  slashQueue:
-  - {fileID: 7400000, guid: c6a2a2697665845aa9cdf1fda757606f, type: 2}
-  - {fileID: 7400000, guid: e1641b2ef040849a999739a32d98c072, type: 2}
-  - {fileID: 7400000, guid: a39f38a3b84ad4ba79ff777c8435ca3d, type: 2}
-  - {fileID: 7400000, guid: e3d3a0357e0b340209af8b061fada7f4, type: 2}
 --- !u!65 &65343621949363830
 BoxCollider:
   m_ObjectHideFlags: 0

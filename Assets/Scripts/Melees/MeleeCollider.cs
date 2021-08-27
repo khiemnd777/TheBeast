@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MeleeCollider : MonoBehaviour
@@ -9,11 +10,25 @@ public class MeleeCollider : MonoBehaviour
   public LayerMask layerMask;
   bool _isSetup;
 
-  void FixedUpdate()
+  public void Collide(float damagePoint, float freezedTime, float hitbackPoint)
   {
     if (_isSetup)
     {
       var colliders = Physics.OverlapSphere(this.transform.position, size, layerMask);
+      if (colliders.Any())
+      {
+        foreach (var collider in colliders)
+        {
+          var otherPlayer = collider.GetComponent<Player>();
+          if (otherPlayer)
+          {
+            var impactedPositionNormalized = collider.ClosestPointOnBounds(transform.position);
+            var impactedPoint = impactedPositionNormalized;
+            impactedPositionNormalized.Normalize();
+            otherPlayer.OnHittingUp(damagePoint, freezedTime, hitbackPoint, impactedPoint, impactedPositionNormalized, true);
+          }
+        }
+      }
     }
   }
 

@@ -11,10 +11,12 @@ public class NetMelee : MonoBehaviour
   public LayerMask layerMask;
 
   [Space]
-  public List<MeleeActionQueue> slashQueue2;
-
   [SerializeField]
   protected AnimationClip commonStyleAnim;
+
+  [Space]
+  public List<MeleeActionQueue> slashQueue2;
+
 
   [Space]
   public float freezedTime;
@@ -34,7 +36,7 @@ public class NetMelee : MonoBehaviour
   int _slashQueueIndex;
   float _startTriggerTime;
   float _endTriggerTime;
-  MeleeActionQueue _currentSlash;
+  MeleeActionQueue _currentMeleeActionQueue;
 
   // public virtual IEnumerator HoldTrigger()
   // {
@@ -48,7 +50,7 @@ public class NetMelee : MonoBehaviour
     var resetFirstSlash = _triggerDistanceTime > .3f;
     if (resetFirstSlash)
     {
-      _currentSlash = slashQueue2[0];
+      _currentMeleeActionQueue = slashQueue2[0];
       _slashQueueIndex = 0;
     }
     else
@@ -58,25 +60,41 @@ public class NetMelee : MonoBehaviour
       {
         _slashQueueIndex = 0;
       }
-      _currentSlash = slashQueue2[_slashQueueIndex];
+      _currentMeleeActionQueue = slashQueue2[_slashQueueIndex];
     }
     // Katana trigger to server and another clients.
-    netIdentity.EmitMessage("melee_trigger", new KatanaSlashJson
+    netIdentity.EmitMessage("melee_trigger", new MeleeSlashJson
     {
       slashQueueIndex = _slashQueueIndex
     });
     this.player.locker.Lock("MeleeAction");
     playerAnimator.runtimeAnimatorController = meleeAnimatorController;
+    OnBeforePlayAnimation();
     anyAction = true;
     hand.enabled = false;
-    OnBeforePlayAnimation();
-    playerAnimator.Play(_currentSlash.animationClip.name, 0);
-    yield return new WaitForSeconds(_currentSlash.animationClip.length);
+
+    // Call collider while play the animation
+    // StartCoroutine(OnColliding(_currentMeleeActionQueue));
+
+    // Player animation.
+    playerAnimator.Play(_currentMeleeActionQueue.animationClip.name, 0);
+    yield return new WaitForSeconds(_currentMeleeActionQueue.animationClip.length);
+
     _endTriggerTime = Time.time;
     anyAction = false;
     hand.enabled = true;
     OnAfterPlayAnimation();
     this.player.locker.Unlock("MeleeAction");
+  }
+
+  IEnumerator OnColliding(MeleeActionQueue meleeActionQueue)
+  {
+    yield return new WaitForFixedUpdate();
+    if (player.meleeCollider)
+    {
+      yield return new WaitForSeconds(meleeActionQueue.animationClip.length * meleeActionQueue.delayRateOnCollision);
+      player.meleeCollider.Collide(meleeActionQueue.damage, freezedTime, hitback);
+    }
   }
 
   public virtual void OnBeforePlayAnimation()
@@ -128,7 +146,7 @@ public class NetMelee : MonoBehaviour
 
   public virtual void Awake()
   {
-    
+
   }
 
   public virtual void OnPostInstantiated()
@@ -147,7 +165,7 @@ public class NetMelee : MonoBehaviour
         {
           if (!netIdentity.isLocal)
           {
-            var dataJson = Utility.Deserialize<KatanaSlashJson>(message);
+            var dataJson = Utility.Deserialize<MeleeSlashJson>(message);
             anyAction = true;
             hand.enabled = false;
             playerAnimator = player.animator;
@@ -165,9 +183,17 @@ public class NetMelee : MonoBehaviour
   {
     if (slashQueueIndex < slashQueue2.Count)
     {
-      _currentSlash = slashQueue2[slashQueueIndex];
-      playerAnimator.Play(_currentSlash.animationClip.name, 0);
-      yield return new WaitForSeconds(_currentSlash.animationClip.length);
+      _currentMeleeActionQueue = slashQueue2[slashQueueIndex];
+
+      if (netIdentity.isServer)
+      {
+        // Call collider while play the animation
+        StartCoroutine(OnColliding(_currentMeleeActionQueue));
+      }
+
+      // Play animation
+      playerAnimator.Play(_currentMeleeActionQueue.animationClip.name, 0);
+      yield return new WaitForSeconds(_currentMeleeActionQueue.animationClip.length);
     }
     anyAction = false;
     hand.enabled = true;
@@ -215,7 +241,15 @@ public class NetMelee : MonoBehaviour
 [System.Serializable]
 public struct MeleeActionQueue
 {
+  public float damage;
+
   [Range(0, 1)]
   public float delayRateOnCollision;
+
   public AnimationClip animationClip;
+}
+
+public struct MeleeSlashJson
+{
+  public int slashQueueIndex;
 }
