@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 114926467534503532}
   - component: {fileID: 81561896755273322}
   - component: {fileID: 1444438182}
+  - component: {fileID: 926365709796925870}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -84,6 +85,7 @@ Transform:
   - {fileID: 4638004554132482}
   - {fileID: 4920601870792432}
   - {fileID: 4694305975491992}
+  - {fileID: 2457734263531184587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -159,21 +161,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3d6c5ee210c2b438acc61e948fe54e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprintSpeed: 3.8
-  walkSpeed: 3.8
-  sprintVolume: 0.09
-  walkVolume: 0.09
-  body: {fileID: 4638004554132482}
   weaponController: {fileID: 0}
-  _foots: {fileID: 4920601870792432}
-  _leftFoot: {fileID: 4568847482821162}
-  _rightFoot: {fileID: 4300715290258162}
   meleeCollider: {fileID: 3087823061401850823}
   _playerBlood: {fileID: 114367984338432462, guid: 0ae25e8fb1bd29849af5e6c3c5746ce9,
     type: 3}
   _playerSlashBlood: {fileID: 114319558123064554, guid: bd995b0ef0a8b4949b4b19682620eb17,
     type: 3}
-  _footstepSoundFx: {fileID: 82049890166464758}
 --- !u!81 &81561896755273322
 AudioListener:
   m_ObjectHideFlags: 0
@@ -201,6 +194,34 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &926365709796925870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042711476360370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c695b626f414433baab4f7fb0a55c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 6.72
+  viewAngle: 47
+  affectedTransform: {fileID: 4638004554132482}
+  referredAngle: 90
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 512
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  visibleTargets: []
+  meshResolution: 1
+  edgeResolveIterations: 4
+  edgeDstThreshold: 0.5
+  maskCutawayDst: 0.1
+  viewMeshFilter: {fileID: 8771431596216573811}
 --- !u!1 &1056017847573556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,6 +1079,83 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!1 &2765892941781467519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2457734263531184587}
+  - component: {fileID: 8771431596216573811}
+  - component: {fileID: 2203995962026487937}
+  m_Layer: 9
+  m_Name: FOV Visualisation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2457734263531184587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765892941781467519}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4282247987286110}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8771431596216573811
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765892941781467519}
+  m_Mesh: {fileID: 0}
+--- !u!23 &2203995962026487937
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765892941781467519}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &3120478781763891533
 GameObject:
   m_ObjectHideFlags: 0
