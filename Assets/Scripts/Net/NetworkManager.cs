@@ -20,6 +20,7 @@ namespace Net
     public event Action<NetMessageJSON> onReceiveMessageJson;
     public event Action<NetCloneJSON> onBroadcastCloneEverywhereJson;
     public event Action<NetClientIdJSON> onRequestGettingPlayers;
+    public event Action onServerDisconnected;
 
     Settings _settings;
     ISocketWrapper _socket;
@@ -63,6 +64,7 @@ namespace Net
       {
         print("Connecting to server...");
         _socket.On(Constants.EVENT_CLIENT_REGISTER_FINISHED, OnClientRegisterFinished);
+        _socket.On(Constants.EVENT_SERVER_DISCONNECTED, OnServerDisconnected);
       }
       StartCoroutine(Connect());
     }
@@ -110,6 +112,15 @@ namespace Net
       if (onClientRegisterFinished != null)
       {
         onClientRegisterFinished(dataJSON);
+      }
+    }
+
+    void OnServerDisconnected(SocketEvent evt)
+    {
+      Debug.Log("Disconnected from server.");
+      if (onServerDisconnected != null)
+      {
+        onServerDisconnected();
       }
     }
 

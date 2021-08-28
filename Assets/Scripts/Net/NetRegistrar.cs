@@ -240,7 +240,23 @@ namespace Net
       var isLocalPlayer = clientId.Equals(_networkManager.clientId.ToString());
       if (isLocalPlayer)
       {
-        return CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife);
+        var locally = CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife);
+        if (locally)
+        {
+          socket.Emit(Constants.EVENT_LOCALLY_REGISTER_FINISHED,
+          new NetObjectJSON(
+            clientId,
+            locally.id,
+            prefabName,
+            netName,
+            locally.life,
+            locally.maxLife,
+            Point.FromVector3(locally.transform.position),
+            locally.transform.rotation
+          )
+        );
+        }
+        return locally;
       }
       return CreateClientOther(prefabName, clientId, netName, id, position, rotation, life, maxLife);
     }
