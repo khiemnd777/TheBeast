@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class FieldOfViewUtility
 {
-  public static Vector3 DirectionFromAngle(Transform transform, float angleInDegrees, bool angleIsGlobal, FieldOfViewDirection direction = FieldOfViewDirection.up)
+  public static Vector3 DirectionFromAngle(Transform transform, float angleInDegrees, bool angleIsGlobal)
   {
     if (!angleIsGlobal)
     {

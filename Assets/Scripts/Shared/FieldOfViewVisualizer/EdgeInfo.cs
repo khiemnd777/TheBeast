@@ -11,7 +11,7 @@ public struct EdgeInfo
     this.pointB = pointB;
   }
 
-  public static EdgeInfo FindEdge(Transform transform, ViewCastInfo minViewCast, ViewCastInfo maxViewCast, float viewRadius, int edgeResolveIterations, float edgeDstThreshold, float referredAngle, LayerMask obstacleMask)
+  public static EdgeInfo FindEdge(Transform transform, ViewCastInfo minViewCast, ViewCastInfo maxViewCast, float viewRadius, int edgeResolveIterations, float edgeDstThreshold, float referredAngle, LayerMask obstacleMask, bool angleIsGlobal)
   {
     var minAngle = minViewCast.angle;
     var maxAngle = maxViewCast.angle;
@@ -20,8 +20,8 @@ public struct EdgeInfo
 
     for (var i = 0; i < edgeResolveIterations; i++)
     {
-      var angle = (minAngle + maxAngle) / 2 + referredAngle;
-      var newViewCast = ViewCastInfo.GetViewCast(transform, angle, viewRadius, obstacleMask, false);
+      var angle = (minAngle + maxAngle) / 2;
+      var newViewCast = ViewCastInfo.GetViewCast(transform, angle, viewRadius, obstacleMask, angleIsGlobal);
 
       var edgeDstThresholdExceeded = Mathf.Abs(minViewCast.distance - newViewCast.distance) > edgeDstThreshold;
       if (newViewCast.hit == minViewCast.hit && !edgeDstThresholdExceeded)

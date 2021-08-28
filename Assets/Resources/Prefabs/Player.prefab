@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 114926467534503532}
   - component: {fileID: 81561896755273322}
   - component: {fileID: 1444438182}
-  - component: {fileID: 926365709796925870}
+  - component: {fileID: 7262596460278719058}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -85,7 +85,6 @@ Transform:
   - {fileID: 4638004554132482}
   - {fileID: 4920601870792432}
   - {fileID: 4694305975491992}
-  - {fileID: 2457734263531184587}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,7 +193,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &926365709796925870
+--- !u!114 &7262596460278719058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,8 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c695b626f414433baab4f7fb0a55c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 6.72
-  viewAngle: 47
+  viewRadius: 12
+  viewAngle: 60
   affectedTransform: {fileID: 4638004554132482}
   referredAngle: 90
   targetMask:
@@ -219,7 +218,7 @@ MonoBehaviour:
   visibleTargets: []
   meshResolution: 1
   edgeResolveIterations: 4
-  edgeDstThreshold: 0.5
+  edgeDstThreshold: 0.4
   maskCutawayDst: 0.1
   viewMeshFilter: {fileID: 8771431596216573811}
 --- !u!1 &1056017847573556
@@ -918,6 +917,7 @@ Transform:
   - {fileID: 4953064695362700}
   - {fileID: 4883832106839028}
   - {fileID: 1324989424027411777}
+  - {fileID: 2457734263531184587}
   m_Father: {fileID: 4282247987286110}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1104,12 +1104,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2765892941781467519}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4282247987286110}
-  m_RootOrder: 3
+  m_Father: {fileID: 4638004554132482}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8771431596216573811
 MeshFilter:
@@ -1136,7 +1136,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: ceb7366694417a44194ac9bc00f1e40e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

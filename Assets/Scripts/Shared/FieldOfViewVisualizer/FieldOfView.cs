@@ -85,15 +85,15 @@ public class FieldOfView : MonoBehaviour
     var oldViewCast = new ViewCastInfo();
     for (var i = 0; i <= stepCount; i++)
     {
-      var angle = affectedTransform.eulerAngles.y - (viewAngle / 2 - referredAngle) + stepAngleSize * i;
-      var newViewCast = ViewCastInfo.GetViewCast(affectedTransform, angle, viewRadius, obstacleMask, false);
+      var angle = affectedTransform.eulerAngles.y - (viewAngle / 2) + stepAngleSize * i;
+      var newViewCast = ViewCastInfo.GetViewCast(affectedTransform, angle + referredAngle, viewRadius, obstacleMask, true);
 
       if (i > 0)
       {
         var edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.distance - newViewCast.distance) > edgeDstThreshold;
         if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThresholdExceeded))
         {
-          var edge = EdgeInfo.FindEdge(affectedTransform, oldViewCast, newViewCast, viewRadius, edgeResolveIterations, edgeDstThreshold, -referredAngle, obstacleMask);
+          var edge = EdgeInfo.FindEdge(affectedTransform, oldViewCast, newViewCast, viewRadius, edgeResolveIterations, edgeDstThreshold, referredAngle, obstacleMask, true);
           if (edge.pointA != Vector3.zero)
           {
             viewPoints.Add(edge.pointA);
