@@ -79,8 +79,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042711476360370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.5, y: 0, z: -0.35}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalPosition: {x: 8.5, y: 0.2, z: -0.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4638004554132482}
   - {fileID: 4920601870792432}
@@ -147,7 +147,7 @@ CapsuleCollider:
   m_Radius: 0.69457835
   m_Height: 0
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &114926467534503532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,8 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3d6c5ee210c2b438acc61e948fe54e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponController: {fileID: 0}
+  weaponController: {fileID: 6320884318204845869}
   meleeCollider: {fileID: 3087823061401850823}
+  fieldOfView: {fileID: 7262596460278719058}
   _playerBlood: {fileID: 114367984338432462, guid: 0ae25e8fb1bd29849af5e6c3c5746ce9,
     type: 3}
   _playerSlashBlood: {fileID: 114319558123064554, guid: bd995b0ef0a8b4949b4b19682620eb17,
@@ -205,8 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c695b626f414433baab4f7fb0a55c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 12
+  viewRadius: 16
   viewAngle: 60
+  direction: 5
   affectedTransform: {fileID: 4638004554132482}
   referredAngle: 90
   targetMask:
@@ -221,6 +223,7 @@ MonoBehaviour:
   edgeDstThreshold: 0.4
   maskCutawayDst: 0.1
   viewMeshFilter: {fileID: 8771431596216573811}
+  detectedLeaveCollider: {fileID: 7592959281665266318}
 --- !u!1 &1056017847573556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,6 +1093,7 @@ GameObject:
   - component: {fileID: 2457734263531184587}
   - component: {fileID: 8771431596216573811}
   - component: {fileID: 2203995962026487937}
+  - component: {fileID: 7592959281665266318}
   m_Layer: 9
   m_Name: FOV Visualisation
   m_TagString: Untagged
@@ -1156,6 +1160,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!135 &7592959281665266318
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765892941781467519}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3120478781763891533
 GameObject:
   m_ObjectHideFlags: 0

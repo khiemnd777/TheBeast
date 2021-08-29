@@ -1,24 +1,21 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Net;
 using UnityEngine;
 
-public class Player : NetIdentity
+public class Player : NetIdentity, IFieldOfViewVisualizer
 {
   [System.NonSerialized]
   public bool isFendingOff;
 
   [System.NonSerialized]
   public Animator animator;
-  public WeaponController weaponController;
-
-  [Space]
+  public NetWeaponController weaponController;
   public MeleeCollider meleeCollider;
+  public FieldOfView fieldOfView;
 
   [System.NonSerialized]
   public float gunWeightIncrement = 1f;
 
-  [Space]
   [SerializeField]
   Blood _playerBlood;
 
@@ -45,12 +42,14 @@ public class Player : NetIdentity
     _audioListener.enabled = false;
     animator = GetComponent<Animator>();
     animator.enabled = false;
+    fieldOfView.enabled = false;
     if (isServer)
     {
       this.maxLife = this.currentLife = this.life = 1000f;
     }
     if (isLocal)
     {
+      fieldOfView.enabled = true;
       _audioListener.enabled = true;
       _cameraController = FindObjectOfType<CameraController>();
       _cameraController.SetTarget(this.transform);
@@ -219,6 +218,16 @@ public class Player : NetIdentity
   {
     yield return new WaitForSeconds(freezedTime);
     _locker.Unlock(lockName);
+  }
+
+  public void OnTargetEnterFov()
+  {
+    Debug.Log("Target entered!");
+  }
+
+  public void OnTargetLeaveFov()
+  {
+    Debug.Log("Target left!");
   }
 }
 

@@ -7,6 +7,7 @@ public class FieldOfViewEditor : Editor
   void OnSceneGUI()
   {
     var fov = (FieldOfView)target;
+    if (!fov.enabled) return;
     var fovTransform = fov.affectedTransform;
     var referredAngle = fov.referredAngle;
 

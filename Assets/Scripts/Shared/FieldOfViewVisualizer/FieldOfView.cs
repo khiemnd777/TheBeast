@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
@@ -7,6 +8,8 @@ public class FieldOfView : MonoBehaviour
   public float viewRadius;
   [Range(0, 360)]
   public float viewAngle;
+
+  public FieldOfViewDirection direction;
 
   [Space]
   public Transform affectedTransform;
@@ -28,6 +31,8 @@ public class FieldOfView : MonoBehaviour
   public float maskCutawayDst = .1f;
 
   public MeshFilter viewMeshFilter;
+
+  public SphereCollider detectedLeaveCollider;
   Mesh viewMesh;
 
   void Start()
@@ -55,25 +60,72 @@ public class FieldOfView : MonoBehaviour
   void LateUpdate()
   {
     DrawFieldOfView();
+    // Set radius for detected leave collder
+    if (detectedLeaveCollider)
+    {
+      detectedLeaveCollider.radius = viewRadius;
+    }
+  }
+
+  void OnTriggerExit(Collider other)
+  {
+    var fov = other.GetComponent<IFieldOfViewVisualizer>() ?? other.GetComponentInParent<IFieldOfViewVisualizer>();
+    if (fov != null)
+    {
+      fov.OnTargetLeaveFov();
+    }
   }
 
   void FindVisibleTargets()
   {
     visibleTargets.Clear();
     var targetsInViewRadius = Physics.OverlapSphere(affectedTransform.position, viewRadius, targetMask);
-
     for (var i = 0; i < targetsInViewRadius.Length; i++)
     {
       var target = targetsInViewRadius[i].transform;
       var dirToTarget = (target.position - affectedTransform.position).normalized;
-      if (Vector3.Angle(affectedTransform.forward, dirToTarget) < viewAngle / 2)
+      var targetAngle = viewAngle / 2;
+      if (Vector3.Angle(GetAffectedTransformDirection(direction), dirToTarget) < targetAngle)
       {
         var dstToTarget = Vector3.Distance(affectedTransform.position, target.position);
         if (!Physics.Raycast(affectedTransform.position, dirToTarget, dstToTarget, obstacleMask))
         {
+          var fov = target.GetComponent<IFieldOfViewVisualizer>() ?? target.GetComponentInParent<IFieldOfViewVisualizer>();
+          if (fov != null)
+          {
+            fov.OnTargetEnterFov();
+          }
           visibleTargets.Add(target);
         }
       }
+      else
+      {
+        var fov = target.GetComponent<IFieldOfViewVisualizer>() ?? target.GetComponentInParent<IFieldOfViewVisualizer>();
+        if (fov != null)
+        {
+          fov.OnTargetLeaveFov();
+        }
+      }
+    }
+  }
+
+  Vector3 GetAffectedTransformDirection(FieldOfViewDirection direction)
+  {
+    switch (direction)
+    {
+      case FieldOfViewDirection.right:
+        {
+          return affectedTransform.right;
+        }
+      case FieldOfViewDirection.up:
+        {
+          return affectedTransform.up;
+        }
+      case FieldOfViewDirection.forward:
+      default:
+        {
+          return affectedTransform.forward;
+        }
     }
   }
 
