@@ -24,6 +24,8 @@ public class FieldOfView : MonoBehaviour
   [HideInInspector]
   public List<Transform> visibleTargets = new List<Transform>();
 
+  [Space]
+  public float delayFindingTargets = .2f;
   public float meshResolution;
   public int edgeResolveIterations;
   public float edgeDstThreshold;
@@ -45,7 +47,7 @@ public class FieldOfView : MonoBehaviour
     viewMesh.name = "View Mesh";
     viewMeshFilter.mesh = viewMesh;
 
-    StartCoroutine("FindTargetsWithDelay", .2f);
+    StartCoroutine("FindTargetsWithDelay", delayFindingTargets);
   }
 
   IEnumerator FindTargetsWithDelay(float delay)
@@ -90,22 +92,30 @@ public class FieldOfView : MonoBehaviour
         var dstToTarget = Vector3.Distance(affectedTransform.position, target.position);
         if (!Physics.Raycast(affectedTransform.position, dirToTarget, dstToTarget, obstacleMask))
         {
-          var fov = target.GetComponent<IFieldOfViewVisualizer>() ?? target.GetComponentInParent<IFieldOfViewVisualizer>();
-          if (fov != null)
-          {
-            fov.OnTargetEnterFov();
-          }
+          OnTargetEnterFov(target);
           visibleTargets.Add(target);
+          continue;
         }
       }
-      else
-      {
-        var fov = target.GetComponent<IFieldOfViewVisualizer>() ?? target.GetComponentInParent<IFieldOfViewVisualizer>();
-        if (fov != null)
-        {
-          fov.OnTargetLeaveFov();
-        }
-      }
+      OnTargetLeaveFov(target);
+    }
+  }
+
+  void OnTargetEnterFov(Transform target)
+  {
+    var fov = target.GetComponent<IFieldOfViewVisualizer>() ?? target.GetComponentInParent<IFieldOfViewVisualizer>();
+    if (fov != null)
+    {
+      fov.OnTargetEnterFov();
+    }
+  }
+
+  void OnTargetLeaveFov(Transform target)
+  {
+    var fov = target.GetComponent<IFieldOfViewVisualizer>() ?? target.GetComponentInParent<IFieldOfViewVisualizer>();
+    if (fov != null)
+    {
+      fov.OnTargetLeaveFov();
     }
   }
 

@@ -228,13 +228,11 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
 
   public void OnTargetEnterFov()
   {
-    Debug.Log("Target entered!");
     _body.gameObject.SetActive(true);
   }
 
   public void OnTargetLeaveFov()
   {
-    Debug.Log("Target left!");
     _body.gameObject.SetActive(false);
   }
 }
