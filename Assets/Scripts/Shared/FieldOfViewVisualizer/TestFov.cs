@@ -10,7 +10,6 @@ public class TestFov : MonoBehaviour, IFieldOfViewVisualizer
     {
       target.GetComponent<Renderer>().enabled = true;
     }
-    Debug.Log("Object entered!");
   }
 
   public void OnTargetLeaveFov()
@@ -19,6 +18,5 @@ public class TestFov : MonoBehaviour, IFieldOfViewVisualizer
     {
       target.GetComponent<Renderer>().enabled = false;
     }
-    Debug.Log("Object left!");
   }
 }

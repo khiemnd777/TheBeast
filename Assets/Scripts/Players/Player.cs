@@ -23,6 +23,10 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   Blood _playerSlashBlood;
 
   [Space]
+  [SerializeField]
+  Transform _body;
+
+  [Space]
   AudioListener _audioListener;
   DotSightController _dotSightController;
   DotSight _dotSight;
@@ -43,12 +47,14 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     animator = GetComponent<Animator>();
     animator.enabled = false;
     fieldOfView.enabled = false;
+    _body.gameObject.SetActive(false);
     if (isServer)
     {
       this.maxLife = this.currentLife = this.life = 1000f;
     }
     if (isLocal)
     {
+      _body.gameObject.SetActive(true);
       fieldOfView.enabled = true;
       _audioListener.enabled = true;
       _cameraController = FindObjectOfType<CameraController>();
@@ -223,11 +229,13 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   public void OnTargetEnterFov()
   {
     Debug.Log("Target entered!");
+    _body.gameObject.SetActive(true);
   }
 
   public void OnTargetLeaveFov()
   {
     Debug.Log("Target left!");
+    _body.gameObject.SetActive(false);
   }
 }
 
