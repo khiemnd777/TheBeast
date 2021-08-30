@@ -17,6 +17,10 @@ public class CuriousListener : MonoBehaviour
     {
       affectedTransform = transform;
     }
+  }
+
+  public void Listen()
+  {
     StartCoroutine("ListenFootstepWithDelay", delayListeningFootstep);
   }
 

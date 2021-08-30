@@ -5,6 +5,9 @@ namespace Net
   [RequireComponent(typeof(NetIdentity), typeof(NetTransform))]
   public class NetPlayerController : MonoBehaviour
   {
+    [SerializeField]
+    Player _player;
+    
     public float initSpeed = 2f;
     [Range(0f, 1f)]
     public float sprintSpeed = 1f;
@@ -16,11 +19,14 @@ namespace Net
     SpeedCalculator _speedCalculator;
     Transform _cachedTransform;
 
+
+    [Space]
     [SerializeField]
     CuriousGenerator _curiousGenerator;
 
     [SerializeField]
-    Player _player;
+    CuriousListener _curiousListener;
+
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -52,6 +58,9 @@ namespace Net
         {
           _netIdentity.EmitMessage("footstep_generate", null);
         };
+
+        // Listen to the curiosity.
+        _curiousListener.Listen();
       }
       if (_netIdentity.isClient)
       {
