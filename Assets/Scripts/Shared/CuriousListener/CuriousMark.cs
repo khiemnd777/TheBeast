@@ -1,26 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Footstep : MonoBehaviour
+public class CuriousMark : MonoBehaviour
 {
-  public float radius;
-  public float lifetime = 4f;
-  public SphereCollider footstepCollider;
-
-  [Space]
   [SerializeField]
   Transform _mark;
   [SerializeField]
   float _timeMarkPerforming = .5f;
 
+  [SerializeField]
+  float _lifetime = 4f;
+
   void Start()
   {
-    if (footstepCollider)
-    {
-      footstepCollider.radius = radius;
-    }
     StartCoroutine("PerformMark", _timeMarkPerforming);
-    Destroy(gameObject, lifetime);
+    Destroy(gameObject, _lifetime);
   }
 
   IEnumerator PerformMark(float timeMarkPerforming)

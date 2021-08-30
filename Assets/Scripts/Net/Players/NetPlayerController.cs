@@ -17,6 +17,9 @@ namespace Net
     Transform _cachedTransform;
 
     [SerializeField]
+    CuriousGenerator _curiousGenerator;
+
+    [SerializeField]
     Player _player;
 
     /// <summary>
@@ -43,6 +46,23 @@ namespace Net
         _speedCalculator
           .SetSpeedValues(initSpeed, sprintSpeed, walkSpeed)
           .SetSpeedType(SpeedType.Sprint);
+
+        // Emit this event after the footstep generated.
+        _curiousGenerator.onAfterGenerate += () =>
+        {
+          _netIdentity.EmitMessage("footstep_generate", null);
+        };
+      }
+      if (_netIdentity.isClient)
+      {
+        _netIdentity.onMessageReceived += (eventName, eventMessage) =>
+        {
+          if (eventName == "footstep_generate")
+          {
+            // Generate the footstep
+            _curiousGenerator.Generate();
+          }
+        };
       }
     }
 
@@ -83,6 +103,9 @@ namespace Net
         if (!_player.locker.IsLocked())
         {
           _netTransform.Velocity(_movingCalculator.direction, _speedCalculator.speed);
+
+          // Generate the footstep
+          _curiousGenerator.Generate();
         }
       }
     }
