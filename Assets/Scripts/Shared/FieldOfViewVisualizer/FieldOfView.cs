@@ -71,11 +71,7 @@ public class FieldOfView : MonoBehaviour
 
   void OnTriggerExit(Collider other)
   {
-    var fov = other.GetComponent<IFieldOfViewVisualizer>() ?? other.GetComponentInParent<IFieldOfViewVisualizer>();
-    if (fov != null)
-    {
-      fov.OnTargetLeaveFov();
-    }
+    OnTargetLeaveFov(other.transform);
   }
 
   void FindVisibleTargets()
