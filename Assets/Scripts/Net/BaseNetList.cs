@@ -62,6 +62,15 @@ namespace Net
     }
 
     /// <summary>
+    /// Remove a player that exists on the list.
+    /// </summary>
+    /// <param name="id"></param>
+    public virtual void Remove(T obj)
+    {
+      Remove(obj.id);
+    }
+
+    /// <summary>
     /// Clear all of the players on the list.
     /// </summary>
     public virtual void Clear()

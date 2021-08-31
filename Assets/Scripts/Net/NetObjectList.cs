@@ -33,13 +33,13 @@ namespace Net
     /// <param name="dataJSON"></param>
     void OnOtherDisconnected(NetObjectJSON dataJSON)
     {
-      var playerId = dataJSON.id;
+      var objId = dataJSON.id;
       // Get matched player by id then destroy him and remove out of the list.
-      var matchedPlayer = Find(playerId);
-      if (matchedPlayer)
+      var matchedObj = Find(objId);
+      if (matchedObj)
       {
-        Remove(playerId);
-        Destroy(matchedPlayer.gameObject);
+        Remove(objId);
+        Destroy(matchedObj.gameObject);
       }
     }
 

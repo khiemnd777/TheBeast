@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : NetIdentity, IFieldOfViewVisualizer
 {
+  public event System.Action onDead;
+
   [System.NonSerialized]
   public bool isFendingOff;
 
@@ -22,6 +24,9 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   [SerializeField]
   Blood _playerSlashBlood;
 
+  [SerializeField]
+  Blood _playerDead;
+
   [Space]
   [SerializeField]
   Transform _body;
@@ -33,6 +38,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   Rigidbody _rigidbody;
   Settings _settings;
   CameraController _cameraController;
+  NetRegistrar _netRegistrar;
 
   Locker _locker = new Locker();
   public Locker locker { get { return _locker; } }
@@ -40,6 +46,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   protected override void Start()
   {
     base.Start();
+    _netRegistrar = FindObjectOfType<NetRegistrar>();
     _rigidbody = GetComponent<Rigidbody>();
     _settings = Settings.instance;
     _audioListener = GetComponent<AudioListener>();
@@ -98,6 +105,24 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
           );
           return;
         }
+        if (eventName == "player_dead")
+        {
+          var hittedObjJson = Utility.Deserialize<HittedObjectJson>(eventMessage);
+          // Dead effect.
+          Blood.BleedOutAtPoint(_playerDead,
+            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition),
+            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.impactedPosition)
+          );
+          _netRegistrar.Disenroll(this);
+          if (isLocal)
+          {
+            if (onDead != null)
+            {
+              onDead();
+            }
+          }
+          Destroy(gameObject, .1f);
+        }
       };
     }
   }
@@ -135,8 +160,17 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       life -= damagePoint;
       if (lifeEnd)
       {
-        Debug.Log($"{clientId} is dead!");
         // Dead!
+        Debug.Log($"{clientId} is dead!");
+        EmitMessage("player_dead", new HittedObjectJson
+        {
+          impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
+          normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
+        });
+        // Dead effect.
+        Blood.BleedOutAtPoint(_playerDead, normalizedImpactedPosition, impactedPosition);
+        _netRegistrar.Disenroll(this);
+        Destroy(gameObject, .1f);
         return;
       }
       EmitMessage("object_hitted", new HittedObjectJson

@@ -125,6 +125,11 @@ namespace Net
       socket.Emit(Constants.EVENT_REGISTER, new NetRegisterJSON(_networkManager.clientId.ToString(), prefabName, netName));
     }
 
+    public void Disenroll(NetIdentity netObj)
+    {
+      netObjectList.Remove(netObj);
+    }
+
     /// <summary>
     /// Create net player by prefab.
     /// </summary>
