@@ -7,7 +7,7 @@ namespace Net
   {
     [SerializeField]
     Player _player;
-    
+
     public float initSpeed = 2f;
     [Range(0f, 1f)]
     public float sprintSpeed = 1f;
@@ -47,7 +47,21 @@ namespace Net
 
       if (_netIdentity.isLocal)
       {
+        _curiousListener.curiousIdentity = _netIdentity.clientId;
+        _curiousGenerator.curiousIdentity = _netIdentity.clientId;
+
+        // Moving calculator
         _movingCalculator = new MovingCalculator(Point.FromVector3(_cachedTransform.position));
+        _movingCalculator.onMoving += () =>
+        {
+          if (_speedCalculator.speedType == SpeedType.Sprint)
+          {
+            // Generate the footstep
+            _curiousGenerator.Generate();
+          }
+        };
+
+        // Speed calculator
         _speedCalculator = new SpeedCalculator();
         _speedCalculator
           .SetSpeedValues(initSpeed, sprintSpeed, walkSpeed)
@@ -56,7 +70,7 @@ namespace Net
         // Emit this event after the footstep generated.
         _curiousGenerator.onAfterGenerate += () =>
         {
-          _netIdentity.EmitMessage("footstep_generate", null);
+          _netIdentity.EmitMessage("curious_generate", null);
         };
 
         // Listen to the curiosity.
@@ -66,7 +80,7 @@ namespace Net
       {
         _netIdentity.onMessageReceived += (eventName, eventMessage) =>
         {
-          if (eventName == "footstep_generate")
+          if (eventName == "curious_generate")
           {
             // Generate the footstep
             _curiousGenerator.Generate();
@@ -112,9 +126,6 @@ namespace Net
         if (!_player.locker.IsLocked())
         {
           _netTransform.Velocity(_movingCalculator.direction, _speedCalculator.speed);
-
-          // Generate the footstep
-          _curiousGenerator.Generate();
         }
       }
     }

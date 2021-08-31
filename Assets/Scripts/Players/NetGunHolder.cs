@@ -53,6 +53,7 @@ public class NetGunHolder : MonoBehaviour
       if (_netIdentity.isLocal)
       {
         _heldGun.TakeUpArm();
+        _heldGun.OnAfterTakenUpArm();
         _heldGun.OnProjectileLaunched += OnProjectileLaunched;
         _hand.maximumRange = _heldGun.gunHandType == GunHandType.OneHand ? 1.4f : .8f;
       }

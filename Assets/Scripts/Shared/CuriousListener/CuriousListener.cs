@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CuriousListener : MonoBehaviour
 {
+  [System.NonSerialized]
+  public string curiousIdentity;
+
   public float radius;
   public LayerMask targetMask;
   public float delayListeningFootstep;
@@ -32,7 +35,14 @@ public class CuriousListener : MonoBehaviour
       var targetsInRadius = Physics.OverlapSphere(affectedTransform.position, radius, targetMask);
       foreach (var target in targetsInRadius)
       {
-        Instantiate<CuriousMark>(markPrefab, target.transform.position, Quaternion.identity);
+        var curiosity = target.GetComponent<Curiosity>();
+        if (curiosity)
+        {
+          if (!curiosity.curiousIdentity.Equals(curiousIdentity))
+          {
+            Instantiate<CuriousMark>(markPrefab, target.transform.position, Quaternion.identity);
+          }
+        }
       }
     }
   }

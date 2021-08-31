@@ -130,12 +130,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adeccb8df463b4201a94b3ff9b89dbc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _player: {fileID: 114926467534503532}
   initSpeed: 4
   sprintSpeed: 1
   walkSpeed: 0.5
   _curiousGenerator: {fileID: 7848615830063396193}
   _curiousListener: {fileID: 5146929923958739119}
-  _player: {fileID: 114926467534503532}
 --- !u!136 &136874918869126214
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1233,6 +1233,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4638004554132482}
     m_Modifications:
+    - target: {fileID: 8261781092814649888, guid: da7bc43e27b92e84fb7bbf0d88747673,
+        type: 3}
+      propertyPath: curiousRadius
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_LocalPosition.x

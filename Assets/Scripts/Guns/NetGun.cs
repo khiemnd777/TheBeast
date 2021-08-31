@@ -13,6 +13,10 @@ public abstract class NetGun : MonoBehaviour
   public Shell shellPrefab;
   public Transform shellEjection;
 
+  [Header("Others")]
+  [SerializeField]
+  protected CuriousGenerator curiousGenerator;
+
   protected HolderSide holderSide = HolderSide.Right;
   protected Player player;
   protected NetIdentity netIdentity;
@@ -114,5 +118,13 @@ public abstract class NetGun : MonoBehaviour
   public void SetNetIdentity(NetIdentity netIdentity)
   {
     this.netIdentity = netIdentity;
+  }
+
+  public virtual void OnAfterTakenUpArm()
+  {
+    if (curiousGenerator)
+    {
+      curiousGenerator.curiousIdentity = netIdentity.clientId;
+    }
   }
 }

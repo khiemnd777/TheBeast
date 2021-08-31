@@ -49,14 +49,24 @@ public class NetPistol : NetGun
     _timeAvailableHoleTrigger = 0f;
     _availableHoldTrigger = false;
     // Launch the bullet
-    NetIdentity.InstantiateLocalAndEverywhere<NetBullet>("pistol_bullet", bulletPrefab, _projectile.position, _projectile.rotation, (netBullet) => {
+    NetIdentity.InstantiateLocalAndEverywhere<NetBullet>("pistol_bullet", bulletPrefab, _projectile.position, _projectile.rotation, (netBullet) =>
+    {
       return netBullet.CalculateBulletLifetime(dotSightPoint, _projectile.position);
     });
     DoesTriggerEffect();
+
+    // Generate curiosity
+    curiousGenerator.Generate();
+    
     _isHoldTrigger = true;
+
     // Emit message to trigger the pistol.
-    var eventName = holderSide == HolderSide.Left ? "left_pistol_trigger" : "right_pistol_trigger";
-    netIdentity.EmitMessage(eventName, null);
+    var pistolTriggerEventName = holderSide == HolderSide.Left ? "left_pistol_trigger" : "right_pistol_trigger";
+    netIdentity.EmitMessage(pistolTriggerEventName, null);
+
+    //  Emit message to generate curiosity.
+    var curiousGenerateEventName = holderSide == HolderSide.Left ? "left_curious_generate" : "right_curious_generate";
+    netIdentity.EmitMessage(curiousGenerateEventName, null);
   }
 
   void OnMessageReceived(string eventName, string message)
@@ -68,6 +78,14 @@ public class NetPistol : NetGun
     if (eventName == "right_pistol_trigger" && holderSide == HolderSide.Right)
     {
       DoesTriggerEffect();
+    }
+    if (eventName == "left_curious_generate" && holderSide == HolderSide.Left)
+    {
+      curiousGenerator.Generate();
+    }
+    if (eventName == "right_curious_generate" && holderSide == HolderSide.Right)
+    {
+      curiousGenerator.Generate();
     }
   }
 

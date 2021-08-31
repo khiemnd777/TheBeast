@@ -23,6 +23,14 @@ public struct Point
     }
   }
 
+  public float magnitude
+  {
+    get
+    {
+      return Magnitude(this);
+    }
+  }
+
   public void Normalize()
   {
     this = Normalize(this);
@@ -43,10 +51,16 @@ public struct Point
     return new Vector3(point.x, toVector3.y, point.y);
   }
 
-  public static Point Normalize(Point point)
+  public static float Magnitude(Point point)
   {
     var length = Mathf.Sqrt(point.x * point.x + point.y * point.y);
-    return length == 0 ? new Point(0, 0) : new Point(point.x / length, point.y / length);
+    return length;
+  }
+
+  public static Point Normalize(Point point)
+  {
+    var magnitude = Magnitude(point);
+    return magnitude == 0 ? new Point(0, 0) : new Point(point.x / magnitude, point.y / magnitude);
   }
 
   public static Point operator +(Point point1, Point point2)
