@@ -57,12 +57,14 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     _body.gameObject.SetActive(false);
     if (isServer)
     {
+      _body.gameObject.SetActive(true);
       this.maxLife = this.currentLife = this.life = 1000f;
     }
     if (isLocal)
     {
       _body.gameObject.SetActive(true);
       fieldOfView.enabled = true;
+      StartCoroutine(fieldOfView.FindTargets());
       _audioListener.enabled = true;
       _cameraController = FindObjectOfType<CameraController>();
       _cameraController.SetTarget(this.transform);
@@ -86,6 +88,10 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
           return;
         }
       };
+    }
+    if (!isLocal)
+    {
+      _rigidbody.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation;
     }
     if (isClient)
     {
@@ -167,8 +173,6 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
           impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
           normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
         });
-        // Dead effect.
-        Blood.BleedOutAtPoint(_playerDead, normalizedImpactedPosition, impactedPosition);
         _netRegistrar.Disenroll(this);
         Destroy(gameObject, .1f);
         return;

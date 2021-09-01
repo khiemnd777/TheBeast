@@ -56,17 +56,23 @@ public class NetPistol : NetGun
     DoesTriggerEffect();
 
     // Generate curiosity
-    curiousGenerator.Generate();
-    
+    curiousGenerator.Generate(curiousGenerator.curiousIdentity);
+
     _isHoldTrigger = true;
 
     // Emit message to trigger the pistol.
     var pistolTriggerEventName = holderSide == HolderSide.Left ? "left_pistol_trigger" : "right_pistol_trigger";
-    netIdentity.EmitMessage(pistolTriggerEventName, null);
+    netIdentity.EmitMessage(pistolTriggerEventName, new GeneratedCuriosityJson
+    {
+      identity = curiousGenerator.curiousIdentity
+    });
 
     //  Emit message to generate curiosity.
     var curiousGenerateEventName = holderSide == HolderSide.Left ? "left_curious_generate" : "right_curious_generate";
-    netIdentity.EmitMessage(curiousGenerateEventName, null);
+    netIdentity.EmitMessage(curiousGenerateEventName, new GeneratedCuriosityJson
+    {
+      identity = curiousGenerator.curiousIdentity
+    });
   }
 
   void OnMessageReceived(string eventName, string message)
@@ -81,11 +87,13 @@ public class NetPistol : NetGun
     }
     if (eventName == "left_curious_generate" && holderSide == HolderSide.Left)
     {
-      curiousGenerator.Generate();
+      var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
+      curiousGenerator.Generate(data.identity);
     }
     if (eventName == "right_curious_generate" && holderSide == HolderSide.Right)
     {
-      curiousGenerator.Generate();
+      var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
+      curiousGenerator.Generate(data.identity);
     }
   }
 

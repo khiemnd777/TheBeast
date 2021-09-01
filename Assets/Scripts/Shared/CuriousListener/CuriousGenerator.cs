@@ -25,14 +25,12 @@ public class CuriousGenerator : MonoBehaviour
     }
   }
 
-  public void Generate()
+  public void Generate(string curiousIdentity)
   {
     var targetsInRadius = Physics.OverlapSphere(affectedTransform.position, radius, targetMask);
     if (targetsInRadius.Length < 0 || targetsInRadius.All(target => !target))
     {
-      var curiositySpawnedPositionPredicted = Random.insideUnitSphere * (radius / 2);
-      var curiositySpawnedPosition = transform.position + new Vector3(curiositySpawnedPositionPredicted.x, 0f, curiositySpawnedPositionPredicted.z);
-      var curiosity = Instantiate<Curiosity>(curiousPrefab, curiositySpawnedPosition, Quaternion.identity);
+      var curiosity = Instantiate<Curiosity>(curiousPrefab, transform.position, Quaternion.identity);
       curiosity.curiousIdentity = curiousIdentity;
       curiosity.radius = curiousRadius;
       curiosity.lifetime = curiousLifetime;

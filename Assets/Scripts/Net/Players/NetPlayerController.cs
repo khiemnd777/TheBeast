@@ -57,7 +57,7 @@ namespace Net
           if (_speedCalculator.speedType == SpeedType.Sprint)
           {
             // Generate the footstep
-            _curiousGenerator.Generate();
+            _curiousGenerator.Generate(_curiousGenerator.curiousIdentity);
           }
         };
 
@@ -70,11 +70,14 @@ namespace Net
         // Emit this event after the footstep generated.
         _curiousGenerator.onAfterGenerate += () =>
         {
-          _netIdentity.EmitMessage("curious_generate", null);
+          _netIdentity.EmitMessage("curious_generate", new GeneratedCuriosityJson
+          {
+            identity = _curiousGenerator.curiousIdentity
+          });
         };
 
         // Listen to the curiosity.
-        _curiousListener.Listen();
+        StartCoroutine(_curiousListener.Listen());
       }
       if (_netIdentity.isClient)
       {
@@ -83,7 +86,8 @@ namespace Net
           if (eventName == "curious_generate")
           {
             // Generate the footstep
-            _curiousGenerator.Generate();
+            var data = Utility.Deserialize<GeneratedCuriosityJson>(eventMessage);
+            _curiousGenerator.Generate(data.identity);
           }
         };
       }

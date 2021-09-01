@@ -2,8 +2,6 @@
 
 public class NetKatana : NetMelee
 {
-  [SerializeField]
-  TrailRenderer _trail;
   SlowMotionMonitor _slowMotionMonitor;
   CameraShake _cameraShake;
 
@@ -20,23 +18,17 @@ public class NetKatana : NetMelee
       _slowMotionMonitor = FindObjectOfType<SlowMotionMonitor>();
       _cameraShake = FindObjectOfType<CameraShake>();
     }
-    if (netIdentity.isServer)
-    {
-      _trail.enabled = false;
-    }
     player.locker.RegisterLock("Katana");
   }
 
   public override void OnBeforePlayAnimation()
   {
     base.OnBeforePlayAnimation();
-    _trail.enabled = false;
   }
 
   public override void OnAfterPlayAnimation()
   {
     base.OnAfterPlayAnimation();
-    _trail.enabled = false;
   }
 
   public override void TakeUpArm(NetMeleeHolder holder, NetHand hand, Animator handAnimator)
@@ -47,7 +39,6 @@ public class NetKatana : NetMelee
 
   public override void KeepInCover()
   {
-    if (_trail) _trail.enabled = false;
     base.KeepInCover();
   }
 }

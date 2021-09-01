@@ -99,7 +99,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
@@ -169,6 +169,7 @@ MonoBehaviour:
     type: 3}
   _playerSlashBlood: {fileID: 114319558123064554, guid: bd995b0ef0a8b4949b4b19682620eb17,
     type: 3}
+  _playerDead: {fileID: 0}
   _body: {fileID: 4638004554132482}
 --- !u!81 &81561896755273322
 AudioListener:
@@ -1383,7 +1384,7 @@ PrefabInstance:
     - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
       propertyPath: visualizeOnGizmos
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}

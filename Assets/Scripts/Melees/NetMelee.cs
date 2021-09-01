@@ -170,7 +170,10 @@ public class NetMelee : MonoBehaviour
             hand.enabled = false;
             playerAnimator = player.animator;
             playerAnimator.runtimeAnimatorController = meleeAnimatorController;
-            StartCoroutine(OnMeleeTriggerAnim(dataJson.slashQueueIndex));
+            if (gameObject.activeInHierarchy)
+            {
+              StartCoroutine(OnMeleeTriggerAnim(dataJson.slashQueueIndex));
+            }
           }
         }
         break;

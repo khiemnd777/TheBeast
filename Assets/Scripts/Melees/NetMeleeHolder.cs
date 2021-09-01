@@ -65,7 +65,10 @@ public class NetMeleeHolder : MonoBehaviour
     if (heldMelee != null && heldMelee is Object && !heldMelee.Equals(null))
     {
       if (_isHoldingOn) return;
-      StartCoroutine(OnHoldingTrigger());
+      if (gameObject.activeInHierarchy)
+      {
+        StartCoroutine(OnHoldingTrigger());
+      }
     }
   }
 

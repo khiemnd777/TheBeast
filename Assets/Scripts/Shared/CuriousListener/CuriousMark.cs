@@ -19,11 +19,12 @@ public class CuriousMark : MonoBehaviour
 
   IEnumerator PerformMark(float timeMarkPerforming)
   {
-    var originScale = new Vector3(1f, 0f, 1f);
-    var destScale = new Vector3(1f, 1f, 1f);
-    var t = Time.fixedDeltaTime / timeMarkPerforming;
+    var originScale = Vector3.zero;
+    var destScale = Vector3.one;
+    var t = 0f;
     while (t <= 1f)
     {
+      t += Time.fixedDeltaTime / timeMarkPerforming;
       _mark.localScale = Vector3.Lerp(originScale, destScale, t);
       yield return new WaitForFixedUpdate();
     }
