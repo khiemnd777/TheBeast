@@ -30,7 +30,9 @@ public class CuriousGenerator : MonoBehaviour
     var targetsInRadius = Physics.OverlapSphere(affectedTransform.position, radius, targetMask);
     if (targetsInRadius.Length < 0 || targetsInRadius.All(target => !target))
     {
-      var curiosity = Instantiate<Curiosity>(curiousPrefab, transform.position, Quaternion.identity);
+      var curiositySpawnedPositionPredicted = Random.insideUnitSphere * (radius / 2);
+      var curiositySpawnedPosition = transform.position + new Vector3(curiositySpawnedPositionPredicted.x, 0f, curiositySpawnedPositionPredicted.z);
+      var curiosity = Instantiate<Curiosity>(curiousPrefab, curiositySpawnedPosition, Quaternion.identity);
       curiosity.curiousIdentity = curiousIdentity;
       curiosity.radius = curiousRadius;
       curiosity.lifetime = curiousLifetime;
