@@ -113,12 +113,17 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
         }
         if (eventName == "player_dead")
         {
+          if (isLocal)
+          {
+            Debug.Log("DEAD!");
+          }
           var hittedObjJson = Utility.Deserialize<HittedObjectJson>(eventMessage);
           // Dead effect.
           Blood.BleedOutAtPoint(_playerDead,
             Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition),
             Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.impactedPosition)
           );
+          Debug.Log("DEAD!");
           _netRegistrar.Disenroll(this);
           if (isLocal)
           {
@@ -127,7 +132,8 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
               onDead();
             }
           }
-          Destroy(gameObject, .1f);
+          Debug.Log("Destroy!");
+          Destroy(gameObject);
         }
       };
     }

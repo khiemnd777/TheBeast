@@ -169,7 +169,8 @@ MonoBehaviour:
     type: 3}
   _playerSlashBlood: {fileID: 114319558123064554, guid: bd995b0ef0a8b4949b4b19682620eb17,
     type: 3}
-  _playerDead: {fileID: 0}
+  _playerDead: {fileID: 114319558123064554, guid: bdc5b4d8e878865428d11ad34236fa2f,
+    type: 3}
   _body: {fileID: 4638004554132482}
 --- !u!81 &81561896755273322
 AudioListener:
