@@ -63,11 +63,14 @@ namespace Net
             {
               if (!netObjectList.Exists(dataJson.id))
               {
+                if (dataJson.life < 0) return;
                 Debug.Log($"Instantiate the object of client {dataJson.clientId}");
                 var position = Point.FromArray(dataJson.position);
                 var rotation = Utility.AnglesArrayToQuaternion(dataJson.rotation);
+                Debug.Log($"Player information: {{life:{dataJson.life}, maxLife:{dataJson.maxLife}}}");
                 var netObj = CreateAtTheClientSide(dataJson.prefabName, dataJson.clientId, dataJson.netName, dataJson.id, dataJson.position, dataJson.rotation, dataJson.life, dataJson.maxLife);
                 netObj.OnReceiveMessage(dataJson.eventName, dataJson.message);
+                Debug.Log($"1: Show log if player respawn after dead by event [{dataJson.eventName}]");
                 StartCoroutine(OnAfterInitNetObjectWithMessage(netObj, dataJson.eventName, dataJson.message));
               }
               else
@@ -75,6 +78,7 @@ namespace Net
                 var netObj = netObjectList.Find(dataJson.id);
                 if (netObj)
                 {
+                  Debug.Log($"2: Show log if player respawn after dead by event {dataJson.eventName}");
                   StartCoroutine(OnAfterInitNetObjectWithMessage(netObj, dataJson.eventName, dataJson.message));
                 }
               }

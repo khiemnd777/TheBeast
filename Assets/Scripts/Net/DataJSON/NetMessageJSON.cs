@@ -16,8 +16,9 @@ namespace Net
     public float[] rotation;
     public string eventName;
     public string message;
+    public bool onlyServer;
 
-    public NetMessageJSON(string clientId, int id, string prefabName, string netName, float life, float maxLife, float[] position, float[] rotation, string eventName, object message)
+    public NetMessageJSON(string clientId, int id, string prefabName, string netName, float life, float maxLife, float[] position, float[] rotation, string eventName, object message, bool onlyServer = false)
     {
       this.clientId = clientId;
       this.id = id;
@@ -29,6 +30,7 @@ namespace Net
       this.rotation = rotation;
       this.eventName = eventName;
       this.message = message == null ? string.Empty : JsonUtility.ToJson(message);
+      this.onlyServer = onlyServer;
     }
 
     public static NetMessageJSON Deserialize(object data)

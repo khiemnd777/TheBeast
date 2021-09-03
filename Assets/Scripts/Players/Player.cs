@@ -113,15 +113,12 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
         }
         if (eventName == "player_dead")
         {
-          if (isLocal)
-          {
-            Debug.Log("DEAD!");
-          }
-          var hittedObjJson = Utility.Deserialize<HittedObjectJson>(eventMessage);
+          var deadObjJson = Utility.Deserialize<DeadObjectJson>(eventMessage);
+          life = deadObjJson.life;
           // Dead effect.
           Blood.BleedOutAtPoint(_playerDead,
-            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition),
-            Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.impactedPosition)
+            Utility.PositionArrayToVector3(Vector3.zero, deadObjJson.normalizedImpactedPosition),
+            Utility.PositionArrayToVector3(Vector3.zero, deadObjJson.impactedPosition)
           );
           Debug.Log("DEAD!");
           _netRegistrar.Disenroll(this);
@@ -132,8 +129,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
               onDead();
             }
           }
-          Debug.Log("Destroy!");
-          Destroy(gameObject);
+          Destroy(gameObject, .1f);
         }
       };
     }
@@ -145,7 +141,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     if (isServer)
     {
       // Sync the life point to the local
-      if (currentLife != life)
+      if (currentLife != life && !lifeEnd)
       {
         EmitMessage("object_life", new ObjectLifeJson
         {
@@ -174,10 +170,11 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       {
         // Dead!
         Debug.Log($"{clientId} is dead!");
-        EmitMessage("player_dead", new HittedObjectJson
+        EmitMessage("player_dead", new DeadObjectJson
         {
           impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
-          normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition)
+          normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
+          life = life
         });
         _netRegistrar.Disenroll(this);
         Destroy(gameObject, .1f);
@@ -289,6 +286,13 @@ public struct HittedObjectJson
   public float[] impactedPosition;
   public float[] normalizedImpactedPosition;
   public bool bySlash;
+}
+
+public struct DeadObjectJson
+{
+  public float[] impactedPosition;
+  public float[] normalizedImpactedPosition;
+  public float life;
 }
 
 public struct ObjectLifeJson

@@ -20,6 +20,9 @@ namespace Net
     Vector3 _lastPosition;
     Quaternion _lastRotation;
 
+    [SerializeField]
+    Player _player;
+
     public bool canSendTranslateMessage
     {
       get
@@ -47,17 +50,30 @@ namespace Net
       {
         if (eventName == Constants.EVENT_OBJECT_TRANSFORM)
         {
-          if (_netIdentity.isLocal)
+          if (_netIdentity.isServer && !_player.lifeEnd)
           {
-            return;
+            var netObj = TranslateAndRotateByMessage(message);
+            _netIdentity.EmitMessage("server_object_transform", netObj);
           }
-          var netObj = NetTransformJSON.Deserialize(message);
-          var point = Point.FromArray(netObj.position);
-          Translate(point);
-          var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
-          Rotate(rotation);
+        }
+        if (eventName == "server_object_transform")
+        {
+          if (!_netIdentity.isLocal && _netIdentity.isClient)
+          {
+            TranslateAndRotateByMessage(message);
+          }
         }
       };
+    }
+
+    NetTransformJSON TranslateAndRotateByMessage(string message)
+    {
+      var netObj = NetTransformJSON.Deserialize(message);
+      var point = Point.FromArray(netObj.position);
+      Translate(point);
+      var rotation = Utility.AnglesArrayToQuaternion(netObj.rotation);
+      Rotate(rotation);
+      return netObj;
     }
 
     /// <summary>
@@ -133,11 +149,12 @@ namespace Net
 
     void EmitTransformEvent()
     {
+      if (_player.lifeEnd) return;
       if (!canSendTranslateMessage && !canSendRotationMessage) return;
       var point = Point.FromVector3(_cachedTransform.position);
       var rotation = !_targetRotation ? Quaternion.identity : _targetRotation.rotation;
       var netTransformJson = new NetTransformJSON(point, rotation);
-      _netIdentity.EmitMessage(Constants.EVENT_OBJECT_TRANSFORM, netTransformJson);
+      _netIdentity.EmitMessage(Constants.EVENT_OBJECT_TRANSFORM, netTransformJson, true);
     }
   }
 }

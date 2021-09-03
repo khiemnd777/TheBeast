@@ -158,7 +158,7 @@ namespace Net
       this.isLocal = true;
     }
 
-    public void EmitMessage(string eventName, object message)
+    public void EmitMessage(string eventName, object message, bool onlyServer = false)
     {
       var clientId = NetworkManagerCache.networkManager.clientId.ToString();
       socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(
@@ -172,6 +172,7 @@ namespace Net
         , Utility.QuaternionToAnglesArray(transform.rotation)
         , eventName
         , message
+        , onlyServer
         )
       );
     }

@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useLocalPosition: 0
   _targetRotation: {fileID: 4638004554132482}
+  _player: {fileID: 114926467534503532}
 --- !u!114 &114541830428908528
 MonoBehaviour:
   m_ObjectHideFlags: 0
