@@ -8,8 +8,8 @@ namespace Net
 {
   public class NetworkManager : MonoBehaviour
   {
-    public Guid clientId { get; private set; }
-    public event Action onConnected;
+    public string clientId { get; private set; }
+    public event Action onClientConnected;
     public event Action onServerConnected;
     public event Action<NetObjectJSON> onObjectRegister;
     public event Action<NetObjectJSON> onObjectRegistered;
@@ -32,6 +32,7 @@ namespace Net
       }
     }
 
+    [Obsolete("Use ServerConnect or ClientConnect functions instead.")]
     public IEnumerator Connect()
     {
       yield return new WaitForSeconds(.5f);
@@ -39,9 +40,33 @@ namespace Net
       _socket.Emit(Constants.EVENT_CONNECT, new NetConnectionJSON(_settings.isServer));
     }
 
+    IEnumerator ServerConnect()
+    {
+      if (_settings.isServer)
+      {
+        yield return new WaitForSeconds(.5f);
+        // Emit an event to server to know the connection from the server-side.
+        // Include the room identity, let's the rooms division manager knows the room has been generated.
+        _socket.Emit(Constants.EVENT_SERVER_CONNECT, new NetServerConnectJSON
+        {
+          roomId = Utility.ShortId()
+        });
+      }
+    }
+
+    IEnumerator ClientConnect()
+    {
+      if (_settings.isClient)
+      {
+        yield return new WaitForSeconds(.5f);
+        // emit to server to know the connection from the server-side.
+        _socket.Emit(Constants.EVENT_CLIENT_CONNECT, null);
+      }
+    }
+
     void Awake()
     {
-      clientId = Guid.NewGuid();
+      clientId = Utility.ShortId();
       _socket = new SocketIOWrapper(FindObjectOfType<SocketIOComponent2>());
     }
 
@@ -50,7 +75,10 @@ namespace Net
       print("Start network manager!");
       _settings = Settings.instance;
       print("Initiated settings!");
-      _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnConnected);
+
+      // deprecated
+      // _socket.On(Constants.EVENT_CONNECTED, OnConnected);
+
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
       _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);
       _socket.On(Constants.EVENT_BROADCAST_CLONE_EVERYWHERE, OnBroadcastCloneEverywhere);
@@ -59,14 +87,20 @@ namespace Net
         print("Connecting to socket...");
         // Let's consider this event-object-register
         _socket.On(Constants.EVENT_SERVER_REGISTER, OnServerRegister);
+        _socket.On(Constants.EVENT_SERVER_CONNECTED, OnServerConnected);
+
+        // Connect to socket
+        StartCoroutine(ServerConnect());
       }
       else
       {
         print("Connecting to server...");
         _socket.On(Constants.EVENT_CLIENT_REGISTER_FINISHED, OnClientRegisterFinished);
         _socket.On(Constants.EVENT_SERVER_DISCONNECTED, OnServerDisconnected);
+        _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnClientConnected);
+        // Connect to socket
+        StartCoroutine(ClientConnect());
       }
-      StartCoroutine(Connect());
     }
 
     void OnBroadcastCloneEverywhere(SocketEvent evt)
@@ -99,9 +133,33 @@ namespace Net
         return;
       }
       print("Client has connected to websocket.");
-      if (onConnected != null)
+      if (onClientConnected != null)
       {
-        onConnected();
+        onClientConnected();
+      }
+    }
+
+    void OnServerConnected(SocketEvent evt)
+    {
+      if (_settings.isServer)
+      {
+        print("Server has connected to socket.");
+        if (onServerConnected != null)
+        {
+          onServerConnected();
+        }
+      }
+    }
+
+    void OnClientConnected(SocketEvent evt)
+    {
+      if (_settings.isClient)
+      {
+        print("Client has connected to socket.");
+        if (onClientConnected != null)
+        {
+          onClientConnected();
+        }
       }
     }
 

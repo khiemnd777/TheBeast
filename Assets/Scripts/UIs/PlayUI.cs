@@ -25,7 +25,7 @@ namespace Net
       _networkManager.onClientRegisterFinished += (NetObjectJSON netObjJson) =>
         {
           // Detects the local player at the client-side.
-          if (netObjJson.clientId.Equals(_networkManager.clientId.ToString()))
+          if (netObjJson.clientId.Equals(_networkManager.clientId))
           {
             this.gameObject.SetActive(false);
           }

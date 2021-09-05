@@ -35,11 +35,11 @@ namespace Net
       InitEvents();
     }
 
-    object initClientObj = new object();
+    static object initClientObj = new object();
     void InitEvents()
     {
       // This will be fired after the connection was completely connected.
-      _networkManager.onConnected += () =>
+      _networkManager.onClientConnected += () =>
       {
         print("Initializing other players...");
         socket.Emit(Constants.EVENT_SERVER_LOAD_PLAYERS);
@@ -126,7 +126,7 @@ namespace Net
     {
       if (_settings.isServer) return;
       print("Registering...");
-      socket.Emit(Constants.EVENT_REGISTER, new NetRegisterJSON(_networkManager.clientId.ToString(), prefabName, netName));
+      socket.Emit(Constants.EVENT_REGISTER, new NetRegisterJSON(_networkManager.clientId, prefabName, netName));
     }
 
     public void Disenroll(NetIdentity netObj)
@@ -187,7 +187,7 @@ namespace Net
 
     public void CloneEverywhere(string prefabName, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife, float lifetime)
     {
-      if (clientId != _networkManager.clientId.ToString())
+      if (clientId != _networkManager.clientId)
       {
         var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
         if (prefab.netIdentityPrefab)
@@ -246,7 +246,7 @@ namespace Net
     NetIdentity CreateAtTheClientSide(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
     {
       if (!_settings.isClient) return null;
-      var isLocalPlayer = clientId.Equals(_networkManager.clientId.ToString());
+      var isLocalPlayer = clientId.Equals(_networkManager.clientId);
       if (isLocalPlayer)
       {
         var locally = CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife);

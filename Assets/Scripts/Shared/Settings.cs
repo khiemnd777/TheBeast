@@ -42,6 +42,7 @@ public class Settings : MonoBehaviour
       print("Run as server.");
       isServer = true;
       isClient = false;
+      Application.targetFrameRate = 60;
       return;
     }
     // If application runs on WebGL/Editor.

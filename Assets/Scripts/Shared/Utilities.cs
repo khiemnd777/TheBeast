@@ -122,8 +122,15 @@ public class Utility
   {
     return JsonUtility.FromJson<T>(data.ToString());
   }
+  
   public static T Deserialize<T>(string data)
   {
     return JsonUtility.FromJson<T>(data);
+  }
+
+  public static string ShortId()
+  {
+    var base64Guid = System.Convert.ToBase64String(System.Guid.NewGuid().ToByteArray());
+    return base64Guid;
   }
 }

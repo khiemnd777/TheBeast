@@ -160,7 +160,7 @@ namespace Net
 
     public void EmitMessage(string eventName, object message, bool onlyServer = false)
     {
-      var clientId = NetworkManagerCache.networkManager.clientId.ToString();
+      var clientId = NetworkManagerCache.networkManager.clientId;
       socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(
         clientId
         , id

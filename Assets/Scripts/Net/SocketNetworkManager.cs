@@ -285,7 +285,7 @@ namespace Net
     {
       yield return new WaitForSeconds(.5f);
       // emit to server to know the connection.
-      _socket.Emit(Constants.EVENT_SERVER_CONNECT, new NetConnectionJSON(settings.isServer));
+      _socket.Emit(Constants.EVENT_CONNECT_TO_SERVER, new NetConnectionJSON(settings.isServer));
     }
 
     /// <summary>
@@ -306,7 +306,7 @@ namespace Net
       settings = Settings.instance;
 
       // Register socket's events.
-      _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnClientConnected);
+      _socket.On(Constants.EVENT_CONNECTED, OnClientConnected);
       _socket.On(Constants.EVENT_CLIENT_REGISTERED, OnClientRegistered);
       _socket.On(Constants.EVENT_CLIENT_OTHER_REGISTERED, OnClientOtherRegistered);
       _socket.On(Constants.EVENT_CLIENT_LOADED_PLAYER, OnClientLoadedPlayer);

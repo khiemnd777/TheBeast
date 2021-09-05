@@ -33,7 +33,7 @@ public class NetGunHolder : MonoBehaviour
     }
   }
 
-  object holdGunObjectLock = new object();
+  static object holdGunObjectLock = new object();
   public void TakeUpArm()
   {
     _beginPosition = transform.localPosition;
