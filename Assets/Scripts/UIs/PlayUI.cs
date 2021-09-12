@@ -42,7 +42,7 @@ namespace Net
       // To begin with, a connection is established.
       print("Connecting...");
       playBtnText.text = "Connecting...";
-      netRegistrar.Register("player", nicknameInputField.text);
+      netRegistrar.Register("player_rifle", nicknameInputField.text);
     }
   }
 }

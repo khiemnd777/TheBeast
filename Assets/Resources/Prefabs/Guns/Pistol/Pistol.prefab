@@ -425,6 +425,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunHandType: 0
   weight: 1
+  auto: 0
+  silent: 0
+  thetaProjectileAngle: 0
+  netBulletPrefabName: pistol_bullet
   knockbackIndex: 0.15
   gunAnimatorController: {fileID: 9100000, guid: 02c9e332f35bb4b4b996964645ab50c0,
     type: 2}
@@ -437,9 +441,9 @@ MonoBehaviour:
   timeBetweenShoot: 0.225
   bulletPrefab: {fileID: 9200986866846674981, guid: b4aedaa5fd0b64848b7c3a03d464af3d,
     type: 3}
-  _projectile: {fileID: 4832442425740844}
-  _flashAnim: {fileID: 95429412228150600}
-  _audioSource: {fileID: 82919574562966992}
+  projectile: {fileID: 4832442425740844}
+  flashAnim: {fileID: 95429412228150600}
+  audioSource: {fileID: 82919574562966992}
 --- !u!1001 &5995906065207046736
 PrefabInstance:
   m_ObjectHideFlags: 0

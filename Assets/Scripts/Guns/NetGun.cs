@@ -6,6 +6,11 @@ public abstract class NetGun : MonoBehaviour
 {
   public GunHandType gunHandType;
   public GunWeight weight;
+  public bool auto;
+  public bool silent;
+  public float thetaProjectileAngle;
+  public string netBulletPrefabName;
+
   public float knockbackIndex;
   public RuntimeAnimatorController gunAnimatorController;
   public AnimationClip gunHandTypeAnimation;
@@ -17,6 +22,22 @@ public abstract class NetGun : MonoBehaviour
   [SerializeField]
   protected CuriousGenerator curiousGenerator;
 
+  public float timeBetweenShoot;
+  public NetBullet bulletPrefab;
+
+  [SerializeField]
+  protected Transform projectile;
+
+  [SerializeField]
+  protected Animator flashAnim;
+
+  [SerializeField]
+  protected AudioSource audioSource;
+
+  bool _isHoldTrigger;
+  bool _availableHoldTrigger;
+  float _timeAvailableHoleTrigger = 1f;
+
   protected HolderSide holderSide = HolderSide.Right;
   protected Player player;
   protected NetIdentity netIdentity;
@@ -24,8 +45,54 @@ public abstract class NetGun : MonoBehaviour
 
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
 
-  public abstract void HoldTrigger(Vector3 dotSightPoint);
-  public abstract void ReleaseTrigger();
+  public virtual void OnHoldTrigger(Vector3 dotSightPoint){
+    InstantiateBullet(netBulletPrefabName, dotSightPoint);
+  }
+
+  public virtual void HoldTrigger(Vector3 dotSightPoint)
+  {
+    if (!auto && _isHoldTrigger) return;
+    if (!_availableHoldTrigger) return;
+    // sound of being at launching bullet
+    _timeAvailableHoleTrigger = 0f;
+    _availableHoldTrigger = false;
+
+    OnHoldTrigger(dotSightPoint);
+    if (OnProjectileLaunched != null)
+    {
+      OnProjectileLaunched();
+    }
+    OnTriggerEffect();
+
+    // Generate curiosity
+    if (!silent)
+    {
+      curiousGenerator.Generate(curiousGenerator.curiousIdentity);
+    }
+
+    _isHoldTrigger = true;
+
+    // Emit message to trigger the pistol.
+    var pistolTriggerEventName = holderSide == HolderSide.Left ? "left_hold_trigger" : "right_hold_trigger";
+    netIdentity.EmitMessage(pistolTriggerEventName, new GeneratedCuriosityJson
+    {
+      identity = curiousGenerator.curiousIdentity
+    });
+
+    //  Emit message to generate curiosity.
+    if (!silent)
+    {
+      var curiousGenerateEventName = holderSide == HolderSide.Left ? "left_curious_generate" : "right_curious_generate";
+      netIdentity.EmitMessage(curiousGenerateEventName, new GeneratedCuriosityJson
+      {
+        identity = curiousGenerator.curiousIdentity
+      });
+    }
+  }
+  public virtual void ReleaseTrigger()
+  {
+    _isHoldTrigger = false;
+  }
   public System.Action OnProjectileLaunched;
 
   Locker _locker = new Locker();
@@ -43,8 +110,34 @@ public abstract class NetGun : MonoBehaviour
 
   public virtual void KeepInCover()
   {
+    if (netIdentity.isClient)
+    {
+      netIdentity.onMessageReceived -= OnMessageReceived;
+    }
     this.player.gunWeightIncrement = 1f;
     Destroy(gameObject);
+  }
+
+  float _timeBetweenHoldTrigger;
+  public virtual Quaternion CalculateBulletQuaternion()
+  {
+    // it's late +.1s?
+    var angleRandom = Time.time - _timeBetweenHoldTrigger > timeBetweenShoot + Time.deltaTime ? 0 : thetaProjectileAngle;
+    var rot = projectile.rotation;
+    var rotAngle = rot.eulerAngles;
+    var subRot = Quaternion.Euler(rotAngle.x, rotAngle.y + Random.Range(-angleRandom, angleRandom), rotAngle.z);
+    _timeBetweenHoldTrigger = Time.time;
+    return subRot;
+  }
+
+  protected virtual void InstantiateBullet(string netBulletPrefabName, Vector3 dotSightPoint)
+  {
+    var bulletRot = CalculateBulletQuaternion ();
+    // Launch the bullet
+    NetIdentity.InstantiateLocalAndEverywhere<NetBullet>(netBulletPrefabName, bulletPrefab, projectile.position, bulletRot, (netBullet) =>
+    {
+      return netBullet.CalculateBulletLifetime(dotSightPoint, projectile.position);
+    });
   }
 
   public void EjectShell()
@@ -60,14 +153,52 @@ public abstract class NetGun : MonoBehaviour
   public virtual void Start()
   {
     settings = Settings.instance;
+    if (netIdentity.isClient)
+    {
+      netIdentity.onMessageReceived += OnMessageReceived;
+    }
   }
 
   public virtual void Update()
   {
-
+    if (_timeAvailableHoleTrigger < 1f)
+    {
+      _timeAvailableHoleTrigger += Time.deltaTime / timeBetweenShoot;
+    }
+    if (_timeAvailableHoleTrigger >= 1f)
+    {
+      _availableHoldTrigger = true;
+    }
   }
 
   public virtual void FixedUpdate()
+  {
+
+  }
+
+  public virtual void OnMessageReceived(string eventName, string message)
+  {
+    if (eventName == "left_hold_trigger" && holderSide == HolderSide.Left)
+    {
+      OnTriggerEffect();
+    }
+    if (eventName == "right_hold_trigger" && holderSide == HolderSide.Right)
+    {
+      OnTriggerEffect();
+    }
+    if (eventName == "left_curious_generate" && holderSide == HolderSide.Left)
+    {
+      var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
+      curiousGenerator.Generate(data.identity);
+    }
+    if (eventName == "right_curious_generate" && holderSide == HolderSide.Right)
+    {
+      var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
+      curiousGenerator.Generate(data.identity);
+    }
+  }
+
+  public virtual void OnTriggerEffect()
   {
 
   }

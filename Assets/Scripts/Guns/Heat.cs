@@ -1,64 +1,59 @@
+using System.Collections;
 using UnityEngine;
 
 public class Heat : MonoBehaviour
 {
-  public float heatMax = 70f;
-  public float heatMin = 20f;
-  public float heatStepUp;
-  public float heatStepDown;
-  public float timeHeatDown;
+  const float HEAT_MAX = 1f;
+  const float HEAT_MIN = 0f;
+  public float timeHeatingDown;
+  public float thetaHeatingUp;
   public float heat;
   float _timeHeatGoingDown;
+  bool _overheat;
 
-  Gun _gun;
+  [SerializeField]
+  NetGun _gun;
 
-  void Awake()
+  void Start()
   {
-    _gun = GetComponent<Gun>();
+    StartCoroutine("HeatCoolUp");
     _gun.locker.RegisterLock("Heat");
     _gun.OnProjectileLaunched += OnProjectileLaunched;
   }
 
   void Update()
   {
-    HeatGoingDown();
-  }
-
-  void HeatGoingDown()
-  {
-    // var theta = 
-    _timeHeatGoingDown += Time.deltaTime / timeHeatDown;
-    if (_timeHeatGoingDown >= 1f)
+    if (_overheat && heat <= HEAT_MIN)
     {
-      heat -= heatStepDown;
-      _timeHeatGoingDown = 0;
-    }
-    if (heat <= heatMin)
-    {
+      heat = HEAT_MIN;
+      _overheat = false;
       _gun.locker.Unlock("Heat");
     }
-    if (heat <= 0)
+  }
+
+  IEnumerator HeatCoolUp()
+  {
+    while (true)
     {
-      heat = 0;
+      if (heat > HEAT_MIN)
+      {
+        heat -= Time.deltaTime / timeHeatingDown;
+      }
+      yield return null;
     }
-  }
-
-  void HeatUp()
-  {
-    heat += heatStepUp;
-  }
-
-  bool CheckExceedHeatMax()
-  {
-    return heat >= heatMax;
   }
 
   void OnProjectileLaunched()
   {
-    HeatUp();
-    if (CheckExceedHeatMax())
+    if (!_overheat)
     {
-      _gun.locker.Lock("Heat");
+      heat += Time.deltaTime * thetaHeatingUp;
+      if (heat >= HEAT_MAX)
+      {
+        heat = HEAT_MAX;
+        _overheat = true;
+        _gun.locker.Lock("Heat");
+      }
     }
   }
 }
