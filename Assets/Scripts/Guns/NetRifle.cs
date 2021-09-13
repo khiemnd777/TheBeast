@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Net;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NetRifle : NetGun
 {

@@ -526,6 +526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunHandType: 1
   weight: 3
+  secondAction: 1
   auto: 1
   silent: 0
   thetaProjectileAngle: 6

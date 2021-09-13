@@ -19,6 +19,11 @@ public class NetGunHolder : MonoBehaviour
   NetGun _heldGun;
   Vector3 _beginPosition;
 
+  public bool secondAction
+  {
+    get => gun && gun.secondAction;
+  }
+
   public void RotateTowards(Quaternion rotation)
   {
     var gunHolderTransform = this.transform;
@@ -72,6 +77,17 @@ public class NetGunHolder : MonoBehaviour
     {
       if (_heldGun.locker.IsLocked()) return;
       _heldGun.HoldTrigger(dotSightPoint);
+    }
+  }
+
+  public void OnSecondAction(Vector3 dotSightPoint)
+  {
+    if (this.secondAction)
+    {
+      if (_heldGun != null && _heldGun is Object && !_heldGun.Equals(null))
+      {
+        _heldGun.OnSecondAction(dotSightPoint);
+      }
     }
   }
 

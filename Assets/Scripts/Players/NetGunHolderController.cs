@@ -22,6 +22,11 @@ public class NetGunHolderController : MonoBehaviour
   bool _isMouseHoldingDown;
   float _timeForHoldLeftGunTrigger;
 
+  public bool secondAction
+  {
+    get => leftGunHolder.secondAction || rightGunHolder.secondAction;
+  }
+
   void Start()
   {
     if (_netIdentity.isLocal)
@@ -62,7 +67,26 @@ public class NetGunHolderController : MonoBehaviour
         _timeForHoldLeftGunTrigger = 0f;
         ReleaseTriggers();
       }
+      else if (Input.GetMouseButtonDown(1))
+      {
+        if (this.secondAction)
+        {
+          this.OnSecondAction();
+        }
+      }
       HoldTriggers();
+    }
+  }
+
+  public void OnSecondAction()
+  {
+    if (leftGunHolder.secondAction)
+    {
+      leftGunHolder.OnSecondAction(_dotSight.GetCurrentPoint());
+    }
+    if (rightGunHolder.secondAction)
+    {
+      rightGunHolder.OnSecondAction(_dotSight.GetCurrentPoint());
     }
   }
 

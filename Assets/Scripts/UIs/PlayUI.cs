@@ -5,12 +5,18 @@ namespace Net
 {
   public class PlayUI : MonoBehaviour
   {
+    public string playerPrefabName;
+
     [SerializeField]
     InputField nicknameInputField;
+
     [SerializeField]
     Button playButton;
+
     NetRegistrar netRegistrar;
+
     NetworkManager _networkManager;
+
     Text playBtnText;
 
     /// <summary>
@@ -42,7 +48,7 @@ namespace Net
       // To begin with, a connection is established.
       print("Connecting...");
       playBtnText.text = "Connecting...";
-      netRegistrar.Register("player_rifle", nicknameInputField.text);
+      netRegistrar.Register(playerPrefabName, nicknameInputField.text);
     }
   }
 }

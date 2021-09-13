@@ -67,6 +67,10 @@ public class NetWeaponController : MonoBehaviour
       }
       else if (Input.GetMouseButtonDown(1))
       {
+        if (gunHolderController.secondAction)
+        {
+          return;
+        }
         if (_typeOfWeapon != "melee")
         {
           _typeOfWeapon = "melee";

@@ -41,6 +41,7 @@ public class NetMeleeHolder : MonoBehaviour
   {
     if (melee != null && melee is Object && !melee.Equals(null))
     {
+      Debug.Log(melee.range);
       lock (holdMeleeObjectLock)
       {
         if (!heldMelee)

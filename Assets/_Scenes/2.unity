@@ -3530,6 +3530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dcf81c4052ee345bdc0af9f2765035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefabName: player_rifle
   nicknameInputField: {fileID: 1838264890}
   playButton: {fileID: 1349893886}
 --- !u!1 &1924244912

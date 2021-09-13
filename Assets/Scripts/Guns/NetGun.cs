@@ -6,6 +6,7 @@ public abstract class NetGun : MonoBehaviour
 {
   public GunHandType gunHandType;
   public GunWeight weight;
+  public bool secondAction;
   public bool auto;
   public bool silent;
   public float thetaProjectileAngle;
@@ -45,7 +46,8 @@ public abstract class NetGun : MonoBehaviour
 
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
 
-  public virtual void OnHoldTrigger(Vector3 dotSightPoint){
+  public virtual void OnHoldTrigger(Vector3 dotSightPoint)
+  {
     InstantiateBullet(netBulletPrefabName, dotSightPoint);
   }
 
@@ -89,10 +91,17 @@ public abstract class NetGun : MonoBehaviour
       });
     }
   }
+
   public virtual void ReleaseTrigger()
   {
     _isHoldTrigger = false;
   }
+
+  public virtual void OnSecondAction(Vector3 dotSightPoint)
+  {
+
+  }
+
   public System.Action OnProjectileLaunched;
 
   Locker _locker = new Locker();
@@ -132,7 +141,7 @@ public abstract class NetGun : MonoBehaviour
 
   protected virtual void InstantiateBullet(string netBulletPrefabName, Vector3 dotSightPoint)
   {
-    var bulletRot = CalculateBulletQuaternion ();
+    var bulletRot = CalculateBulletQuaternion();
     // Launch the bullet
     NetIdentity.InstantiateLocalAndEverywhere<NetBullet>(netBulletPrefabName, bulletPrefab, projectile.position, bulletRot, (netBullet) =>
     {
