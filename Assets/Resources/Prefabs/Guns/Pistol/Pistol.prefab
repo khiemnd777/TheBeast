@@ -425,18 +425,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunHandType: 0
   weight: 1
+  secondAction: 0
   auto: 0
   silent: 0
   thetaProjectileAngle: 0
   netBulletPrefabName: pistol_bullet
+  fieldOfViewReferredAngle: 90
+  fieldOfViews: []
+  _fieldOfViewIndex: 0
+  shellPrefab: {fileID: 114309261342482958, guid: a3a343a25d4ef470b9d491f73a2ce306,
+    type: 3}
+  shellEjection: {fileID: 4647786063581042}
   knockbackIndex: 0.15
   gunAnimatorController: {fileID: 9100000, guid: 02c9e332f35bb4b4b996964645ab50c0,
     type: 2}
   gunHandTypeAnimation: {fileID: 7400000, guid: fa8008c499e1a409ba4b39b98fd30ef6,
     type: 2}
-  shellPrefab: {fileID: 114309261342482958, guid: a3a343a25d4ef470b9d491f73a2ce306,
-    type: 3}
-  shellEjection: {fileID: 4647786063581042}
   curiousGenerator: {fileID: 2418999170574043248}
   timeBetweenShoot: 0.225
   bulletPrefab: {fileID: 9200986866846674981, guid: b4aedaa5fd0b64848b7c3a03d464af3d,

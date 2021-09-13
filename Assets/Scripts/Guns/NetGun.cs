@@ -15,16 +15,10 @@ public class NetGun : MonoBehaviour
   [Header("Field Of View")]
   [Range(0, 360)]
   public float fieldOfViewReferredAngle;
+  public FieldOfViewGunParam[] fieldOfViews;
 
-  public float fieldOfViewRadius;
-
-  [Range(0, 360)]
-  public float fieldOfViewAngle;
-
-  public float fieldOfViewSecondRadius;
-
-  [Range(0, 360)]
-  public float fieldOfViewSecondAngle;
+  [SerializeField]
+  int _fieldOfViewIndex = 0;
 
   [Header("Shells")]
   public Shell shellPrefab;
@@ -283,18 +277,47 @@ public class NetGun : MonoBehaviour
     }
   }
 
+  public virtual void SwitchFieldOfView()
+  {
+    ++_fieldOfViewIndex;
+    if (_fieldOfViewIndex >= fieldOfViews.Length)
+    {
+      _fieldOfViewIndex = 0;
+    }
+  }
+
+  public FieldOfViewGunParam GetFieldOfView()
+  {
+    if (
+      fieldOfViews != null
+      && fieldOfViews.Length > 0
+      && _fieldOfViewIndex < fieldOfViews.Length
+    )
+    {
+      return fieldOfViews[_fieldOfViewIndex];
+    }
+    return new FieldOfViewGunParam();
+  }
+
   void OnDrawGizmos()
   {
-    var fovTransform = transform;
-    var referredAngle = fieldOfViewReferredAngle;
+    if (
+      fieldOfViews != null
+    )
+    {
+      var fov = GetFieldOfView();
+      var fovTransform = transform;
+      var referredAngle = fieldOfViewReferredAngle;
+      var radius = fov.radius;
+      var angle = fov.angle;
+      Gizmos.color = Color.white;
+      Gizmos.DrawWireSphere(fovTransform.position, radius);
 
-    Gizmos.color = Color.white;
-    // Gizmos.DrawSphere(fovTransform.position, fieldOfViewAngle);
+      var viewAngleA = FieldOfViewUtility.DirectionFromAngle(fovTransform, -angle / 2 + referredAngle, true);
+      var viewAngleB = FieldOfViewUtility.DirectionFromAngle(fovTransform, angle / 2 + referredAngle, true);
 
-    var viewAngleA = FieldOfViewUtility.DirectionFromAngle(fovTransform, -fieldOfViewAngle / 2 + referredAngle, true);
-    var viewAngleB = FieldOfViewUtility.DirectionFromAngle(fovTransform, fieldOfViewAngle / 2 + referredAngle, true);
-
-    Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleA * fieldOfViewRadius);
-    Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleB * fieldOfViewRadius);
+      Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleA * radius);
+      Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleB * radius);
+    }
   }
 }

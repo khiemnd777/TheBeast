@@ -532,10 +532,12 @@ MonoBehaviour:
   thetaProjectileAngle: 6
   netBulletPrefabName: pistol_bullet
   fieldOfViewReferredAngle: 90
-  fieldOfViewRadius: 16
-  fieldOfViewAngle: 60
-  fieldOfViewSecondRadius: 0
-  fieldOfViewSecondAngle: 0
+  fieldOfViews:
+  - radius: 16
+    angle: 60
+  - radius: 25
+    angle: 30
+  _fieldOfViewIndex: 0
   shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
     type: 3}
   shellEjection: {fileID: 4612631049273138}
