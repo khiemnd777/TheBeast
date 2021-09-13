@@ -51,24 +51,27 @@ public class NetGun : MonoBehaviour
   protected HolderSide holderSide = HolderSide.Right;
   protected Player player;
   protected NetIdentity netIdentity;
+  protected DotSightController dotSightController;
+  protected DotSight dotSight;
+  protected CameraController cameraController;
   protected Settings settings;
 
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
 
-  public virtual void OnHoldTrigger(Vector3 dotSightPoint)
+  public virtual void OnHoldTrigger()
   {
+    var dotSightPoint = dotSight.GetCurrentPoint();
     InstantiateBullet(netBulletPrefabName, dotSightPoint);
   }
 
-  public virtual void HoldTrigger(Vector3 dotSightPoint)
+  public virtual void HoldTrigger()
   {
     if (!auto && _isHoldTrigger) return;
     if (!_availableHoldTrigger) return;
     // sound of being at launching bullet
     _timeAvailableHoleTrigger = 0f;
     _availableHoldTrigger = false;
-
-    OnHoldTrigger(dotSightPoint);
+    OnHoldTrigger();
     if (OnProjectileLaunched != null)
     {
       OnProjectileLaunched();
@@ -106,7 +109,7 @@ public class NetGun : MonoBehaviour
     _isHoldTrigger = false;
   }
 
-  public virtual void OnSecondAction(Vector3 dotSightPoint)
+  public virtual void OnSecondAction()
   {
 
   }
@@ -174,6 +177,15 @@ public class NetGun : MonoBehaviour
     if (netIdentity.isClient)
     {
       netIdentity.onMessageReceived += OnMessageReceived;
+    }
+    if (netIdentity.isLocal)
+    {
+      dotSightController = FindObjectOfType<DotSightController>();
+      if (dotSightController)
+      {
+        dotSight = dotSightController.dotSight;
+      }
+      cameraController = FindObjectOfType<CameraController>();
     }
   }
 
@@ -277,24 +289,30 @@ public class NetGun : MonoBehaviour
     }
   }
 
-  public virtual void SwitchFieldOfView()
+  public virtual int SwitchFieldOfViewIndex()
   {
     ++_fieldOfViewIndex;
     if (_fieldOfViewIndex >= fieldOfViews.Length)
     {
       _fieldOfViewIndex = 0;
     }
+    return _fieldOfViewIndex;
   }
 
   public FieldOfViewGunParam GetFieldOfView()
   {
+    return GetFieldOfView(_fieldOfViewIndex);
+  }
+
+  public FieldOfViewGunParam GetFieldOfView(int fovIndex)
+  {
     if (
       fieldOfViews != null
       && fieldOfViews.Length > 0
-      && _fieldOfViewIndex < fieldOfViews.Length
+      && fovIndex < fieldOfViews.Length
     )
     {
-      return fieldOfViews[_fieldOfViewIndex];
+      return fieldOfViews[fovIndex];
     }
     return new FieldOfViewGunParam();
   }

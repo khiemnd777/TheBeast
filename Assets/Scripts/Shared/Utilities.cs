@@ -75,10 +75,28 @@ public class Utility
     return transform.rotation * axis;
   }
 
-  public static Vector3 TranslateByMouseInsideScreen(float mouseX, float mouseY, Vector3 translatedPoint, Camera theCamera, float offsetZ = 1f)
+  public static Vector3 TranslateByMouseInsideScreen(float mouseX, float mouseY, Vector3 translatedPoint, Camera theCamera, float offsetZ = 1f, bool global = false)
   {
     var mousePoint = new Vector3(mouseX, 0f, mouseY);
     var newPoint = translatedPoint + mousePoint;
+    if (global)
+    {
+      newPoint += theCamera.transform.position;
+    }
+    var min = theCamera.ScreenToWorldPoint(Vector3.zero);
+    var max = theCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f));
+    var point = GetClampPoint(Point.FromVector3(newPoint), Point.FromVector3(min), Point.FromVector3(max));
+    return Point.ToVector3(Vector3.up * offsetZ, point);
+  }
+
+  public static Vector3 TranslateByMouseInsideScreen(float mouseX, float mouseY, Vector3 translatedPoint, Camera theCamera, bool locally, Vector3 localDeltaPosition, float offsetZ = 1f)
+  {
+    var mousePoint = new Vector3(mouseX, 0f, mouseY);
+    var newPoint = translatedPoint + mousePoint;
+    if (locally)
+    {
+      newPoint -= localDeltaPosition;
+    }
     var min = theCamera.ScreenToWorldPoint(Vector3.zero);
     var max = theCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f));
     var point = GetClampPoint(Point.FromVector3(newPoint), Point.FromVector3(min), Point.FromVector3(max));
@@ -133,7 +151,7 @@ public class Utility
   {
     return JsonUtility.FromJson<T>(data.ToString());
   }
-  
+
   public static T Deserialize<T>(string data)
   {
     return JsonUtility.FromJson<T>(data);

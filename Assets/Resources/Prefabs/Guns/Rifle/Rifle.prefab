@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunHandType: 1
-  weight: 3
+  weight: 2
   secondAction: 1
   auto: 1
   silent: 0

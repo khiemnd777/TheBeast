@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,6 +9,10 @@ public class CameraController : MonoBehaviour
   public Boundary bound;
   public BoundingBox limitedBoundingBox;
 
+  public Vector3 deltaPosition;
+  Vector3 _lastPosition;
+  int _previousTargetId;
+
   void Update()
   {
     if (target)
@@ -19,9 +21,22 @@ public class CameraController : MonoBehaviour
       {
         SetLimitedBoundingBox(bound.boundary);
       }
-      var desiredPos = target.position + offset;
-      var smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
-      transform.position = Utility.CameraInBound(theCamera, limitedBoundingBox.center, limitedBoundingBox.size.x, limitedBoundingBox.size.z, smoothedPos);
+      if (limitedBoundingBox.centerTarget)
+      {
+        var desiredPos = target.position + offset;
+        var smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
+        transform.position = Utility.CameraInBound(theCamera, limitedBoundingBox.centerTarget.position, limitedBoundingBox.size.x, limitedBoundingBox.size.z, smoothedPos);
+        if (_previousTargetId == this.target.GetInstanceID())
+        {
+          deltaPosition = _lastPosition - transform.position;
+          _lastPosition = transform.position;
+        }
+        else
+        {
+          _lastPosition = Vector3.zero;
+          _previousTargetId = this.target.GetInstanceID();
+        }
+      }
     }
   }
 
@@ -36,6 +51,7 @@ public class CameraController : MonoBehaviour
   /// <param name="target"></param>
   public void SetTarget(Transform target)
   {
+    _previousTargetId = this.target.GetInstanceID();
     this.target = target;
   }
 }

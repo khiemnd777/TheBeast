@@ -13,6 +13,9 @@ public class DotSightController : MonoBehaviour
   Camera _theCamera;
 
   [SerializeField]
+  CameraController _cameraController;
+
+  [SerializeField]
   Slider _mouseSensitivitySlider;
 
   [SerializeField]
@@ -58,10 +61,30 @@ public class DotSightController : MonoBehaviour
   /// </summary>
   public void InitDotSight()
   {
-    var insDotSight = Instantiate<DotSight>(_dotSightPrefab, Vector3.zero, Quaternion.identity, _theCamera.transform);
-    insDotSight.Init(_theCamera);
+    var insDotSight = Instantiate<DotSight>(_dotSightPrefab, Vector3.zero, Quaternion.identity);
+    insDotSight.Init(_cameraController);
     insDotSight.sensitivity = _mouseSensitivitySlider.value;
     _dotSight = insDotSight;
+  }
+
+  public void SetGlobally()
+  {
+    _dotSight.local = false;
+  }
+
+  public void SetLocally()
+  {
+    _dotSight.local = true;
+  }
+
+  public void ResetSensitivity()
+  {
+    SetSensitivity(_mouseSensitivitySlider.value);
+  }
+
+  public void SetSensitivity(float sensitivity)
+  {
+    _dotSight.sensitivity = sensitivity;
   }
 
   /// <summary>

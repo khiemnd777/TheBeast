@@ -2,10 +2,16 @@
 
 public class DotSight : MonoBehaviour
 {
+  [System.NonSerialized]
+  public bool local;
+
   [SerializeField]
   Camera _theCamera;
+
+  CameraController _cameraController;
+
   [SerializeField]
-  [Range (0f, 1f)]
+  [Range(0f, 1f)]
   public float sensitivity = 1f;
   [SerializeField]
   Vector3 _offset;
@@ -14,7 +20,7 @@ public class DotSight : MonoBehaviour
   /// <summary>
   /// Awake is called when the script instance is being loaded.
   /// </summary>
-  void Awake ()
+  void Awake()
   {
     _cachedTransform = transform;
   }
@@ -22,39 +28,48 @@ public class DotSight : MonoBehaviour
   /// <summary>
   /// Update is called every frame, if the MonoBehaviour is enabled.
   /// </summary>
-  void Update ()
+  void Update()
   {
     if (_theCamera)
     {
-      _cachedTransform.position = Utility.TranslateByMouseInsideScreen (GetMouseX (), GetMouseY (), _cachedTransform.position, _theCamera);
+      _cachedTransform.position = Utility.TranslateByMouseInsideScreen(GetMouseX(), GetMouseY(), _cachedTransform.position, _theCamera, local, _cameraController.deltaPosition);
     }
   }
 
-  float GetMouseX ()
+  float GetMouseX()
   {
-    return Input.GetAxis ("Mouse X") * sensitivity;
+    return Input.GetAxis("Mouse X") * sensitivity;
   }
 
-  float GetMouseY ()
+  float GetMouseY()
   {
-    return Input.GetAxis ("Mouse Y") * sensitivity;
+    return Input.GetAxis("Mouse Y") * sensitivity;
   }
 
   /// <summary>
   /// Initialize some stuck before appears the dot sight.
   /// </summary>
   /// <param name="mainCamera"></param>
-  public void Init (Camera mainCamera)
+  public void Init(Camera mainCamera)
   {
-    SetMainCamera (mainCamera);
-    DisableCursor ();
-    ReplaceFromMousePosition ();
+    SetMainCamera(mainCamera);
+    DisableCursor();
+    ReplaceFromMousePosition();
+  }
+
+  public void Init(CameraController cameraController)
+  {
+    _cameraController = cameraController;
+    local = true;
+    SetMainCamera(_cameraController.theCamera);
+    DisableCursor();
+    ReplaceFromMousePosition();
   }
 
   /// <summary>
   /// Disables the cursor before appears the dot sight.
   /// </summary>
-  void DisableCursor ()
+  void DisableCursor()
   {
     Cursor.visible = false;
   }
@@ -62,9 +77,9 @@ public class DotSight : MonoBehaviour
   /// <summary>
   /// Replace the dot sight position from the mouse position.
   /// </summary>
-  void ReplaceFromMousePosition ()
+  void ReplaceFromMousePosition()
   {
-    var mousePoint = _theCamera.ScreenToWorldPoint (Input.mousePosition);
+    var mousePoint = _theCamera.ScreenToWorldPoint(Input.mousePosition);
     _cachedTransform.position = mousePoint;
   }
 
@@ -72,7 +87,7 @@ public class DotSight : MonoBehaviour
   /// Set the main camera for calculation of the dot sight translation at the first time.
   /// </summary>
   /// <param name="mainCamera"></param>
-  void SetMainCamera (Camera mainCamera)
+  void SetMainCamera(Camera mainCamera)
   {
     _theCamera = mainCamera;
   }
@@ -81,7 +96,7 @@ public class DotSight : MonoBehaviour
   /// Get the current position of dot sight.
   /// </summary>
   /// <returns></returns>
-  public Vector3 GetCurrentPoint ()
+  public Vector3 GetCurrentPoint()
   {
     return _cachedTransform.position;
   }
@@ -91,10 +106,10 @@ public class DotSight : MonoBehaviour
   /// </summary>
   /// <param name="point"></param>
   /// <returns></returns>
-  public Vector3 NormalizeFromPoint (Vector3 point)
+  public Vector3 NormalizeFromPoint(Vector3 point)
   {
-    var direction = GetDirectionFromPoint (point);
-    direction.Normalize ();
+    var direction = GetDirectionFromPoint(point);
+    direction.Normalize();
     return direction;
   }
 
@@ -103,10 +118,10 @@ public class DotSight : MonoBehaviour
   /// </summary>
   /// <param name="point"></param>
   /// <returns></returns>
-  public Point NormalizeFromPoint (Point point)
+  public Point NormalizeFromPoint(Point point)
   {
-    var direction = GetDirectionFromPoint (point);
-    direction.Normalize ();
+    var direction = GetDirectionFromPoint(point);
+    direction.Normalize();
     return direction;
   }
 
@@ -115,9 +130,9 @@ public class DotSight : MonoBehaviour
   /// </summary>
   /// <param name="point"></param>
   /// <returns></returns>
-  public Vector3 GetDirectionFromPoint (Vector3 point)
+  public Vector3 GetDirectionFromPoint(Vector3 point)
   {
-    var currentPoint = GetCurrentPoint ();
+    var currentPoint = GetCurrentPoint();
     return currentPoint - point;
   }
 
@@ -126,9 +141,9 @@ public class DotSight : MonoBehaviour
   /// </summary>
   /// <param name="point"></param>
   /// <returns></returns>
-  public Point GetDirectionFromPoint (Point point)
+  public Point GetDirectionFromPoint(Point point)
   {
-    var currentPoint = GetCurrentPoint ();
-    return Point.FromVector3 (currentPoint) - point;
+    var currentPoint = GetCurrentPoint();
+    return Point.FromVector3(currentPoint) - point;
   }
 }

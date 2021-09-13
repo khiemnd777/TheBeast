@@ -6,7 +6,10 @@ public class Boundary : MonoBehaviour
 
   void OnDrawGizmos()
   {
-    Gizmos.color = Color.yellow;
-    Gizmos.DrawWireCube(boundary.center, boundary.size);
+    if (boundary.centerTarget)
+    {
+      Gizmos.color = Color.yellow;
+      Gizmos.DrawWireCube(boundary.centerTarget.position, boundary.size);
+    }
   }
 }

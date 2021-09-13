@@ -67,7 +67,7 @@ public class NetGunHolderController : MonoBehaviour
         _timeForHoldLeftGunTrigger = 0f;
         ReleaseTriggers();
       }
-      else if (Input.GetMouseButtonDown(1))
+      if (Input.GetMouseButtonDown(1))
       {
         if (this.secondAction)
         {
@@ -82,11 +82,11 @@ public class NetGunHolderController : MonoBehaviour
   {
     if (leftGunHolder.secondAction)
     {
-      leftGunHolder.OnSecondAction(_dotSight.GetCurrentPoint());
+      leftGunHolder.OnSecondAction();
     }
     if (rightGunHolder.secondAction)
     {
-      rightGunHolder.OnSecondAction(_dotSight.GetCurrentPoint());
+      rightGunHolder.OnSecondAction();
     }
   }
 
@@ -183,7 +183,7 @@ public class NetGunHolderController : MonoBehaviour
     {
       // Get dot sight position as destination.
       gunHolder.BeforeHoldTrigger();
-      gunHolder.HoldTrigger(_dotSight.GetCurrentPoint());
+      gunHolder.HoldTrigger();
     }
   }
 

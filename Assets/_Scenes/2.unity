@@ -1168,6 +1168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dotSightPrefab: {fileID: 0}
   _theCamera: {fileID: 0}
+  _cameraController: {fileID: 0}
   _mouseSensitivitySlider: {fileID: 0}
   _netIdentity: {fileID: 0}
 --- !u!1 &715666674
@@ -3243,7 +3244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundary:
-    center: {x: 0, y: 0, z: 0}
+    centerTarget: {fileID: 1764447176}
     size: {x: 180, y: 0, z: 120}
 --- !u!4 &1764447176
 Transform:
@@ -3326,8 +3327,9 @@ MonoBehaviour:
   offset: {x: 0, y: 6.25, z: 0}
   bound: {fileID: 1764447175}
   limitedBoundingBox:
-    center: {x: 0, y: 0, z: 0}
+    centerTarget: {fileID: 0}
     size: {x: 0, y: 0, z: 0}
+  deltaPosition: {x: 0, y: 0, z: 0}
 --- !u!95 &1822451613 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1637349068, guid: 80218d10dd8fe44708f18091a668d5a7,
@@ -4061,6 +4063,11 @@ PrefabInstance:
       propertyPath: _mouseSensitivitySlider
       value: 
       objectReference: {fileID: 507968862}
+    - target: {fileID: 3641305223071863282, guid: 3d6e055d5efb33649a1331cdc8720bb1,
+        type: 3}
+      propertyPath: _cameraController
+      value: 
+      objectReference: {fileID: 1808906756}
     - target: {fileID: 3641305223071863283, guid: 3d6e055d5efb33649a1331cdc8720bb1,
         type: 3}
       propertyPath: m_LocalPosition.x
