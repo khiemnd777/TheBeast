@@ -2,27 +2,11 @@
 
 public class Boundary : MonoBehaviour
 {
-  public float width = 180;
-  public float height = 120;
+  public BoundingBox boundary;
 
-  BoxCollider boxCollider;
-
-  static Boundary pInstance;
-  public static Boundary instance
+  void OnDrawGizmos()
   {
-    get
-    {
-      return pInstance ?? (pInstance = FindObjectOfType<Boundary> ());
-    }
-  }
-
-  /// <summary>
-  /// Start is called on the frame when a script is enabled just before
-  /// any of the Update methods is called the first time.
-  /// </summary>
-  void Start ()
-  {
-    boxCollider = GetComponent<BoxCollider> ();
-    boxCollider.size = new Vector3 (width, 0f, height);
+    Gizmos.color = Color.yellow;
+    Gizmos.DrawWireCube(boundary.center, boundary.size);
   }
 }

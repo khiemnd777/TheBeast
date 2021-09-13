@@ -8,16 +8,26 @@ public class CameraController : MonoBehaviour
   public Transform target;
   public float smoothSpeed = .125f;
   public Vector3 offset;
-  public BoxCollider bound;
+  public Boundary bound;
+  public BoundingBox limitedBoundingBox;
 
   void Update()
   {
     if (target)
     {
+      if (limitedBoundingBox.size == Vector3.zero)
+      {
+        SetLimitedBoundingBox(bound.boundary);
+      }
       var desiredPos = target.position + offset;
       var smoothedPos = Vector3.Lerp(transform.position, desiredPos, smoothSpeed);
-      transform.position = Utility.CameraInBound(theCamera, bound, smoothedPos);
+      transform.position = Utility.CameraInBound(theCamera, limitedBoundingBox.center, limitedBoundingBox.size.x, limitedBoundingBox.size.z, smoothedPos);
     }
+  }
+
+  public void SetLimitedBoundingBox(BoundingBox limitedBoundingBox)
+  {
+    this.limitedBoundingBox = limitedBoundingBox;
   }
 
   /// <summary>

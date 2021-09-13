@@ -4,14 +4,25 @@ public class Utility
 {
   public static Vector3 CameraInBound(Camera camera, BoxCollider bound, Vector3 position)
   {
-    var min = bound.bounds.min;
-    var max = bound.bounds.max;
+    return CameraInBound(camera, bound.bounds.min, bound.bounds.max, position);
+  }
+
+  public static Vector3 CameraInBound(Camera camera, Vector3 center, float width, float height, Vector3 position)
+  {
+    var min = new Vector3(center.x - width / 2, 0f, center.z - height / 2);
+    var max = new Vector3(center.x + width / 2, 0f, center.z + height / 2);
+    return CameraInBound(camera, min, max, position);
+  }
+
+  public static Vector3 CameraInBound(Camera camera, Vector3 min, Vector3 max, Vector3 position)
+  {
     var halfHeight = camera.orthographicSize;
     var halfWidth = halfHeight * Screen.width / Screen.height;
     var x = Mathf.Clamp(position.x, min.x + halfWidth, max.x - halfWidth);
     var z = Mathf.Clamp(position.z, min.z + halfHeight, max.z - halfHeight);
     return new Vector3(x, position.y, z);
   }
+
 
   public static Vector3 AlterVector3(Vector3 owner, float x, float y)
   {
