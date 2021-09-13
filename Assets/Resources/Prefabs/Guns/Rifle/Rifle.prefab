@@ -531,14 +531,19 @@ MonoBehaviour:
   silent: 0
   thetaProjectileAngle: 6
   netBulletPrefabName: pistol_bullet
+  fieldOfViewReferredAngle: 90
+  fieldOfViewRadius: 16
+  fieldOfViewAngle: 60
+  fieldOfViewSecondRadius: 0
+  fieldOfViewSecondAngle: 0
+  shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
+    type: 3}
+  shellEjection: {fileID: 4612631049273138}
   knockbackIndex: 0.13
   gunAnimatorController: {fileID: 9100000, guid: 02c9e332f35bb4b4b996964645ab50c0,
     type: 2}
   gunHandTypeAnimation: {fileID: 7400000, guid: fa8008c499e1a409ba4b39b98fd30ef6,
     type: 2}
-  shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
-    type: 3}
-  shellEjection: {fileID: 4612631049273138}
   curiousGenerator: {fileID: 2476774627174208037}
   timeBetweenShoot: 0.13
   bulletPrefab: {fileID: 114515896175614092, guid: b73721e1bd7a942bfb7ab0b64e8b8e52,

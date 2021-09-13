@@ -2,7 +2,7 @@
 using Net;
 using UnityEngine;
 
-public abstract class NetGun : MonoBehaviour
+public class NetGun : MonoBehaviour
 {
   public GunHandType gunHandType;
   public GunWeight weight;
@@ -12,14 +12,29 @@ public abstract class NetGun : MonoBehaviour
   public float thetaProjectileAngle;
   public string netBulletPrefabName;
 
-  public float knockbackIndex;
-  public RuntimeAnimatorController gunAnimatorController;
-  public AnimationClip gunHandTypeAnimation;
+  [Header("Field Of View")]
+  [Range(0, 360)]
+  public float fieldOfViewReferredAngle;
+
+  public float fieldOfViewRadius;
+
+  [Range(0, 360)]
+  public float fieldOfViewAngle;
+
+  public float fieldOfViewSecondRadius;
+
+  [Range(0, 360)]
+  public float fieldOfViewSecondAngle;
+
   [Header("Shells")]
   public Shell shellPrefab;
   public Transform shellEjection;
 
   [Header("Others")]
+  public float knockbackIndex;
+  public RuntimeAnimatorController gunAnimatorController;
+  public AnimationClip gunHandTypeAnimation;
+
   [SerializeField]
   protected CuriousGenerator curiousGenerator;
 
@@ -266,5 +281,20 @@ public abstract class NetGun : MonoBehaviour
     {
       curiousGenerator.curiousIdentity = netIdentity.clientId;
     }
+  }
+
+  void OnDrawGizmos()
+  {
+    var fovTransform = transform;
+    var referredAngle = fieldOfViewReferredAngle;
+
+    Gizmos.color = Color.white;
+    // Gizmos.DrawSphere(fovTransform.position, fieldOfViewAngle);
+
+    var viewAngleA = FieldOfViewUtility.DirectionFromAngle(fovTransform, -fieldOfViewAngle / 2 + referredAngle, true);
+    var viewAngleB = FieldOfViewUtility.DirectionFromAngle(fovTransform, fieldOfViewAngle / 2 + referredAngle, true);
+
+    Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleA * fieldOfViewRadius);
+    Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleB * fieldOfViewRadius);
   }
 }
