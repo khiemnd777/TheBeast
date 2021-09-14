@@ -533,10 +533,10 @@ MonoBehaviour:
   netBulletPrefabName: pistol_bullet
   fieldOfViewReferredAngle: 90
   fieldOfViews:
-  - radius: 16
+  - radius: 10
     angle: 60
-  - radius: 25
-    angle: 30
+  - radius: 19
+    angle: 28
   _fieldOfViewIndex: 0
   shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
     type: 3}

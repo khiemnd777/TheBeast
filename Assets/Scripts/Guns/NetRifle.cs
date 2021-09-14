@@ -14,6 +14,25 @@ public class NetRifle : NetGun
     base.OnTriggerEffect();
   }
 
+  public override void TakeUpArm()
+  {
+    base.TakeUpArm();
+    if (netIdentity.isLocal)
+    {
+      var fov = this.GetFieldOfView(0);
+      
+      cameraController.SetTarget(player.transform);
+      cameraController.SetDefaultLimitedBoundingBox();
+
+      player.fieldOfView.SetRadius(fov.radius);
+      player.fieldOfView.SetAngle(fov.angle);
+      
+      dotSightController.ResetSensitivity();
+      dotSightController.SetLocally();
+
+    }
+  }
+
   public override void OnSecondAction()
   {
     if (netIdentity.isLocal)
@@ -23,20 +42,27 @@ public class NetRifle : NetGun
       if (fovIndex > 0)
       {
         cameraController.SetTarget(dotSight.transform);
+        cameraController.SetLimitedBoundingBox(new BoundingBox
+        {
+          size = new Vector3(fov.radius * 2, 0f, fov.radius * 2),
+          centerTarget = player.transform
+        });
+
         dotSightController.SetSensitivity(.25f);
-				dotSightController.SetGlobally();
+        dotSightController.SetGlobally();
+
       }
       else
       {
         cameraController.SetTarget(player.transform);
-    		dotSightController.ResetSensitivity();
-				dotSightController.SetLocally();
+        cameraController.SetDefaultLimitedBoundingBox();
+
+        dotSightController.ResetSensitivity();
+        dotSightController.SetLocally();
       }
-      cameraController.SetLimitedBoundingBox(new BoundingBox
-      {
-        size = new Vector3(fov.radius * 2, 0f, fov.radius * 2),
-        centerTarget = player.transform
-      });
+
+      player.fieldOfView.SetRadius(fov.radius);
+      player.fieldOfView.SetAngle(fov.angle);
     }
   }
 }

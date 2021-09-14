@@ -173,6 +173,9 @@ MonoBehaviour:
   _playerDead: {fileID: 114319558123064554, guid: bdc5b4d8e878865428d11ad34236fa2f,
     type: 3}
   _body: {fileID: 4638004554132482}
+  _fieldOfViewParam:
+    radius: 10
+    angle: 60
 --- !u!81 &81561896755273322
 AudioListener:
   m_ObjectHideFlags: 0
@@ -212,8 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c695b626f414433baab4f7fb0a55c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 16
-  viewAngle: 60
+  viewRadius: 0
+  viewAngle: 0
   direction: 5
   affectedTransform: {fileID: 4638004554132482}
   referredAngle: 90

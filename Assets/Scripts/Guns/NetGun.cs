@@ -15,7 +15,7 @@ public class NetGun : MonoBehaviour
   [Header("Field Of View")]
   [Range(0, 360)]
   public float fieldOfViewReferredAngle;
-  public FieldOfViewGunParam[] fieldOfViews;
+  public FieldOfViewParam[] fieldOfViews;
 
   [SerializeField]
   int _fieldOfViewIndex = 0;
@@ -57,6 +57,24 @@ public class NetGun : MonoBehaviour
   protected Settings settings;
 
   IDictionary<string, bool> _lockControlList = new Dictionary<string, bool>();
+
+  public virtual void Init()
+  {
+    settings = Settings.instance;
+    if (netIdentity.isClient)
+    {
+      netIdentity.onMessageReceived += OnMessageReceived;
+    }
+    if (netIdentity.isLocal)
+    {
+      dotSightController = FindObjectOfType<DotSightController>();
+      if (dotSightController)
+      {
+        dotSight = dotSightController.dotSight;
+      }
+      cameraController = FindObjectOfType<CameraController>();
+    }
+  }
 
   public virtual void OnHoldTrigger()
   {
@@ -173,20 +191,6 @@ public class NetGun : MonoBehaviour
 
   public virtual void Start()
   {
-    settings = Settings.instance;
-    if (netIdentity.isClient)
-    {
-      netIdentity.onMessageReceived += OnMessageReceived;
-    }
-    if (netIdentity.isLocal)
-    {
-      dotSightController = FindObjectOfType<DotSightController>();
-      if (dotSightController)
-      {
-        dotSight = dotSightController.dotSight;
-      }
-      cameraController = FindObjectOfType<CameraController>();
-    }
   }
 
   public virtual void Update()
@@ -249,17 +253,17 @@ public class NetGun : MonoBehaviour
         break;
       case GunWeight.Medium:
         {
-          player.gunWeightIncrement = .8f;
+          player.gunWeightIncrement = .85f;
         }
         break;
       case GunWeight.Heavy:
         {
-          player.gunWeightIncrement = .5f;
+          player.gunWeightIncrement = .7f;
         }
         break;
       case GunWeight.VeryHeavy:
         {
-          player.gunWeightIncrement = .25f;
+          player.gunWeightIncrement = .5f;
         }
         break;
       case GunWeight.HandFree:
@@ -299,12 +303,12 @@ public class NetGun : MonoBehaviour
     return _fieldOfViewIndex;
   }
 
-  public FieldOfViewGunParam GetFieldOfView()
+  public FieldOfViewParam GetFieldOfView()
   {
     return GetFieldOfView(_fieldOfViewIndex);
   }
 
-  public FieldOfViewGunParam GetFieldOfView(int fovIndex)
+  public FieldOfViewParam GetFieldOfView(int fovIndex)
   {
     if (
       fieldOfViews != null
@@ -314,7 +318,7 @@ public class NetGun : MonoBehaviour
     {
       return fieldOfViews[fovIndex];
     }
-    return new FieldOfViewGunParam();
+    return new FieldOfViewParam();
   }
 
   void OnDrawGizmos()
@@ -323,7 +327,7 @@ public class NetGun : MonoBehaviour
       fieldOfViews != null
     )
     {
-      var fov = GetFieldOfView();
+      var fov = GetFieldOfView(_fieldOfViewIndex);
       var fovTransform = transform;
       var referredAngle = fieldOfViewReferredAngle;
       var radius = fov.radius;

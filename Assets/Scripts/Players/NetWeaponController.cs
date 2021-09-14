@@ -81,14 +81,14 @@ public class NetWeaponController : MonoBehaviour
       }
       else if (Input.GetKeyDown(KeyCode.LeftShift))
       {
-        if (_typeOfWeapon != "shield")
-        {
-          _typeOfWeapon = "shield";
-          DoActionOnShield();
-          shieldHolderController.DoUpdating();
-          EmitDoActionOnShield();
-          return;
-        }
+        // if (_typeOfWeapon != "shield")
+        // {
+        //   _typeOfWeapon = "shield";
+        //   DoActionOnShield();
+        //   shieldHolderController.DoUpdating();
+        //   EmitDoActionOnShield();
+        //   return;
+        // }
       }
       if (_typeOfWeapon == "gun")
       {

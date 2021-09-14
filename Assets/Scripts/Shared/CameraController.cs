@@ -45,6 +45,11 @@ public class CameraController : MonoBehaviour
     this.limitedBoundingBox = limitedBoundingBox;
   }
 
+  public void SetDefaultLimitedBoundingBox()
+  {
+    this.limitedBoundingBox = bound.boundary;
+  }
+
   /// <summary>
   /// Set a specific target for the camera tracking after.
   /// </summary>

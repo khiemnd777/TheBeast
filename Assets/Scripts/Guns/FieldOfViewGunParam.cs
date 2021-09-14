@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct FieldOfViewGunParam
+public struct FieldOfViewParam
 {
   public float radius;
 

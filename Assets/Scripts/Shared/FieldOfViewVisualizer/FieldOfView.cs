@@ -50,6 +50,16 @@ public class FieldOfView : MonoBehaviour
     // StartCoroutine("FindTargetsWithDelay", delayFindingTargets);
   }
 
+  public void SetRadius(float radius)
+  {
+    viewRadius = radius;
+  }
+
+  public void SetAngle(float angle)
+  {
+    viewAngle = angle;
+  }
+
   public IEnumerator FindTargets()
   {
     while (true)

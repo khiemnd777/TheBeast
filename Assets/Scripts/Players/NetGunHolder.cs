@@ -55,6 +55,7 @@ public class NetGunHolder : MonoBehaviour
       _heldGun.SetPlayer(_player);
       _heldGun.SetGunWeightToPlayer(_player);
       _heldGun.SetNetIdentity(_netIdentity);
+      _heldGun.Init();
       if (_netIdentity.isLocal)
       {
         _heldGun.TakeUpArm();

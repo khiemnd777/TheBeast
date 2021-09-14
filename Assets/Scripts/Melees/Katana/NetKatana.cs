@@ -35,6 +35,10 @@ public class NetKatana : NetMelee
   {
     base.TakeUpArm(holder, hand, handAnimator);
     playerAnimator.Play(commonStyleAnim.name, 0);
+    if (netIdentity.isLocal)
+    {
+      player.SetDefaultFieldOfView();
+    }
   }
 
   public override void KeepInCover()

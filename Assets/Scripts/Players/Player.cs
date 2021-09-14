@@ -31,6 +31,9 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   [SerializeField]
   Transform _body;
 
+  [SerializeField]
+  FieldOfViewParam _fieldOfViewParam;
+
   [Space]
   AudioListener _audioListener;
   DotSightController _dotSightController;
@@ -73,6 +76,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       _dotSightController.SetPlayer(this);
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
+      this.SetDefaultFieldOfView();
       // Player's local mask is excepted to the self-interactions.
       this.gameObject.layer = LayerMask.NameToLayer("PlayerLocal");
       this.maxLife = this.currentLife = this.life = 1000f;
@@ -150,6 +154,12 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
         currentLife = life;
       }
     }
+  }
+
+  public void SetDefaultFieldOfView()
+  {
+    fieldOfView.SetAngle(_fieldOfViewParam.angle);
+    fieldOfView.SetRadius(_fieldOfViewParam.radius);
   }
 
   [System.Obsolete]
@@ -275,6 +285,23 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   public void OnTargetLeaveFov()
   {
     _body.gameObject.SetActive(false);
+  }
+
+  void OnDrawGizmos()
+  {
+    var fov = _fieldOfViewParam;
+    var fovTransform = transform;
+    var referredAngle = 90f;
+    var radius = fov.radius;
+    var angle = fov.angle;
+    Gizmos.color = Color.white;
+    Gizmos.DrawWireSphere(fovTransform.position, radius);
+
+    var viewAngleA = FieldOfViewUtility.DirectionFromAngle(fovTransform, -angle / 2 + referredAngle, true);
+    var viewAngleB = FieldOfViewUtility.DirectionFromAngle(fovTransform, angle / 2 + referredAngle, true);
+
+    Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleA * radius);
+    Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleB * radius);
   }
 }
 
