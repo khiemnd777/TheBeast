@@ -1,6 +1,5 @@
 ﻿using Net;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class NetBullet : NetIdentity
 {
@@ -24,7 +23,6 @@ public class NetBullet : NetIdentity
     base.Start();
     _bulletImpactFx = GetComponent<BulletImpactEffect>();
     _direction = transform.rotation * Vector3.right;
-    // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * maxDistance, Color.yellow);
   }
 
   protected override void Update()

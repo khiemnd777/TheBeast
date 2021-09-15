@@ -429,7 +429,7 @@ MonoBehaviour:
   auto: 0
   silent: 0
   thetaProjectileAngle: 0
-  netBulletPrefabName: pistol_bullet
+  netBulletPrefabName: bullet
   fieldOfViewReferredAngle: 90
   fieldOfViews: []
   _fieldOfViewIndex: 0
