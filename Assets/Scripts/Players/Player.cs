@@ -70,6 +70,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       StartCoroutine(fieldOfView.FindTargets());
       _audioListener.enabled = true;
       _cameraController = FindObjectOfType<CameraController>();
+      Debug.Log($"The player transform {this.transform}");
       _cameraController.SetTarget(this.transform);
       _dotSightController = FindObjectOfType<DotSightController>();
       _dotSightController.InitDotSight();

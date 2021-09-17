@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
   /// <param name="target"></param>
   public void SetTarget(Transform target)
   {
-    _previousTargetId = this.target.GetInstanceID();
     this.target = target;
+    _previousTargetId = this.target.GetInstanceID();
   }
 }
