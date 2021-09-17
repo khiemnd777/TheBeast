@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 114515896175614092}
   - component: {fileID: 114242642000942488}
   m_Layer: 0
-  m_Name: Rifle Bullet
+  m_Name: Sniper Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f28d431039f4774d8cc018e57b1fb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeImpactAtMaxDistance: 0.25
-  damage: 25
-  hitback: 0.95
-  freezedTime: 0.2
-  maxDistance: 17
+  timeImpactAtMaxDistance: 0.185
+  damage: 75
+  hitback: 1
+  freezedTime: 0.5
+  maxDistance: 40
   layerMask:
     serializedVersion: 2
     m_Bits: 1792
