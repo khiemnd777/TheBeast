@@ -17,7 +17,7 @@ public class NetWeaponController : MonoBehaviour
 
 
   string _typeOfWeapon;
-
+  bool _surfing;
 
   void Start()
   {
@@ -64,6 +64,7 @@ public class NetWeaponController : MonoBehaviour
     {
       if (Input.GetMouseButtonDown(0))
       {
+        if (_surfing) return;
         if (_typeOfWeapon != "gun")
         {
           _typeOfWeapon = "gun";
@@ -75,6 +76,7 @@ public class NetWeaponController : MonoBehaviour
       }
       else if (Input.GetMouseButtonDown(1))
       {
+        if (_surfing) return;
         if (!gunHolderController.secondAction)
         {
           if (_typeOfWeapon != "melee")
@@ -97,6 +99,16 @@ public class NetWeaponController : MonoBehaviour
         //   EmitDoActionOnShield();
         //   return;
         // }
+        _player.gunWeightIncrement = 1f;
+        _surfing = true;
+        _typeOfWeapon = string.Empty;
+        gunHolderController.KeepGunInCover();
+        meleeHolderController.KeepMeleeInCover();
+        shieldHolderController.TakeShieldDown();
+      }
+      else if (Input.GetKeyUp(KeyCode.LeftShift))
+      {
+        _surfing = false;
       }
       else if (Input.GetKeyDown(KeyCode.Q))
       {
@@ -109,15 +121,18 @@ public class NetWeaponController : MonoBehaviour
       }
       if (_typeOfWeapon == "gun")
       {
+        if (_surfing) return;
         gunHolderController.DoUpdating();
       }
       if (_typeOfWeapon == "melee")
       {
+        if (_surfing) return;
         meleeHolderController.DoUpdating();
         shieldHolderController.DoUpdating();
       }
       if (_typeOfWeapon == "shield")
       {
+        if (_surfing) return;
         shieldHolderController.DoUpdating();
       }
     }

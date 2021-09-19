@@ -541,6 +541,7 @@ MonoBehaviour:
   shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
     type: 3}
   shellEjection: {fileID: 4612631049273138}
+  ui: {fileID: 212736801807328622}
   knockbackIndex: 0.13
   gunAnimatorController: {fileID: 9100000, guid: 02c9e332f35bb4b4b996964645ab50c0,
     type: 2}
@@ -553,6 +554,7 @@ MonoBehaviour:
   projectile: {fileID: 4149889422195356}
   flashAnim: {fileID: 95300406916378196}
   audioSource: {fileID: 82327518063714560}
+  _heat: {fileID: 5426564552593111957}
   _fireAnim: {fileID: 95378950946539744}
 --- !u!114 &5426564552593111957
 MonoBehaviour:

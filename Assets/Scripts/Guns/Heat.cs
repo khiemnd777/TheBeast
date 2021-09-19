@@ -16,7 +16,6 @@ public class Heat : MonoBehaviour
 
   void Start()
   {
-    StartCoroutine("HeatCoolUp");
     _gun.locker.RegisterLock("Heat");
     _gun.OnProjectileLaunched += OnProjectileLaunched;
   }
@@ -29,17 +28,9 @@ public class Heat : MonoBehaviour
       _overheat = false;
       _gun.locker.Unlock("Heat");
     }
-  }
-
-  IEnumerator HeatCoolUp()
-  {
-    while (true)
+    if (heat > HEAT_MIN)
     {
-      if (heat > HEAT_MIN)
-      {
-        heat -= Time.deltaTime / timeHeatingDown;
-      }
-      yield return null;
+      heat -= Time.deltaTime / timeHeatingDown;
     }
   }
 

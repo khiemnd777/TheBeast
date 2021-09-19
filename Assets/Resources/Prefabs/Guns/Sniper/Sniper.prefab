@@ -540,6 +540,7 @@ MonoBehaviour:
   shellPrefab: {fileID: 114314934072665840, guid: d7ad6e2f99071504b87252418f33dc55,
     type: 3}
   shellEjection: {fileID: 4612631049273138}
+  ui: {fileID: 212736801807328622}
   knockbackIndex: 0.45
   gunAnimatorController: {fileID: 9100000, guid: 02c9e332f35bb4b4b996964645ab50c0,
     type: 2}

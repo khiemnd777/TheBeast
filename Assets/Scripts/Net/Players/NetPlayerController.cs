@@ -5,6 +5,8 @@ namespace Net
   [RequireComponent(typeof(NetIdentity), typeof(NetTransform))]
   public class NetPlayerController : MonoBehaviour
   {
+    public event System.Action OnSprint;
+
     [SerializeField]
     Player _player;
 
@@ -13,6 +15,9 @@ namespace Net
     public float sprintSpeed = 1f;
     [Range(0f, 1f)]
     public float walkSpeed = .5f;
+
+    public Locker sprintLocker = new Locker();
+
     NetIdentity _netIdentity;
     NetTransform _netTransform;
     MovingCalculator _movingCalculator;
@@ -97,13 +102,17 @@ namespace Net
     {
       if (_netIdentity.isLocal)
       {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (!sprintLocker.IsLocked() && Input.GetKey(KeyCode.LeftShift))
         {
-          _speedCalculator.SetSpeedType(SpeedType.Walk);
+          _speedCalculator.SetSpeedType(SpeedType.Sprint);
+          if (OnSprint != null)
+          {
+            OnSprint();
+          }
         }
         else
         {
-          _speedCalculator.SetSpeedType(SpeedType.Sprint);
+          _speedCalculator.SetSpeedType(SpeedType.Walk);
         }
         if (_player.locker.IsLocked())
         {

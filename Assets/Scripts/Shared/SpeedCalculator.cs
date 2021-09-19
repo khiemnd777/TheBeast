@@ -83,12 +83,12 @@ public class SpeedCalculator
     {
       case SpeedType.Sprint:
         {
-          _speed = _stopFlag ? 0 : _initSpeed * _sprintSpeed * increments;
+          _speed = _stopFlag ? 0 : _initSpeed * (_sprintSpeed + 1) * increments;
         }
         break;
       case SpeedType.Walk:
         {
-          _speed = _stopFlag ? 0 : _initSpeed * _walkSpeed * increments;
+          _speed = _stopFlag ? 0 : _initSpeed * (_walkSpeed + 1) * increments;
         }
         break;
       default:

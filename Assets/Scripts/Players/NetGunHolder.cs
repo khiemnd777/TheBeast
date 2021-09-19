@@ -8,6 +8,9 @@ public class NetGunHolder : MonoBehaviour
   public NetGun gun;
 
   [SerializeField]
+  HeatUI _heatUI;
+
+  [SerializeField]
   NetHand _hand;
 
   [SerializeField]
@@ -49,6 +52,7 @@ public class NetGunHolder : MonoBehaviour
         if (!_heldGun)
         {
           _heldGun = Instantiate<NetGun>(gun, transform.position, transform.rotation, transform);
+          _heldGun.SetHeatUI(_heatUI);
         }
       }
       _heldGun.SetHolderSide(holderSide);

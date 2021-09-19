@@ -3,6 +3,9 @@
 public class NetRifle : NetGun
 {
   [SerializeField]
+  Heat _heat;
+
+  [SerializeField]
   Animator _fireAnim;
 
   public override void OnTriggerEffect()
@@ -29,8 +32,16 @@ public class NetRifle : NetGun
       
       dotSightController.ResetSensitivity();
       dotSightController.SetLocally();
-
+      
+      heatUI.Visible(true);
+      heatUI.SetHeat(_heat);
     }
+  }
+
+  public override void KeepInCover()
+  {
+    heatUI.Visible(false);
+    base.KeepInCover();
   }
 
   public override void OnSecondAction()

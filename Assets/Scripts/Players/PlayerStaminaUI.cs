@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class PlayerLifeUI : MonoBehaviour
+public class PlayerStaminaUI : MonoBehaviour
 {
   [SerializeField]
   Player _player;
+
+  [SerializeField]
+  Stamina _stamina;
 
   [SerializeField]
   Canvas _canvas;
@@ -20,7 +23,7 @@ public class PlayerLifeUI : MonoBehaviour
   {
     if (_player.isLocal)
     {
-      var normalizedLife = _player.life / _player.maxLife;
+      var normalizedLife = 1f - _stamina.stamina;
       transform.localScale = new Vector3(normalizedLife, transform.localScale.y, transform.localScale.z);
     }
   }

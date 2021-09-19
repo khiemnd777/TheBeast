@@ -25,6 +25,8 @@ public class NetGun : MonoBehaviour
   public Transform shellEjection;
 
   [Header("Others")]
+  [SerializeField]
+  protected SpriteRenderer ui;
   public float knockbackIndex;
   public RuntimeAnimatorController gunAnimatorController;
   public AnimationClip gunHandTypeAnimation;
@@ -44,13 +46,18 @@ public class NetGun : MonoBehaviour
   [SerializeField]
   protected AudioSource audioSource;
 
+  protected HeatUI heatUI;
+
   bool _isHoldTrigger;
   bool _availableHoldTrigger;
   float _timeAvailableHoleTrigger = 1f;
 
   protected HolderSide holderSide = HolderSide.Right;
   protected Player player;
-  protected NetIdentity netIdentity;
+
+  [System.NonSerialized]
+  public NetIdentity netIdentity;
+
   protected DotSightController dotSightController;
   protected DotSight dotSight;
   protected CameraController cameraController;
@@ -139,6 +146,8 @@ public class NetGun : MonoBehaviour
 
   public virtual void TakeUpArm()
   {
+    this.ui.gameObject.SetActive(true);
+    this.enabled = true;
     if (player.animator)
     {
       player.animator.enabled = false;
@@ -154,7 +163,9 @@ public class NetGun : MonoBehaviour
       netIdentity.onMessageReceived -= OnMessageReceived;
     }
     this.player.gunWeightIncrement = 1f;
-    Destroy(gameObject);
+    this.ui.gameObject.SetActive(false);
+    this.enabled = false;
+    // Destroy(gameObject);
   }
 
   float _timeBetweenHoldTrigger;
@@ -235,6 +246,11 @@ public class NetGun : MonoBehaviour
   public virtual void OnTriggerEffect()
   {
 
+  }
+
+  public void SetHeatUI(HeatUI heatUI)
+  {
+    this.heatUI = heatUI;
   }
 
   public void SetPlayer(Player player)
