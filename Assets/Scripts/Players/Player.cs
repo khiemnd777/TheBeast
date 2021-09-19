@@ -6,6 +6,8 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
 {
   public event System.Action onDead;
 
+  public float initLife;
+
   [System.NonSerialized]
   public bool isFendingOff;
 
@@ -61,7 +63,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     if (isServer)
     {
       _body.gameObject.SetActive(true);
-      this.maxLife = this.currentLife = this.life = 1000f;
+      this.maxLife = this.currentLife = this.life = initLife;
     }
     if (isLocal)
     {
@@ -80,7 +82,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       this.SetDefaultFieldOfView();
       // Player's local mask is excepted to the self-interactions.
       this.gameObject.layer = LayerMask.NameToLayer("PlayerLocal");
-      this.maxLife = this.currentLife = this.life = 1000f;
+      this.maxLife = this.currentLife = this.life = initLife;
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
       // Sync the life from server
@@ -172,11 +174,37 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     StartCoroutine(ReleaseLockByExplosion());
   }
 
+  float CalculateDamagePoint(float damagePoint, Vector3 impactedPosition, Vector3 center, Vector3 direction)
+  {
+    var targetDir = impactedPosition - center;
+    var angle = Vector3.Angle(targetDir, direction);
+    Debug.Log($"Angle of the impaction {angle}");
+    var damagePointRate = 1f;
+    if (0f <= angle && angle <= 15f || 165f <= angle && angle <= 180f)
+    {
+      damagePointRate = 1f;
+    }
+    else if (16 <= angle && angle <= 90f)
+    {
+      var baseDamageRate = .9f;
+      damagePointRate = baseDamageRate * (16 / angle);
+    }
+    else if (91f <= angle && angle <= 164f)
+    {
+      var baseDamageRate = .9f;
+      damagePointRate = baseDamageRate * ((180f - 164f) / (180f - angle));
+    }
+    return damagePoint * damagePointRate;
+  }
+
   public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 impactedPosition, Vector3 normalizedImpactedPosition, bool bySlash)
   {
     if (isServer)
     {
-      life -= damagePoint;
+      var expectedDamage = CalculateDamagePoint(damagePoint, impactedPosition, transform.position, _body.right);
+      Debug.Log($"damagePoint: {damagePoint}");
+      Debug.Log($"expectedDamage: {expectedDamage}");
+      life -= expectedDamage;
       if (lifeEnd)
       {
         // Dead!
@@ -229,7 +257,6 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   {
     _rigidbody.velocity = hitbackVel;
     yield return new WaitForFixedUpdate();
-    // _rigidbody.AddForce(hitbackVel, ForceMode.Impulse);
   }
 
   /// <summary>

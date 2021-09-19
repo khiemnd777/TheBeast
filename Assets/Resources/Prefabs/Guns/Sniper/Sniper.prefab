@@ -529,7 +529,7 @@ MonoBehaviour:
   auto: 0
   silent: 0
   thetaProjectileAngle: 0
-  netBulletPrefabName: bullet
+  netBulletPrefabName: sniper_bullet
   fieldOfViewReferredAngle: 90
   fieldOfViews:
   - radius: 10

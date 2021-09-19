@@ -4,12 +4,20 @@ using UnityEngine;
 public class NetWeaponController : MonoBehaviour
 {
   NetworkManager _networkManager;
+
   [SerializeField]
   NetIdentity _netIdentity;
+
+  [SerializeField]
+  Player _player;
+
   public NetMeleeHolderController meleeHolderController;
   public NetGunHolderController gunHolderController;
   public NetShieldHolderController shieldHolderController;
+
+
   string _typeOfWeapon;
+
 
   void Start()
   {
@@ -89,6 +97,15 @@ public class NetWeaponController : MonoBehaviour
         //   EmitDoActionOnShield();
         //   return;
         // }
+      }
+      else if (Input.GetKeyDown(KeyCode.Q))
+      {
+        _player.gunWeightIncrement = 1f;
+        _typeOfWeapon = string.Empty;
+        gunHolderController.KeepGunInCover();
+        meleeHolderController.KeepMeleeInCover();
+        shieldHolderController.TakeShieldDown();
+        return;
       }
       if (_typeOfWeapon == "gun")
       {

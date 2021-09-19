@@ -430,7 +430,7 @@ MonoBehaviour:
   auto: 0
   silent: 0
   thetaProjectileAngle: 0
-  netBulletPrefabName: bullet
+  netBulletPrefabName: shotgun_bullet
   fieldOfViewReferredAngle: 90
   fieldOfViews:
   - radius: 10

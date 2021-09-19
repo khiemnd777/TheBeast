@@ -8,8 +8,8 @@ public class Blood : MonoBehaviour
   {
     if (bloodPrefab)
     {
-      var rot = 360f - Mathf.Atan2(normal.z, normal.x) * Mathf.Rad2Deg;
-      var bloodIns = Object.Instantiate<Blood>(bloodPrefab, bleedPoint, Quaternion.Euler(0f, rot, 0f));
+      var angle = 360f - Mathf.Atan2(normal.z, normal.x) * Mathf.Rad2Deg;
+      var bloodIns = Object.Instantiate<Blood>(bloodPrefab, bleedPoint, Quaternion.Euler(0f, angle, 0f));
       Object.Destroy(bloodIns.gameObject, bloodIns.particleSystem.main.startLifetimeMultiplier);
       return bloodIns;
     }

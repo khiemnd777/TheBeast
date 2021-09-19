@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum SpeedType
 {
   Walk,
