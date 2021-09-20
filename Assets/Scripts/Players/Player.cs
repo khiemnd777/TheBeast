@@ -49,6 +49,12 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   [SerializeField]
   PlayerNameUI _playerNameUI;
 
+  int _score;
+  public int score
+  {
+    get { return _score; }
+  }
+
   Locker _locker = new Locker();
   public Locker locker { get { return _locker; } }
 
@@ -92,8 +98,10 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       _playerNameUI.SetNickname(netName);
 
       this.maxLife = this.currentLife = this.life = initLife;
+
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
+      
       // Sync the life from server
       onMessageReceived += (eventName, eventMessage) =>
       {
