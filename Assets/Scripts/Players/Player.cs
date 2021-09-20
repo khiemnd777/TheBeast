@@ -45,6 +45,10 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   CameraController _cameraController;
   NetRegistrar _netRegistrar;
 
+  [Header("UI")]
+  [SerializeField]
+  PlayerNameUI _playerNameUI;
+
   Locker _locker = new Locker();
   public Locker locker { get { return _locker; } }
 
@@ -80,8 +84,13 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
       _dotSightController.VisibleCursor(false);
       _dotSight = _dotSightController.dotSight;
       this.SetDefaultFieldOfView();
+
       // Player's local mask is excepted to the self-interactions.
       this.gameObject.layer = LayerMask.NameToLayer("PlayerLocal");
+
+      // Set nickname
+      _playerNameUI.SetNickname(netName);
+
       this.maxLife = this.currentLife = this.life = initLife;
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
@@ -102,6 +111,9 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     }
     if (isClient)
     {
+      // Set nickname
+      _playerNameUI.SetNickname(netName);
+
       onMessageReceived += (eventName, eventMessage) =>
       {
         // Sync the hitting from server to the client
@@ -308,11 +320,13 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   public void OnTargetEnterFov()
   {
     _body.gameObject.SetActive(true);
+    _playerNameUI.Visible(true);
   }
 
   public void OnTargetLeaveFov()
   {
     _body.gameObject.SetActive(false);
+    _playerNameUI.Visible(false);
   }
 
   void OnDrawGizmos()
