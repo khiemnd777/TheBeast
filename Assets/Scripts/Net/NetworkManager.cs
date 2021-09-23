@@ -21,6 +21,7 @@ namespace Net
     public event Action<NetCloneJSON> onBroadcastCloneEverywhereJson;
     public event Action<NetClientIdJSON> onRequestGettingPlayers;
     public event Action onServerDisconnected;
+    public event Action<ScoreJson> onScoreBroadcast;
 
     Settings _settings;
     ISocketWrapper _socket;
@@ -98,6 +99,7 @@ namespace Net
         _socket.On(Constants.EVENT_CLIENT_REGISTER_FINISHED, OnClientRegisterFinished);
         _socket.On(Constants.EVENT_SERVER_DISCONNECTED, OnServerDisconnected);
         _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnClientConnected);
+        _socket.On("score_broadcast", OnScoreBroadcast);
         // Connect to socket
         StartCoroutine(ClientConnect());
       }
@@ -229,6 +231,15 @@ namespace Net
       if (onOtherDisconnected != null)
       {
         onOtherDisconnected(dataJSON);
+      }
+    }
+
+    void OnScoreBroadcast(SocketEvent evt)
+    {
+      var dataJson = JsonUtility.FromJson<ScoreJson>(evt.data.ToString());
+      if (onScoreBroadcast != null)
+      {
+        onScoreBroadcast.Invoke(dataJson);
       }
     }
   }

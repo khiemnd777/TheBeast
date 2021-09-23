@@ -7,6 +7,8 @@ namespace Net
   {
     public event Action<string, string> onMessageReceived;
 
+    public event Action<string> onClone;
+
     /// <summary>
     /// This property is used at server-side and local-site.
     /// </summary>
@@ -134,7 +136,7 @@ namespace Net
       this.netName = name;
     }
 
-    public void CloneEverywhereImmediately(string prefabName, float lifetime)
+    public void CloneEverywhereImmediately(string prefabName, float lifetime, object otherMessage)
     {
       if (isLocal)
       {
@@ -147,7 +149,8 @@ namespace Net
             maxLife,
             lifetime,
             Point.FromVector3(transform.position),
-            transform.rotation
+            transform.rotation,
+            otherMessage
           )
         );
       }
@@ -177,6 +180,14 @@ namespace Net
       );
     }
 
+    public virtual void OnCloneMessage(string otherMessage)
+    {
+      if (onClone != null)
+      {
+        onClone(otherMessage);
+      }
+    }
+
     public virtual void OnReceiveMessage(string eventName, string message)
     {
       if (onMessageReceived != null)
@@ -192,11 +203,11 @@ namespace Net
       return target;
     }
 
-    public static T InstantiateLocalAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation, Func<T, float> funcLifetime) where T : NetIdentity
+    public static T InstantiateLocalAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation, Func<T, float> funcLifetime, object otherMessage) where T : NetIdentity
     {
       var target = InstantiateLocal(original, position, rotation);
       var lifetime = funcLifetime != null ? funcLifetime(target) : 0f;
-      target.CloneEverywhereImmediately(prefabName, lifetime);
+      target.CloneEverywhereImmediately(prefabName, lifetime, otherMessage);
       if (lifetime > 0f)
       {
         Destroy(target.gameObject, lifetime);

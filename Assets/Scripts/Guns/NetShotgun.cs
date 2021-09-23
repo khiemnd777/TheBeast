@@ -19,6 +19,9 @@ public class NetShotgun : NetGun
       NetIdentity.InstantiateLocalAndEverywhere<NetBullet>(netBulletPrefabName, bulletPrefab, projectile.position, bulletRot, (netBullet) =>
       {
         return netBullet.CalculateBulletLifetime(dotSightPoint, projectile.position);
+      }, new NetBulletCloneJson
+      {
+        playerNetId = player.id
       });
     }
   }

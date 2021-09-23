@@ -8,6 +8,7 @@ public class MeleeCollider : MonoBehaviour
   public float size;
   public float range;
   public LayerMask layerMask;
+  public Player player;
   bool _isSetup;
 
   public void Collide(float damagePoint, float freezedTime, float hitbackPoint)
@@ -25,7 +26,7 @@ public class MeleeCollider : MonoBehaviour
             var impactedPositionNormalized = collider.ClosestPointOnBounds(transform.position);
             var impactedPoint = impactedPositionNormalized;
             impactedPositionNormalized.Normalize();
-            otherPlayer.OnHittingUp(damagePoint, freezedTime, hitbackPoint, impactedPoint, impactedPositionNormalized, true);
+            otherPlayer.OnHittingUp(damagePoint, freezedTime, hitbackPoint, impactedPoint, impactedPositionNormalized, player.id, true);
           }
         }
       }

@@ -96,7 +96,8 @@ namespace Net
           dataJson.rotation,
           dataJson.life,
           dataJson.maxLife,
-          dataJson.lifetime
+          dataJson.lifetime,
+          dataJson.other
         );
       };
       if (_settings.isServer)
@@ -112,6 +113,15 @@ namespace Net
         _networkManager.onClientRegisterFinished += (NetObjectJSON netObjJson) =>
         {
           CreateAtTheClientSide(netObjJson.prefabName, netObjJson.clientId, netObjJson.netName, netObjJson.id, netObjJson.position, netObjJson.rotation, netObjJson.life, netObjJson.maxLife);
+        };
+        _networkManager.onScoreBroadcast += (ScoreJson data) =>
+        {
+          var player = netObjectList.Find(data.playerNetId);
+          var score = player.GetComponent<NetScore>();
+          if (score)
+          {
+            score.ClientScore(data.score);
+          }
         };
       }
     }
@@ -185,7 +195,7 @@ namespace Net
       return null;
     }
 
-    public void CloneEverywhere(string prefabName, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife, float lifetime)
+    public void CloneEverywhere(string prefabName, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife, float lifetime, string otherMessage)
     {
       if (clientId != _networkManager.clientId)
       {
@@ -197,6 +207,7 @@ namespace Net
             netIdentifierPrefab,
             Utility.PositionArrayToVector3(Vector3.zero, position),
             Utility.AnglesArrayToQuaternion(rotation));
+          netIdentityIns.OnCloneMessage(otherMessage);
           if (_settings.isServer)
           {
             netIdentityIns.InitServer(netIdentityIns.GetInstanceID(), netName);

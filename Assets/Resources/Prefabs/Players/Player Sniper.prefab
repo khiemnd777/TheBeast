@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 176290330546738646}
   - component: {fileID: 7402688666648663842}
   - component: {fileID: 114794609875314712}
+  - component: {fileID: 325242048070946785}
   m_Layer: 9
   m_Name: Player Sniper
   m_TagString: Player
@@ -197,6 +198,7 @@ MonoBehaviour:
   _playerDead: {fileID: 114319558123064554, guid: bdc5b4d8e878865428d11ad34236fa2f,
     type: 3}
   _body: {fileID: 171758159736674674}
+  _score: {fileID: 325242048070946785}
   _fieldOfViewParam:
     radius: 10
     angle: 60
@@ -289,6 +291,18 @@ MonoBehaviour:
   thetaStaminaUp: 1.5
   stamina: 0
   _playerController: {fileID: 280525202359070336}
+--- !u!114 &325242048070946785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176198148588151234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd7c886ca740ae4dbd0beef45efb963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &176290331387516043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,6 +1132,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
+  player: {fileID: 0}
 --- !u!1 &2598616458396070927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1564,6 +1579,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d, type: 3}
+--- !u!4 &4980944218922477016 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7198789988337046897}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4980944218922477023 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
@@ -1576,12 +1597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2909f518b6b70745aea5d90f5003329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4980944218922477016 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 7198789988337046897}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8807948707713071154
 PrefabInstance:
   m_ObjectHideFlags: 0

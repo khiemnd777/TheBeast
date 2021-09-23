@@ -184,10 +184,14 @@ public class NetGun : MonoBehaviour
   {
     var bulletRot = CalculateBulletQuaternion();
     // Launch the bullet
-    NetIdentity.InstantiateLocalAndEverywhere<NetBullet>(netBulletPrefabName, bulletPrefab, projectile.position, bulletRot, (netBullet) =>
+    var bullet = NetIdentity.InstantiateLocalAndEverywhere<NetBullet>(netBulletPrefabName, bulletPrefab, projectile.position, bulletRot, (netBullet) =>
     {
       return netBullet.CalculateBulletLifetime(dotSightPoint, projectile.position);
+    }, new NetBulletCloneJson
+    {
+      playerNetId = player.id
     });
+    bullet.playerNetId = player.id;
   }
 
   public void EjectShell()

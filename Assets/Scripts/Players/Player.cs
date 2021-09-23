@@ -34,9 +34,11 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   Transform _body;
 
   [SerializeField]
+  NetScore _score;
+
+  [SerializeField]
   FieldOfViewParam _fieldOfViewParam;
 
-  [Space]
   AudioListener _audioListener;
   DotSightController _dotSightController;
   DotSight _dotSight;
@@ -48,12 +50,6 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   [Header("UI")]
   [SerializeField]
   PlayerNameUI _playerNameUI;
-
-  int _score;
-  public int score
-  {
-    get { return _score; }
-  }
 
   Locker _locker = new Locker();
   public Locker locker { get { return _locker; } }
@@ -101,7 +97,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
 
       _locker.RegisterLock("Explosion");
       _locker.RegisterLock("Hitting");
-      
+
       // Sync the life from server
       onMessageReceived += (eventName, eventMessage) =>
       {
@@ -134,6 +130,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
             hittedObjJson.hitbackPoint,
             Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.impactedPosition),
             Utility.PositionArrayToVector3(Vector3.zero, hittedObjJson.normalizedImpactedPosition),
+            hittedObjJson.fromPlayerNetId,
             hittedObjJson.bySlash
           );
           return;
@@ -217,7 +214,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     return damagePoint * damagePointRate;
   }
 
-  public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 impactedPosition, Vector3 normalizedImpactedPosition, bool bySlash)
+  public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 impactedPosition, Vector3 normalizedImpactedPosition, int fromPlayerNetId, bool bySlash)
   {
     if (isServer)
     {
@@ -235,6 +232,11 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
           normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
           life = life
         });
+
+        // Score for player
+        _score.Score(fromPlayerNetId);
+
+        // Disenroll when he's dead
         _netRegistrar.Disenroll(this);
         Destroy(gameObject, .1f);
         return;
@@ -246,6 +248,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
         hitbackPoint = hitbackPoint,
         impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
         normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
+        fromPlayerNetId = fromPlayerNetId,
         bySlash = bySlash
       });
     }
@@ -362,6 +365,7 @@ public struct HittedObjectJson
   public float hitbackPoint;
   public float[] impactedPosition;
   public float[] normalizedImpactedPosition;
+  public int fromPlayerNetId;
   public bool bySlash;
 }
 

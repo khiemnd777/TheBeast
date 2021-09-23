@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 1444438182}
   - component: {fileID: 7262596460278719058}
   - component: {fileID: 114526864036549178}
+  - component: {fileID: 6056365196694505455}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -166,6 +167,7 @@ MonoBehaviour:
   _fieldOfViewParam:
     radius: 10
     angle: 60
+  _score: {fileID: 6056365196694505455}
   _playerNameUI: {fileID: 2265204707469043819}
 --- !u!136 &136874918869126214
 CapsuleCollider:
@@ -255,6 +257,18 @@ MonoBehaviour:
   thetaStaminaUp: 1.5
   stamina: 0
   _playerController: {fileID: 114541830428908528}
+--- !u!114 &6056365196694505455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042711476360370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd7c886ca740ae4dbd0beef45efb963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1056017847573556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,6 +1132,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
+  player: {fileID: 0}
 --- !u!1 &2765892941781467519
 GameObject:
   m_ObjectHideFlags: 0

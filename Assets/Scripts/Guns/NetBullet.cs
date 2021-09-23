@@ -9,6 +9,10 @@ public class NetBullet : NetIdentity
   public float freezedTime;
   public float maxDistance;
   public LayerMask layerMask;
+
+  [System.NonSerialized]
+  public int playerNetId;
+
   [SerializeField]
   TrailRenderer _trail;
   float _targetDistance;
@@ -23,6 +27,13 @@ public class NetBullet : NetIdentity
     base.Start();
     _bulletImpactFx = GetComponent<BulletImpactEffect>();
     _direction = transform.rotation * Vector3.right;
+    onClone += OnClone;
+  }
+
+  void OnClone(string otherMessage)
+  {
+    var data = Utility.Deserialize<NetBulletCloneJson>(otherMessage);
+    playerNetId = data.playerNetId;
   }
 
   protected override void Update()
@@ -58,7 +69,7 @@ public class NetBullet : NetIdentity
         {
           var impactedPositionNormalize = hitPlayer.transform.position - impactPoint;
           impactedPositionNormalize.Normalize();
-          hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactPoint, impactedPositionNormalize, false);
+          hitPlayer.OnHittingUp(damage, freezedTime, hitback, impactPoint, impactedPositionNormalize, playerNetId, false);
         }
       }
       // var hitMonster = hitTransform.GetComponent<Monster>();
@@ -85,4 +96,9 @@ public class NetBullet : NetIdentity
     var bulletLifetime = bulletLength / bulletVel;
     return bulletLifetime + Time.fixedDeltaTime;
   }
+}
+
+public struct NetBulletCloneJson
+{
+  public int playerNetId { get; set; }
 }
