@@ -87,9 +87,14 @@ namespace Net
       return list.Select(x => x.Value).ToList();
     }
 
-    public virtual List<T> All(Func<KeyValuePair<int, T>, bool> predicate)
+    public virtual IEnumerable<T> All(Func<KeyValuePair<int, T>, bool> predicate, Func<IEnumerable<KeyValuePair<int, T>>, IOrderedEnumerable<KeyValuePair<int, T>>> order = null)
     {
-      return list.Where(predicate).Select(x => x.Value).ToList();
+      var query = list.Where(predicate);
+      if (order != null)
+      {
+        query = order.Invoke(query);
+      }
+      return query.Select(x => x.Value);
     }
 
     public virtual int Count()
