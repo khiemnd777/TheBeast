@@ -27,7 +27,6 @@ namespace Net
       this.position = new[] { point.x, point.y };
       this.rotation = Utility.QuaternionToAnglesArray(rotation);
       this.other = other == null ? string.Empty : JsonUtility.ToJson(other);
-
     }
 
     public static NetCloneJSON Deserialize(object data)

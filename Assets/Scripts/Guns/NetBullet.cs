@@ -27,11 +27,11 @@ public class NetBullet : NetIdentity
     base.Start();
     _bulletImpactFx = GetComponent<BulletImpactEffect>();
     _direction = transform.rotation * Vector3.right;
-    onClone += OnClone;
   }
 
-  void OnClone(string otherMessage)
+  public override void OnCloneMessage(string otherMessage)
   {
+    base.OnCloneMessage(otherMessage);
     var data = Utility.Deserialize<NetBulletCloneJson>(otherMessage);
     playerNetId = data.playerNetId;
   }
@@ -100,5 +100,5 @@ public class NetBullet : NetIdentity
 
 public struct NetBulletCloneJson
 {
-  public int playerNetId { get; set; }
+  public int playerNetId;
 }

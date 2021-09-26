@@ -195,7 +195,6 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
   {
     var targetDir = impactedPosition - center;
     var angle = Vector3.Angle(targetDir, direction);
-    Debug.Log($"Angle of the impaction {angle}");
     var damagePointRate = 1f;
     if (0f <= angle && angle <= 15f || 165f <= angle && angle <= 180f)
     {
@@ -219,8 +218,6 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     if (isServer)
     {
       var expectedDamage = CalculateDamagePoint(damagePoint, impactedPosition, transform.position, _body.right);
-      Debug.Log($"damagePoint: {damagePoint}");
-      Debug.Log($"expectedDamage: {expectedDamage}");
       life -= expectedDamage;
       if (lifeEnd)
       {
@@ -234,7 +231,15 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
         });
 
         // Score for player
-        _score.Score(fromPlayerNetId);
+        var fromPlayer = (Player)NetObjectList.instance.Find(fromPlayerNetId);
+        if (fromPlayer)
+        {
+          var netScore = fromPlayer.GetComponent<NetScore>();
+          if (netScore)
+          {
+            netScore.ServerScore(fromPlayerNetId, fromPlayer.clientId);
+          }
+        }
 
         // Disenroll when he's dead
         _netRegistrar.Disenroll(this);

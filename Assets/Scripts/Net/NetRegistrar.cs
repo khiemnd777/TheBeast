@@ -69,7 +69,6 @@ namespace Net
                 var rotation = Utility.AnglesArrayToQuaternion(dataJson.rotation);
                 Debug.Log($"Player information: {{life:{dataJson.life}, maxLife:{dataJson.maxLife}}}");
                 var netObj = CreateAtTheClientSide(dataJson.prefabName, dataJson.clientId, dataJson.netName, dataJson.id, dataJson.position, dataJson.rotation, dataJson.life, dataJson.maxLife);
-                netObj.OnReceiveMessage(dataJson.eventName, dataJson.message);
                 Debug.Log($"1: Show log if player respawn after dead by event [{dataJson.eventName}]");
                 StartCoroutine(OnAfterInitNetObjectWithMessage(netObj, dataJson.eventName, dataJson.message));
               }
@@ -116,6 +115,7 @@ namespace Net
         };
         _networkManager.onScoreBroadcast += (ScoreJson data) =>
         {
+          Debug.Log($"Hey! I scored");
           var player = netObjectList.Find(data.playerNetId);
           var score = player.GetComponent<NetScore>();
           if (score)

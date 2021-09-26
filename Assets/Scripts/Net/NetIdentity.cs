@@ -7,8 +7,6 @@ namespace Net
   {
     public event Action<string, string> onMessageReceived;
 
-    public event Action<string> onClone;
-
     /// <summary>
     /// This property is used at server-side and local-site.
     /// </summary>
@@ -182,10 +180,7 @@ namespace Net
 
     public virtual void OnCloneMessage(string otherMessage)
     {
-      if (onClone != null)
-      {
-        onClone(otherMessage);
-      }
+
     }
 
     public virtual void OnReceiveMessage(string eventName, string message)

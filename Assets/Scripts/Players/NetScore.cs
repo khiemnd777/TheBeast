@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class NetScore : MonoBehaviour
 {
-  [System.NonSerialized]
-  public int score = 0;
+  public int score;
 
   ISocketWrapper _socket;
 
@@ -14,19 +13,17 @@ public class NetScore : MonoBehaviour
     _socket = NetworkManagerCache.socket;
   }
 
-  public void Score(int playerNetId)
+  public void ServerScore(int playerNetId, string clientId)
   {
-    var fromPlayer = (Player)NetObjectList.instance.Find(playerNetId);
-    if (fromPlayer)
-    {
+      Debug.Log($"before score: {score}");
       ++score;
+      Debug.Log($"after score: {score}");
       _socket.Emit("score", new ScoreJson
       {
-        clientId = fromPlayer.clientId,
+        clientId = clientId,
         playerNetId = playerNetId,
         score = score
       });
-    }
   }
 
   static object scoreObj = new object();
