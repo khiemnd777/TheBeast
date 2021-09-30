@@ -144,10 +144,13 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
             Utility.PositionArrayToVector3(Vector3.zero, deadObjJson.normalizedImpactedPosition),
             Utility.PositionArrayToVector3(Vector3.zero, deadObjJson.impactedPosition)
           );
-          Debug.Log("DEAD!");
+          // Script of destroy
+          Debug.Log("You are destroyed!");
           _netRegistrar.Disenroll(this);
           if (isLocal)
           {
+            _dotSightController.VisibleCursor(true);
+            _dotSightController.DestroyDotSight();
             if (onDead != null)
             {
               onDead();

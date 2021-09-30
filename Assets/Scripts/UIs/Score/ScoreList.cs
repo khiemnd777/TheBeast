@@ -34,6 +34,7 @@ public class ScoreList : MonoBehaviour
     while (gameObject)
     {
       yield return new WaitForSeconds(interval);
+      Debug.Log($"_netObjectList count: {_netObjectList.Count()}");
       var highScores = _netObjectList.All(x =>
       {
         var netScore = x.Value.GetComponent<NetScore>();

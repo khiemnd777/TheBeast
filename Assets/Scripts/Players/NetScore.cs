@@ -15,9 +15,7 @@ public class NetScore : MonoBehaviour
 
   public void ServerScore(int playerNetId, string clientId)
   {
-      Debug.Log($"before score: {score}");
       ++score;
-      Debug.Log($"after score: {score}");
       _socket.Emit("score", new ScoreJson
       {
         clientId = clientId,

@@ -8,6 +8,7 @@ namespace Net
 {
   public abstract class BaseNetList<T> : MonoBehaviour where T : BaseNetIdentity
   {
+    static object lockList = new object();
     protected Settings settings;
     protected ISocketWrapper socket;
     protected Dictionary<int, T> list = new Dictionary<int, T>();
@@ -28,7 +29,10 @@ namespace Net
     /// <param name="gamePlayer"></param>
     public virtual void Store(T gamePlayer)
     {
-      list.Add(gamePlayer.id, gamePlayer);
+      lock (lockList)
+      {
+        list.Add(gamePlayer.id, gamePlayer);
+      }
     }
 
     /// <summary>
@@ -58,7 +62,10 @@ namespace Net
     /// <param name="id"></param>
     public virtual void Remove(int id)
     {
-      list.Remove(id);
+      lock (lockList)
+      {
+        list.Remove(id);
+      }
     }
 
     /// <summary>
@@ -75,7 +82,10 @@ namespace Net
     /// </summary>
     public virtual void Clear()
     {
-      list.Clear();
+      lock (lockList)
+      {
+        list.Clear();
+      }
     }
 
     /// <summary>

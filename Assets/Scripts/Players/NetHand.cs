@@ -54,12 +54,15 @@ public class NetHand : MonoBehaviour
 
   void MoveInRange()
   {
-    var distance = Vector3.Distance(_dotSight.GetCurrentPoint(), _arm.position);
-    var rangeForMoving = distance / _maximumDistance;
-    var pos = transform.localPosition;
-    pos.x = Mathf.Clamp(rangeForMoving, 0, maximumRange);
-    // pos.z = 0;
-    transform.localPosition = pos;
+    if (_dotSight)
+    {
+      var distance = Vector3.Distance(_dotSight.GetCurrentPoint(), _arm.position);
+      var rangeForMoving = distance / _maximumDistance;
+      var pos = transform.localPosition;
+      pos.x = Mathf.Clamp(rangeForMoving, 0, maximumRange);
+      // pos.z = 0;
+      transform.localPosition = pos;
+    }
   }
 
   void EmitMoveInRange()

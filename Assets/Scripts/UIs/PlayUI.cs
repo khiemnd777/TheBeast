@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Net
@@ -17,6 +18,10 @@ namespace Net
 
     NetworkManager _networkManager;
 
+    LocalPlayerManager _localPlayerManager;
+
+    RectTransform _rectTransform;
+
     Text playBtnText;
 
     /// <summary>
@@ -25,21 +30,40 @@ namespace Net
     /// </summary>
     void Start()
     {
+      _rectTransform = GetComponent<RectTransform>();
       playBtnText = playButton.GetComponentInChildren<Text>();
       netRegistrar = FindObjectOfType<NetRegistrar>();
+      _localPlayerManager = FindObjectOfType<LocalPlayerManager>();
+      _localPlayerManager.onPlayerSetup += (Player player) =>
+      {
+        if (player.isLocal)
+        {
+          player.onDead += OnPlayerDead;
+        }
+      };
       _networkManager = NetworkManagerCache.networkManager;
       _networkManager.onClientRegisterFinished += (NetObjectJSON netObjJson) =>
         {
           // Detects the local player at the client-side.
           if (netObjJson.clientId.Equals(_networkManager.clientId))
           {
-            this.gameObject.SetActive(false);
+            StartCoroutine(Hide());
           }
         };
+      StartCoroutine(Show());
+    }
+
+    void OnPlayerDead()
+    {
+      playButton.interactable = true;
+      nicknameInputField.interactable = true;
+      playBtnText.text = "Play";
+      gameObject.SetActive(true);
+      StartCoroutine(Show());
     }
 
     /// <summary>
-    /// Fired by Play button onclick event.
+    /// Fired by Play button on-click event.
     /// </summary>
     public void Play()
     {
@@ -49,6 +73,33 @@ namespace Net
       print("Connecting...");
       playBtnText.text = "Connecting...";
       netRegistrar.Register(playerPrefabName, nicknameInputField.text);
+    }
+
+    IEnumerator Hide()
+    {
+      _rectTransform.localScale = Vector3.one;
+      var t = 0f;
+      while (t <= 1f)
+      {
+        t += Time.deltaTime / .5f;
+        var scale = Mathf.Lerp(1f, 0f, t);
+        _rectTransform.localScale = Vector3.one * scale;
+        yield return null;
+      }
+      gameObject.SetActive(false);
+    }
+
+    IEnumerator Show()
+    {
+      _rectTransform.localScale = Vector3.zero;
+      var t = 0f;
+      while (t <= 1f)
+      {
+        t += Time.deltaTime / .5f;
+        var scale = Mathf.Lerp(0f, 1f, t);
+        _rectTransform.localScale = Vector3.one * scale;
+        yield return null;
+      }
     }
   }
 }

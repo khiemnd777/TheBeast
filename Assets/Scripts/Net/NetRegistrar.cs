@@ -17,6 +17,7 @@ namespace Net
     CameraController cameraController;
     DotSightController dotSightController;
     OtherPlayerLoadingCounter otherPlayerCounter;
+    LocalPlayerManager _localPlayerManager;
     Settings _settings;
 
     /// <summary>
@@ -27,6 +28,7 @@ namespace Net
     {
       _settings = Settings.instance;
       _networkManager = NetworkManagerCache.networkManager;
+      _localPlayerManager = FindObjectOfType<LocalPlayerManager>();
       socket = NetworkManagerCache.socket;
       netObjectList = NetObjectList.instance;
       otherPlayerCounter = new OtherPlayerLoadingCounter();
@@ -68,7 +70,7 @@ namespace Net
                 var position = Point.FromArray(dataJson.position);
                 var rotation = Utility.AnglesArrayToQuaternion(dataJson.rotation);
                 Debug.Log($"Player information: {{life:{dataJson.life}, maxLife:{dataJson.maxLife}}}");
-                var netObj = CreateAtTheClientSide(dataJson.prefabName, dataJson.clientId, dataJson.netName, dataJson.id, dataJson.position, dataJson.rotation, dataJson.life, dataJson.maxLife);
+                var netObj = CreateAtTheClientSide(dataJson.prefabName, dataJson.clientId, dataJson.netName, dataJson.id, dataJson.position, dataJson.rotation, dataJson.life, dataJson.maxLife, dataJson.score);
                 Debug.Log($"1: Show log if player respawn after dead by event [{dataJson.eventName}]");
                 StartCoroutine(OnAfterInitNetObjectWithMessage(netObj, dataJson.eventName, dataJson.message));
               }
@@ -111,7 +113,7 @@ namespace Net
       {
         _networkManager.onClientRegisterFinished += (NetObjectJSON netObjJson) =>
         {
-          CreateAtTheClientSide(netObjJson.prefabName, netObjJson.clientId, netObjJson.netName, netObjJson.id, netObjJson.position, netObjJson.rotation, netObjJson.life, netObjJson.maxLife);
+          CreateAtTheClientSide(netObjJson.prefabName, netObjJson.clientId, netObjJson.netName, netObjJson.id, netObjJson.position, netObjJson.rotation, netObjJson.life, netObjJson.maxLife, 0);
         };
         _networkManager.onScoreBroadcast += (ScoreJson data) =>
         {
@@ -150,7 +152,7 @@ namespace Net
     /// <param name="id"></param>
     /// <param name="name"></param>
     /// <param name="life"></param>
-    public NetIdentity CreateLocally(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
+    public NetIdentity CreateLocally(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife, int score)
     {
       if (netObjectList.Exists(id)) return null;
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
@@ -166,13 +168,20 @@ namespace Net
         netId.Init(id, netName);
         netId.life = life;
         netId.maxLife = maxLife;
+        // Score
+        var netScore = netId.GetComponent<NetScore>();
+        if (netScore)
+        {
+          netScore.score = score;
+        }
         netObjectList.Store(netId);
+        _localPlayerManager.SetLocalPlayer(netId);
         return netId;
       }
       return null;
     }
 
-    public NetIdentity CreateClientOther(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
+    public NetIdentity CreateClientOther(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife, int score)
     {
       if (netObjectList.Exists(id)) return null;
       var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
@@ -189,6 +198,12 @@ namespace Net
         netId.InitOther(id, netName);
         netId.life = life;
         netId.maxLife = maxLife;
+        // Score
+        var netScore = netId.GetComponent<NetScore>();
+        if (netScore)
+        {
+          netScore.score = score;
+        }
         netObjectList.Store(netId);
         return netId;
       }
@@ -254,13 +269,13 @@ namespace Net
       }
     }
 
-    NetIdentity CreateAtTheClientSide(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife)
+    NetIdentity CreateAtTheClientSide(string prefabName, string clientId, string netName, int id, float[] position, float[] rotation, float life, float maxLife, int score)
     {
       if (!_settings.isClient) return null;
       var isLocalPlayer = clientId.Equals(_networkManager.clientId);
       if (isLocalPlayer)
       {
-        var locally = CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife);
+        var locally = CreateLocally(prefabName, clientId, netName, id, position, rotation, life, maxLife, score);
         if (locally)
         {
           socket.Emit(Constants.EVENT_LOCALLY_REGISTER_FINISHED,
@@ -278,7 +293,7 @@ namespace Net
         }
         return locally;
       }
-      return CreateClientOther(prefabName, clientId, netName, id, position, rotation, life, maxLife);
+      return CreateClientOther(prefabName, clientId, netName, id, position, rotation, life, maxLife, score);
     }
   }
 }

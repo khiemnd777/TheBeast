@@ -67,14 +67,25 @@ public class DotSightController : MonoBehaviour
     _dotSight = insDotSight;
   }
 
+  public void DestroyDotSight()
+  {
+    Destroy(_dotSight.gameObject);
+  }
+
   public void SetGlobally()
   {
-    _dotSight.local = false;
+    if (_dotSight)
+    {
+      _dotSight.local = false;
+    }
   }
 
   public void SetLocally()
   {
-    _dotSight.local = true;
+    if (_dotSight)
+    {
+      _dotSight.local = true;
+    }
   }
 
   public void ResetSensitivity()
@@ -84,7 +95,10 @@ public class DotSightController : MonoBehaviour
 
   public void SetSensitivity(float sensitivity)
   {
-    _dotSight.sensitivity = sensitivity;
+    if (_dotSight)
+    {
+      _dotSight.sensitivity = sensitivity;
+    }
   }
 
   /// <summary>
@@ -94,6 +108,9 @@ public class DotSightController : MonoBehaviour
   public void SetPlayer(NetIdentity netIdentity)
   {
     _netIdentity = netIdentity;
-    _netPlayerController = _netIdentity.GetComponent<NetPlayerController>();
+    if (_netIdentity)
+    {
+      _netPlayerController = _netIdentity.GetComponent<NetPlayerController>();
+    }
   }
 }

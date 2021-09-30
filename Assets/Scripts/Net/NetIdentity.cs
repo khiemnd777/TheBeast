@@ -162,6 +162,12 @@ namespace Net
     public void EmitMessage(string eventName, object message, bool onlyServer = false)
     {
       var clientId = NetworkManagerCache.networkManager.clientId;
+      var score = 0;
+      var netScore = GetComponent<NetScore>();
+      if (netScore)
+      {
+        score = netScore.score;
+      }
       socket.Emit(Constants.EVENT_EMIT_MESSAGE, new NetMessageJSON(
         clientId
         , id
@@ -171,6 +177,7 @@ namespace Net
         , maxLife
         , Utility.Vector3ToPositionArray(transform.position)
         , Utility.QuaternionToAnglesArray(transform.rotation)
+        , score
         , eventName
         , message
         , onlyServer
