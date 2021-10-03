@@ -16,7 +16,7 @@ public class DroppedItem : NetIdentity
   List<Player> _availablePlayers = new List<Player>();
 
   [SerializeField]
-  protected SpriteRenderer renderer;
+  protected SpriteRenderer display;
 
   Transform _rendererTransform;
 
@@ -27,7 +27,7 @@ public class DroppedItem : NetIdentity
     base.Start();
     if (isClient)
     {
-      _rendererTransform = renderer.transform;
+      _rendererTransform = display.transform;
       _originalScale = _rendererTransform.localScale;
       onMessageReceived += (eventName, eventMessage) =>
       {

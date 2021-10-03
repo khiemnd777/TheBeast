@@ -39,7 +39,7 @@ public class ScoreList : MonoBehaviour
         var netScore = x.Value?.GetComponent<NetScore>();
         return netScore && netScore.score > 0;
       }, o => o.OrderByDescending(x => x.Value.GetComponent<NetScore>().score));
-      // Debug.Log($"highScores count: {highScores.Count()}");
+      
       var topScores = highScores.Take(7).ToList();
 
       for (var inx = 0; inx < topScores.Count(); inx++)
