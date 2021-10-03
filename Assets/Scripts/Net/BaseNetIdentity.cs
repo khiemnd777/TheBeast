@@ -78,7 +78,7 @@ namespace Net
       }
     }
 
-    public void NetDestroy(NetIdentity netId)
+    protected void NetDestroy(NetIdentity netId)
     {
       if (netObjectList)
       {

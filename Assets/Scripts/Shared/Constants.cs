@@ -5,6 +5,8 @@ public class Constants
   public const string EVENT_REGISTER = "register";
   public const string EVENT_CLONE_EVERYWHERE = "clone everywhere";
   public const string EVENT_BROADCAST_CLONE_EVERYWHERE = "broadcast clone everywhere";
+  public const string EVENT_SERVER_CLONE_EVERYWHERE = "server clone everywhere";
+  public const string EVENT_BROADCAST_SERVER_CLONE_EVERYWHERE = "broadcast server clone everywhere";
   public const string EVENT_OBJECT_REGISTER = "object register";
   public const string EVENT_OBJECT_REGISTERED = "object registered";
   public const string EVENT_OTHER_OBJECT_REGISTERED = "other object registered";

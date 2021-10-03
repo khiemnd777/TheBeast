@@ -218,6 +218,33 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
     return damagePoint * damagePointRate;
   }
 
+  void DoPlayerDead(Vector3 impactedPosition, Vector3 normalizedImpactedPosition, int fromPlayerNetId)
+  {
+    // Dead!
+    Debug.Log($"{clientId} is dead!");
+    EmitMessage("player_dead", new DeadObjectJson
+    {
+      impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
+      normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
+      life = life
+    });
+
+    // Score for player
+    var fromPlayer = (Player)NetObjectList.instance.Find(fromPlayerNetId);
+    if (fromPlayer)
+    {
+      var netScore = fromPlayer.GetComponent<NetScore>();
+      if (netScore)
+      {
+        netScore.ServerScore(fromPlayerNetId, fromPlayer.clientId);
+      }
+    }
+
+    // Disenroll when he's dead
+    _netRegistrar.Disenroll(this);
+    Destroy(gameObject, .1f);
+  }
+
   public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 impactedPosition, Vector3 normalizedImpactedPosition, int fromPlayerNetId, bool bySlash)
   {
     if (isServer)
@@ -227,28 +254,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
       if (lifeEnd)
       {
         // Dead!
-        Debug.Log($"{clientId} is dead!");
-        EmitMessage("player_dead", new DeadObjectJson
-        {
-          impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
-          normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
-          life = life
-        });
-
-        // Score for player
-        var fromPlayer = (Player)NetObjectList.instance.Find(fromPlayerNetId);
-        if (fromPlayer)
-        {
-          var netScore = fromPlayer.GetComponent<NetScore>();
-          if (netScore)
-          {
-            netScore.ServerScore(fromPlayerNetId, fromPlayer.clientId);
-          }
-        }
-
-        // Disenroll when he's dead
-        _netRegistrar.Disenroll(this);
-        Destroy(gameObject, .1f);
+        DoPlayerDead(impactedPosition, normalizedImpactedPosition, fromPlayerNetId);
         return;
       }
       EmitMessage("object_hitted", new HittedObjectJson

@@ -19,6 +19,7 @@ namespace Net
     public event Action<NetRegisterJSON> onServerRegister;
     public event Action<NetMessageJSON> onReceiveMessageJson;
     public event Action<NetCloneJSON> onBroadcastCloneEverywhereJson;
+    public event Action<NetServerCloneJSON> onBroadcastServerCloneEverywhereJson;
     public event Action<NetClientIdJSON> onRequestGettingPlayers;
     public event Action onServerDisconnected;
     public event Action<ScoreJson> onScoreBroadcast;
@@ -99,6 +100,7 @@ namespace Net
         _socket.On(Constants.EVENT_CLIENT_REGISTER_FINISHED, OnClientRegisterFinished);
         _socket.On(Constants.EVENT_SERVER_DISCONNECTED, OnServerDisconnected);
         _socket.On(Constants.EVENT_CLIENT_CONNECTED, OnClientConnected);
+        _socket.On(Constants.EVENT_BROADCAST_SERVER_CLONE_EVERYWHERE, OnBroadcastServerCloneEverywhere);
         _socket.On("score_broadcast", OnScoreBroadcast);
         // Connect to socket
         StartCoroutine(ClientConnect());
@@ -111,6 +113,15 @@ namespace Net
       if (onBroadcastCloneEverywhereJson != null)
       {
         onBroadcastCloneEverywhereJson(dataJson);
+      }
+    }
+
+    void OnBroadcastServerCloneEverywhere(SocketEvent evt)
+    {
+      var dataJson = NetServerCloneJSON.Deserialize(evt.data);
+      if (onBroadcastServerCloneEverywhereJson != null)
+      {
+        onBroadcastServerCloneEverywhereJson(dataJson);
       }
     }
 

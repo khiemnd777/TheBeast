@@ -125,6 +125,22 @@ namespace Net
             score.ClientScore(data.score);
           }
         };
+        _networkManager.onBroadcastServerCloneEverywhereJson += (NetServerCloneJSON dataJson) =>
+        {
+          ServerCloneToClientEverywhere(
+            dataJson.prefabName,
+            dataJson.netId,
+            dataJson.clientId,
+            dataJson.netName,
+            dataJson.position,
+            dataJson.rotation,
+            dataJson.life,
+            dataJson.maxLife,
+            dataJson.lifetime,
+            dataJson.other,
+            dataJson.stored
+          );
+        };
       }
     }
 
@@ -233,6 +249,36 @@ namespace Net
           }
           netIdentityIns.life = life;
           netIdentityIns.maxLife = maxLife;
+          if (lifetime > 0f)
+          {
+            Destroy(netIdentityIns.gameObject, lifetime);
+          }
+        }
+      }
+    }
+
+    public void ServerCloneToClientEverywhere(string prefabName, int netId, string clientId, string netName, float[] position, float[] rotation, float life, float maxLife, float lifetime, string otherMessage, bool stored)
+    {
+      if (!_settings.isClient) return;
+      if (clientId != _networkManager.clientId)
+      {
+        var prefab = netIdentifierPrefabs.FirstOrDefault(x => x.name == prefabName);
+        if (prefab.netIdentityPrefab)
+        {
+          var netIdentifierPrefab = prefab.netIdentityPrefab;
+          var netIdentityIns = Instantiate<NetIdentity>(
+            netIdentifierPrefab,
+            Utility.PositionArrayToVector3(Vector3.zero, position),
+            Utility.AnglesArrayToQuaternion(rotation));
+          netIdentityIns.SetNetIdAtClientSide(netId);
+          netIdentityIns.OnCloneMessage(otherMessage);
+          netIdentityIns.InitOther(netIdentityIns.GetInstanceID(), netName);
+          netIdentityIns.life = life;
+          netIdentityIns.maxLife = maxLife;
+          if (stored)
+          {
+            netObjectList.Store(netIdentityIns);
+          }
           if (lifetime > 0f)
           {
             Destroy(netIdentityIns.gameObject, lifetime);

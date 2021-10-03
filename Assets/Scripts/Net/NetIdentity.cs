@@ -134,7 +134,7 @@ namespace Net
       this.netName = name;
     }
 
-    public void CloneEverywhereImmediately(string prefabName, float lifetime, object otherMessage)
+    public void CloneEverywhereImmediately(string prefabName, float lifetime, object otherMessage, bool stored = false)
     {
       if (isLocal)
       {
@@ -149,6 +149,28 @@ namespace Net
             Point.FromVector3(transform.position),
             transform.rotation,
             otherMessage
+          )
+        );
+      }
+    }
+
+    public void ServerCloneToEverywhereImmediately(string prefabName, float lifetime, object otherMessage, bool stored = false)
+    {
+      if (isServer)
+      {
+        var clientId = networkManager.clientId;
+        socket.Emit(Constants.EVENT_SERVER_CLONE_EVERYWHERE, new NetServerCloneJSON(
+            id,
+            clientId.ToString(),
+            prefabName,
+            name,
+            life,
+            maxLife,
+            lifetime,
+            Point.FromVector3(transform.position),
+            transform.rotation,
+            otherMessage,
+            stored
           )
         );
       }
@@ -198,6 +220,14 @@ namespace Net
       }
     }
 
+    public void StoreToNetList()
+    {
+      if (netObjectList)
+      {
+        netObjectList.Store(this);
+      }
+    }
+
     public static T InstantiateLocal<T>(T original, Vector3 position, Quaternion rotation) where T : NetIdentity
     {
       var target = Instantiate<T>(original, position, rotation);
@@ -210,6 +240,19 @@ namespace Net
       var target = InstantiateLocal(original, position, rotation);
       var lifetime = funcLifetime != null ? funcLifetime(target) : 0f;
       target.CloneEverywhereImmediately(prefabName, lifetime, otherMessage);
+      if (lifetime > 0f)
+      {
+        Destroy(target.gameObject, lifetime);
+      }
+      return target;
+    }
+
+    public static T InstantiateServerAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation, Func<T, float> funcLifetime, object otherMessage, bool stored = false) where T : NetIdentity
+    {
+      var target = Instantiate<T>(original, position, rotation);
+      var lifetime = funcLifetime != null ? funcLifetime(target) : 0f;
+      target.StoreToNetList();
+      target.ServerCloneToEverywhereImmediately(prefabName, lifetime, otherMessage, stored);
       if (lifetime > 0f)
       {
         Destroy(target.gameObject, lifetime);
