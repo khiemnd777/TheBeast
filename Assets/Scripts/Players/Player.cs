@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Net;
 using UnityEngine;
 
-public class Player : NetIdentity, IFieldOfViewVisualizer
+public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
 {
   public event System.Action onDead;
 
@@ -290,6 +292,11 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     yield return new WaitForFixedUpdate();
   }
 
+  public void AddHp(float hp)
+  {
+    this.life = this.life + hp >= this.maxLife ? this.maxLife : this.life + hp;
+  }
+
   /// <summary>
   /// Fill health point to player.
   /// </summary>
@@ -336,6 +343,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     _locker.Unlock(lockName);
   }
 
+  #region IFieldOfViewVisualizer
   public void OnTargetEnterFov()
   {
     _body.gameObject.SetActive(true);
@@ -347,6 +355,67 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     _body.gameObject.SetActive(false);
     _playerNameUI.Visible(false);
   }
+  #endregion
+
+  #region IPicker
+  static object droppedItemLock = new object();
+  List<DroppedItem> _droppedItems = new List<DroppedItem>();
+  public List<DroppedItem> droppedItems => _droppedItems;
+
+  public void PickUp()
+  {
+    lock (droppedItemLock)
+    {
+      if (_droppedItems.Any())
+      {
+        foreach (var droppedItem in _droppedItems)
+        {
+          if (droppedItem)
+          {
+            droppedItem.PickUp(this);
+          }
+        }
+        // Remove item after picked up
+        _droppedItems = _droppedItems.Where(x => x).ToList();
+      }
+    }
+  }
+
+  public void PickUp(DroppedItem droppedItem)
+  {
+    droppedItem.PickUp(this);
+    lock (droppedItemLock)
+    {
+      if (_droppedItems.Any())
+      {
+        // Remove item after picked up
+        _droppedItems = _droppedItems.Where(x => x).ToList();
+      }
+    }
+  }
+
+  public void AddDroppedItem(DroppedItem item)
+  {
+    lock (droppedItemLock)
+    {
+      if (_droppedItems.Any(x => x.id != item.id))
+      {
+        _droppedItems.Add(item);
+      }
+    }
+  }
+
+  public void RemoveDroppedItem(DroppedItem item)
+  {
+    lock (droppedItemLock)
+    {
+      if (_droppedItems.Any(x => x.id == item.id))
+      {
+        _droppedItems.Remove(item);
+      }
+    }
+  }
+  #endregion
 
   void OnDrawGizmos()
   {
@@ -365,6 +434,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer
     Gizmos.DrawLine(fovTransform.position, fovTransform.position + viewAngleB * radius);
   }
 }
+
 
 public struct HittedObjectJson
 {

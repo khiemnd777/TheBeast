@@ -8,6 +8,7 @@ namespace Net
     protected NetworkManager networkManager;
     protected ISocketWrapper socket;
     protected Settings settings;
+    protected NetObjectList netObjectList;
     /// <summary>
     /// [Readonly] The player identity through network.
     /// </summary>
@@ -32,9 +33,16 @@ namespace Net
       settings = Settings.instance;
       networkManager = NetworkManagerCache.networkManager;
       socket = NetworkManagerCache.socket;
+      netObjectList = NetObjectList.instance;
+
       if (settings.isServer)
       {
         id = GetInstanceID();
+        isServer = true;
+      }
+      if (settings.isClient)
+      {
+        isClient = true;
       }
     }
 
@@ -56,8 +64,27 @@ namespace Net
 
     public void SetNetIdAtClientSide(int id)
     {
-      if (!settings.isClient) return;
-      this.id = id;
+      if (settings.isClient)
+      {
+        this.id = id;
+      }
+    }
+
+    public void SetNetIdAtServerSide(int id)
+    {
+      if (settings.isServer)
+      {
+        this.id = id;
+      }
+    }
+
+    public void NetDestroy(NetIdentity netId)
+    {
+      if (netObjectList)
+      {
+        netObjectList.Remove(netId.id);
+      }
+      Destroy(netId.gameObject);
     }
   }
 }
