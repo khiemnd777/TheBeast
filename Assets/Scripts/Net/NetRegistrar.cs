@@ -69,9 +69,8 @@ namespace Net
                 Debug.Log($"Instantiate the object of client {dataJson.clientId}");
                 var position = Point.FromArray(dataJson.position);
                 var rotation = Utility.AnglesArrayToQuaternion(dataJson.rotation);
-                Debug.Log($"Player information: {{life:{dataJson.life}, maxLife:{dataJson.maxLife}}}");
                 var netObj = CreateAtTheClientSide(dataJson.prefabName, dataJson.clientId, dataJson.netName, dataJson.id, dataJson.position, dataJson.rotation, dataJson.life, dataJson.maxLife, dataJson.score);
-                Debug.Log($"1: Show log if player respawn after dead by event [{dataJson.eventName}]");
+                Debug.Log($"1: Show log if player respawn after dead by event [{dataJson.eventName}] for object {netObj.netName}");
                 StartCoroutine(OnAfterInitNetObjectWithMessage(netObj, dataJson.eventName, dataJson.message));
               }
               else
@@ -147,7 +146,7 @@ namespace Net
     IEnumerator OnAfterInitNetObjectWithMessage(NetIdentity netObj, string eventName, string message)
     {
       yield return null;
-      netObj.OnReceiveMessage(eventName, message);
+      netObj?.OnReceiveMessage(eventName, message);
     }
 
     public void Register(string prefabName, string netName)
@@ -270,9 +269,9 @@ namespace Net
             netIdentifierPrefab,
             Utility.PositionArrayToVector3(Vector3.zero, position),
             Utility.AnglesArrayToQuaternion(rotation));
-          netIdentityIns.SetNetIdAtClientSide(netId);
+          Debug.Log($"{prefabName}: {netId}");
+          netIdentityIns.InitOther(netId, netName);
           netIdentityIns.OnCloneMessage(otherMessage);
-          netIdentityIns.InitOther(netIdentityIns.GetInstanceID(), netName);
           netIdentityIns.life = life;
           netIdentityIns.maxLife = maxLife;
           if (stored)

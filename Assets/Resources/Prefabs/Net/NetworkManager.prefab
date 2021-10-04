@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4245616328405503381}
   - component: {fileID: 4245616328405503382}
   - component: {fileID: 1816074753}
+  - component: {fileID: 4245616328550138597}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -86,6 +87,15 @@ MonoBehaviour:
   - name: sniper_bullet
     netIdentityPrefab: {fileID: 114515896175614092, guid: fbd15f28a7c57eb48a8041690c3d8fcf,
       type: 3}
+  - name: heart_30
+    netIdentityPrefab: {fileID: 1359580941342075790, guid: 11e082e8c3d568241a9aa469e09bd609,
+      type: 3}
+  - name: heart_50
+    netIdentityPrefab: {fileID: 7438015961773962441, guid: 7be2e86d568383e44957df3b6ecbbbc4,
+      type: 3}
+  - name: heart_100
+    netIdentityPrefab: {fileID: 4517708622308789727, guid: 83fc286363244154a878427aedc41a72,
+      type: 3}
 --- !u!114 &4245616328405503382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,3 +120,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6ecfbcfb658c74aac6260ea9729bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4245616328550138597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245616328405503377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212107f081c0d474398ada0de1cc3121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  probabilityHeartField:
+  - prefabName: heart_30
+    heart: {fileID: 1359580941342075790, guid: 11e082e8c3d568241a9aa469e09bd609, type: 3}
+    percent: 65
+  - prefabName: heart_50
+    heart: {fileID: 7438015961773962441, guid: 7be2e86d568383e44957df3b6ecbbbc4, type: 3}
+    percent: 25
+  - prefabName: heart_100
+    heart: {fileID: 4517708622308789727, guid: 83fc286363244154a878427aedc41a72, type: 3}
+    percent: 10

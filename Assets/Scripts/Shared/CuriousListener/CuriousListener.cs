@@ -46,7 +46,7 @@ public class CuriousListener : MonoBehaviour
           )
           {
             currentCuriosities.Add(curiosity);
-            var curiositySpawnedPositionPredicted = Random.insideUnitSphere * (radius / 2);
+            var curiositySpawnedPositionPredicted = Random.insideUnitSphere * (radius / 4);
             var curiositySpawnedPosition = target.transform.position + new Vector3(curiositySpawnedPositionPredicted.x, 0f, curiositySpawnedPositionPredicted.z);
             Instantiate<CuriousMark>(markPrefab, curiositySpawnedPosition, Quaternion.identity);
           }

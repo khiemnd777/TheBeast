@@ -64,19 +64,18 @@ public class DroppedItem : NetIdentity
         .Select(x => x.GetComponent<Player>());
       lock (lockPlayersList)
       {
+        _availablePlayers = _availablePlayers.Where(x => x).ToList();
         foreach (var player in targetsOrdered.ToArray())
         {
           if (player)
           {
             if (_availablePlayers.All(x => x.id != player.id))
             {
-              Debug.Log("Found");
               var picker = player.GetComponent<IPicker>();
               if (picker != null)
               {
                 picker.AddDroppedItem(this);
                 _availablePlayers.Add(player);
-                Debug.Log($"Available players: {_availablePlayers.Count()}");
               }
             }
           }
@@ -86,12 +85,11 @@ public class DroppedItem : NetIdentity
         {
           foreach (var removedTarget in removedTargets)
           {
-            var picker = removedTarget.GetComponent<IPicker>();
+            var picker = removedTarget?.GetComponent<IPicker>();
             if (picker != null)
             {
               picker.RemoveDroppedItem(this);
               _availablePlayers.Remove(removedTarget);
-              Debug.Log($"Available players: {_availablePlayers.Count()}");
             }
           }
         }

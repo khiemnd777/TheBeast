@@ -49,6 +49,8 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
   CameraController _cameraController;
   NetRegistrar _netRegistrar;
 
+  HeartGenerator _heartGenerator;
+
   [Header("UI")]
   [SerializeField]
   PlayerNameUI _playerNameUI;
@@ -72,6 +74,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
     {
       _body.gameObject.SetActive(true);
       this.maxLife = this.currentLife = this.life = initLife;
+      _heartGenerator = FindObjectOfType<HeartGenerator>();
     }
     if (isLocal)
     {
@@ -239,6 +242,9 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
         netScore.ServerScore(fromPlayerNetId, fromPlayer.clientId);
       }
     }
+
+    // Generate heart
+    _heartGenerator.Generate(transform.position, Quaternion.identity, 1.25f);
 
     // Disenroll when he's dead
     _netRegistrar.Disenroll(this);
