@@ -431,6 +431,8 @@ MonoBehaviour:
   silent: 0
   thetaProjectileAngle: 0
   netBulletPrefabName: shotgun_bullet
+  droppedGun: {fileID: 1039270198673960846, guid: e5f04ec0a6b53eb4bbea5cc7cd16bcc3,
+    type: 3}
   fieldOfViewReferredAngle: 90
   fieldOfViews:
   - radius: 10

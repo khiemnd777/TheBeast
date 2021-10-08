@@ -11,6 +11,7 @@ public class NetGun : MonoBehaviour
   public bool silent;
   public float thetaProjectileAngle;
   public string netBulletPrefabName;
+  public DroppedGun droppedGun;
 
   [Header("Field Of View")]
   [Range(0, 360)]

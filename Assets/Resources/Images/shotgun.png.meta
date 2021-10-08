@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: shotgun_0
     21300002: shotgun_1
+    21300004: shotgun_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -158,10 +159,30 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: shotgun_2
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 2
+        width: 10
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31e1de65d9c4d0445858914872dcf765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: eb6b399c0a56e8d49915b6fa049200ba
     vertices: []
     indices: 
     edges: []

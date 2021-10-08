@@ -96,6 +96,18 @@ MonoBehaviour:
   - name: heart_100
     netIdentityPrefab: {fileID: 4517708622308789727, guid: 83fc286363244154a878427aedc41a72,
       type: 3}
+  - name: dropped_sniper
+    netIdentityPrefab: {fileID: 4579593921354855178, guid: 2082bde7576fdd24b82ed89b01dac91c,
+      type: 3}
+  - name: dropped_rifle
+    netIdentityPrefab: {fileID: 6243528026609583068, guid: 3786560d9c93de34f95e6e20bc87cde7,
+      type: 3}
+  - name: dropped_shotgun
+    netIdentityPrefab: {fileID: 1039270198673960846, guid: e5f04ec0a6b53eb4bbea5cc7cd16bcc3,
+      type: 3}
+  - name: dropped_pistol
+    netIdentityPrefab: {fileID: 4408916607792835562, guid: 28f59b51ca1e775489c6c7c919536293,
+      type: 3}
 --- !u!114 &4245616328405503382
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,6 +33,9 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
 
   [Space]
   [SerializeField]
+  DroppedGunController _droppedGunController;
+
+  [SerializeField]
   Transform _body;
 
   [SerializeField]
@@ -245,6 +248,9 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
 
     // Generate heart
     _heartGenerator.Generate(transform.position, Quaternion.identity, 1.25f);
+
+    // Drop the gun
+    _droppedGunController.Drop(transform.position, Quaternion.identity, 1.25f);
 
     // Disenroll when he's dead
     _netRegistrar.Disenroll(this);

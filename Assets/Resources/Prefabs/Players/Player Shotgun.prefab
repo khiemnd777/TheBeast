@@ -197,6 +197,7 @@ MonoBehaviour:
     type: 3}
   _playerDead: {fileID: 114319558123064554, guid: bdc5b4d8e878865428d11ad34236fa2f,
     type: 3}
+  _droppedGunController: {fileID: 8692914369469331060}
   _body: {fileID: 171758159736674674}
   _score: {fileID: 6018676085122903983}
   _fieldOfViewParam:
@@ -303,6 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd7c886ca740ae4dbd0beef45efb963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
 --- !u!1 &176290331387516043
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,6 +432,7 @@ Transform:
   - {fileID: 172093463133314086}
   - {fileID: 172063410762979762}
   - {fileID: 6543472606182548780}
+  - {fileID: 1183531795225501202}
   - {fileID: 172218526138630652}
   - {fileID: 172006287781240452}
   - {fileID: 1157708516673638449}
@@ -577,7 +580,7 @@ Transform:
   m_Children:
   - {fileID: 179468262756989310}
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177337566407470652
 GameObject:
@@ -909,7 +912,7 @@ Transform:
   m_Children:
   - {fileID: 179377836830858014}
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177576853859587554
 GameObject:
@@ -1084,6 +1087,50 @@ MonoBehaviour:
   rightGunHolder: {fileID: 2326842836202144178}
   timeHoleLeftGunTrigger: 0.1
   _emitGunHolderRotateTowardsInterval: 0.2
+--- !u!1 &1374825156595708177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1183531795225501202}
+  - component: {fileID: 8692914369469331060}
+  m_Layer: 9
+  m_Name: Dropped Gun Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1183531795225501202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374825156595708177}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 171758159736674674}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8692914369469331060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374825156595708177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 307f459f5bc503c45a6c67440a5abf47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _netGunHolder: {fileID: 2326842836202144178}
 --- !u!1 &2434953854602834747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2929707734718129847
 MonoBehaviour:
@@ -1164,7 +1211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8919429154876369411
 MeshFilter:
@@ -1321,7 +1368,7 @@ PrefabInstance:
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
@@ -1560,7 +1607,7 @@ PrefabInstance:
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}

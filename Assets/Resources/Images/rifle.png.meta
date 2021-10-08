@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: rifle_0
     21300002: rifle_1
+    21300004: rifle_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -123,11 +124,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 4
-        y: 2
+        y: 4
         width: 6
-        height: 56
+        height: 54
       alignment: 9
-      pivot: {x: 0.5, y: 0.32200933}
+      pivot: {x: 0.50000006, y: 0.3121046}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -158,10 +159,30 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: rifle_2
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 4
+        width: 11
+        height: 54
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 106dab19650f746499cd6ba15e9947db
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: dc62d3201f7f41447963ef65f45296f4
     vertices: []
     indices: 
     edges: []

@@ -9,9 +9,11 @@ public class DroppedItem : NetIdentity
 
   public float radius;
 
+  public float amplitude;
+
   public LayerMask targets;
 
-  static object lockPlayersList = new object();
+  object lockPlayersList = new object();
 
   List<Player> _availablePlayers = new List<Player>();
 
@@ -49,7 +51,7 @@ public class DroppedItem : NetIdentity
     }
     if (isClient)
     {
-      _rendererTransform.localScale = _originalScale + Vector3.one * MathUtility.SineWave(.05f, 20, Time.time);
+      _rendererTransform.localScale = _originalScale + Vector3.one * MathUtility.SineWave(amplitude, 20, Time.time);
     }
   }
 
@@ -113,13 +115,27 @@ public class DroppedItem : NetIdentity
     }
   }
 
-  public virtual void PickUp(Player player)
+  object _pickUpLock = new object();
+
+  public void PickUp(Player player)
   {
     if (isServer)
     {
-      EmitMessage("destroy_dropped_item", new DestroyDroppedItemJson());
-      NetDestroy(this);
+      lock (_pickUpLock)
+      {
+        if (!gameObject) return;
+        if (OnPickUp(player))
+        {
+          EmitMessage("destroy_dropped_item", new DestroyDroppedItemJson());
+          NetDestroy(this);
+        }
+      }
     }
+  }
+
+  public virtual bool OnPickUp(Player player)
+  {
+    return false;
   }
 
   void OnDrawGizmos()

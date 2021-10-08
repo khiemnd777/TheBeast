@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Net;
-using Net.Socket;
 using UnityEngine;
 
 public class HeartGenerator : MonoBehaviour

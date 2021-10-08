@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: sniper_0
     21300002: sniper_1
+    21300004: sniper_2
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -81,7 +82,7 @@ TextureImporter:
         x: 4
         y: 1
         width: 6
-        height: 75
+        height: 86
       alignment: 9
       pivot: {x: 0.5, y: 0.26481855}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -110,6 +111,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c1a459a3075dd4b40ac65a1f425e733b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sniper_2
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1
+        width: 16
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fae865c28a84a249b14a92bb2b98eb1
       vertices: []
       indices: 
       edges: []

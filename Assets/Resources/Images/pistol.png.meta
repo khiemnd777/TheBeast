@@ -3,6 +3,7 @@ guid: c012bf62b1a574d70904d301eb7f1d10
 TextureImporter:
   fileIDToRecycleName:
     21300000: pistol_0
+    21300002: pistol_1
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -137,10 +138,30 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: pistol_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 2
+        width: 9
+        height: 24
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55a838c7ba9302847919ac87d88b2d35
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 51d0ef7f46c615448918b3497db06ee2
     vertices: []
     indices: 
     edges: []

@@ -163,11 +163,12 @@ MonoBehaviour:
     type: 3}
   _playerDead: {fileID: 114319558123064554, guid: bdc5b4d8e878865428d11ad34236fa2f,
     type: 3}
+  _droppedGunController: {fileID: 516339383976017751}
   _body: {fileID: 4638004554132482}
+  _score: {fileID: 6056365196694505455}
   _fieldOfViewParam:
     radius: 10
     angle: 60
-  _score: {fileID: 6056365196694505455}
   _playerNameUI: {fileID: 2265204707469043819}
 --- !u!136 &136874918869126214
 CapsuleCollider:
@@ -269,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd7c886ca740ae4dbd0beef45efb963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
 --- !u!1 &1056017847573556
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,7 +677,7 @@ Transform:
   m_Children:
   - {fileID: 4231119443258990}
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1339975809675436
 GameObject:
@@ -965,6 +967,7 @@ Transform:
   - {fileID: 4830192123062614}
   - {fileID: 4791525021445314}
   - {fileID: 6394366782970908764}
+  - {fileID: 929759314536846075}
   - {fileID: 4953064695362700}
   - {fileID: 4883832106839028}
   - {fileID: 1324989424027411777}
@@ -1082,8 +1085,52 @@ Transform:
   m_Children:
   - {fileID: 4457902611713038}
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1173554837836276721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 929759314536846075}
+  - component: {fileID: 516339383976017751}
+  m_Layer: 9
+  m_Name: Dropped Gun Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &929759314536846075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173554837836276721}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4638004554132482}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &516339383976017751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173554837836276721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 307f459f5bc503c45a6c67440a5abf47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _netGunHolder: {fileID: 2465954048352105666}
 --- !u!1 &2574087280307897931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3087823061401850823
 MonoBehaviour:
@@ -1164,7 +1211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8771431596216573811
 MeshFilter:
@@ -1473,7 +1520,7 @@ PrefabInstance:
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
@@ -1497,12 +1544,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da7bc43e27b92e84fb7bbf0d88747673, type: 3}
---- !u!4 &7848615830063396192 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
-    type: 3}
-  m_PrefabInstance: {fileID: 2183221770493808449}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7848615830063396193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8261781092814649888, guid: da7bc43e27b92e84fb7bbf0d88747673,
@@ -1515,6 +1556,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbec5a721793ede4d9fb0ee13b1653ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &7848615830063396192 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
+    type: 3}
+  m_PrefabInstance: {fileID: 2183221770493808449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6524949577176460302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1697,7 +1744,7 @@ PrefabInstance:
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
@@ -1731,12 +1778,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d, type: 3}
---- !u!4 &5146929923958739112 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
-    type: 3}
-  m_PrefabInstance: {fileID: 7031652037997404161}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5146929923958739119 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
@@ -1749,3 +1790,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2909f518b6b70745aea5d90f5003329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &5146929923958739112 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7031652037997404161}
+  m_PrefabAsset: {fileID: 0}

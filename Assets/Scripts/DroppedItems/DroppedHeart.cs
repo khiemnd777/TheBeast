@@ -14,15 +14,16 @@ public class DroppedHeart : DroppedItem
     // NetObjectList.instance.Store(this);
   }
 
-  public override void PickUp(Player player)
+  public override bool OnPickUp(Player player)
   {
     if (isServer)
     {
-      if (player.lifeEnd) return;
+      if (player.lifeEnd) return false;
       Debug.Log($"Player {player.netName} has picked up the heart {percent}");
       var hp = player.life + player.maxLife * (percent / 100f);
       player.AddHp(hp);
+      return true;
     }
-    base.PickUp(player);
+    return false;
   }
 }
