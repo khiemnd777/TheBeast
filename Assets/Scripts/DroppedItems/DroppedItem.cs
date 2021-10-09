@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Net;
 using UnityEngine;
 
 public class DroppedItem : NetIdentity
 {
+  [Header("General")]
   public bool immediate;
 
   public float radius;
@@ -13,12 +15,17 @@ public class DroppedItem : NetIdentity
 
   public LayerMask targets;
 
+  [SerializeField]
+  protected SpriteRenderer display;
+
+  [Header("Auto-sync")]
+  public bool autoSync;
+
+  public float syncDelayInSeconds;
+
   object lockPlayersList = new object();
 
   List<Player> _availablePlayers = new List<Player>();
-
-  [SerializeField]
-  protected SpriteRenderer display;
 
   Transform _rendererTransform;
 
@@ -39,6 +46,23 @@ public class DroppedItem : NetIdentity
         }
       };
     }
+    if (isServer)
+    {
+      if (autoSync)
+      {
+        StartCoroutine("AutoSync", syncDelayInSeconds);
+      }
+    }
+  }
+
+  IEnumerator AutoSync(float syncDelayInSeconds)
+  {
+    while (gameObject)
+    {
+      yield return new WaitForSeconds(syncDelayInSeconds);
+      EmitMessage("auto_sync_dropped_item", null);
+    }
+    Debug.Log("End of AutoSync");
   }
 
   protected override void Update()
@@ -85,7 +109,7 @@ public class DroppedItem : NetIdentity
         var removedTargets = _availablePlayers.Where(x => targetsOrdered.Any(player => player.id != x.id));
         if (removedTargets.Any())
         {
-          foreach (var removedTarget in removedTargets)
+          foreach (var removedTarget in removedTargets.ToList())
           {
             var picker = removedTarget?.GetComponent<IPicker>();
             if (picker != null)

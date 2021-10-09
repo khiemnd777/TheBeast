@@ -51,6 +51,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   display: {fileID: 6243528026723472303}
+  autoSync: 1
+  syncDelayInSeconds: 1
   gunPrefab: {fileID: 114223054632333134, guid: 4549977c05e5f43ccbfc321a8b5faf90,
     type: 3}
   prefabName: dropped_rifle

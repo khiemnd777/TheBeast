@@ -130,4 +130,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   display: {fileID: 4517708620864692225}
+  autoSync: 1
+  syncDelayInSeconds: 1
   percent: 100

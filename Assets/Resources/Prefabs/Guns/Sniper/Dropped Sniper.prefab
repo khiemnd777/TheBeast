@@ -130,6 +130,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   display: {fileID: 4579593921200006009}
+  autoSync: 1
+  syncDelayInSeconds: 1
   gunPrefab: {fileID: 114057767920253984, guid: 33086e30016de774e878bc4c51f5fdd7,
     type: 3}
   prefabName: dropped_sniper

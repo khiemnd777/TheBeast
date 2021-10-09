@@ -43,8 +43,8 @@ namespace Net
       // This will be fired after the connection was completely connected.
       _networkManager.onClientConnected += () =>
       {
-        print("Initializing other players...");
-        socket.Emit(Constants.EVENT_SERVER_LOAD_PLAYERS);
+        // print("Initializing other players...");
+        // socket.Emit(Constants.EVENT_SERVER_LOAD_PLAYERS);
       };
       _networkManager.onReceiveMessageJson += (NetMessageJSON dataJson) =>
       {

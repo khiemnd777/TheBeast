@@ -250,6 +250,7 @@ namespace Net
     public static T InstantiateServerAndEverywhere<T>(string prefabName, T original, Vector3 position, Quaternion rotation, Func<T, float> funcLifetime, object otherMessage, bool stored = false) where T : NetIdentity
     {
       var target = Instantiate<T>(original, position, rotation);
+      target.prefabName = prefabName;
       var lifetime = funcLifetime != null ? funcLifetime(target) : 0f;
       target.StoreToNetList();
       target.ServerCloneToEverywhereImmediately(prefabName, lifetime, otherMessage, stored);
