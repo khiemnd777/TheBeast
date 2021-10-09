@@ -433,6 +433,7 @@ Transform:
   - {fileID: 172063410762979762}
   - {fileID: 6543472606182548780}
   - {fileID: 1183531795225501202}
+  - {fileID: 2453236447692062486}
   - {fileID: 172218526138630652}
   - {fileID: 172006287781240452}
   - {fileID: 1157708516673638449}
@@ -580,7 +581,7 @@ Transform:
   m_Children:
   - {fileID: 179468262756989310}
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177337566407470652
 GameObject:
@@ -912,7 +913,7 @@ Transform:
   m_Children:
   - {fileID: 179377836830858014}
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177576853859587554
 GameObject:
@@ -1087,6 +1088,52 @@ MonoBehaviour:
   rightGunHolder: {fileID: 2326842836202144178}
   timeHoleLeftGunTrigger: 0.1
   _emitGunHolderRotateTowardsInterval: 0.2
+--- !u!1 &849759236932250538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2453236447692062486}
+  - component: {fileID: 818307279541001172}
+  m_Layer: 9
+  m_Name: Pickup Gun Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2453236447692062486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849759236932250538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 171758159736674674}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &818307279541001172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849759236932250538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c0ac02fa4dadb4b80333e6e6a104d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 282040246468889372}
+  _leftGunHolder: {fileID: 3761339047786981443}
+  _rightGunHolder: {fileID: 2326842836202144178}
 --- !u!1 &1374825156595708177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1207,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2929707734718129847
 MonoBehaviour:
@@ -1211,7 +1258,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 171758159736674674}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8919429154876369411
 MeshFilter:
@@ -1368,7 +1415,7 @@ PrefabInstance:
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
@@ -1607,7 +1654,7 @@ PrefabInstance:
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}

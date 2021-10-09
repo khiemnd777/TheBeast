@@ -424,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984019d29a4dc2a4f81b7c9de9e01368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registeredName: shotgun
   gunHandType: 1
   weight: 2
   secondAction: 0

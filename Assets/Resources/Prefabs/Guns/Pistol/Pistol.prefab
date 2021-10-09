@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8035b0e4a358afb4fa1a5b2ab575cd12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registeredName: pistol
   gunHandType: 0
   weight: 1
   secondAction: 0

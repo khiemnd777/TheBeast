@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1729242126372595421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1729242126372595422}
+  - component: {fileID: 1729242126372595423}
+  m_Layer: 0
+  m_Name: Gun Registrar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1729242126372595422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729242126372595421}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1729242126372595423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729242126372595421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f040867d8a111a4dba50d2cfa499151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fields:
+  - name: pistol
+    prefab: {fileID: 114475979285705558, guid: b24379d15b9354225a915034d00ff3ce, type: 3}
+  - name: rifle
+    prefab: {fileID: 114223054632333134, guid: 4549977c05e5f43ccbfc321a8b5faf90, type: 3}
+  - name: sniper
+    prefab: {fileID: 114057767920253984, guid: 33086e30016de774e878bc4c51f5fdd7, type: 3}
+  - name: shotgun
+    prefab: {fileID: 4997899038260005558, guid: b6f078f02c1184f3da0d77cc53b39c90,
+      type: 3}

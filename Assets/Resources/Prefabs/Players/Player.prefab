@@ -677,7 +677,7 @@ Transform:
   m_Children:
   - {fileID: 4231119443258990}
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1339975809675436
 GameObject:
@@ -968,6 +968,7 @@ Transform:
   - {fileID: 4791525021445314}
   - {fileID: 6394366782970908764}
   - {fileID: 929759314536846075}
+  - {fileID: 7604655360384285371}
   - {fileID: 4953064695362700}
   - {fileID: 4883832106839028}
   - {fileID: 1324989424027411777}
@@ -1085,7 +1086,7 @@ Transform:
   m_Children:
   - {fileID: 4457902611713038}
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1173554837836276721
 GameObject:
@@ -1160,7 +1161,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3087823061401850823
 MonoBehaviour:
@@ -1211,7 +1212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4638004554132482}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8771431596216573811
 MeshFilter:
@@ -1318,6 +1319,52 @@ MonoBehaviour:
   timeHoldShieldTrigger: 0
   shieldHolder: {fileID: 1381266810201434984}
   weaponController: {fileID: 6320884318204845869}
+--- !u!1 &7207255941438935212
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7604655360384285371}
+  - component: {fileID: 5730142542563172744}
+  m_Layer: 9
+  m_Name: Pickup Gun Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7604655360384285371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207255941438935212}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4638004554132482}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5730142542563172744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207255941438935212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c0ac02fa4dadb4b80333e6e6a104d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 114926467534503532}
+  _leftGunHolder: {fileID: 3909330016658087219}
+  _rightGunHolder: {fileID: 2465954048352105666}
 --- !u!1001 &448094556697016616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1520,7 +1567,7 @@ PrefabInstance:
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
@@ -1544,6 +1591,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da7bc43e27b92e84fb7bbf0d88747673, type: 3}
+--- !u!4 &7848615830063396192 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
+    type: 3}
+  m_PrefabInstance: {fileID: 2183221770493808449}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7848615830063396193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8261781092814649888, guid: da7bc43e27b92e84fb7bbf0d88747673,
@@ -1556,12 +1609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbec5a721793ede4d9fb0ee13b1653ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7848615830063396192 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
-    type: 3}
-  m_PrefabInstance: {fileID: 2183221770493808449}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6524949577176460302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1744,7 +1791,7 @@ PrefabInstance:
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180905, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}

@@ -523,6 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f4c5221c547e04b8b5c3e6f39237e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  registeredName: sniper
   gunHandType: 1
   weight: 3
   secondAction: 1

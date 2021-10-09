@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NetGun : MonoBehaviour
 {
+  public string registeredName;
   public GunHandType gunHandType;
   public GunWeight weight;
   public bool secondAction;
