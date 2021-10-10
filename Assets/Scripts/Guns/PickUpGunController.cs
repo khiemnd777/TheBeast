@@ -31,13 +31,17 @@ public class PickUpGunController : MonoBehaviour
             {
               if (_rightGunHolder)
               {
+                _rightGunHolder.KeepInCover();
                 _rightGunHolder.gun = found.prefab;
+                _rightGunHolder.TakeUpArm();
               }
               if (found.prefab.gunHandType == GunHandType.OneHand)
               {
                 if (_leftGunHolder)
                 {
+                  _leftGunHolder.KeepInCover();
                   _leftGunHolder.gun = found.prefab;
+                  _leftGunHolder.TakeUpArm();
                 }
               }
             }
