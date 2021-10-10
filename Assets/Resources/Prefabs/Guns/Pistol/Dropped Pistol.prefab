@@ -56,6 +56,7 @@ MonoBehaviour:
   gunPrefab: {fileID: 114475979285705558, guid: b24379d15b9354225a915034d00ff3ce,
     type: 3}
   prefabName: dropped_pistol
+  gunPrefabName: pistol
 --- !u!1 &4408916607905119135
 GameObject:
   m_ObjectHideFlags: 0

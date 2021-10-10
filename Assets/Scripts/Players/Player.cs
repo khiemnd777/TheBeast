@@ -376,7 +376,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
   #endregion
 
   #region IPicker
-  static object droppedItemLock = new object();
+  object droppedItemLock = new object();
   List<DroppedItem> _droppedItems = new List<DroppedItem>();
   public List<DroppedItem> droppedItems => _droppedItems;
 
@@ -401,13 +401,16 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
 
   public void PickUp(DroppedItem droppedItem)
   {
-    droppedItem.PickUp(this);
-    lock (droppedItemLock)
+    if (droppedItem)
     {
-      if (_droppedItems.Any())
+      droppedItem.PickUp(this);
+      lock (droppedItemLock)
       {
-        // Remove item after picked up
-        _droppedItems = _droppedItems.Where(x => x).ToList();
+        if (_droppedItems.Any())
+        {
+          // Remove item after picked up
+          _droppedItems = _droppedItems.Where(x => x).ToList();
+        }
       }
     }
   }
@@ -416,9 +419,10 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
   {
     lock (droppedItemLock)
     {
-      if (_droppedItems.Any(x => x.id != item.id))
+      if (!_droppedItems.Any(x => x.id == item.id))
       {
         _droppedItems.Add(item);
+        Debug.Log($"Add dropped item {item.name}");
       }
     }
   }
@@ -430,6 +434,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
       if (_droppedItems.Any(x => x.id == item.id))
       {
         _droppedItems.Remove(item);
+        Debug.Log($"Remove dropped item {item.name}");
       }
     }
   }

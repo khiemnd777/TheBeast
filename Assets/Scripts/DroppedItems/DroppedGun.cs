@@ -10,8 +10,8 @@ public class DroppedGun : DroppedItem
   protected override void Awake()
   {
     base.Awake();
-    // this.SetNetIdAtServerSide(GetInstanceID());
-    // this.SetNetIdAtClientSide(GetInstanceID());
+    // this.SetNetIdAtServerSide(1);
+    // this.SetNetIdAtClientSide(1);
     // NetObjectList.instance.Store(this);
   }
 

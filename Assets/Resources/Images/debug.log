@@ -5,3 +5,5 @@
 [0918/011333.349:WARNING:dns_config_service_win.cc(668)] Failed to read DnsConfig.
 [0918/014001.755:ERROR:browser_gpu_channel_host_factory.cc(139)] Failed to launch GPU process.
 [1004/022945.640:ERROR:browser_gpu_channel_host_factory.cc(139)] Failed to launch GPU process.
+[1010/183321.158:WARNING:ipc_message_attachment_set.cc(49)] MessageAttachmentSet destroyed with unconsumed attachments: 0/1
+[1010/183321.237:ERROR:browser_gpu_channel_host_factory.cc(139)] Failed to launch GPU process.

@@ -135,3 +135,4 @@ MonoBehaviour:
   gunPrefab: {fileID: 114057767920253984, guid: 33086e30016de774e878bc4c51f5fdd7,
     type: 3}
   prefabName: dropped_sniper
+  gunPrefabName: sniper

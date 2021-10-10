@@ -62,7 +62,6 @@ public class DroppedItem : NetIdentity
       yield return new WaitForSeconds(syncDelayInSeconds);
       EmitMessage("auto_sync_dropped_item", null);
     }
-    Debug.Log("End of AutoSync");
   }
 
   protected override void Update()
@@ -86,32 +85,57 @@ public class DroppedItem : NetIdentity
     {
       var targetsOrdered = targetsFound
         .Where(x => x.GetComponent<Player>())
-        .OrderBy(x => (transform.position - x.transform.position).sqrMagnitude)
-        .Select(x => x.GetComponent<Player>());
-      lock (lockPlayersList)
+        .Select(x => x.GetComponent<Player>())
+        .Where(x => !x.lifeEnd)
+        .OrderBy(x => (transform.position - x.transform.position).sqrMagnitude);
+      if (targetsOrdered.Any())
       {
-        _availablePlayers = _availablePlayers.Where(x => x).ToList();
-        foreach (var player in targetsOrdered.ToArray())
+        lock (lockPlayersList)
         {
-          if (player)
+          _availablePlayers = _availablePlayers.Where(x => x).ToList();
+          foreach (var player in targetsOrdered.ToArray())
           {
-            if (_availablePlayers.All(x => x.id != player.id))
+            if (player)
             {
-              var picker = player.GetComponent<IPicker>();
+              if (!_availablePlayers.Any(x => x.id == player.id))
+              {
+                var picker = player.GetComponent<IPicker>();
+                if (picker != null)
+                {
+                  picker.AddDroppedItem(this);
+                  _availablePlayers.Add(player);
+                }
+              }
+            }
+          }
+          var removedTargets = _availablePlayers.Where(x => !targetsOrdered.Any(player => player.id == x.id));
+          if (removedTargets.Any())
+          {
+            foreach (var removedTarget in removedTargets.ToList())
+            {
+              var picker = removedTarget?.GetComponent<IPicker>();
               if (picker != null)
               {
-                picker.AddDroppedItem(this);
-                _availablePlayers.Add(player);
+                picker.RemoveDroppedItem(this);
+                _availablePlayers.Remove(removedTarget);
               }
             }
           }
         }
-        var removedTargets = _availablePlayers.Where(x => targetsOrdered.Any(player => player.id != x.id));
-        if (removedTargets.Any())
+        return;
+      }
+    }
+    // Clear all if not any found targets
+    if (_availablePlayers.Any())
+    {
+      lock (lockPlayersList)
+      {
+        var removedTargets = _availablePlayers.ToList();
+        foreach (var removedTarget in removedTargets)
         {
-          foreach (var removedTarget in removedTargets.ToList())
+          if (removedTarget)
           {
-            var picker = removedTarget?.GetComponent<IPicker>();
+            var picker = removedTarget.GetComponent<IPicker>();
             if (picker != null)
             {
               picker.RemoveDroppedItem(this);
@@ -150,6 +174,7 @@ public class DroppedItem : NetIdentity
         if (!gameObject) return;
         if (OnPickUp(player))
         {
+          player.RemoveDroppedItem(this);
           EmitMessage("destroy_dropped_item", new DestroyDroppedItemJson());
           NetDestroy(this);
         }
