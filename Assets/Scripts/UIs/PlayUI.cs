@@ -22,6 +22,16 @@ namespace Net
 
     RectTransform _rectTransform;
 
+    [SerializeField]
+    RectTransform _playUIRectTransform;
+
+    [Header("Guide")]
+    [SerializeField]
+    RectTransform _guideRectTransform;
+
+    [SerializeField]
+    Button _guideButton;
+
     Text playBtnText;
 
     /// <summary>
@@ -68,11 +78,18 @@ namespace Net
     public void Play()
     {
       playButton.interactable = false;
+      _guideButton.interactable = false;
       nicknameInputField.interactable = false;
       // To begin with, a connection is established.
       print("Connecting...");
       playBtnText.text = "Connecting...";
       netRegistrar.Register(playerPrefabName, nicknameInputField.text);
+    }
+
+    public void ShowGuidePanel()
+    {
+      _guideRectTransform.gameObject.SetActive(true);
+      _playUIRectTransform.gameObject.SetActive(false);
     }
 
     IEnumerator Hide()
