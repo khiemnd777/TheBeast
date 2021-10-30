@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 114526864036549178}
   - component: {fileID: 6056365196694505455}
   m_Layer: 9
-  m_Name: Player
+  m_Name: Player Pistol
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1621,6 +1621,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas Name
       objectReference: {fileID: 0}
+    - target: {fileID: 5035825651707020389, guid: 7e8fc9a6df0477a4a8657bc21d75a242,
+        type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 114926467534503532}
     - target: {fileID: 8635734892370248635, guid: 7e8fc9a6df0477a4a8657bc21d75a242,
         type: 3}
       propertyPath: m_LocalPosition.x

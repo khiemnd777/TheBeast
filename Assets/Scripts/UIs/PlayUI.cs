@@ -6,8 +6,6 @@ namespace Net
 {
   public class PlayUI : MonoBehaviour
   {
-    public string playerPrefabName;
-
     [SerializeField]
     InputField nicknameInputField;
 
@@ -31,6 +29,10 @@ namespace Net
 
     [SerializeField]
     Button _guideButton;
+
+    [Header("Guns Select")]
+    [SerializeField]
+    GunsSelectUI _gunsSelectUI;
 
     Text playBtnText;
 
@@ -83,7 +85,7 @@ namespace Net
       // To begin with, a connection is established.
       print("Connecting...");
       playBtnText.text = "Connecting...";
-      netRegistrar.Register(playerPrefabName, nicknameInputField.text);
+      netRegistrar.Register(_gunsSelectUI.gunUI.prefabName, nicknameInputField.text);
     }
 
     public void ShowGuidePanel()

@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netIdentifierPrefabs:
-  - name: player
+  - name: player_pistol
     netIdentityPrefab: {fileID: 114926467534503532, guid: b1406b9b2af0b47beb712b9324429f91,
       type: 3}
   - name: pistol_bullet
