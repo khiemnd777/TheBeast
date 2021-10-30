@@ -9,8 +9,13 @@ namespace Net
   public class NetRegistrar : MonoBehaviour
   {
     public event Action<int, int> onPlayerCount;
+
     [SerializeField]
     NetIdentityItem[] netIdentifierPrefabs;
+
+    [SerializeField]
+    Spawner _spawner;
+
     NetworkManager _networkManager;
     ISocketWrapper socket;
     NetObjectList netObjectList;
@@ -293,7 +298,9 @@ namespace Net
       if (prefab.netIdentityPrefab)
       {
         var netIdentifierPrefab = prefab.netIdentityPrefab;
-        var netId = netObjectList.Create(netIdentifierPrefab, netName, Vector3.zero, Quaternion.identity);
+        var spawnPosition = _spawner.GetPosition();
+        Debug.Log($"spawnPosition: {spawnPosition}");
+        var netId = netObjectList.Create(netIdentifierPrefab, netName, spawnPosition, Quaternion.identity);
         netId.clientId = clientId;
         netId.prefabName = prefabName;
         netId.type = "player";
@@ -307,7 +314,7 @@ namespace Net
             netName,
             netId.life,
             netId.maxLife,
-            Point.FromVector3(netId.transform.position),
+            Point.FromVector3(spawnPosition),
             netId.transform.rotation
           )
         );
