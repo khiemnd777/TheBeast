@@ -7,6 +7,9 @@ public class Settings : MonoBehaviour
   public float defaultFendingOffStatusOffTime = .1f;
   public float defaultReleaseLockExplosionTime = .25f;
 
+  [System.NonSerialized]
+  public SelectedServer selectedServer;
+
   /// <summary>
   /// [Readonly] Returns true if this object is active on an active server.
   /// </summary>
@@ -49,5 +52,6 @@ public class Settings : MonoBehaviour
     print("Run as client.");
     isServer = false;
     isClient = true;
+    selectedServer = FindObjectOfType<SelectedServer>();
   }
 }

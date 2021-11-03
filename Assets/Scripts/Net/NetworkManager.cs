@@ -69,7 +69,6 @@ namespace Net
     void Awake()
     {
       clientId = Utility.ShortId();
-      _socket = new SocketIOWrapper(FindObjectOfType<SocketIOComponent2>());
     }
 
     void Start()
@@ -78,8 +77,20 @@ namespace Net
       _settings = Settings.instance;
       print("Initiated settings!");
 
-      // deprecated
-      // _socket.On(Constants.EVENT_CONNECTED, OnConnected);
+      print("Create websocket instance.");
+      _socket = new SocketIOWrapper(FindObjectOfType<SocketIOComponent2>());
+      if (_settings.isServer)
+      {
+        _socket.CreateInstance();
+      }
+      else
+      {
+        var ip = _settings.selectedServer.server.ip;
+        var port = _settings.selectedServer.server.port;
+        var path = _settings.selectedServer.server.path;
+        _socket.CreateInstance(ip, port, path);
+      }
+      _socket.Connect();
 
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
       _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);

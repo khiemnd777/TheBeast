@@ -13,6 +13,24 @@ namespace Net.Socket
       _socket = socket;
     }
 
+    public void CreateInstance(string ip, int port, string path)
+    {
+      _socket.ip = ip;
+      _socket.port = port;
+      _socket.path = path;
+      _socket.CreateInstance();
+    }
+
+    public void CreateInstance()
+    {
+      _socket.CreateInstance();
+    }
+
+    public void Connect()
+    {
+      _socket.Connect();
+    }
+
     public void Emit(string evt)
     {
       _socket.Emit(evt);
