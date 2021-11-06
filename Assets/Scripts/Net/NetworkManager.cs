@@ -85,10 +85,21 @@ namespace Net
       }
       else
       {
-        var ip = _settings.selectedServer.server.ip;
-        var port = _settings.selectedServer.server.port;
-        var path = _settings.selectedServer.server.path;
-        _socket.CreateInstance(ip, port, path);
+        if (Debug.isDebugBuild)
+        {
+          _socket.CreateInstance();
+        }
+        else
+        {
+#if DEVELOPMENT_BUILD
+          _socket.CreateInstance();
+#else
+          var ip = _settings.selectedServer.server.ip;
+          var port = _settings.selectedServer.server.port;
+          var path = _settings.selectedServer.server.path;
+          _socket.CreateInstance(ip, port, path);
+#endif
+        }
       }
       _socket.Connect();
 

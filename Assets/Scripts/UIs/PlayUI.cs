@@ -72,6 +72,7 @@ namespace Net
       playBtnText.text = "Play";
       gameObject.SetActive(true);
       StartCoroutine(Show());
+      SettingsFactory.PlayerDead();
     }
 
     /// <summary>
@@ -86,6 +87,7 @@ namespace Net
       print("Connecting...");
       playBtnText.text = "Connecting...";
       netRegistrar.Register(_gunsSelectUI.gunUI.prefabName, nicknameInputField.text);
+      SettingsFactory.Play();
     }
 
     public void ShowGuidePanel()

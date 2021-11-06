@@ -7,6 +7,7 @@
   <title>Unity WebGL Player | %UNITY_WEB_NAME%</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
+  <script src="TemplateData/main.js"></script>
   <script src="TemplateData/UnityProgress.js"></script>
   <script src="%UNITY_WEBGL_LOADER_URL%"></script>
   <script>
@@ -14,7 +15,7 @@
   </script>
 </head>
 
-<body>
+<body onload="onload();">
   <div class="webgl-content">
     <!-- <div id="gameContainer" style="width: %UNITY_WIDTH%px; height: %UNITY_HEIGHT%px"></div> -->
     <div id="gameContainer" style="width: 100%; height: 100%"></div>
@@ -24,6 +25,24 @@
     <!-- <div class="title">%UNITY_WEB_NAME%</div> -->
     <!-- </div> -->
   </div>
+  <script type="text/javascript">
+    function onload() {
+      if (Main) {
+        Main.addEventListener('play', function () {
+          const ads = document.getElementsByClassName("adsbygoogle");
+          for (let i = 0; i < ads.length; i++) {
+            ads[i].style.display = 'none';
+          }
+        });
+        Main.addEventListener('dead', function () {
+          const ads = document.getElementsByClassName("adsbygoogle");
+          for (let i = 0; i < ads.length; i++) {
+            ads[i].style.display = 'inline-block';
+          }
+        });
+      }
+    }
+  </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2002499981911823"
     crossorigin="anonymous"></script>
   <!-- gungun top -->
@@ -39,7 +58,8 @@
     style="display:inline-block;width:240px;height:528px;position:fixed; top:50%; left: 5px;transform: translateY(-50%);"
     data-ad-client="ca-pub-2002499981911823" data-ad-slot="8921065296"></ins>
   <!-- gungun right -->
-  <ins class="adsbygoogle" style="display:inline-block;width:240px;height:528px;position:fixed; top:50%; right: 5px;transform: translateY(-50%);"
+  <ins class="adsbygoogle"
+    style="display:inline-block;width:240px;height:528px;position:fixed; top:50%; right: 5px;transform: translateY(-50%);"
     data-ad-client="ca-pub-2002499981911823" data-ad-slot="7027375603"></ins>
   <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
