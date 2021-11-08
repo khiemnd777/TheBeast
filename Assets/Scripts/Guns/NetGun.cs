@@ -275,17 +275,17 @@ public class NetGun : MonoBehaviour
         break;
       case GunWeight.Medium:
         {
-          player.gunWeightIncrement = .7f;
+          player.gunWeightIncrement = .8f;
         }
         break;
       case GunWeight.Heavy:
         {
-          player.gunWeightIncrement = .6f;
+          player.gunWeightIncrement = .7f;
         }
         break;
       case GunWeight.VeryHeavy:
         {
-          player.gunWeightIncrement = .5f;
+          player.gunWeightIncrement = .6f;
         }
         break;
       case GunWeight.HandFree:

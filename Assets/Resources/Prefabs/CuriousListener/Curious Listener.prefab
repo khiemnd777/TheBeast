@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2909f518b6b70745aea5d90f5003329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 4
+  radius: 17
   targetMask:
     serializedVersion: 2
     m_Bits: 65536
@@ -51,4 +51,4 @@ MonoBehaviour:
   affectedTransform: {fileID: 2808244210168180905}
   markPrefab: {fileID: 3903513596539891170, guid: f13bae996c841e34e93f5fd3eb9c4943,
     type: 3}
-  visualizeOnGizmos: 0
+  visualizeOnGizmos: 1

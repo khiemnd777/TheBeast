@@ -536,10 +536,10 @@ MonoBehaviour:
     type: 3}
   fieldOfViewReferredAngle: 90
   fieldOfViews:
-  - radius: 10
+  - radius: 15
     angle: 60
-  - radius: 19
-    angle: 28
+  - radius: 23
+    angle: 30
   _fieldOfViewIndex: 0
   shellPrefab: {fileID: 114314934072665840, guid: b6889fe7c66ed4e74905be367cf8972b,
     type: 3}

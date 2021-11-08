@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 282040246468889372}
-  initSpeed: 5
-  sprintSpeed: 0.875
+  initSpeed: 6
+  sprintSpeed: 0.905
   walkSpeed: 0
   _curiousGenerator: {fileID: 7969591905277493265}
   _curiousListener: {fileID: 4980944218922477023}
@@ -201,7 +201,7 @@ MonoBehaviour:
   _body: {fileID: 171758159736674674}
   _score: {fileID: 6018676085122903983}
   _fieldOfViewParam:
-    radius: 10
+    radius: 15
     angle: 60
   _playerNameUI: {fileID: 4424104566092742339}
 --- !u!136 &257839995057977654
@@ -1375,7 +1375,7 @@ PrefabInstance:
     - target: {fileID: 8261781092814649888, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: curiousRadius
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
@@ -1679,7 +1679,7 @@ PrefabInstance:
     - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
       propertyPath: radius
-      value: 6
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180911, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}

@@ -224,37 +224,45 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
     return damagePoint * damagePointRate;
   }
 
+  object _playerDeadLockObj = new object();
+  bool _playerDeadLocked = false;
+
   void DoPlayerDead(Vector3 impactedPosition, Vector3 normalizedImpactedPosition, int fromPlayerNetId)
   {
-    // Dead!
-    Debug.Log($"{clientId} is dead!");
-    EmitMessage("player_dead", new DeadObjectJson
+    lock (_playerDeadLockObj)
     {
-      impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
-      normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
-      life = life
-    });
-
-    // Score for player
-    var fromPlayer = (Player)NetObjectList.instance.Find(fromPlayerNetId);
-    if (fromPlayer)
-    {
-      var netScore = fromPlayer.GetComponent<NetScore>();
-      if (netScore)
+      if(_playerDeadLocked) return;
+      _playerDeadLocked = true;
+      // Dead!
+      Debug.Log($"{clientId} is dead!");
+      EmitMessage("player_dead", new DeadObjectJson
       {
-        netScore.ServerScore(fromPlayerNetId, fromPlayer.clientId);
+        impactedPosition = Utility.Vector3ToPositionArray(impactedPosition),
+        normalizedImpactedPosition = Utility.Vector3ToPositionArray(normalizedImpactedPosition),
+        life = life
+      });
+
+      // Score for player
+      var fromPlayer = (Player)NetObjectList.instance.Find(fromPlayerNetId);
+      if (fromPlayer)
+      {
+        var netScore = fromPlayer.GetComponent<NetScore>();
+        if (netScore)
+        {
+          netScore.ServerScore(fromPlayerNetId, fromPlayer.clientId);
+        }
       }
+
+      // Generate heart
+      _heartGenerator.Generate(transform.position, Quaternion.identity, 1.25f);
+
+      // Drop the gun
+      _droppedGunController.Drop(transform.position, Quaternion.identity, 1.25f);
+
+      // Disenroll when he's dead
+      _netRegistrar.Disenroll(this);
+      Destroy(gameObject, .1f);
     }
-
-    // Generate heart
-    _heartGenerator.Generate(transform.position, Quaternion.identity, 1.25f);
-
-    // Drop the gun
-    _droppedGunController.Drop(transform.position, Quaternion.identity, 1.25f);
-
-    // Disenroll when he's dead
-    _netRegistrar.Disenroll(this);
-    Destroy(gameObject, .1f);
   }
 
   public void OnHittingUp(float damagePoint, float freezedTime, float hitbackPoint, Vector3 impactedPosition, Vector3 normalizedImpactedPosition, int fromPlayerNetId, bool bySlash)

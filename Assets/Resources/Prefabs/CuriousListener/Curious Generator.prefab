@@ -50,5 +50,5 @@ MonoBehaviour:
   affectedTransform: {fileID: 8261781092814649889}
   curiousPrefab: {fileID: 2596520036952252990, guid: db35faafdcb0e734b8c6f2fe30d72db0,
     type: 3}
-  curiousRadius: 9
+  curiousRadius: 10
   curiousLifetime: 4

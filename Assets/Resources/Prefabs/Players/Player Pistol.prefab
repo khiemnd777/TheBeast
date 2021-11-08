@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 114926467534503532}
-  initSpeed: 5
-  sprintSpeed: 0.875
+  initSpeed: 6
+  sprintSpeed: 0.905
   walkSpeed: 0
   _curiousGenerator: {fileID: 7848615830063396193}
   _curiousListener: {fileID: 5146929923958739119}
@@ -167,7 +167,7 @@ MonoBehaviour:
   _body: {fileID: 4638004554132482}
   _score: {fileID: 6056365196694505455}
   _fieldOfViewParam:
-    radius: 10
+    radius: 15
     angle: 60
   _playerNameUI: {fileID: 2265204707469043819}
 --- !u!136 &136874918869126214
@@ -1524,11 +1524,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4638004554132482}
     m_Modifications:
-    - target: {fileID: 8261781092814649888, guid: da7bc43e27b92e84fb7bbf0d88747673,
-        type: 3}
-      propertyPath: curiousRadius
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1812,16 +1807,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
-        type: 3}
-      propertyPath: visualizeOnGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
-        type: 3}
-      propertyPath: radius
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180911, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}
