@@ -10,7 +10,12 @@ public class SharedLinkButton : MonoBehaviour
   {
     if (!string.IsNullOrEmpty(url))
     {
-      Application.OpenURL($"{baseUrl}{UnityWebRequest.EscapeURL(url)}");
+      var link = $"{baseUrl}{UnityWebRequest.EscapeURL(url)}";
+#if UNITY_WEBGL
+      OpenUrlWindowFactory.OpenUrlWindow(link);
+#else
+      Application.OpenURL(link);
+#endif
     }
   }
 }

@@ -1,5 +1,4 @@
 mergeInto(LibraryManager.library, {
-
   Play: function () {
     Main && Main.emit("play");
   },
