@@ -72,7 +72,9 @@ namespace Net
       playBtnText.text = "Play";
       gameObject.SetActive(true);
       StartCoroutine(Show());
+#if UNITY_WEBGL
       SettingsFactory.PlayerDead();
+#endif
     }
 
     /// <summary>
@@ -87,7 +89,9 @@ namespace Net
       print("Connecting...");
       playBtnText.text = "Connecting...";
       netRegistrar.Register(_gunsSelectUI.gunUI.prefabName, nicknameInputField.text);
+#if UNITY_WEBGL
       SettingsFactory.Play();
+#endif
     }
 
     public void ShowGuidePanel()

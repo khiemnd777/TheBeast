@@ -68,14 +68,10 @@ namespace Net
 
     void Awake()
     {
-      clientId = Utility.ShortId();
-    }
-
-    void Start()
-    {
       print("Start network manager!");
       _settings = Settings.instance;
-      print("Initiated settings!");
+
+      clientId = Utility.ShortId();
 
       print("Create websocket instance.");
       _socket = new SocketIOWrapper(FindObjectOfType<SocketIOComponent2>());
@@ -101,8 +97,13 @@ namespace Net
 #endif
         }
       }
-      _socket.Connect();
+    }
 
+    void Start()
+    {
+      print("Websocket connects");
+      _socket.Connect();
+      
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
       _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);
       _socket.On(Constants.EVENT_BROADCAST_CLONE_EVERYWHERE, OnBroadcastCloneEverywhere);

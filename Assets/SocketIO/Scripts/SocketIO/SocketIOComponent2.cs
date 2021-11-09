@@ -108,7 +108,7 @@ namespace SocketIO
       {
         CreateInstance();
       }
-			
+
       wsConnected = false;
 
       eventQueueLock = new object();
@@ -134,6 +134,7 @@ namespace SocketIO
 
     public void Update()
     {
+      if (!connected) return;
       lock (eventQueueLock)
       {
         while (eventQueue.Count > 0)

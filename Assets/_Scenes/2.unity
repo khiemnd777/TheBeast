@@ -411,14 +411,14 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25665069}
-  m_Text: gungun.io
+  m_Text: A Lutex Technology
   m_OffsetZ: 0
   m_CharacterSize: 0.27
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 44
+  m_FontSize: 28
   m_FontStyle: 1
   m_RichText: 0
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
@@ -470,7 +470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25665069}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -16, y: 3.3, z: 34.8}
+  m_LocalPosition: {x: -25.12, y: 3.3, z: 34.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9565,6 +9565,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
+        type: 3}
+      propertyPath: autoConnect
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55da41b698d0d4ce1895d58af8a002e1, type: 3}
 --- !u!1 &775943255
@@ -12410,8 +12415,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 957096699}
   m_LocalRotation: {x: 2.3783588e-17, y: -0.7069616, z: -0.00000008427638, w: 0.707252}
-  m_LocalPosition: {x: 2.78, y: 0, z: -12.88}
-  m_LocalScale: {x: 0.256057, y: 1.1142, z: 1.713461}
+  m_LocalPosition: {x: 2.566, y: 0, z: -12.88}
+  m_LocalScale: {x: 0.2560571, y: 1.1142, z: 1.2857733}
   m_Children: []
   m_Father: {fileID: 1370613450}
   m_RootOrder: 134
@@ -15167,7 +15172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!102 &1109058732
 TextMesh:
   serializedVersion: 3

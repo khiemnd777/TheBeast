@@ -7,18 +7,18 @@ public class Settings : MonoBehaviour
   public float defaultFendingOffStatusOffTime = .1f;
   public float defaultReleaseLockExplosionTime = .25f;
 
-  [System.NonSerialized]
-  public SelectedServer selectedServer;
+  SelectedServer _selectedServer;
+  public SelectedServer selectedServer { get => _selectedServer ?? (_selectedServer = FindObjectOfType<SelectedServer>()); }
 
   /// <summary>
   /// [Readonly] Returns true if this object is active on an active server.
   /// </summary>
-  public bool isServer { get; private set; }
+  public bool isServer { get => Application.isBatchMode; }
 
   /// <summary>
   /// [Readonly] Returns true if running as a client and this object was spawned by a server.
   /// </summary>
-  public bool isClient { get; private set; }
+  public bool isClient { get => !Application.isBatchMode; }
 
   static Settings _instance;
 
@@ -43,15 +43,10 @@ public class Settings : MonoBehaviour
     if (Application.isBatchMode)
     {
       print("Run as server.");
-      isServer = true;
-      isClient = false;
       Application.targetFrameRate = 60;
       return;
     }
     // If application runs on WebGL/Editor.
     print("Run as client.");
-    isServer = false;
-    isClient = true;
-    selectedServer = FindObjectOfType<SelectedServer>();
   }
 }
