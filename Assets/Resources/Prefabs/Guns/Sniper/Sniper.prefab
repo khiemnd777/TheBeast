@@ -537,8 +537,8 @@ MonoBehaviour:
   fieldOfViews:
   - radius: 15
     angle: 60
-  - radius: 45
-    angle: 15
+  - radius: 60
+    angle: 5
   _fieldOfViewIndex: 0
   shellPrefab: {fileID: 114314934072665840, guid: d7ad6e2f99071504b87252418f33dc55,
     type: 3}

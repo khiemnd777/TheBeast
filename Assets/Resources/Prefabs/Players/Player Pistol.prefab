@@ -900,7 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5443a09d87b94f49b403e241c6e9c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  melee: {fileID: 0}
+  melee: {fileID: 114576771325265718, guid: 7bed0122eb15d477d8eaffa25f6db7a0, type: 3}
   delay: 0.0001
   _hand: {fileID: 4990350982846293327}
   _netIdentity: {fileID: 114926467534503532}

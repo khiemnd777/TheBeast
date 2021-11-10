@@ -49,7 +49,7 @@ MonoBehaviour:
   damage: 25
   hitback: 0.95
   freezedTime: 0.2
-  maxDistance: 17
+  maxDistance: 26
   layerMask:
     serializedVersion: 2
     m_Bits: 1792

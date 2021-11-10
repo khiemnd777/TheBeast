@@ -41,11 +41,12 @@ namespace SocketIO
   public class SocketIOComponent2 : MonoBehaviour
   {
     #region Public Properties
+    public const string urlPattern = "{0}://{1}:{2}/{3}/?EIO=4&transport=websocket&token=external-side";
     public string ip = "127.0.0.1";
     public int port = 7777;
     public string path = "socket.io";
     // public string url = "ws://127.0.0.1:7777/thebeast/?EIO=4&transport=websocket&token=external-side";
-    public const string urlPattern = "ws://{0}:{1}/{2}/?EIO=4&transport=websocket&token=external-side";
+    public bool secure;
     public bool autoConnect = true;
     public int reconnectDelay = 5;
     public float ackExpirationTime = 1800f;
@@ -208,7 +209,8 @@ namespace SocketIO
     public void CreateInstance()
     {
       // Instance WebSocket.
-      var wsUrl = string.Format(urlPattern, ip, port, path);
+      var protocol = secure ? "wss" : "ws";
+      var wsUrl = string.Format(urlPattern, protocol, ip, port, path);
       ws = WebSocketFactory.CreateInstance(wsUrl);
       ws.OnOpen += OnOpen;
       ws.OnMessage += OnMessage;

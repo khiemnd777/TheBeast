@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f28d431039f4774d8cc018e57b1fb07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeImpactAtMaxDistance: 0.325
+  timeImpactAtMaxDistance: 0.25
   damage: 15
   hitback: 6
   freezedTime: 2
