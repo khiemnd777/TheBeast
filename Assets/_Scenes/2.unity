@@ -9573,7 +9573,7 @@ PrefabInstance:
     - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
         type: 3}
       propertyPath: ip
-      value: asia.gungun.io
+      value: 127.0.0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
         type: 3}

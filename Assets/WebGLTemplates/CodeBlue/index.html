@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="description" content="A top-down gun fire game in a deathmatch dungeon.">
-  <meta name="keywords" content="gungunio, gunio, gun, gunfire, io, diepio, diep, topdown, deathmatch, dungeon, game, games, web game, html5, fun, flash">
+  <meta name="keywords"
+    content="gungunio, gunio, gun, gunfire, io, diepio, diep, topdown, deathmatch, dungeon, game, games, web game, html5, fun, flash">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Gungun.io | Game by 3se7en | Made with Unity">
   <meta property="og:description" content="A top-down gun fire game in a deathmatch dungeon.">
@@ -14,6 +15,15 @@
   <title>Gungun.io | Game by 3se7en | Made with Unity</title>
   <link rel="shortcut icon" href="TemplateData/fav.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGB8XL34T2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-GGB8XL34T2');
+  </script>
   <script src="TemplateData/main.js"></script>
   <script src="TemplateData/UnityProgress.js"></script>
   <script src="%UNITY_WEBGL_LOADER_URL%"></script>
@@ -21,16 +31,16 @@
     var gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%", { onProgress: UnityProgress });
   </script>
 </head>
-  
+
 <body onload="onload();">
   <div class="webgl-content">
     <!-- <div id="gameContainer" style="width: %UNITY_WIDTH%px; height: %UNITY_HEIGHT%px"></div> -->
     <div id="gameContainer" style="width: 100%; height: 100%"></div>
-    <!-- <div class="footer"> -->
-    <!-- <div class="webgl-logo"></div> -->
-    <!-- <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div> -->
-    <!-- <div class="title">%UNITY_WEB_NAME%</div> -->
-    <!-- </div> -->
+    <div class="footer">
+      <!-- <div class="webgl-logo"></div> -->
+      <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+      <!-- <div class="title">%UNITY_WEB_NAME%</div> -->
+    </div>
   </div>
   <script type="text/javascript">
     function onload() {

@@ -21,7 +21,7 @@ MonoBehaviour:
     path: thebeast
     visible: 0
   - displayName: Asia (Korea)
-    ip: 141.164.62.114
+    ip: asia.gungun.io
     port: 7777
     localIp: 127.0.0.1
     localPort: 7777
