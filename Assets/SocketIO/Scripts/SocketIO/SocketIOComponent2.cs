@@ -41,7 +41,7 @@ namespace SocketIO
   public class SocketIOComponent2 : MonoBehaviour
   {
     #region Public Properties
-    public const string urlPattern = "{0}://{1}:{2}/{3}/?EIO=4&transport=websocket&token=external-side";
+    public const string urlPattern = "{0}://{1}:{2}/{3}/?EIO=4&transport=websocket";
     public string ip = "127.0.0.1";
     public int port = 7777;
     public string path = "socket.io";
@@ -211,7 +211,7 @@ namespace SocketIO
       // Instance WebSocket.
       var protocol = secure ? "wss" : "ws";
       var wsUrl = string.Format(urlPattern, protocol, ip, port, path);
-      ws = WebSocketFactory.CreateInstance(wsUrl);
+      ws = WebSocketFactory.CreateInstance(wsUrl, secure);
       ws.OnOpen += OnOpen;
       ws.OnMessage += OnMessage;
       ws.OnError += OnError;

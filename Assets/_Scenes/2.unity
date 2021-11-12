@@ -9573,12 +9573,17 @@ PrefabInstance:
     - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
         type: 3}
       propertyPath: ip
-      value: 127.0.0.1
+      value: asia.gungun.io
       objectReference: {fileID: 0}
     - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
         type: 3}
       propertyPath: port
       value: 7777
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
+        type: 3}
+      propertyPath: secure
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55da41b698d0d4ce1895d58af8a002e1, type: 3}

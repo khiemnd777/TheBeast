@@ -54,14 +54,17 @@ namespace HybridWebSocket
     /// WebSocket constructor.
     /// </summary>
     /// <param name="url">Valid WebSocket URL.</param>
-    public WebSocket(string url)
+    public WebSocket(string url, bool secure = false)
     {
-
       try
       {
         // Create WebSocket instance
         this.ws = new WebSocketSharp.WebSocket(url);
-
+        if (secure)
+        {
+          // https://github.com/sta/websocket-sharp/issues/629
+          ws.SslConfiguration.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+        }
         // Bind OnOpen event
         this.ws.OnOpen += (sender, ev) =>
         {
@@ -165,7 +168,9 @@ namespace HybridWebSocket
     {
       // Check state
       if (this.ws.ReadyState != WebSocketSharp.WebSocketState.Open)
+      {
         throw new WebSocketInvalidStateException("WebSocket is not in open state.");
+      }
       try
       {
         this.ws.Send(str);

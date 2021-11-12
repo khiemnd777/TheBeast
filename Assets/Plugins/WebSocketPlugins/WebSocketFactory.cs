@@ -127,7 +127,7 @@ namespace HybridWebSocket
         /// </summary>
         /// <returns>The WebSocket instance.</returns>
         /// <param name="url">WebSocket valid URL.</param>
-        public static IWebSocket CreateInstance (string url)
+        public static IWebSocket CreateInstance (string url, bool secure = false)
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
             if (!isInitialized)
@@ -139,7 +139,7 @@ namespace HybridWebSocket
             instances.Add (instanceId, wrapper);
             return wrapper;
 #else
-            return new WebSocket (url);
+            return new WebSocket (url, secure);
 #endif
         }
     }
