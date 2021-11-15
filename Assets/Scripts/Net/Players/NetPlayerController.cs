@@ -59,11 +59,13 @@ namespace Net
         _movingCalculator = new MovingCalculator(Point.FromVector3(_cachedTransform.position));
         _movingCalculator.onMoving += () =>
         {
-          if (_speedCalculator.speedType == SpeedType.Sprint)
-          {
-            // Generate the footstep
-            _curiousGenerator.Generate(_curiousGenerator.curiousIdentity);
-          }
+          // Generate the footstep
+          _curiousGenerator.Generate(_curiousGenerator.curiousIdentity);
+          // if (_speedCalculator.speedType == SpeedType.Sprint)
+          // {
+          //   // Generate the footstep
+          //   _curiousGenerator.Generate(_curiousGenerator.curiousIdentity);
+          // }
         };
 
         // Speed calculator

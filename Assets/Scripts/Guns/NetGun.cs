@@ -70,7 +70,7 @@ public class NetGun : MonoBehaviour
   public virtual void Init()
   {
     settings = Settings.instance;
-    if (netIdentity.isClient)
+    if (netIdentity.isClient && !netIdentity.isLocal)
     {
       netIdentity.onMessageReceived += OnMessageReceived;
     }
@@ -114,11 +114,8 @@ public class NetGun : MonoBehaviour
     _isHoldTrigger = true;
 
     // Emit message to trigger the pistol.
-    var pistolTriggerEventName = holderSide == HolderSide.Left ? "left_hold_trigger" : "right_hold_trigger";
-    netIdentity.EmitMessage(pistolTriggerEventName, new GeneratedCuriosityJson
-    {
-      identity = curiousGenerator.curiousIdentity
-    });
+    var holdTriggerEventName = holderSide == HolderSide.Left ? "left_hold_trigger" : "right_hold_trigger";
+    netIdentity.EmitMessage(holdTriggerEventName, null);
 
     //  Emit message to generate curiosity.
     if (!silent)
@@ -160,7 +157,7 @@ public class NetGun : MonoBehaviour
 
   public virtual void KeepInCover()
   {
-    if (netIdentity.isClient)
+    if (netIdentity.isClient && !netIdentity.isLocal)
     {
       netIdentity.onMessageReceived -= OnMessageReceived;
     }
@@ -231,10 +228,12 @@ public class NetGun : MonoBehaviour
   {
     if (eventName == "left_hold_trigger" && holderSide == HolderSide.Left)
     {
+      // Debug.Log(eventName);
       OnTriggerEffect();
     }
     if (eventName == "right_hold_trigger" && holderSide == HolderSide.Right)
     {
+      // Debug.Log(eventName);
       OnTriggerEffect();
     }
     if (eventName == "left_curious_generate" && holderSide == HolderSide.Left)

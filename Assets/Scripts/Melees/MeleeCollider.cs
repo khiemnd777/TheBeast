@@ -35,6 +35,7 @@ public class MeleeCollider : MonoBehaviour
 
   public void Setup(MeleeColliderOptions options)
   {
+    this.player = options.player;
     this.size = options.size;
     this.range = options.range;
     this.layerMask = options.layerMask;
@@ -45,6 +46,7 @@ public class MeleeCollider : MonoBehaviour
   public void Reset()
   {
     _isSetup = false;
+    this.player = null;
     this.size = 0f;
     this.range = 0f;
     this.layerMask = -1;
@@ -62,4 +64,5 @@ public struct MeleeColliderOptions
   public float size;
   public float range;
   public LayerMask layerMask;
+  public Player player;
 }

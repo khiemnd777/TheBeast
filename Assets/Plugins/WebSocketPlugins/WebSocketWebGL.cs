@@ -132,7 +132,6 @@ namespace HybridWebSocket
 
         public void Send (string str)
         {
-            Debug.Log (str);
             int ret = WebSocketSendStr (this.instanceId, str);
             if (ret < 0) throw WebSocketHelpers.GetErrorMessageFromCode (ret, null);
         }

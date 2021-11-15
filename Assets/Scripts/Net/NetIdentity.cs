@@ -216,7 +216,7 @@ namespace Net
     {
       if (onMessageReceived != null)
       {
-        onMessageReceived(eventName, message);
+        onMessageReceived.Invoke(eventName, message);
       }
     }
 

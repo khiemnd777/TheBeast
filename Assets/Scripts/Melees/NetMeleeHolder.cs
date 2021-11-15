@@ -36,12 +36,11 @@ public class NetMeleeHolder : MonoBehaviour
       heldMelee.KeepInCover();
     }
   }
-  static object holdMeleeObjectLock = new object();
+  object holdMeleeObjectLock = new object();
   public void TakeUpArm()
   {
     if (melee != null && melee is Object && !melee.Equals(null))
     {
-      Debug.Log(melee.range);
       lock (holdMeleeObjectLock)
       {
         if (!heldMelee)

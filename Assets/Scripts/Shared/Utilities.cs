@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Utility
@@ -23,6 +25,106 @@ public class Utility
     return new Vector3(x, position.y, z);
   }
 
+  public static Point LineLineIntersection(Point a, Point b, Point c, Point d, out float determinant)
+  {
+    // Line AB represented as a1x + b1y = c1 
+    var a1 = b.y - a.y;
+    var b1 = a.x - b.x;
+    var c1 = a1 * (a.x) + b1 * (a.y);
+
+    // Line CD represented as a2x + b2y = c2 
+    var a2 = d.y - c.y;
+    var b2 = c.x - d.x;
+    var c2 = a2 * (c.x) + b2 * (c.y);
+
+    determinant = a1 * b2 - a2 * b1;
+    if (determinant == 0)
+    {
+      // The lines are parallel. This is simplified 
+      // by returning a pair of FLT_MAX 
+      return new Point(float.MaxValue, float.MaxValue);
+    }
+    else
+    {
+      var x = (b2 * c1 - b1 * c2) / determinant;
+      var y = (a1 * c2 - a2 * c1) / determinant;
+      return new Point(x, y);
+    }
+  }
+
+  public static Point LineLineIntersection(Camera camera, Vector3 center, Point c, Point d)
+  {
+    var halfHeight = camera.orthographicSize;
+    var halfWidth = halfHeight * Screen.width / Screen.height;
+    var a1 = new List<Point>
+    {
+      new Point(center.x - halfWidth, center.z - halfHeight),
+      new Point(center.x + halfWidth, center.z - halfHeight),
+      new Point(center.x - halfWidth, center.z + halfHeight),
+      new Point(center.x - halfWidth, center.z + halfHeight)
+    };
+    var a2 = new List<Point>
+    {
+      new Point(center.x + halfWidth, center.z - halfHeight),
+      new Point(center.x + halfWidth, center.z + halfHeight),
+      new Point(center.x + halfWidth, center.z + halfHeight),
+      new Point(center.x - halfWidth, center.z - halfHeight),
+    };
+    for (var i = 0; i < a1.Count; i++)
+    {
+      var intersection = LineLineIntersection(a1[i], a2[i], c, d, out float determinant);
+      if (
+        AreLineSegmentsIntersectingDotProduct
+        (
+          new Vector3(a1[i].x, 0f, a1[i].y),
+          new Vector3(a2[i].x, 0f, a2[i].y),
+          new Vector3(c.x, 0f, c.y),
+          new Vector3(d.x, 0f, d.y)
+        )
+      )
+      {
+        return intersection;
+      }
+    }
+    return new Point(float.MaxValue, float.MaxValue);
+  }
+
+  //Line segment-line segment intersection in 2d space by using the dot product
+  //p1 and p2 belongs to line 1, and p3 and p4 belongs to line 2 
+  public static bool AreLineSegmentsIntersectingDotProduct(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
+  {
+    bool isIntersecting = false;
+
+    if (IsPointsOnDifferentSides(p1, p2, p3, p4) && IsPointsOnDifferentSides(p3, p4, p1, p2))
+    {
+      isIntersecting = true;
+    }
+    return isIntersecting;
+  }
+
+  //Are the points on different sides of a line?
+  private static bool IsPointsOnDifferentSides(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
+  {
+    bool isOnDifferentSides = false;
+
+    //The direction of the line
+    Vector3 lineDir = p2 - p1;
+
+    //The normal to a line is just flipping x and z and making z negative
+    Vector3 lineNormal = new Vector3(-lineDir.z, lineDir.y, lineDir.x);
+
+    //Now we need to take the dot product between the normal and the points on the other line
+    float dot1 = Vector3.Dot(lineNormal, p3 - p1);
+    float dot2 = Vector3.Dot(lineNormal, p4 - p1);
+
+    //If you multiply them and get a negative value then p3 and p4 are on different sides of the line
+    if (dot1 * dot2 < 0f)
+    {
+      isOnDifferentSides = true;
+    }
+
+    return isOnDifferentSides;
+  }
 
   public static Vector3 AlterVector3(Vector3 owner, float x, float y)
   {

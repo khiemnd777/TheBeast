@@ -41,7 +41,7 @@ public class NetGunHolder : MonoBehaviour
     }
   }
 
-  static object holdGunObjectLock = new object();
+  object holdGunObjectLock = new object();
   public void TakeUpArm()
   {
     _beginPosition = transform.localPosition;
@@ -53,13 +53,13 @@ public class NetGunHolder : MonoBehaviour
         {
           _heldGun = Instantiate<NetGun>(gun, transform.position, transform.rotation, transform);
           _heldGun.SetHeatUI(_heatUI);
+          _heldGun.SetHolderSide(holderSide);
+          _heldGun.SetPlayer(_player);
+          _heldGun.SetGunWeightToPlayer(_player);
+          _heldGun.SetNetIdentity(_netIdentity);
+          _heldGun.Init();
         }
       }
-      _heldGun.SetHolderSide(holderSide);
-      _heldGun.SetPlayer(_player);
-      _heldGun.SetGunWeightToPlayer(_player);
-      _heldGun.SetNetIdentity(_netIdentity);
-      _heldGun.Init();
       if (_netIdentity.isLocal)
       {
         _heldGun.TakeUpArm();

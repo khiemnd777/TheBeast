@@ -103,7 +103,7 @@ namespace Net
     {
       print("Websocket connects");
       _socket.Connect();
-      
+
       _socket.On(Constants.EVENT_CLIENT_OTHER_DISCONNECTED, OnClientOtherDisconnected);
       _socket.On(Constants.EVENT_RECEIVE_EMIT_MESSAGE, OnReceiveEmitMessage);
       _socket.On(Constants.EVENT_BROADCAST_CLONE_EVERYWHERE, OnBroadcastCloneEverywhere);

@@ -115,6 +115,7 @@ public class NetMelee : MonoBehaviour
     {
       player.meleeCollider.Setup(new MeleeColliderOptions
       {
+        player = player,
         range = range,
         size = size,
         layerMask = layerMask
