@@ -66,7 +66,7 @@ public class Utility
     var a2 = new List<Point>
     {
       new Point(center.x + halfWidth, center.z - halfHeight),
-      new Point(center.x + halfWidth, center.z + halfHeight),
+      new Point(center.x + halfWidth, center.z + halfHeight),   
       new Point(center.x + halfWidth, center.z + halfHeight),
       new Point(center.x - halfWidth, center.z - halfHeight),
     };
