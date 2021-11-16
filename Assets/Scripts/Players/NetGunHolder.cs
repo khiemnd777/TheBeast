@@ -41,6 +41,14 @@ public class NetGunHolder : MonoBehaviour
     }
   }
 
+  public void ChangeGun()
+  {
+    if (_heldGun != null && _heldGun is Object && !_heldGun.Equals(null))
+    {
+      _heldGun.ChangeGun();
+    }
+  }
+
   object holdGunObjectLock = new object();
   public void TakeUpArm()
   {

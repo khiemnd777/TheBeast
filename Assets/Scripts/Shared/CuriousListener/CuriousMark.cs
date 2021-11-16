@@ -31,10 +31,10 @@ public class CuriousMark : MonoBehaviour
   {
     if (target)
     {
-      var intersectedPoint = Utility.LineLineIntersection(_cameraController.theCamera, target.position, new Point(target.position.x, target.position.z), new Point(_originalPoint.x, _originalPoint.z));
+      var intersectedPoint = Utility.LineLineIntersection(_cameraController.theCamera, _cameraController.theCamera.transform.position, new Point(_cameraController.theCamera.transform.position.x, _cameraController.theCamera.transform.position.z), new Point(_originalPoint.x, _originalPoint.z), 1f, .5f, .5f, .5f);
       if (intersectedPoint.x != float.MaxValue && intersectedPoint.y != float.MaxValue)
       {
-        this.transform.position = new Vector3(intersectedPoint.x, 6f, intersectedPoint.y);
+        this.transform.position = new Vector3(intersectedPoint.x, 3f, intersectedPoint.y);
       }
       else
       {

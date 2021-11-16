@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2596520036952252990}
   - component: {fileID: 5902602471507011227}
   m_Layer: 16
-  m_Name: Footstep
+  m_Name: Curiosity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 0
-  lifetime: 4
+  lifetime: 15
   footstepCollider: {fileID: 5902602471507011227}
 --- !u!135 &5902602471507011227
 SphereCollider:

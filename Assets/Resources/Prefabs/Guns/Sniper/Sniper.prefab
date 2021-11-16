@@ -536,7 +536,7 @@ MonoBehaviour:
   fieldOfViewReferredAngle: 90
   fieldOfViews:
   - radius: 15
-    angle: 60
+    angle: 90
   - radius: 60
     angle: 5
   _fieldOfViewIndex: 0

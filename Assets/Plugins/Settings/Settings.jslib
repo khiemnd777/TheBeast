@@ -5,4 +5,10 @@ mergeInto(LibraryManager.library, {
   PlayerDead: function(){
     Main && Main.emit("dead");
   },
+  Fullscreen: function() {
+    gameInstance && gameInstance.SetFullscreen(1);
+  },
+  Windowscreen: function() {
+    gameInstance && gameInstance.SetFullscreen(0);
+  },
 });

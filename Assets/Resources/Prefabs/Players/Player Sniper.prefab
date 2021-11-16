@@ -202,7 +202,7 @@ MonoBehaviour:
   _score: {fileID: 325242048070946785}
   _fieldOfViewParam:
     radius: 15
-    angle: 60
+    angle: 90
   _playerNameUI: {fileID: 7098192889582846544}
 --- !u!136 &257839995057977654
 CapsuleCollider:
@@ -1372,11 +1372,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 171758159736674674}
     m_Modifications:
-    - target: {fileID: 8261781092814649888, guid: da7bc43e27b92e84fb7bbf0d88747673,
-        type: 3}
-      propertyPath: curiousRadius
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 8261781092814649889, guid: da7bc43e27b92e84fb7bbf0d88747673,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1660,16 +1655,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
-        type: 3}
-      propertyPath: visualizeOnGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808244210168180910, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
-        type: 3}
-      propertyPath: radius
-      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 2808244210168180911, guid: 9ffc9d2729dbdff408ef1e3f51a35a0d,
         type: 3}

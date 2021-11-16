@@ -125,4 +125,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mark: {fileID: 2104782520651825510}
   _timeMarkPerforming: 0.125
-  _lifetime: 4
+  _lifetime: 30

@@ -168,7 +168,7 @@ MonoBehaviour:
   _score: {fileID: 6056365196694505455}
   _fieldOfViewParam:
     radius: 15
-    angle: 60
+    angle: 90
   _playerNameUI: {fileID: 2265204707469043819}
 --- !u!136 &136874918869126214
 CapsuleCollider:

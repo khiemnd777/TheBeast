@@ -32,14 +32,16 @@ public class PickUpGunController : MonoBehaviour
               if (_rightGunHolder)
               {
                 _rightGunHolder.KeepInCover();
+                _rightGunHolder.ChangeGun();
                 _rightGunHolder.gun = found.prefab;
                 _rightGunHolder.TakeUpArm();
               }
-              if (found.prefab.gunHandType == GunHandType.OneHand)
+              if (_leftGunHolder)
               {
-                if (_leftGunHolder)
+                _leftGunHolder.KeepInCover();
+                _leftGunHolder.ChangeGun();
+                if (found.prefab.gunHandType == GunHandType.OneHand)
                 {
-                  _leftGunHolder.KeepInCover();
                   _leftGunHolder.gun = found.prefab;
                   _leftGunHolder.TakeUpArm();
                 }
@@ -104,14 +106,16 @@ public class PickUpGunController : MonoBehaviour
         if (_rightGunHolder)
         {
           _rightGunHolder.KeepInCover();
+          _rightGunHolder.ChangeGun();
           _rightGunHolder.gun = droppedGun.gunPrefab;
           _rightGunHolder.TakeUpArm();
         }
-        if (droppedGun.gunPrefab.gunHandType == GunHandType.OneHand)
+        if (_leftGunHolder)
         {
-          if (_leftGunHolder)
+          _leftGunHolder.KeepInCover();
+          _leftGunHolder.ChangeGun();
+          if (droppedGun.gunPrefab.gunHandType == GunHandType.OneHand)
           {
-            _leftGunHolder.KeepInCover();
             _leftGunHolder.gun = droppedGun.gunPrefab;
             _leftGunHolder.TakeUpArm();
           }

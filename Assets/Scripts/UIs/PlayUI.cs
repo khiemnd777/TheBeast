@@ -30,6 +30,12 @@ namespace Net
     [SerializeField]
     Button _guideButton;
 
+    [SerializeField]
+    Button _fullscreenButton;
+
+    [SerializeField]
+    Button _exitFullscreenButton;
+
     [Header("Guns Select")]
     [SerializeField]
     GunsSelectUI _gunsSelectUI;
@@ -91,6 +97,24 @@ namespace Net
       netRegistrar.Register(_gunsSelectUI.gunUI.prefabName, nicknameInputField.text);
 #if UNITY_WEBGL
       SettingsFactory.Play();
+#endif
+    }
+
+    public void Fullscreen()
+    {
+      _fullscreenButton.gameObject.SetActive(false);
+      _exitFullscreenButton.gameObject.SetActive(true);
+#if UNITY_WEBGL
+      SettingsFactory.Fullscreen();
+#endif
+    }
+
+    public void Windowscreen()
+    {
+      _fullscreenButton.gameObject.SetActive(true);
+      _exitFullscreenButton.gameObject.SetActive(false);
+#if UNITY_WEBGL
+      SettingsFactory.Windowscreen();
 #endif
     }
 

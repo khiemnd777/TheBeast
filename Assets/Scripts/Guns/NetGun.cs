@@ -164,7 +164,11 @@ public class NetGun : MonoBehaviour
     this.player.gunWeightIncrement = 1f;
     this.ui.gameObject.SetActive(false);
     this.enabled = false;
-    // Destroy(gameObject);
+  }
+
+  public virtual void ChangeGun()
+  {
+    Destroy(gameObject);
   }
 
   float _timeBetweenHoldTrigger;

@@ -52,27 +52,26 @@ public class Utility
     }
   }
 
-  public static Point LineLineIntersection(Camera camera, Vector3 center, Point c, Point d)
+  public static Point LineLineIntersection(Camera camera, Vector3 center, Point c, Point d, float paddingTop = 0, float paddingBottom = 0, float paddingLeft = 0, float paddingRight = 0)
   {
     var halfHeight = camera.orthographicSize;
     var halfWidth = halfHeight * Screen.width / Screen.height;
     var a1 = new List<Point>
     {
-      new Point(center.x - halfWidth, center.z - halfHeight),
-      new Point(center.x + halfWidth, center.z - halfHeight),
-      new Point(center.x - halfWidth, center.z + halfHeight),
-      new Point(center.x - halfWidth, center.z + halfHeight)
+      new Point(center.x - halfWidth + paddingLeft, center.z - halfHeight + paddingBottom),
+      new Point(center.x + halfWidth - paddingRight, center.z - halfHeight + paddingBottom),
+      new Point(center.x - halfWidth + paddingLeft, center.z + halfHeight - paddingTop),
+      new Point(center.x - halfWidth + paddingLeft, center.z + halfHeight - paddingTop)
     };
     var a2 = new List<Point>
     {
-      new Point(center.x + halfWidth, center.z - halfHeight),
-      new Point(center.x + halfWidth, center.z + halfHeight),   
-      new Point(center.x + halfWidth, center.z + halfHeight),
-      new Point(center.x - halfWidth, center.z - halfHeight),
+      new Point(center.x + halfWidth - paddingRight, center.z - halfHeight + paddingBottom),
+      new Point(center.x + halfWidth - paddingRight, center.z + halfHeight - paddingTop),
+      new Point(center.x + halfWidth - paddingRight, center.z + halfHeight - paddingTop),
+      new Point(center.x - halfWidth + paddingLeft, center.z - halfHeight + paddingBottom),
     };
     for (var i = 0; i < a1.Count; i++)
     {
-      var intersection = LineLineIntersection(a1[i], a2[i], c, d, out float determinant);
       if (
         AreLineSegmentsIntersectingDotProduct
         (
@@ -83,6 +82,7 @@ public class Utility
         )
       )
       {
+        var intersection = LineLineIntersection(a1[i], a2[i], c, d, out float determinant);
         return intersection;
       }
     }
