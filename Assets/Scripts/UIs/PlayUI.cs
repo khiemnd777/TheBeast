@@ -24,6 +24,9 @@ namespace Net
     RectTransform _logoRectTransform;
 
     [SerializeField]
+    RectTransform _privacyRectTransform;
+
+    [SerializeField]
     RectTransform _overlayRectTransform;
 
     [SerializeField]
@@ -135,6 +138,8 @@ namespace Net
     {
       _rectTransform.localScale = Vector3.one;
       _logoRectTransform.localScale = Vector3.one;
+      _privacyRectTransform.localScale = Vector3.one;
+      _privacyRectTransform.anchoredPosition = new Vector2(-164.9f, 29.8f);
 
       var t = 0f;
       while (t <= 1f)
@@ -143,6 +148,10 @@ namespace Net
         var scale = Mathf.Lerp(1f, 0f, t);
         _rectTransform.localScale = Vector3.one * scale;
         _logoRectTransform.localScale = Vector3.one * scale;
+        
+        var privacyLerpY = Mathf.Lerp(29.8f, -165f, t);
+        _privacyRectTransform.anchoredPosition = new Vector2(-164.9f, privacyLerpY);
+
         yield return null;
       }
       _overlayRectTransform.gameObject.SetActive(false);
@@ -153,6 +162,7 @@ namespace Net
     {
       _rectTransform.localScale = Vector3.zero;
       _logoRectTransform.localScale = Vector3.zero;
+      _privacyRectTransform.anchoredPosition = new Vector2(-164.9f, -165f);
 
       var t = 0f;
       while (t <= 1f)
@@ -161,6 +171,10 @@ namespace Net
         var scale = Mathf.Lerp(0f, 1f, t);
         _rectTransform.localScale = Vector3.one * scale;
         _logoRectTransform.localScale = Vector3.one * scale;
+
+        var privacyLerpY = Mathf.Lerp(-165f, 29.8f, t);
+        _privacyRectTransform.anchoredPosition = new Vector2(-164.9f, privacyLerpY);
+
         yield return null;
       }
     }
