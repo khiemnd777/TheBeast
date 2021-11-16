@@ -21,6 +21,12 @@ namespace Net
     RectTransform _rectTransform;
 
     [SerializeField]
+    RectTransform _logoRectTransform;
+
+    [SerializeField]
+    RectTransform _overlayRectTransform;
+
+    [SerializeField]
     RectTransform _playUIRectTransform;
 
     [Header("Guide")]
@@ -77,6 +83,7 @@ namespace Net
       nicknameInputField.interactable = true;
       playBtnText.text = "Play";
       gameObject.SetActive(true);
+      _overlayRectTransform.gameObject.SetActive(true);
       StartCoroutine(Show());
 #if UNITY_WEBGL
       SettingsFactory.PlayerDead();
@@ -127,26 +134,33 @@ namespace Net
     IEnumerator Hide()
     {
       _rectTransform.localScale = Vector3.one;
+      _logoRectTransform.localScale = Vector3.one;
+
       var t = 0f;
       while (t <= 1f)
       {
         t += Time.deltaTime / .5f;
         var scale = Mathf.Lerp(1f, 0f, t);
         _rectTransform.localScale = Vector3.one * scale;
+        _logoRectTransform.localScale = Vector3.one * scale;
         yield return null;
       }
+      _overlayRectTransform.gameObject.SetActive(false);
       gameObject.SetActive(false);
     }
 
     IEnumerator Show()
     {
       _rectTransform.localScale = Vector3.zero;
+      _logoRectTransform.localScale = Vector3.zero;
+
       var t = 0f;
       while (t <= 1f)
       {
         t += Time.deltaTime / .5f;
         var scale = Mathf.Lerp(0f, 1f, t);
         _rectTransform.localScale = Vector3.one * scale;
+        _logoRectTransform.localScale = Vector3.one * scale;
         yield return null;
       }
     }
