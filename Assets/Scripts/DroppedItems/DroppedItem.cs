@@ -13,6 +13,8 @@ public class DroppedItem : NetIdentity
 
   public float amplitude;
 
+  public float lifetime;
+
   public LayerMask targets;
 
   [SerializeField]
@@ -53,6 +55,33 @@ public class DroppedItem : NetIdentity
         StartCoroutine("AutoSync", syncDelayInSeconds);
       }
     }
+
+    StartCoroutine("Lifetime", lifetime);
+  }
+
+  IEnumerator Lifetime(float lifetime)
+  {
+    if (isServer)
+    {
+      yield return new WaitForSeconds(lifetime);
+    }
+    else
+    {
+      yield return new WaitForSeconds(lifetime - lifetime / 4f);
+    }
+    if (isClient)
+    {
+      var t = 0f;
+      var originalColor = display.color;
+      while (t <= 1f)
+      {
+        t += Time.deltaTime / (lifetime / 4f);
+        var lerpA = Mathf.Lerp(1, 0, t);
+        display.color = new Color(originalColor.r, originalColor.g, originalColor.b, lerpA);
+        yield return null;
+      }
+    }
+    Destroy(gameObject);
   }
 
   IEnumerator AutoSync(float syncDelayInSeconds)

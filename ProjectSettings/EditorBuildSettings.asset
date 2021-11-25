@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/_select_server.unity
     guid: ae91ff6575c44c0439209ff6365ce54b
   - enabled: 1

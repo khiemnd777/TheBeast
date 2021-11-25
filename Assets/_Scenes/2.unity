@@ -10116,7 +10116,7 @@ PrefabInstance:
     - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
         type: 3}
       propertyPath: ip
-      value: 127.0.0.1
+      value: ws.gungun.io
       objectReference: {fileID: 0}
     - target: {fileID: 5360187978236868806, guid: 55da41b698d0d4ce1895d58af8a002e1,
         type: 3}
@@ -10535,7 +10535,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 22}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 260.30713, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &810311592
 MonoBehaviour:
@@ -10568,7 +10568,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v0.1 - In development
+  m_Text: v0.1.1 - In development
 --- !u!222 &810311593
 CanvasRenderer:
   m_ObjectHideFlags: 0

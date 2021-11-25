@@ -35,7 +35,7 @@ public class NetGunHolder : MonoBehaviour
 
   public void KeepInCover()
   {
-    if (_heldGun != null && _heldGun is Object && !_heldGun.Equals(null))
+    if (_heldGun)
     {
       _heldGun.KeepInCover();
     }
@@ -43,9 +43,10 @@ public class NetGunHolder : MonoBehaviour
 
   public void ChangeGun()
   {
-    if (_heldGun != null && _heldGun is Object && !_heldGun.Equals(null))
+    if (_heldGun)
     {
       _heldGun.ChangeGun();
+      _heldGun = null;
     }
   }
 
@@ -53,11 +54,11 @@ public class NetGunHolder : MonoBehaviour
   public void TakeUpArm()
   {
     _beginPosition = transform.localPosition;
-    if (gun != null && gun is Object && !gun.Equals(null))
+    if (gun)
     {
       lock (holdGunObjectLock)
       {
-        if (!_heldGun)
+        if (_heldGun.IsNull())
         {
           _heldGun = Instantiate<NetGun>(gun, transform.position, transform.rotation, transform);
           _heldGun.SetHeatUI(_heatUI);

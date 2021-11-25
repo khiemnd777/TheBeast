@@ -126,6 +126,7 @@ MonoBehaviour:
   immediate: 1
   radius: 0.5
   amplitude: 0.05
+  lifetime: 15
   targets:
     serializedVersion: 2
     m_Bits: 512
