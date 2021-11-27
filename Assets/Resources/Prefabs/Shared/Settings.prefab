@@ -47,3 +47,5 @@ MonoBehaviour:
   defaultTimeScale: 1
   defaultFendingOffStatusOffTime: 0.1
   defaultReleaseLockExplosionTime: 0.25
+  enableFieldOfView: 0
+  enableCuriousMechanism: 0

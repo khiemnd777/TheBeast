@@ -24,6 +24,7 @@ namespace Net
     SpeedCalculator _speedCalculator;
     Transform _cachedTransform;
 
+    Settings _settings;
 
     [Space]
     [SerializeField]
@@ -48,19 +49,29 @@ namespace Net
     /// </summary>
     void Start()
     {
+      _settings = Settings.instance;
       _cachedTransform = transform;
 
       if (_netIdentity.isLocal)
       {
-        _curiousListener.curiousIdentity = _netIdentity.clientId;
-        _curiousGenerator.curiousIdentity = _netIdentity.clientId;
+        _curiousListener.enabled = _settings.enableCuriousMechanism;
+        _curiousGenerator.enabled = _settings.enableCuriousMechanism;
+
+        if (_settings.enableCuriousMechanism)
+        {
+          _curiousListener.curiousIdentity = _netIdentity.clientId;
+          _curiousGenerator.curiousIdentity = _netIdentity.clientId;
+        }
 
         // Moving calculator
         _movingCalculator = new MovingCalculator(Point.FromVector3(_cachedTransform.position));
         _movingCalculator.onMoving += () =>
         {
           // Generate the footstep
-          _curiousGenerator.Generate(_curiousGenerator.curiousIdentity);
+          if (_settings.enableCuriousMechanism)
+          {
+            _curiousGenerator.Generate(_curiousGenerator.curiousIdentity);
+          }
           // if (_speedCalculator.speedType == SpeedType.Sprint)
           // {
           //   // Generate the footstep
@@ -75,26 +86,36 @@ namespace Net
           .SetSpeedType(SpeedType.Sprint);
 
         // Emit this event after the footstep generated.
-        _curiousGenerator.onAfterGenerate += () =>
+        if (_settings.enableCuriousMechanism)
         {
-          _netIdentity.EmitMessage("curious_generate", new GeneratedCuriosityJson
+          _curiousGenerator.onAfterGenerate += () =>
           {
-            identity = _curiousGenerator.curiousIdentity
-          });
-        };
+            _netIdentity.EmitMessage("curious_generate", new GeneratedCuriosityJson
+            {
+              identity = _curiousGenerator.curiousIdentity
+            });
+          };
+
+        }
 
         // Listen to the curiosity.
-        StartCoroutine(_curiousListener.Listen());
+        if (_settings.enableCuriousMechanism)
+        {
+          StartCoroutine(_curiousListener.Listen());
+        }
       }
       if (_netIdentity.isClient)
       {
         _netIdentity.onMessageReceived += (eventName, eventMessage) =>
         {
-          if (eventName == "curious_generate")
+          if (_settings.enableCuriousMechanism)
           {
-            // Generate the footstep
-            var data = Utility.Deserialize<GeneratedCuriosityJson>(eventMessage);
-            _curiousGenerator.Generate(data.identity);
+            if (eventName == "curious_generate")
+            {
+              // Generate the footstep
+              var data = Utility.Deserialize<GeneratedCuriosityJson>(eventMessage);
+              _curiousGenerator.Generate(data.identity);
+            }
           }
         };
       }

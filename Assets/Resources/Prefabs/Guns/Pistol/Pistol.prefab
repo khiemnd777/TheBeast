@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 4622930120247924}
   - component: {fileID: 212378258519975208}
   - component: {fileID: 95429412228150600}
+  - component: {fileID: 257883563452984148}
   m_Layer: 0
   m_Name: Flash
   m_TagString: Untagged
@@ -118,7 +119,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224044597214308}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 64e24dc72bac34d83bece2e1dfe7eb87, type: 2}
   m_CullingMode: 0
@@ -129,6 +130,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &257883563452984148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224044597214308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385a028fcfe39d04f9a5a6454290633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 0}
+  _flashes:
+  - {fileID: 21300000, guid: 3321f9baac3e88a429903aebf016796c, type: 3}
+  - {fileID: 21300002, guid: 3321f9baac3e88a429903aebf016796c, type: 3}
+  - {fileID: 21300004, guid: 3321f9baac3e88a429903aebf016796c, type: 3}
 --- !u!1 &1472419670303274
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +390,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4622930120247924}
+  - {fileID: 618931477206898620}
   m_Father: {fileID: 4856977486619140}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -445,13 +464,59 @@ MonoBehaviour:
     type: 2}
   gunHandTypeAnimation: {fileID: 7400000, guid: fa8008c499e1a409ba4b39b98fd30ef6,
     type: 2}
+  projectileFlash: {fileID: 8186398297722959746, guid: 17efce50dfb893c47834e9d3743163ae,
+    type: 3}
   curiousGenerator: {fileID: 2418999170574043248}
   timeBetweenShoot: 0.225
   bulletPrefab: {fileID: 9200986866846674981, guid: b4aedaa5fd0b64848b7c3a03d464af3d,
     type: 3}
   projectile: {fileID: 4832442425740844}
-  flashAnim: {fileID: 95429412228150600}
+  flashAnim: {fileID: 0}
   audioSource: {fileID: 82919574562966992}
+--- !u!1 &5538262022012585855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 618931477206898620}
+  - component: {fileID: 3869075451289172550}
+  m_Layer: 0
+  m_Name: Limited Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &618931477206898620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5538262022012585855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.11, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4832442425740844}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3869075451289172550
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5538262022012585855}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5995906065207046736
 PrefabInstance:
   m_ObjectHideFlags: 0

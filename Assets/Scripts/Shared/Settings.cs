@@ -7,6 +7,9 @@ public class Settings : MonoBehaviour
   public float defaultFendingOffStatusOffTime = .1f;
   public float defaultReleaseLockExplosionTime = .25f;
 
+  public bool enableFieldOfView = true;
+  public bool enableCuriousMechanism = true;
+
   SelectedServer _selectedServer;
   public SelectedServer selectedServer { get => _selectedServer ?? (_selectedServer = FindObjectOfType<SelectedServer>()); }
 

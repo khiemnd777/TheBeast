@@ -128,6 +128,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4845947295604698}
+  - {fileID: 1751005800333541930}
   m_Father: {fileID: 4920300112691644}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -448,12 +449,14 @@ MonoBehaviour:
     type: 2}
   gunHandTypeAnimation: {fileID: 7400000, guid: fa8008c499e1a409ba4b39b98fd30ef6,
     type: 2}
+  projectileFlash: {fileID: 8186398297722959746, guid: 17efce50dfb893c47834e9d3743163ae,
+    type: 3}
   curiousGenerator: {fileID: 8940028802122086228}
   timeBetweenShoot: 0.65
   bulletPrefab: {fileID: 7912423075343510606, guid: 22ea89511ef774823b2c780615ce2d83,
     type: 3}
   projectile: {fileID: 4052666948193632}
-  flashAnim: {fileID: 95428234672668180}
+  flashAnim: {fileID: 0}
   audioSource: {fileID: 82914894147640134}
   _shotgunFireAnim: {fileID: 95126885001151952}
   ballNumber: 7
@@ -556,6 +559,50 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &5312775448971846535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1751005800333541930}
+  - component: {fileID: 8403192241301407607}
+  m_Layer: 0
+  m_Name: Limited Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1751005800333541930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312775448971846535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.11, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4052666948193632}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8403192241301407607
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5312775448971846535}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1060284307836112244
 PrefabInstance:
   m_ObjectHideFlags: 0

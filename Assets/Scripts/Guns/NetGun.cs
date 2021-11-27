@@ -33,6 +33,8 @@ public class NetGun : MonoBehaviour
   public RuntimeAnimatorController gunAnimatorController;
   public AnimationClip gunHandTypeAnimation;
 
+  public GunProjectileFlash projectileFlash;
+
   [SerializeField]
   protected CuriousGenerator curiousGenerator;
 
@@ -108,7 +110,10 @@ public class NetGun : MonoBehaviour
     // Generate curiosity
     if (!silent)
     {
-      curiousGenerator.Generate(curiousGenerator.curiousIdentity);
+      if (settings.enableCuriousMechanism)
+      {
+        curiousGenerator.Generate(curiousGenerator.curiousIdentity);
+      }
     }
 
     _isHoldTrigger = true;
@@ -120,11 +125,14 @@ public class NetGun : MonoBehaviour
     //  Emit message to generate curiosity.
     if (!silent)
     {
-      var curiousGenerateEventName = holderSide == HolderSide.Left ? "left_curious_generate" : "right_curious_generate";
-      netIdentity.EmitMessage(curiousGenerateEventName, new GeneratedCuriosityJson
+      if (settings.enableCuriousMechanism)
       {
-        identity = curiousGenerator.curiousIdentity
-      });
+        var curiousGenerateEventName = holderSide == HolderSide.Left ? "left_curious_generate" : "right_curious_generate";
+        netIdentity.EmitMessage(curiousGenerateEventName, new GeneratedCuriosityJson
+        {
+          identity = curiousGenerator.curiousIdentity
+        });
+      }
     }
   }
 
@@ -209,6 +217,7 @@ public class NetGun : MonoBehaviour
 
   public virtual void Start()
   {
+    curiousGenerator.enabled = settings.enableCuriousMechanism;
   }
 
   public virtual void Update()
@@ -240,21 +249,27 @@ public class NetGun : MonoBehaviour
       // Debug.Log(eventName);
       OnTriggerEffect();
     }
-    if (eventName == "left_curious_generate" && holderSide == HolderSide.Left)
+    if (settings.enableCuriousMechanism)
     {
-      var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
-      curiousGenerator.Generate(data.identity);
-    }
-    if (eventName == "right_curious_generate" && holderSide == HolderSide.Right)
-    {
-      var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
-      curiousGenerator.Generate(data.identity);
+      if (eventName == "left_curious_generate" && holderSide == HolderSide.Left)
+      {
+        var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
+        curiousGenerator.Generate(data.identity);
+      }
+      if (eventName == "right_curious_generate" && holderSide == HolderSide.Right)
+      {
+        var data = Utility.Deserialize<GeneratedCuriosityJson>(message);
+        curiousGenerator.Generate(data.identity);
+      }
     }
   }
 
   public virtual void OnTriggerEffect()
   {
-
+    if (projectileFlash)
+    {
+      Instantiate<GunProjectileFlash>(projectileFlash, projectile.transform.position, projectile.transform.rotation);
+    }
   }
 
   public void SetHeatUI(HeatUI heatUI)
@@ -312,9 +327,12 @@ public class NetGun : MonoBehaviour
 
   public virtual void OnAfterTakenUpArm()
   {
-    if (curiousGenerator)
+    if (settings.enableCuriousMechanism)
     {
-      curiousGenerator.curiousIdentity = netIdentity.clientId;
+      if (curiousGenerator)
+      {
+        curiousGenerator.curiousIdentity = netIdentity.clientId;
+      }
     }
   }
 

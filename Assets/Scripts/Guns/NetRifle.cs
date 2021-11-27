@@ -11,7 +11,10 @@ public class NetRifle : NetGun
   public override void OnTriggerEffect()
   {
     EjectShell();
-    flashAnim.Play("Gun Flash", 0, 0);
+    if (flashAnim)
+    {
+      flashAnim.Play("Gun Flash", 0, 0);
+    }
     _fireAnim.Play("Rifle Fire", 0, 0);
     audioSource.Play();
     base.OnTriggerEffect();
@@ -23,16 +26,16 @@ public class NetRifle : NetGun
     if (netIdentity.isLocal)
     {
       var fov = this.GetFieldOfView(0);
-      
+
       cameraController.SetTarget(player.transform);
       cameraController.SetDefaultLimitedBoundingBox();
 
       player.fieldOfView.SetRadius(fov.radius);
       player.fieldOfView.SetAngle(fov.angle);
-      
+
       dotSightController.ResetSensitivity();
       dotSightController.SetLocally();
-      
+
       heatUI.Visible(true);
       heatUI.SetHeat(_heat);
     }

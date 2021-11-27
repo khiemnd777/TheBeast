@@ -72,7 +72,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
     animator = GetComponent<Animator>();
     animator.enabled = false;
     fieldOfView.enabled = false;
-    _body.gameObject.SetActive(false);
+    _body.gameObject.SetActive(!_settings.enableFieldOfView);
     if (isServer)
     {
       _body.gameObject.SetActive(true);
@@ -82,8 +82,11 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
     if (isLocal)
     {
       _body.gameObject.SetActive(true);
-      fieldOfView.enabled = true;
-      StartCoroutine(fieldOfView.FindTargets());
+      if (_settings.enableFieldOfView)
+      {
+        fieldOfView.enabled = true;
+        StartCoroutine(fieldOfView.FindTargets());
+      }
       _audioListener.enabled = true;
       _cameraController = FindObjectOfType<CameraController>();
       Debug.Log($"The player transform {this.transform}");
@@ -231,7 +234,7 @@ public class Player : NetIdentity, IFieldOfViewVisualizer, IPicker
   {
     lock (_playerDeadLockObj)
     {
-      if(_playerDeadLocked) return;
+      if (_playerDeadLocked) return;
       _playerDeadLocked = true;
       // Dead!
       Debug.Log($"{clientId} is dead!");

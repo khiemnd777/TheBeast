@@ -29,7 +29,10 @@ public class NetShotgun : NetGun
   public override void OnTriggerEffect()
   {
     EjectShell();
-    flashAnim.Play("Gun Flash", 0, 0);
+    if (flashAnim)
+    {
+      flashAnim.Play("Gun Flash", 0, 0);
+    }
     _shotgunFireAnim.Play("Shotgun Fire", 0, 0);
     audioSource.Play();
     base.OnTriggerEffect();

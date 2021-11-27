@@ -46,8 +46,6 @@ public class FieldOfView : MonoBehaviour
     viewMesh = new Mesh();
     viewMesh.name = "View Mesh";
     viewMeshFilter.mesh = viewMesh;
-
-    // StartCoroutine("FindTargetsWithDelay", delayFindingTargets);
   }
 
   public void SetRadius(float radius)
@@ -65,15 +63,6 @@ public class FieldOfView : MonoBehaviour
     while (true)
     {
       yield return new WaitForSeconds(delayFindingTargets);
-      FindVisibleTargets();
-    }
-  }
-
-  IEnumerator FindTargetsWithDelay(float delay)
-  {
-    while (enabled)
-    {
-      yield return new WaitForSeconds(delay);
       FindVisibleTargets();
     }
   }

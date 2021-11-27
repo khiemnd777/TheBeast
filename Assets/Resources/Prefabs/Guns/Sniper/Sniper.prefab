@@ -549,12 +549,13 @@ MonoBehaviour:
     type: 2}
   gunHandTypeAnimation: {fileID: 7400000, guid: fa8008c499e1a409ba4b39b98fd30ef6,
     type: 2}
+  projectileFlash: {fileID: 0}
   curiousGenerator: {fileID: 2476774627174208037}
   timeBetweenShoot: 1
   bulletPrefab: {fileID: 114515896175614092, guid: fbd15f28a7c57eb48a8041690c3d8fcf,
     type: 3}
   projectile: {fileID: 4149889422195356}
-  flashAnim: {fileID: 95300406916378196}
+  flashAnim: {fileID: 0}
   audioSource: {fileID: 82327518063714560}
   _fireAnim: {fileID: 95378950946539744}
 --- !u!1001 &5834689600427796485
